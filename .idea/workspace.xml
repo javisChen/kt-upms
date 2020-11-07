@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="df924ce7-32dd-41d3-b480-048231b871a9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/arr/ArrMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/arr/Demo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/leetcode/ParkingSystem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/linkedlist/DoubleLinkedList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/linkedlist/SinglyLinkedList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/reference/Reference.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/seckill/Demo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/seckill/LatchTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/seckill/RedisLock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/seckill/RedissonLock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/seckill/SeckillDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/sync/SynchronizedDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/threadpool/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/java/threadpool/ThreadPoolDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/resources/app.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../data-structure/src/main/resources/demo.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/CustomBinaryField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/CustomField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/CustomFieldDecoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/CustomFieldEncoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/IsoMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/IsoType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/IsoValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/J8583.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/MessageFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/TraceNumberGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/codecs/BigIntBcdCodec.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/codecs/CompositeField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/codecs/LongBcdCodec.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/impl/SimpleTraceGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/package.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/AlphaNumericFieldParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/AlphaParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/AmountParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/BcdLengthLlbinParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/BcdLengthLllbinParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/BcdLengthLlllbinParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/BinaryParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/ConfigParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/Date10ParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/Date12ParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/Date14ParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/Date4ParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/Date6ParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/DateExpParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/DateTimeParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/FieldParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LlbinParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LllbinParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LlllbinParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LlllvarParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LllnumParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LllvarParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LlnumParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/LlvarParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/NumericParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/TimeParseInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/j8583.dtd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/parse/package.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/Bcd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/ByteUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/HEX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/HexCodec.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/HexUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/SimpleParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/java/com/gosh/solab/iso8583/util/SocketUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/resources/config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/main/resources/cup_cacert.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/test/java/com/gosh/solab/iso8583/util/BcdTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../gosh-iso8583-parser/src/test/java/com/gosh/solab/iso8583/util/ConfigParserTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-basic/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-basic/src/main/java/com/kt/ssbasic/DefaultAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-basic/src/main/java/com/kt/ssbasic/DefaultAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-basic/src/main/java/com/kt/ssbasic/DefaultLogoutSuccessHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-oauth2-password/src/main/java/com/kt/ssbasic/CoreWebResponseExceptionTranslator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-oauth2-password/src/main/java/com/kt/ssbasic/DefaultAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-security/spring-security-oauth2-password/src/main/java/com/kt/ssbasic/DefaultAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/CommonFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/Controller.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/ControllerExceptionAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/DefaultAuthenticationProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/DefaultUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/DefaultUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/LoginFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/OAuth2Controller.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/SecurityUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/UsernamePasswordAuthenticationToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/WebFluxController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/oauth2/AuthorizationServerConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../learn-security/src/main/java/com/example/learnsecurity/oauth2/ResourceServerConfiger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../leetcode/src/main/java/com/gosh/_1413.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/.browserslistrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/babel.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/postcss.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/components/HelloWorld.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/iview-variables.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/plugins/iview.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/tests/unit/example.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../IPersistenceTest/src/main/java/com/gosh/pojo/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../IPersistenceTest/src/main/resources/ProductMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../IPersistenceTest/src/main/resources/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../IPersistenceTest/src/main/resources/sqlMapConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-common" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-common" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-test-jenkins/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-test-jenkins/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-test-jenkins/src/main/java/javis/app/testjenkins/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-test-jenkins/src/main/java/javis/app/testjenkins/controller/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-test-jenkins/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-test-jenkins/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-upms-aggregator" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-upms-aggregator" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/src/main/java/javis/wechat/sdk/pub/manager/WeChatPubManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/src/main/java/javis/wechat/sdk/pub/manager/WeChatPubManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/src/main/java/javis/wechat/util/HttpUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/src/main/java/javis/wechat/util/HttpUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/target/classes/javis/wechat/sdk/pub/manager/WeChatPubManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/target/classes/javis/wechat/sdk/pub/manager/WeChatPubManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/target/classes/javis/wechat/sdk/pub/service/impl/WeChatPubServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/javis-wechat/javis-wechat-sdk/target/classes/javis/wechat/sdk/pub/service/impl/WeChatPubServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/countdownlatch/MyThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/exchanger/Run.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/exchanger/ThreadA.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/exchanger/ThreadB.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/semaphore/Run.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/semaphore/Service.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/semaphore/ThreadA.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/semaphore/ThreadB.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../concurrent-programming/src/com/javis/chapter1/semaphore/ThreadC.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../design-pattern/src/main/java/com/iron/design/principle/ICourse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../design-pattern/src/main/java/com/iron/design/principle/JavaCourse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../design-pattern/src/main/java/com/iron/design/principle/JavaDiscountCourse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../design-pattern/src/main/java/com/iron/design/principle/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-dependencies/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-dependencies/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-all/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-all/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-clients/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-clients/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-clients/src/main/java/com/gosh/cloud/clients/MemberServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-clients/src/main/java/com/gosh/cloud/clients/MemberServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/LoginUserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/LoginUserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/TokenStorageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/TokenStorageDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/web/ResponseEnums.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/web/ResponseEnums.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/web/ServerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-model/src/main/java/com/gosh/cloud/model/web/ServerResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/ExcelExportConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/ExcelExportConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/ExportField.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/ExportField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/IntegerToYuanConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/IntegerToYuanConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/LocalDateTimeStringConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/LocalDateTimeStringConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/LongToYuanConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/LongToYuanConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/TimestampConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/excel/TimestampConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/util/DateTimeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/util/DateTimeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/util/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/gosh-cloud-common-tools/src/main/java/com/gosh/cloud/tools/util/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-mysql/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-mysql/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/src/main/java/com/gosh/cloud/security/common/properties/AuthenticationProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/src/main/java/com/gosh/cloud/security/common/properties/AuthenticationProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/src/main/java/com/gosh/cloud/security/common/properties/LoginProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/src/main/java/com/gosh/cloud/security/common/properties/LoginProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/src/main/java/com/gosh/cloud/security/common/properties/SecurityCoreProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-common/src/main/java/com/gosh/cloud/security/common/properties/SecurityCoreProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/filter/CaptchaProcessingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/filter/CaptchaProcessingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/handler/DefaultSecurityAuthenticationSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/handler/DefaultSecurityAuthenticationSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/jwt/SkipPathRequestMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/jwt/SkipPathRequestMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/jwt/UserAuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/jwt/UserAuthenticationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/provider/SecurityLoginAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/provider/SecurityLoginAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/provider/SecurityTokenAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/provider/SecurityTokenAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/service/DefaultSecurityUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/service/DefaultSecurityUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/service/SecurityUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/service/SecurityUserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/service/SecurityUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/service/SecurityUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/token/SecurityLoginAuthenticationToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/authentication/token/SecurityLoginAuthenticationToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/config/CoreSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/config/CoreSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/DefaultAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/DefaultAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/ErrorResponseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/ErrorResponseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/ExpiredTokenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/ExpiredTokenException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/MediaTypeNotSupportedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/exception/MediaTypeNotSupportedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/AbstractCaptchaProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/AbstractCaptchaProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/CaptchaProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/CaptchaProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/CaptchaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/CaptchaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/ValidateCodeType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/ValidateCodeType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/captcha/slide/SlideCaptchaGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/captcha/slide/SlideCaptchaGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/code/SlideCaptchaProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/code/SlideCaptchaProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/repository/DbCaptchaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/java/com/gosh/cloud/security/core/validate/repository/DbCaptchaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-core/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/LoginUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/LoginUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/config/DefaultSecurityUserConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/config/DefaultSecurityUserConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/extractor/DefaultTokenExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/extractor/DefaultTokenExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/extractor/TokenExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/extractor/TokenExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/DBSecurityTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/DBSecurityTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/RedisSecurityTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/RedisSecurityTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/SecurityTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/SecurityTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/SecurityTokenManagerCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/gosh-cloud-security-user/src/main/java/com/gosh/cloud/security/user/token/manager/SecurityTokenManagerCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-security/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-starters/gosh-cloud-boot-starter-microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-starters/gosh-cloud-boot-starter-microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-starters/gosh-cloud-boot-starter-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-starters/gosh-cloud-boot-starter-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-starters/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-starters/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/aop/ApiLogAop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/aop/ApiLogAop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/base/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/base/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/base/EnumConvertFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/base/EnumConvertFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/base/PageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/base/PageRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/cache/redis/RedisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/cache/redis/RedisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/cache/redis/RedisServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/cache/redis/RedisServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/configuration/RedisConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/configuration/RedisConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/exception/BusiException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/exception/BusiException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/util/excel/ExcelListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/util/excel/ExcelListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/util/excel/ExcelUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/main/java/com/gosh/cloud/web/util/excel/ExcelUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/test/com/sunrise/web/Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/src/test/com/sunrise/web/Tests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/annotation/ApiLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/aop/ApiLogAop.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/BaseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/BaseModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/CodedEnumConverterFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/CommonRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/EnumCodec.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/EnumConvertFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/PageRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/base/StandardEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/cache/redis/RedisService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/cache/redis/RedisServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/common/http/ResponseEnums.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/common/http/ServerResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/configuration/FastJsonConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/configuration/RedisConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/configuration/SpringConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/exception/BusiException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/exception/ClientArgumentNotValidException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/exception/ExportExcelException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/exception/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/exception/UploadFileException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/util/excel/ExcelListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/util/excel/ExcelUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/util/excel/StandardWriteHandlerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/validation/ValidateGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/classes/com/sunrise/esaleb/web/validation/ValidationResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/esaleb-framework-starter-web-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/gosh-cloud-web/target/test-classes/com/sunrise/web/Tests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-parent/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/EsalebServiceCodeGeneratorApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/FreeMarkerEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/GoshGenerateServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/GoshGenerateServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/ServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/ServiceGeneratorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/ServiceInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/java/com/gosh/cloud/generate/ServiceType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/common/test-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/common/test-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/common/webconfig-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/common/webconfig-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-application-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-dev-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-dev-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-prod-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-prod-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-test-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-bootstrap-test-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-pom-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-pom-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-yml-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/microservice/microsevice-yml-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/safety/safety-application-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/safety/safety-application-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/safety/safety-pom-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/safety/safety-yml-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/unsafety/unsafety-application-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/unsafety/unsafety-pom-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/unsafety/unsafety-yml-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/main/resources/template/unsafety/unsingle-unsafte-pom-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/test/java/com/gosh/cloud/generate/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/gosh-cloud-service-generate/src/test/java/com/gosh/cloud/generate/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gosh-cloud/gosh-cloud-services/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/main/java/com/gosh/dao/IUserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/main/java/com/gosh/dao/UserDaoImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/main/java/com/gosh/pojo/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/main/resources/ProductMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/main/resources/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/main/resources/sqlMapConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/test/java/com/gosh/AssignmentTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/test/resources/ProductMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/test/resources/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query-test/src/test/resources/sqlMapConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/config/BoundSql.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/config/XMLMapperBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/config/XmlConfigBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/io/Resources.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/pojo/Configuration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/pojo/MappedStatement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/DefaultSqlSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/DefaultSqlSessionFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/Executor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/SimpleExecutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/SqlCommandType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/SqlSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/SqlSessionFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/sqlsession/SqlSessionFactoryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/utils/GenericTokenParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/utils/ParameterMapping.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/utils/ParameterMappingTokenHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gosh-query/src/main/java/com/gosh/utils/TokenHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/clazz/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/clazz/Generic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/inter/FruitGeneratorA.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/inter/FruitGeneratorA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/inter/FruitGeneratorB.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/inter/FruitGeneratorB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/inter/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/inter/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/Cat.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/Cat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/FinalizeEscapeGC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/FinalizeEscapeGC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/Garfield.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/Garfield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/GenerateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/GenerateTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/GenericMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/GenericMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/HeapOOM.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/HeapOOM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/generic/method/ObserveGC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/generic/method/ObserveGC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java-base/src/wildcardcharacter/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java-base/src/wildcardcharacter/Generic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lagou/gosh-query-test/target/surefire-reports/TEST-com.gosh.ResourceTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../lagou/gosh-query-test/target/surefire-reports/TEST-com.gosh.ResourceTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/sqlsession/SimpleExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/sqlsession/SimpleExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/utils/GenericTokenParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/utils/GenericTokenParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/utils/ParameterMappingTokenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/utils/ParameterMappingTokenHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/utils/TokenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../lagou/gosh-query/src/main/java/com/gosh/utils/TokenHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/constructor/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/constructor/Computer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/constructor/ComputerBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/constructor/ComputerBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/constructor/ConstructorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/constructor/ConstructorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/Bob.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/Bob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/JDKDynamicProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/JDKDynamicProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/ProxyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/proxy/ProxyTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/simplefactory/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/designparttern/simplefactory/Computer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/IOrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/IOrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/IRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/IRoleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/IUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/IUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/plguin/MyPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/plguin/MyPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/pojo/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/pojo/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/pojo/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/pojo/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/test/CacheTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/java/com/gosh/test/CacheTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/resources/IUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/resources/IUserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/resources/log4j.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-multitable/src/main/resources/redis.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-multitable/src/main/resources/redis.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/dao/IUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/dao/IUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/dao/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/dao/UserDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/pojo/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/pojo/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/test/MyBatisTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/java/com/gosh/test/MyBatisTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/resources/SqlMapConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/resources/SqlMapConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/resources/jdbc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/resources/jdbc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mybatis-quick/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mybatis-quick/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/spy.log" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/spy.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/common/aop/ApiLogAop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/common/aop/ApiLogAop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/common/response/ServerResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/config/FastJsonConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/config/FastJsonConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/config/MybatisPlusConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/config/MybatisPlusConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/enums/GenderEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/enums/GenderEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/controller/SysFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/controller/SysFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/enums/Disposition.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/enums/Disposition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/service/ISysFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/service/ISysFileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/service/impl/SysFileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysFile/service/impl/SysFileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysUser/controller/SysUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysUser/controller/SysUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysUser/mapper/impl/SysUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/module/sysUser/mapper/impl/SysUserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/RegexUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/RegexUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/excel/ExcelListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/excel/ExcelListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/excel/StandardWriteHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/java/noot/server/utils/excel/StandardWriteHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/resources/file.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/resources/file.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/main/resources/sql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/main/resources/sql.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/NootServerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/NootServerApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/gencode/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/gencode/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/utils/FastJsonTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/utils/FastJsonTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/utils/TestStackDeep.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot-server/src/test/java/noot/server/utils/TestStackDeep.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-base/src/main/java/noot/mall/clients/base/constants/DataConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-base/src/main/java/noot/mall/clients/base/constants/DataConst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-clients/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-clients/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-clients/src/main/java/noot/mall/clients/file/FileServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-clients/src/main/java/noot/mall/clients/file/FileServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-clients/src/main/java/noot/mall/clients/file/SysFileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-clients/src/main/java/noot/mall/clients/file/SysFileDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/bo/SkuCombineParamBO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/bo/SkuCombineParamBO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/demo.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/demo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/BrandDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/BrandDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/ProductDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/ProductDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/SkuDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/SkuDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/SpuDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/entity/dto/SpuDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/common-mall/common-mall-product/src/main/java/noot/mall/product/service/IProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/api/mall/product/spuBrand/spuBrand.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/api/mall/product/spuBrand/spuBrand.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/api/tools/codegeneration/generate.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/api/tools/codegeneration/generate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/assets/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/assets/css/base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/common/variable.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/common/variable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/plugins/localStoragePlugin.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/plugins/localStoragePlugin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/service/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/service/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/service/storage/localStorageService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/service/storage/localStorageService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/modules/globalLoading.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/modules/globalLoading.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/modules/routerIncludes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/modules/routerIncludes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/mutation-types.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/mutation-types.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/message/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/message/message.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/regular/validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/regular/validator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/config/axios-config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/config/axios-config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/config/nonstandard-urls.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/config/nonstandard-urls.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/http-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/http-client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/http-helper.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/utils/request/http-helper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/views/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/views/mall/spuBrand/SpuBrandList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/views/mall/spuBrand/SpuBrandList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/src/views/tools/codegeneration/MicroserviceGenerate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/src/views/tools/codegeneration/MicroserviceGenerate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-front-admin/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-front-admin/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/FreeMarkerEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/FreeMarkerEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/bootstrap-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/bootstrap-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/pom-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/test-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/demo/yml-template.ftl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/douyin/Douyin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-demo/src/main/java/noot/microservice/douyin/Spider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/NootMicroserviceServiceGeneratorApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/NootMicroserviceServiceGeneratorApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/generator/FreeMarkerEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/generator/FreeMarkerEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/generator/ServiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/generator/ServiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/generator/ServiceGeneratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/java/noot/microservice/sg/generator/ServiceGeneratorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/bootstrap-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/bootstrap-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/pom-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/pom-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/test-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/test-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/yml-template.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/noot-microservice-service-generator/src/main/resources/template/yml-template.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parent/spy.log" beforeDir="false" afterPath="$PROJECT_DIR$/../../noot/noot-microservice-parent/spy.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parentNootMicroserviceServiceTestApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parentNootMicroserviceServiceTestApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parentapplication.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../noot/noot-microservice-parentpom.xml" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$USER_HOME$/env/Maven/apache-maven-3.5.0" />
+        <option name="userSettingsFile" value="$USER_HOME$/env/Maven/apache-maven-3.5.0/conf/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1joh7nVPA9G88ZJnBppZIL62NWW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="D:/CRM" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.excludes" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df924ce7-32dd-41d3-b480-048231b871a9" name="Default Changelist" comment="" />
+      <created>1604476186120</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604476186120</updated>
+      <workItem from="1604476188008" duration="389000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
