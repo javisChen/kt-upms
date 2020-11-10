@@ -51,7 +51,7 @@ KT-UPMS 通用用户权限管理系统
 # 数据模型
 
 ## ER图
-![](./asserts/kt-upms-er.png)
+![](asserts/kt-upms-er.png)
 
 ## 表说明
 
