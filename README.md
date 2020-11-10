@@ -1,7 +1,3 @@
----
-typora-copy-images-to: ./kt-upms-er.png
----
-
 # 介绍
 KT-UPMS 通用用户权限管理系统
 
@@ -13,7 +9,7 @@ KT-UPMS 通用用户权限管理系统
 # 功能
 - 用户管理
 	- [ ] 添加用户
-	- [ ] 删除用户
+	- [ ] 禁用用户
 	- [ ] 编辑用户
 	- [ ] 查看用户
 
@@ -61,5 +57,17 @@ KT-UPMS 通用用户权限管理系统
 
 | 表名  | 说明 |
 | ----- | ---- |
-| upms_user_group |      |
+| upms_user_group | 用户组表 |
+| upms_user_group_user_rel | 用户组与用户关联表 |
+| upms_user_group_role_rel | 用户组与角色关联表 |
+| upms_user | 用户表 |
+| upms_role | 角色表 |
+| upms_user_role_rel | 用户角色关联表 |
+| upms_permission | 权限表 |
+| upms_permission_resource_rel | 权限与资源关联表 |
+| upms_permission_role_rel | 角色与权限关联表 |
+| upms_menu | 用户表 |
+| upms_page | 页面表 |
+| upms_page_element | 页面元素表 |
+| upms_api | api表 |
 
