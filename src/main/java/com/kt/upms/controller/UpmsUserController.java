@@ -26,15 +26,13 @@ public class UpmsUserController extends BaseController {
     private IUpmsUserService iUpmsUserService;
 
     @PostMapping("/add")
-    public ServerResponse add(@RequestBody @Validated(ValidateGroup.Add.class) UpmsUser upmsUser) {
-        iUpmsUserService.save(upmsUser);
-        upmsUser.setPassword(null);
-        return ServerResponse.ok(upmsUser);
+    public ServerResponse add(@Validated(ValidateGroup.Add.class) @RequestBody UpmsUser upmsUser) {
+        return ServerResponse.ok(iUpmsUserService.saveAndReturn(upmsUser));
     }
 
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) UpmsUser upmsUser) {
-        iUpmsUserService.updateById(upmsUser);
+        iUpmsUserService.updateUser(upmsUser);
         return ServerResponse.ok();
     }
 

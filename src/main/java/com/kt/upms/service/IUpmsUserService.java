@@ -1,7 +1,7 @@
 package com.kt.upms.service;
 
-import com.kt.upms.entity.UpmsUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kt.upms.entity.UpmsUser;
 
 /**
  * <p>
@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUpmsUserService extends IService<UpmsUser> {
 
+    UpmsUser saveAndReturn(UpmsUser entity);
+
+    UpmsUser updateUser(UpmsUser upmsUser);
 }

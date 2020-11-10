@@ -1,5 +1,6 @@
 package com.kt.upms.entity;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.kt.db.BaseEntity;
 import lombok.Data;
@@ -26,7 +27,6 @@ public class UpmsUser extends BaseEntity {
     /**
      * 用户名称
      */
-    @NotBlank(message = "name 不能为空")
     @TableField("name")
     private String name;
 
@@ -40,16 +40,33 @@ public class UpmsUser extends BaseEntity {
     /**
      * 用户密码
      */
-    @NotBlank(message = "phone 不能为空")
+    @NotBlank(message = "password 不能为空")
     @TableField("password")
     private String password;
 
     /**
      * 用户状态：1-正常；2-锁定；
      */
-    @NotBlank(message = "status 不能为空")
     @TableField("status")
     private Integer status;
 
+    public enum StatusEnum implements IEnum<Integer> {
+        NORMAL(1, "一岁"),
+        TWO(2, "二岁"),
+        THREE(3, "三岁");
 
+        StatusEnum(int value, String desc) {
+            this.value = value;
+            this.desc = desc;
+        }
+
+        private int value;
+        private String desc;
+
+
+        @Override
+        public Integer getValue() {
+            return this.value;
+        }
+    }
 }

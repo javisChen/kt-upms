@@ -46,7 +46,7 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1 # 逻辑已删除值
       logic-not-delete-value: 0 # 逻辑未删除值
-  mapper-locations: classpath*:/com/sunrise/esaleb/**/mapper/impl/*.xml
+  mapper-locations: classpath*:/com/kt/upms/**/mapper/impl/*.xml
   configuration:
     default-enum-type-handler: com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler
   type-aliases-package: com.sunrise.esaleb.tbs.domain
