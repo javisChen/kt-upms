@@ -29,6 +29,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         if (queryUser != null) {
             throw new BusiException(ResponseEnums.USER_PHONE_EXISTS);
         }
+        upmsUser.setStatus(UpmsUser.StatusEnum.NORMAL);
         upmsUser.setPassword(DigestUtil.bcrypt(phone + upmsUser.getPassword() + UpmsConsts.USER_SALT));
         this.save(upmsUser);
         upmsUser.setPassword(null);
