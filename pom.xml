@@ -4,31 +4,70 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--    <parent>-->
-    <!--        <groupId>org.springframework.boot</groupId>-->
-    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--        &lt;!&ndash;        <version>2.3.5.RELEASE</version>&ndash;&gt;-->
-    <!--        <version>2.1.9.RELEASE</version>-->
-    <!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-    <!--    </parent>-->
-
-    <parent>
-        <groupId>com.kt</groupId>
-        <artifactId>kt-framework-mircoservice-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
-    <packaging>jar</packaging>
-
+    <groupId>com.kt</groupId>
     <artifactId>kt-upms</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>kt-upms-dao</module>
+        <module>kt-upms-service</module>
+        <module>kt-upms-manager</module>
+        <module>kt-upms-api</module>
+        <module>kt-upms-openapi</module>
+        <module>kt-upms-rpc</module>
+        <module>kt-upms-start</module>
+    </modules>
 
     <properties>
+
     </properties>
 
     <dependencies>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-dependencies</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-api</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-dao</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-manager</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-openapi</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-service</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-start</artifactId>
+                <version>${version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
 <!--        <plugins>-->
