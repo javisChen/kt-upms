@@ -3,12 +3,11 @@ package com.kt.upms.service.impl;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.model.http.ResponseEnums;
+import com.kt.exception.BizException;
 import com.kt.upms.constants.UpmsConsts;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.service.IUpmsUserService;
-import com.kt.web.exception.BusiException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
  * 用户表 服务实现类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @Service
@@ -27,7 +26,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         String phone = upmsUser.getPhone();
         UpmsUser queryUser = this.getOne(new LambdaQueryWrapper<>(UpmsUser.class).eq(UpmsUser::getPhone, phone));
         if (queryUser != null) {
-            throw new BusiException(ResponseEnums.USER_PHONE_EXISTS);
+            throw new BizException("");
         }
         upmsUser.setStatus(UpmsUser.StatusEnum.NORMAL.getValue());
         upmsUser.setPassword(DigestUtil.bcrypt(phone + upmsUser.getPassword() + UpmsConsts.USER_SALT));

@@ -1,10 +1,9 @@
 package com.kt.upms.api.controller;
 
-import com.kt.model.http.ServerResponse;
+import com.kt.dto.ServerResponse;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.service.IUpmsUserService;
-import com.kt.web.base.BaseController;
-import com.kt.web.validation.ValidateGroup;
+import com.kt.validator.ValidateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,28 +21,28 @@ import org.springframework.web.bind.annotation.*;
 public class UpmsUserController extends BaseController {
 
     @Autowired
-    private IUpmsUserService iUpmsUserService;
+    private IUpmsUserService upmsUserServiceImpl;
 
     @PostMapping("/add")
     public ServerResponse add(@Validated(ValidateGroup.Add.class) @RequestBody UpmsUser upmsUser) {
-        return ServerResponse.ok(iUpmsUserService.saveAndReturn(upmsUser));
+        return ServerResponse.ok(upmsUserServiceImpl.saveAndReturn(upmsUser));
     }
 
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) UpmsUser upmsUser) {
-        iUpmsUserService.updateUser(upmsUser);
+        upmsUserServiceImpl.updateUser(upmsUser);
         return ServerResponse.ok();
     }
 
     @PostMapping("/delete/{id}")
     public ServerResponse delete(@PathVariable("id") String id) {
-        boolean b = iUpmsUserService.removeById(id);
+        boolean b = upmsUserServiceImpl.removeById(id);
         return ServerResponse.ok(b);
     }
 
     @PostMapping("/{id}")
     public ServerResponse get(@PathVariable("id") String userId) {
-        UpmsUser upmsUser = iUpmsUserService.getById(userId);
+        UpmsUser upmsUser = upmsUserServiceImpl.getById(userId);
         upmsUser.setPassword(null);
         return ServerResponse.ok(upmsUser);
     }

@@ -2,8 +2,6 @@ package com.kt.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.kt.db.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -64,7 +62,6 @@ public class UpmsUser extends BaseEntity {
         }
 
         @EnumValue
-        @JsonValue
         private int value;
         private String desc;
 

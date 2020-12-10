@@ -16,6 +16,18 @@
             <groupId>com.kt</groupId>
             <artifactId>kt-upms-dao</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-exception</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-toolkit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-dto</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
