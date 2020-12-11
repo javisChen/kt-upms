@@ -3,7 +3,8 @@ package com.kt.upms.service.impl;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.exception.BizException;
+import com.kt.component.catchlog.CatchAndLog;
+import com.kt.component.exception.BizException;
 import com.kt.upms.constants.UpmsConsts;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.mapper.UpmsUserMapper;
@@ -19,9 +20,11 @@ import org.springframework.stereotype.Service;
  * @since 2020-11-09
  */
 @Service
+@CatchAndLog
 public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUpmsUserService {
 
     @Override
+    @CatchAndLog
     public UpmsUser saveAndReturn(UpmsUser upmsUser) {
         String phone = upmsUser.getPhone();
         UpmsUser queryUser = this.getOne(new LambdaQueryWrapper<>(UpmsUser.class).eq(UpmsUser::getPhone, phone));

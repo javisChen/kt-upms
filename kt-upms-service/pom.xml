@@ -28,18 +28,14 @@
             <groupId>com.kt</groupId>
             <artifactId>kt-component-dto</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-logger-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
+
     </build>
 
 </project>

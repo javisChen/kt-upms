@@ -4,12 +4,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan("com.kt.**")
-@SpringBootApplication(scanBasePackages = "com.kt.**")
-public class DemoApplication {
+@MapperScan(basePackages = "com.kt.upms.mapper")
+@SpringBootApplication
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }

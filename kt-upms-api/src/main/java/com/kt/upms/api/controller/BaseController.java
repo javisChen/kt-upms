@@ -2,7 +2,7 @@ package com.kt.upms.api.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kt.dto.PageRequest;
+import com.kt.component.dto.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
