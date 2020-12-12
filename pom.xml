@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>kt-upms-model</module>
         <module>kt-upms-dao</module>
         <module>kt-upms-service</module>
         <module>kt-upms-manager</module>
@@ -72,6 +73,11 @@
             <dependency>
                 <groupId>com.kt</groupId>
                 <artifactId>kt-upms-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-upms-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

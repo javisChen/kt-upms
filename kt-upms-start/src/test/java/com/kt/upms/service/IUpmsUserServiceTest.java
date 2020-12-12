@@ -1,6 +1,6 @@
 package com.kt.upms.service;
 
-import com.kt.catchlog.DemoService;
+import com.kt.demo.DemoService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +33,6 @@ public class IUpmsUserServiceTest {
 
     @org.junit.Test
     public void saveAndReturn() {
-        System.out.println(demoService.say());
+//        System.out.println(iUpmsUserService.save(null));
     }
 }

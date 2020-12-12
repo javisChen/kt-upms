@@ -1,9 +1,10 @@
 package com.kt.upms.api.controller;
 
-import com.kt.dto.ServerResponse;
+import com.kt.component.dto.ServerResponse;
+import com.kt.component.validator.ValidateGroup;
+import com.kt.model.dto.UserAddDTO;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.service.IUpmsUserService;
-import com.kt.validator.ValidateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class UpmsUserController extends BaseController {
     private IUpmsUserService upmsUserServiceImpl;
 
     @PostMapping("/add")
-    public ServerResponse add(@Validated(ValidateGroup.Add.class) @RequestBody UpmsUser upmsUser) {
-        return ServerResponse.ok(upmsUserServiceImpl.saveAndReturn(upmsUser));
+    public ServerResponse add(@Validated(ValidateGroup.Add.class) @RequestBody UserAddDTO userAddDTO) {
+        return ServerResponse.ok(upmsUserServiceImpl.save(userAddDTO));
     }
 
     @PostMapping("/update")

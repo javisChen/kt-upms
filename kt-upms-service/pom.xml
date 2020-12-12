@@ -14,8 +14,18 @@
     <dependencies>
         <dependency>
             <groupId>com.kt</groupId>
+            <artifactId>kt-upms-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kt</groupId>
             <artifactId>kt-upms-dao</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.kt</groupId>
             <artifactId>kt-component-exception</artifactId>

@@ -14,32 +14,17 @@
     <dependencies>
         <dependency>
             <groupId>com.kt</groupId>
+            <artifactId>kt-upms-model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kt</groupId>
             <artifactId>kt-upms-service</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.kt</groupId>
-            <artifactId>kt-component-dto</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kt</groupId>
-            <artifactId>kt-component-validator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kt</groupId>
-            <artifactId>kt-component-logger-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kt</groupId>
-            <artifactId>kt-component-demo-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>kt-component-web-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- 测试包 -->

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.util.StringJoiner;
 
@@ -18,7 +17,6 @@ import java.util.StringJoiner;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 public class UpmsUser extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
