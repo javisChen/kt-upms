@@ -3,7 +3,6 @@ package com.kt.upms.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -15,7 +14,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 public class UpmsApi extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

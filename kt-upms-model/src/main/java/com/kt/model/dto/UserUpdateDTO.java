@@ -3,6 +3,7 @@ package com.kt.model.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -25,6 +26,7 @@ public class UserUpdateDTO implements Serializable {
     /**
      * 手机号码
      */
+    @Max(value = 11, message = "手机号不合法")
     private String phone;
 
     /**

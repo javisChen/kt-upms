@@ -1,11 +1,8 @@
 package com.kt.upms.entity;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.StringJoiner;
 
 /**
  * <p>
@@ -45,31 +42,4 @@ public class UpmsUser extends BaseEntity {
     @TableField("status")
     private Integer status;
 
-    public enum StatusEnum {
-        NORMAL(1, "正常"),
-        LOCKED(2, "锁定");
-
-        StatusEnum(int value, String desc) {
-            this.value = value;
-            this.desc = desc;
-        }
-
-        @EnumValue
-        private int value;
-        private String desc;
-
-        public int getValue() {
-            return value;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", UpmsUser.class.getSimpleName() + "[", "]")
-                .add("name='" + name + "'")
-                .add("phone='" + phone + "'")
-                .add("password='" + password + "'")
-                .add("status=" + status)
-                .toString();
-    }
 }

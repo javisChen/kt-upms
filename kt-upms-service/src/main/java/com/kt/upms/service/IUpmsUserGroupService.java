@@ -1,5 +1,9 @@
 package com.kt.upms.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kt.component.dto.PageResponse;
+import com.kt.model.dto.UserGroupAddDTO;
+import com.kt.model.dto.UserGroupQueryDTO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
+    PageResponse pageList(Page page, UserGroupQueryDTO params);
+
+    UserGroupAddDTO save(UserGroupAddDTO userGroupAddDTO);
 }

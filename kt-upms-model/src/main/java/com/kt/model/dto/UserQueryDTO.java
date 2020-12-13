@@ -3,7 +3,6 @@ package com.kt.model.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
@@ -15,19 +14,16 @@ public class UserQueryDTO implements Serializable {
     /**
      * 用户名称
      */
-    @NotBlank(message = "name 不能为空")
     private String name;
 
     /**
      * 手机号码
      */
-    @NotBlank(message = "phone 不能为空")
     private String phone;
 
     /**
      * 用户密码
      */
-    @NotBlank(message = "password 不能为空")
     private String password;
 
     /**

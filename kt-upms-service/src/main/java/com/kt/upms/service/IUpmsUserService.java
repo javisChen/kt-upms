@@ -20,7 +20,11 @@ public interface IUpmsUserService extends IService<UpmsUser> {
 
     UserAddDTO save(UserAddDTO entity);
 
-    UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO);
+    UserUpdateDTO updateUserById(UserUpdateDTO userUpdateDTO);
 
     PageResponse<UpmsUser> pageList(IPage<UpmsUser> page, UserQueryDTO params);
+
+    void disableUser(UserUpdateDTO userUpdateDTO);
+
+    void enableUser(UserUpdateDTO userUpdateDTO);
 }

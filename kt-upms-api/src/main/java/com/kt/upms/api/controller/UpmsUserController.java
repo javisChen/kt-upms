@@ -8,7 +8,6 @@ import com.kt.model.dto.UserQueryDTO;
 import com.kt.model.dto.UserUpdateDTO;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.service.IUpmsUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,37 +23,63 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UpmsUserController extends BaseController {
 
-    @Autowired
-    private IUpmsUserService iUpmsUserService;
+    private final IUpmsUserService iUpmsUserService;
 
+    public UpmsUserController(IUpmsUserService iUpmsUserService) {
+        this.iUpmsUserService = iUpmsUserService;
+    }
+
+    /**
+     * 查看用户列表
+     */
     @PostMapping("/list")
     public ServerResponse list(@RequestBody PageRequest<UserQueryDTO> pageRequest) {
         return ServerResponse.ok(iUpmsUserService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 
+    /**
+     * 添加用户
+     */
     @PostMapping("/add")
     public ServerResponse add(@RequestBody @Validated UserAddDTO userAddDTO) {
         return ServerResponse.ok(iUpmsUserService.save(userAddDTO));
     }
 
+    /**
+     * 编辑用户
+     */
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated UserUpdateDTO userUpdateDTO) {
-        iUpmsUserService.updateUser(userUpdateDTO);
+        iUpmsUserService.updateUserById(userUpdateDTO);
         return ServerResponse.ok();
     }
 
-    @PostMapping("/disable/{id}")
-    public ServerResponse disable(@PathVariable("id") String id) {
-        iUpmsUserService.removeById(id);
+    /**
+     * 禁用用户
+     */
+    @PostMapping("/disable")
+    public ServerResponse disable(@RequestBody @Validated UserUpdateDTO userUpdateDTO) {
+        iUpmsUserService.disableUser(userUpdateDTO);
         return ServerResponse.ok();
     }
 
-    @PostMapping("/{id}")
+    /**
+     * 启用用户
+     */
+    @PostMapping("/enable")
+    public ServerResponse enable(@RequestBody @Validated UserUpdateDTO userUpdateDTO) {
+        iUpmsUserService.enableUser(userUpdateDTO);
+        return ServerResponse.ok();
+    }
+
+    /**
+     * 查看用户详情
+     */
+    @GetMapping("/{id}")
     public ServerResponse get(@PathVariable("id") String userId) {
         UpmsUser upmsUser = iUpmsUserService.getById(userId);
         upmsUser.setPassword(null);
-        CglibUtil.copy(upmsUser, UserUpdateDTO.class);
-        return ServerResponse.ok(upmsUser);
+        return ServerResponse.ok(CglibUtil.copy(upmsUser, UserUpdateDTO.class));
     }
 
 }
