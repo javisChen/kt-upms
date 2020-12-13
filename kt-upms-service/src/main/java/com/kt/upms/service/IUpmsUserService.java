@@ -3,9 +3,9 @@ package com.kt.upms.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
-import com.kt.model.dto.UserAddDTO;
-import com.kt.model.dto.UserQueryDTO;
-import com.kt.model.dto.UserUpdateDTO;
+import com.kt.model.dto.user.UserAddDTO;
+import com.kt.model.dto.user.UserQueryDTO;
+import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.upms.entity.UpmsUser;
 
 /**

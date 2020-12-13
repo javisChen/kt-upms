@@ -3,9 +3,9 @@ package com.kt.upms.api.controller;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.ServerResponse;
-import com.kt.model.dto.UserAddDTO;
-import com.kt.model.dto.UserQueryDTO;
-import com.kt.model.dto.UserUpdateDTO;
+import com.kt.model.dto.user.UserAddDTO;
+import com.kt.model.dto.user.UserQueryDTO;
+import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.service.IUpmsUserService;
 import org.springframework.validation.annotation.Validated;
@@ -78,6 +78,9 @@ public class UpmsUserController extends BaseController {
     @GetMapping("/{id}")
     public ServerResponse get(@PathVariable("id") String userId) {
         UpmsUser upmsUser = iUpmsUserService.getById(userId);
+        if (upmsUser == null) {
+            return ServerResponse.ok();
+        }
         upmsUser.setPassword(null);
         return ServerResponse.ok(CglibUtil.copy(upmsUser, UserUpdateDTO.class));
     }

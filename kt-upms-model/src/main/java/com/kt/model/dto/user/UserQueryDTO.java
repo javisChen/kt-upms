@@ -1,4 +1,4 @@
-package com.kt.model.dto;
+package com.kt.model.dto.user;
 
 
 import lombok.Data;

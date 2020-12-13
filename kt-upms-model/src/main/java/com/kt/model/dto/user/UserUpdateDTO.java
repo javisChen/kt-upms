@@ -1,21 +1,29 @@
-package com.kt.model.dto;
+package com.kt.model.dto.user;
 
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class UserGroupUpdateDTO implements Serializable {
+public class UserUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * id
+     */
     @NotNull(message = "id 不能为空")
     private Long id;
 
-    @NotBlank(message = "name 不能为空")
+    /**
+     * 用户名称
+     */
     private String name;
 
+    /**
+     * 用户状态：1-正常；2-锁定；
+     */
+    private Integer status;
 }
