@@ -3,16 +3,20 @@ package com.kt.upms.service.impl;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.component.dto.PageResponse;
 import com.kt.component.exception.BizException;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.model.dto.UserAddDTO;
+import com.kt.model.dto.UserQueryDTO;
+import com.kt.model.dto.UserUpdateDTO;
 import com.kt.model.enums.BizEnum;
 import com.kt.upms.constants.UpmsConsts;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.service.IUpmsUserService;
-import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,9 +30,6 @@ import org.springframework.stereotype.Service;
 @Service
 @CatchAndLog
 public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUpmsUserService {
-
-    private static final BeanCopier BEAN_COPIER = BeanCopier.create(UserAddDTO.class, UpmsUser.class, false);
-    private static final BeanCopier copier2 = BeanCopier.create(UpmsUser.class, UserAddDTO.class, false);
 
     @Override
     public UserAddDTO save(UserAddDTO userAddDTO) {
@@ -49,12 +50,21 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public UpmsUser updateUser(UpmsUser upmsUser) {
+    public UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO) {
         // 该接口禁止修改密码，修改密码用单独的接口
+        UpmsUser upmsUser = CglibUtil.copy(userUpdateDTO, UpmsUser.class);
+        this.updateById(upmsUser);
 
-        upmsUser.setPassword(null);
-        this.updateById(upmsUser);;
-        return upmsUser;
+        CglibUtil.copy(upmsUser, userUpdateDTO);
+        return userUpdateDTO;
+    }
+
+    @Override
+    public PageResponse<UpmsUser> pageList(IPage<UpmsUser> page, UserQueryDTO params) {
+        UpmsUser upmsUser = CglibUtil.copy(params, UpmsUser.class);
+        IPage<UpmsUser> result = this.page(page, new QueryWrapper<UpmsUser>()
+                .select("id", "phone", "name"));
+        return PageResponse.success(result);
     }
 
 }

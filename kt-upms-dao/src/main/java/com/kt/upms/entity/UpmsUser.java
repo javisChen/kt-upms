@@ -25,21 +25,17 @@ public class UpmsUser extends BaseEntity {
      * 用户名称
      */
     @TableField("name")
-//    @JSONField(name = "NAME")
     private String name;
 
     /**
      * 手机号码
      */
-//    @NotBlank(message = "phone 不能为空")
-//    @Phone(message = "phone 不合法")
     @TableField("phone")
     private String phone;
 
     /**
      * 用户密码
      */
-//    @NotBlank(message = "password 不能为空")
     @TableField("password")
     private String password;
 
@@ -47,7 +43,6 @@ public class UpmsUser extends BaseEntity {
      * 用户状态：1-正常；2-锁定；
      */
     @TableField("status")
-//    @JSONField(serialzeFeatures= SerializerFeature.WriteEnumUsingToString)
     private Integer status;
 
     public enum StatusEnum {

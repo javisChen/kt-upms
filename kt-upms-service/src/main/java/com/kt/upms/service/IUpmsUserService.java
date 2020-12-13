@@ -1,7 +1,11 @@
 package com.kt.upms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.UserAddDTO;
+import com.kt.model.dto.UserQueryDTO;
+import com.kt.model.dto.UserUpdateDTO;
 import com.kt.upms.entity.UpmsUser;
 
 /**
@@ -16,5 +20,7 @@ public interface IUpmsUserService extends IService<UpmsUser> {
 
     UserAddDTO save(UserAddDTO entity);
 
-    UpmsUser updateUser(UpmsUser upmsUser);
+    UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO);
+
+    PageResponse<UpmsUser> pageList(IPage<UpmsUser> page, UserQueryDTO params);
 }
