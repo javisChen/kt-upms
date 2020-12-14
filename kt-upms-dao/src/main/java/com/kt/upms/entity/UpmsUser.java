@@ -1,6 +1,7 @@
 package com.kt.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,11 +36,5 @@ public class UpmsUser extends BaseEntity {
      */
     @TableField("password")
     private String password;
-
-    /**
-     * 用户状态：1-正常；2-锁定；
-     */
-    @TableField("status")
-    private Integer status;
 
 }

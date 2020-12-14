@@ -4,6 +4,7 @@ package com.kt.upms.api.controller;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.role.RoleAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
@@ -56,6 +57,18 @@ public class UpmsRoleController extends BaseController {
             return ServerResponse.ok();
         }
         return ServerResponse.ok(CglibUtil.copy(upmsRole, RoleQueryDTO.class));
+    }
+
+    @PostMapping("/disable")
+    public ServerResponse disable(@RequestBody @Validated RoleUpdateDTO dto) {
+        iUpmsRoleService.disableRole(dto);
+        return ServerResponse.ok();
+    }
+
+    @PostMapping("/enable")
+    public ServerResponse enable(@RequestBody @Validated RoleUpdateDTO dto) {
+        iUpmsRoleService.enableRole(dto);
+        return ServerResponse.ok();
     }
 }
 

@@ -2,9 +2,9 @@ package com.kt.upms.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -37,12 +37,5 @@ public class UpmsPermission extends BaseEntity {
      */
     @TableField("code")
     private String code;
-
-    /**
-     * 权限状态 1-正常 2-禁用
-     */
-    @TableField("status")
-    private Boolean status;
-
 
 }

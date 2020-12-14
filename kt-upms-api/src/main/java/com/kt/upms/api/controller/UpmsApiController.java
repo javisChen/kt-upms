@@ -1,6 +1,7 @@
 package com.kt.upms.api.controller;
 
 
+import com.kt.component.web.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

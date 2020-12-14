@@ -2,6 +2,7 @@ package com.kt.upms.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

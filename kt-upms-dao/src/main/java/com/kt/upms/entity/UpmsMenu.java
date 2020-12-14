@@ -1,6 +1,7 @@
 package com.kt.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -40,22 +41,13 @@ public class UpmsMenu extends BaseEntity {
      * 菜单层级
      */
     @TableField("level")
-    private String level;
-
-    @TableField("path")
-    private String path;
+    private Integer level;
 
     /**
      * 图标
      */
     @TableField("icon")
     private String icon;
-
-    /**
-     * 权限状态 1-正常 2-禁用
-     */
-    @TableField("status")
-    private Boolean status;
 
 
 }

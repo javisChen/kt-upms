@@ -41,9 +41,9 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         String phone = upmsUser.getPhone();
         UpmsUser queryUser = this.getOne(new LambdaQueryWrapper<>(UpmsUser.class).eq(UpmsUser::getPhone, phone));
         if (queryUser != null) {
-            throw new BizException(BizEnum.PHONE_ALREADY_EXISTS.getCode(), BizEnum.PHONE_ALREADY_EXISTS.getMsg());
+            throw new BizException(BizEnum.USER_ALREADY_EXISTS.getCode(), BizEnum.USER_ALREADY_EXISTS.getMsg());
         }
-        upmsUser.setStatus(UserStatusEnum.NORMAL.getValue());
+        upmsUser.setStatus(UserStatusEnum.ENABLED.getValue());
         upmsUser.setPassword(DigestUtil.bcrypt(phone + upmsUser.getPassword() + UpmsConsts.USER_SALT));
         this.save(upmsUser);
         upmsUser.setPassword(null);
@@ -54,7 +54,6 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
 
     @Override
     public UserUpdateDTO updateUserById(UserUpdateDTO userUpdateDTO) {
-        // 该接口禁止修改密码，修改密码用单独的接口
         UpmsUser upmsUser = CglibUtil.copy(userUpdateDTO, UpmsUser.class);
         this.updateById(upmsUser);
 
@@ -73,12 +72,12 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
 
     @Override
     public void disableUser(UserUpdateDTO userUpdateDTO) {
-        updateUserStatus(userUpdateDTO, UserStatusEnum.LOCKED);
+        updateUserStatus(userUpdateDTO, UserStatusEnum.DISABLED);
     }
 
     @Override
     public void enableUser(UserUpdateDTO userUpdateDTO) {
-        updateUserStatus(userUpdateDTO, UserStatusEnum.NORMAL);
+        updateUserStatus(userUpdateDTO, UserStatusEnum.ENABLED);
     }
 
     private void updateUserStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum normal) {

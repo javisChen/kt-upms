@@ -4,6 +4,7 @@ package com.kt.upms.api.controller;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.usergroup.UserGroupAddDTO;
 import com.kt.model.dto.usergroup.UserGroupQueryDTO;
 import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
@@ -54,6 +55,18 @@ public class UpmsUserGroupController extends BaseController {
             return ServerResponse.ok();
         }
         return ServerResponse.ok(CglibUtil.copy(upmsUserGroup, UserGroupQueryDTO.class));
+    }
+
+    @PostMapping("/disable")
+    public ServerResponse disable(@RequestBody @Validated UserGroupUpdateDTO dto) {
+        iUpmsUserGroupService.disableUserGroup(dto);
+        return ServerResponse.ok();
+    }
+
+    @PostMapping("/enable")
+    public ServerResponse enable(@RequestBody @Validated UserGroupUpdateDTO dto) {
+        iUpmsUserGroupService.enableUserGroup(dto);
+        return ServerResponse.ok();
     }
 }
 

@@ -22,8 +22,4 @@ public class UserUpdateDTO implements Serializable {
      */
     private String name;
 
-    /**
-     * 用户状态：1-正常；2-锁定；
-     */
-    private Integer status;
 }

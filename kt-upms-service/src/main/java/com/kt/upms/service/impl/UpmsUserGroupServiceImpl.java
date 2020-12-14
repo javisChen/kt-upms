@@ -3,6 +3,7 @@ package com.kt.upms.service.impl;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
@@ -12,6 +13,7 @@ import com.kt.model.dto.usergroup.UserGroupQueryDTO;
 import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
 import com.kt.model.enums.BizEnum;
 import com.kt.upms.entity.UpmsUserGroup;
+import com.kt.upms.enums.UserGroupStatusEnum;
 import com.kt.upms.mapper.UpmsUserGroupMapper;
 import com.kt.upms.service.IUpmsUserGroupService;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,8 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
                 .eq(UpmsUserGroup::getName, dto.getName());
         UpmsUserGroup upmsUserGroup = this.getOne(queryWrapper);
         if (upmsUserGroup != null) {
-            throw new BizException(BizEnum.USER_GROUP_NAME_ALREADY_EXISTS.getCode(),
-                    BizEnum.USER_GROUP_NAME_ALREADY_EXISTS.getMsg());
+            throw new BizException(BizEnum.USER_GROUP_ALREADY_EXISTS.getCode(),
+                    BizEnum.USER_GROUP_ALREADY_EXISTS.getMsg());
         }
         UpmsUserGroup newUserGroup = CglibUtil.copy(dto, UpmsUserGroup.class);
         this.save(newUserGroup);
@@ -55,10 +57,27 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
                 .eq(UpmsUserGroup::getId, dto.getId());
         UpmsUserGroup upmsUserGroup = this.getOne(queryWrapper);
         if (upmsUserGroup != null) {
-            throw new BizException(BizEnum.USER_GROUP_NAME_ALREADY_EXISTS.getCode(),
-                    BizEnum.USER_GROUP_NAME_ALREADY_EXISTS.getMsg());
+            throw new BizException(BizEnum.USER_GROUP_ALREADY_EXISTS.getCode(),
+                    BizEnum.USER_GROUP_ALREADY_EXISTS.getMsg());
         }
         UpmsUserGroup update = CglibUtil.copy(dto, UpmsUserGroup.class);
         this.updateById(update);
+    }
+
+
+    @Override
+    public void disableUserGroup(UserGroupUpdateDTO dto) {
+        updateUserStatus(dto, UserGroupStatusEnum.DISABLED);
+    }
+
+    @Override
+    public void enableUserGroup(UserGroupUpdateDTO dto) {
+        updateUserStatus(dto, UserGroupStatusEnum.ENABLED);
+    }
+
+    private void updateUserStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum roleStatusEnum) {
+        this.update(new LambdaUpdateWrapper<UpmsUserGroup>()
+                .eq(UpmsUserGroup::getStatus, dto.getId())
+                .set(UpmsUserGroup::getStatus, roleStatusEnum.getValue()));
     }
 }

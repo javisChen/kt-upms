@@ -2,6 +2,7 @@ package com.kt.upms.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,12 +25,5 @@ public class UpmsRole extends BaseEntity {
      */
     @TableField("name")
     private String name;
-
-    /**
-     * 角色状态 1-正常；2-禁用
-     */
-    @TableField("status")
-    private Boolean status;
-
 
 }
