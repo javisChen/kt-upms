@@ -11,7 +11,8 @@ public enum BizEnum {
     PERMISSION_ALREADY_EXISTS("A0104", "权限已存在"),
     MENU_ALREADY_EXISTS("A0105", "菜单已存在"),
     PARENT_MENU_NOT_EXISTS("A0106", "父级菜单不存在"),
-    MENU_NOT_EXISTS("A0107", "菜单不存在");
+    MENU_NOT_EXISTS("A0107", "菜单不存在"),
+    USER_GROUP_NOT_EXISTS("A0108", "用户组不存在");
 
     private String code;
     private String msg;

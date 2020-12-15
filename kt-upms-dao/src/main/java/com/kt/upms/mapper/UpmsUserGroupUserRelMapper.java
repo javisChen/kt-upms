@@ -1,7 +1,9 @@
 package com.kt.upms.mapper;
-
-import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kt.upms.entity.UpmsUserGroupUserRel;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Collection;
 
 /**
  * <p>
@@ -12,5 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-11-09
  */
 public interface UpmsUserGroupUserRelMapper extends BaseMapper<UpmsUserGroupUserRel> {
+    int insertBatch(@Param("upmsUserGroupUserRelCollection") Collection<UpmsUserGroupUserRel> upmsUserGroupUserRelCollection);
 
 }

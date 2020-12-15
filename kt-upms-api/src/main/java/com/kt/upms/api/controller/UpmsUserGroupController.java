@@ -8,6 +8,7 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.usergroup.UserGroupAddDTO;
 import com.kt.model.dto.usergroup.UserGroupQueryDTO;
 import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
+import com.kt.model.dto.usergroup.UserGroupUserAddDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.service.IUpmsUserGroupService;
@@ -64,6 +65,13 @@ public class UpmsUserGroupController extends BaseController {
     public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
                                        @RequestBody UserGroupUpdateDTO dto) {
         iUpmsUserGroupService.updateStatus(dto);
+        return ServerResponse.ok();
+    }
+
+    @PostMapping("/usergroup/user")
+    public ServerResponse addUserToGroup(@Validated()
+                                       @RequestBody UserGroupUserAddDTO dto) {
+        iUpmsUserGroupService.addUserToGroup(dto);
         return ServerResponse.ok();
     }
 

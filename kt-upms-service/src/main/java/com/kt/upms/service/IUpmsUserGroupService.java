@@ -5,6 +5,7 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.UserGroupAddDTO;
 import com.kt.model.dto.usergroup.UserGroupQueryDTO;
 import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
+import com.kt.model.dto.usergroup.UserGroupUserAddDTO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -26,4 +27,5 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
     void updateStatus(UserGroupUpdateDTO dto);
 
+    void addUserToGroup(UserGroupUserAddDTO dto);
 }

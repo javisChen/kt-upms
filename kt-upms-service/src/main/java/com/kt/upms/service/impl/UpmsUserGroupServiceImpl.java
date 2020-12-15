@@ -1,5 +1,4 @@
 package com.kt.upms.service.impl;
-
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -11,12 +10,19 @@ import com.kt.component.exception.BizException;
 import com.kt.model.dto.usergroup.UserGroupAddDTO;
 import com.kt.model.dto.usergroup.UserGroupQueryDTO;
 import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
+import com.kt.model.dto.usergroup.UserGroupUserAddDTO;
 import com.kt.model.enums.BizEnum;
 import com.kt.upms.entity.UpmsUserGroup;
+import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.enums.UserGroupStatusEnum;
 import com.kt.upms.mapper.UpmsUserGroupMapper;
+import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.service.IUpmsUserGroupService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -28,6 +34,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsUserGroup> implements IUpmsUserGroupService {
+
+    private final UpmsUserGroupUserRelMapper upmsUserGroupMapper;
+
+    public UpmsUserGroupServiceImpl(UpmsUserGroupUserRelMapper upmsUserGroupMapper) {
+        this.upmsUserGroupMapper = upmsUserGroupMapper;
+    }
 
     @Override
     public PageResponse pageList(Page page, UserGroupQueryDTO dto) {
@@ -68,6 +80,32 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     @Override
     public void updateStatus(UserGroupUpdateDTO dto) {
         updateStatus(dto, UserGroupStatusEnum.DISABLED);
+    }
+
+    @Override
+    public void addUserToGroup(UserGroupUserAddDTO dto) {
+        List<Long> userIds = dto.getUserIds();
+        Long userGroupId = dto.getUserGroupId();
+        LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
+                .eq(UpmsUserGroup::getId, userGroupId);
+        UpmsUserGroup upmsUserGroup = this.getOne(queryWrapper);
+        if (upmsUserGroup == null) {
+            throw new BizException(BizEnum.USER_GROUP_NOT_EXISTS.getCode(),
+                    BizEnum.USER_GROUP_NOT_EXISTS.getMsg());
+        }
+        List<UpmsUserGroupUserRel> upmsUserGroupUserRels = userIds.stream()
+                .map(item -> {
+                    UpmsUserGroupUserRel upmsUserGroupUserRel = new UpmsUserGroupUserRel();
+                    upmsUserGroupUserRel.setUserGroupId(userGroupId);
+                    upmsUserGroupUserRel.setUserId(item);
+                    upmsUserGroupUserRel.setGmtCreate(LocalDateTime.now());
+                    upmsUserGroupUserRel.setGmtModified(LocalDateTime.now());
+                    upmsUserGroupUserRel.setCreator(-1L);
+                    upmsUserGroupUserRel.setModifier(-1L);
+                    return upmsUserGroupUserRel;
+                })
+                .collect(Collectors.toList());
+        upmsUserGroupMapper.insertBatch(upmsUserGroupUserRels);
     }
 
     private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum roleStatusEnum) {

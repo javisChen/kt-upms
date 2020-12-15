@@ -4,11 +4,11 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.kt.upms.entity.UpmsUserGroupUserRel">
-    <result column="id" property="id" />
-    <result column="gmt_create" property="gmtCreate" />
-    <result column="gmt_modified" property="gmtModified" />
-        <result column="user_group_id" property="userGroupId" />
-        <result column="user_id" property="userId" />
+        <result column="id" property="id"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="user_group_id" property="userGroupId"/>
+        <result column="user_id" property="userId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -18,5 +18,22 @@
         gmt_modified,
         user_group_id, user_id
     </sql>
+    <insert id="insertBatch">
+        insert into upms_user_group_user_rel(user_group_id,
+        user_id,
+        gmt_create,
+        gmt_modified,
+        creator,
+        modifier)
+        values
+        <foreach collection="upmsUserGroupUserRelCollection" item="item" separator=",">
+            (#{item.userGroupId,jdbcType=NUMERIC},
+            #{item.userId,jdbcType=NUMERIC},
+            #{item.gmtCreate},
+            #{item.gmtModified},
+            #{item.creator,jdbcType=NUMERIC},
+            #{item.modifier,jdbcType=NUMERIC})
+        </foreach>
+    </insert>
 
 </mapper>
