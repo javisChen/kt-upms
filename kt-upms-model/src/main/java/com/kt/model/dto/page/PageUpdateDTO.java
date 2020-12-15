@@ -1,4 +1,4 @@
-package com.kt.model.dto.usergroup;
+package com.kt.model.dto.page;
 
 
 import com.kt.model.validgroup.UpmsValidateGroup;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class UserGroupUpdateDTO implements Serializable {
+public class PageUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,9 @@ public class UserGroupUpdateDTO implements Serializable {
 
     private String name;
 
+
     @NotNull(groups = UpmsValidateGroup.UpdateStatus.class, message = "status 不能为空")
     @Range(min = 0, max = 1)
     private Integer status;
+
 }

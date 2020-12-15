@@ -22,11 +22,6 @@
             <artifactId>kt-upms-service</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.kt</groupId>
-            <artifactId>kt-component-web-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- 测试包 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

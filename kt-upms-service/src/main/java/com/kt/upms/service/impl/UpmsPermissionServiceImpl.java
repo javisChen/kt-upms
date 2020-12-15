@@ -72,16 +72,11 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
     }
 
     @Override
-    public void disablePermission(PermissionUpdateDTO dto) {
-        updateUserStatus(dto, PermissionStatusEnum.DISABLED);
+    public void updateStatus(PermissionUpdateDTO dto) {
+        updateStatus(dto, PermissionStatusEnum.DISABLED);
     }
 
-    @Override
-    public void enablePermission(PermissionUpdateDTO dto) {
-        updateUserStatus(dto, PermissionStatusEnum.ENABLED);
-    }
-
-    private void updateUserStatus(PermissionUpdateDTO dto, PermissionStatusEnum statusEnum) {
+    private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnum statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsPermission>()
                 .eq(UpmsPermission::getId, dto.getId())
                 .set(UpmsPermission::getStatus, statusEnum.getValue()));

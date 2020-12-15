@@ -1,4 +1,4 @@
-package com.kt.model.dto.menu;
+package com.kt.model.dto.page;
 
 
 import lombok.Data;
@@ -6,14 +6,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MenuQueryDTO implements Serializable {
+public class PageQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String name;
-
-    private Long pid;
-
-    private String path;
 
 }

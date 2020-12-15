@@ -54,7 +54,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     public void updateUserGroupById(UserGroupUpdateDTO dto) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .eq(UpmsUserGroup::getName, dto.getName())
-                .eq(UpmsUserGroup::getId, dto.getId());
+                .ne(UpmsUserGroup::getId, dto.getId());
         UpmsUserGroup upmsUserGroup = this.getOne(queryWrapper);
         if (upmsUserGroup != null) {
             throw new BizException(BizEnum.USER_GROUP_ALREADY_EXISTS.getCode(),
@@ -66,16 +66,11 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
 
     @Override
-    public void disableUserGroup(UserGroupUpdateDTO dto) {
-        updateUserStatus(dto, UserGroupStatusEnum.DISABLED);
+    public void updateStatus(UserGroupUpdateDTO dto) {
+        updateStatus(dto, UserGroupStatusEnum.DISABLED);
     }
 
-    @Override
-    public void enableUserGroup(UserGroupUpdateDTO dto) {
-        updateUserStatus(dto, UserGroupStatusEnum.ENABLED);
-    }
-
-    private void updateUserStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum roleStatusEnum) {
+    private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum roleStatusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsUserGroup>()
                 .eq(UpmsUserGroup::getStatus, dto.getId())
                 .set(UpmsUserGroup::getStatus, roleStatusEnum.getValue()));

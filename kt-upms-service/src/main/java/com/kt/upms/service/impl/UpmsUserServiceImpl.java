@@ -71,16 +71,11 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public void disableUser(UserUpdateDTO userUpdateDTO) {
-        updateUserStatus(userUpdateDTO, UserStatusEnum.DISABLED);
+    public void updateStatus(UserUpdateDTO userUpdateDTO) {
+        updateStatus(userUpdateDTO, UserStatusEnum.ENABLED);
     }
 
-    @Override
-    public void enableUser(UserUpdateDTO userUpdateDTO) {
-        updateUserStatus(userUpdateDTO, UserStatusEnum.ENABLED);
-    }
-
-    private void updateUserStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum normal) {
+    private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum normal) {
         this.update(new LambdaUpdateWrapper<UpmsUser>()
                 .eq(UpmsUser::getStatus, userUpdateDTO.getId())
                 .set(UpmsUser::getStatus, normal.getValue()));

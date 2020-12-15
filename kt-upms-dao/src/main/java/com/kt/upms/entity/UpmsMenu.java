@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -15,9 +16,21 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class UpmsMenu extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
+
+
+    public UpmsMenu(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
+        super(id);
+        this.name = name;
+        this.pid = pid;
+        this.levelPath = levelPath;
+        this.level = level;
+        this.path = path;
+        this.icon = icon;
+    }
 
     /**
      * 元素名称
@@ -29,7 +42,7 @@ public class UpmsMenu extends BaseEntity {
      * 父级菜单id
      */
     @TableField("pid")
-    private Integer pid;
+    private Long pid;
 
     /**
      * 菜单层级路径，例如：0.1.2 代表该菜单是三级菜单，上级菜单的id是1,再上级的菜单id是0
@@ -42,6 +55,12 @@ public class UpmsMenu extends BaseEntity {
      */
     @TableField("level")
     private Integer level;
+
+    /**
+     * 路径
+     */
+    @TableField("path")
+    private String path;
 
     /**
      * 图标

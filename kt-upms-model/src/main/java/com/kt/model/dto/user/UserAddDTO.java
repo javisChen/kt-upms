@@ -3,8 +3,8 @@ package com.kt.model.dto.user;
 
 import lombok.Data;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data
@@ -22,7 +22,7 @@ public class UserAddDTO implements Serializable {
      * 手机号码
      */
     @NotBlank(message = "phone 不能为空")
-    @Max(value = 11, message = "手机号不合法")
+    @Size(min = 11, max = 11, message = "手机号不合法")
     private String phone;
 
     /**

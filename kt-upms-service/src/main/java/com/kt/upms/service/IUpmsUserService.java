@@ -24,7 +24,5 @@ public interface IUpmsUserService extends IService<UpmsUser> {
 
     PageResponse<UpmsUser> pageList(IPage<UpmsUser> page, UserQueryDTO params);
 
-    void disableUser(UserUpdateDTO userUpdateDTO);
-
-    void enableUser(UserUpdateDTO userUpdateDTO);
+    void updateStatus(UserUpdateDTO userUpdateDTO);
 }

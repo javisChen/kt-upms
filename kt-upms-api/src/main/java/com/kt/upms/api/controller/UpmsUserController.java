@@ -7,10 +7,13 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
+import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.service.IUpmsUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.groups.Default;
 
 /**
  * <p>
@@ -21,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping
 public class UpmsUserController extends BaseController {
 
     private final IUpmsUserService iUpmsUserService;
@@ -33,7 +36,7 @@ public class UpmsUserController extends BaseController {
     /**
      * 查看用户列表
      */
-    @PostMapping("/list")
+    @PostMapping("/users")
     public ServerResponse list(@RequestBody PageRequest<UserQueryDTO> pageRequest) {
         return ServerResponse.ok(iUpmsUserService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
@@ -41,7 +44,7 @@ public class UpmsUserController extends BaseController {
     /**
      * 添加用户
      */
-    @PostMapping("/add")
+    @PostMapping("/user")
     public ServerResponse add(@RequestBody @Validated UserAddDTO userAddDTO) {
         return ServerResponse.ok(iUpmsUserService.save(userAddDTO));
     }
@@ -49,34 +52,26 @@ public class UpmsUserController extends BaseController {
     /**
      * 编辑用户
      */
-    @PostMapping("/update")
+    @PutMapping("/user")
     public ServerResponse update(@RequestBody @Validated UserUpdateDTO userUpdateDTO) {
         iUpmsUserService.updateUserById(userUpdateDTO);
         return ServerResponse.ok();
     }
 
     /**
-     * 禁用用户
+     * 修改用户状态
      */
-    @PostMapping("/disable")
-    public ServerResponse disable(@RequestBody @Validated UserUpdateDTO userUpdateDTO) {
-        iUpmsUserService.disableUser(userUpdateDTO);
-        return ServerResponse.ok();
-    }
-
-    /**
-     * 启用用户
-     */
-    @PostMapping("/enable")
-    public ServerResponse enable(@RequestBody @Validated UserUpdateDTO userUpdateDTO) {
-        iUpmsUserService.enableUser(userUpdateDTO);
+    @PutMapping("/user/status")
+    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
+                                       @RequestBody UserUpdateDTO userUpdateDTO) {
+        iUpmsUserService.updateStatus(userUpdateDTO);
         return ServerResponse.ok();
     }
 
     /**
      * 查看用户详情
      */
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ServerResponse get(@PathVariable("id") String userId) {
         UpmsUser upmsUser = iUpmsUserService.getById(userId);
         if (upmsUser == null) {

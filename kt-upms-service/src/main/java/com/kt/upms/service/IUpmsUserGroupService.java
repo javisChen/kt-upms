@@ -24,7 +24,6 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
     void updateUserGroupById(UserGroupUpdateDTO userGroupUpdateDTO);
 
-    void disableUserGroup(UserGroupUpdateDTO dto);
+    void updateStatus(UserGroupUpdateDTO dto);
 
-    void enableUserGroup(UserGroupUpdateDTO dto);
 }

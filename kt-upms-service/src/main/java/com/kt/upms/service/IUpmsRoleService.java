@@ -24,7 +24,6 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
 
     void updateRoleById(RoleUpdateDTO upmsRole);
 
-    void disableRole(RoleUpdateDTO dto);
+    void updateStatus(RoleUpdateDTO dto);
 
-    void enableRole(RoleUpdateDTO dto);
 }

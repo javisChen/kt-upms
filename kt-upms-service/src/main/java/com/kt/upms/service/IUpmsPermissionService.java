@@ -24,7 +24,6 @@ public interface IUpmsPermissionService extends IService<UpmsPermission> {
 
     void updatePermissionById(PermissionUpdateDTO dto);
 
-    void disablePermission(PermissionUpdateDTO dto);
+    void updateStatus(PermissionUpdateDTO dto);
 
-    void enablePermission(PermissionUpdateDTO dto);
 }

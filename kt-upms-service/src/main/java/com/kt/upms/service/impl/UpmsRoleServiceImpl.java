@@ -64,16 +64,11 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     }
 
     @Override
-    public void disableRole(RoleUpdateDTO dto) {
-        updateUserStatus(dto, RoleStatusEnum.DISABLED);
+    public void updateStatus(RoleUpdateDTO dto) {
+        updateStatus(dto, RoleStatusEnum.DISABLED);
     }
 
-    @Override
-    public void enableRole(RoleUpdateDTO dto) {
-        updateUserStatus(dto, RoleStatusEnum.ENABLED);
-    }
-
-    private void updateUserStatus(RoleUpdateDTO dto, RoleStatusEnum roleStatusEnum) {
+    private void updateStatus(RoleUpdateDTO dto, RoleStatusEnum roleStatusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsRole>()
                 .eq(UpmsRole::getStatus, dto.getId())
                 .set(UpmsRole::getStatus, roleStatusEnum.getValue()));

@@ -8,10 +8,13 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.role.RoleAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
+import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.service.IUpmsRoleService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.groups.Default;
 
 
 /**
@@ -19,11 +22,11 @@ import org.springframework.web.bind.annotation.*;
  * 角色表 前端控制器
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping("/role")
+@RequestMapping
 public class UpmsRoleController extends BaseController {
 
 
@@ -34,23 +37,23 @@ public class UpmsRoleController extends BaseController {
     }
 
 
-    @PostMapping("/list")
+    @PostMapping("/roles")
     public ServerResponse list(@RequestBody PageRequest<RoleQueryDTO> pageRequest) {
         return ServerResponse.ok(iUpmsRoleService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 
-    @PostMapping("/add")
+    @PostMapping("/role")
     public ServerResponse add(@RequestBody @Validated RoleAddDTO dto) {
         return ServerResponse.ok(iUpmsRoleService.saveRole(dto));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/role")
     public ServerResponse update(@RequestBody @Validated RoleUpdateDTO dto) {
         iUpmsRoleService.updateRoleById(dto);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/role/{id}")
     public ServerResponse get(@PathVariable("id") String id) {
         UpmsRole upmsRole = iUpmsRoleService.getById(id);
         if (upmsRole == null) {
@@ -59,15 +62,10 @@ public class UpmsRoleController extends BaseController {
         return ServerResponse.ok(CglibUtil.copy(upmsRole, RoleQueryDTO.class));
     }
 
-    @PostMapping("/disable")
-    public ServerResponse disable(@RequestBody @Validated RoleUpdateDTO dto) {
-        iUpmsRoleService.disableRole(dto);
-        return ServerResponse.ok();
-    }
-
-    @PostMapping("/enable")
-    public ServerResponse enable(@RequestBody @Validated RoleUpdateDTO dto) {
-        iUpmsRoleService.enableRole(dto);
+    @PutMapping("/role/status")
+    public ServerResponse updateStatus(@RequestBody
+                                       @Validated({UpmsValidateGroup.UpdateStatus.class, Default.class}) RoleUpdateDTO dto) {
+        iUpmsRoleService.updateStatus(dto);
         return ServerResponse.ok();
     }
 }

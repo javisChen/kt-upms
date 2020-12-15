@@ -8,10 +8,13 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.usergroup.UserGroupAddDTO;
 import com.kt.model.dto.usergroup.UserGroupQueryDTO;
 import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
+import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.service.IUpmsUserGroupService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.groups.Default;
 
 
 /**
@@ -19,11 +22,11 @@ import org.springframework.web.bind.annotation.*;
  * 用户组表 前端控制器
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping("/user-group")
+@RequestMapping
 public class UpmsUserGroupController extends BaseController {
 
     private final IUpmsUserGroupService iUpmsUserGroupService;
@@ -32,23 +35,23 @@ public class UpmsUserGroupController extends BaseController {
         this.iUpmsUserGroupService = iUpmsUserGroupService;
     }
 
-    @PostMapping("/list")
+    @PostMapping("/usergroups")
     public ServerResponse list(@RequestBody PageRequest<UserGroupQueryDTO> pageRequest) {
         return ServerResponse.ok(iUpmsUserGroupService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 
-    @PostMapping("/add")
+    @PostMapping("/usergroup")
     public ServerResponse add(@RequestBody @Validated UserGroupAddDTO userGroupAddDTO) {
         return ServerResponse.ok(iUpmsUserGroupService.saveUserGroup(userGroupAddDTO));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/usergroup")
     public ServerResponse update(@RequestBody @Validated UserGroupUpdateDTO userGroupUpdateDTO) {
         iUpmsUserGroupService.updateUserGroupById(userGroupUpdateDTO);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/usergroup/{id}")
     public ServerResponse get(@PathVariable("id") String userGroupId) {
         UpmsUserGroup upmsUserGroup = iUpmsUserGroupService.getById(userGroupId);
         if (upmsUserGroup == null) {
@@ -57,16 +60,12 @@ public class UpmsUserGroupController extends BaseController {
         return ServerResponse.ok(CglibUtil.copy(upmsUserGroup, UserGroupQueryDTO.class));
     }
 
-    @PostMapping("/disable")
-    public ServerResponse disable(@RequestBody @Validated UserGroupUpdateDTO dto) {
-        iUpmsUserGroupService.disableUserGroup(dto);
+    @PutMapping("/usergroup/status")
+    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
+                                       @RequestBody UserGroupUpdateDTO dto) {
+        iUpmsUserGroupService.updateStatus(dto);
         return ServerResponse.ok();
     }
 
-    @PostMapping("/enable")
-    public ServerResponse enable(@RequestBody @Validated UserGroupUpdateDTO dto) {
-        iUpmsUserGroupService.enableUserGroup(dto);
-        return ServerResponse.ok();
-    }
 }
 
