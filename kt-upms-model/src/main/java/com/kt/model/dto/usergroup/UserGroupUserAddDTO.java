@@ -11,7 +11,23 @@ public class UserGroupUserAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private List<Long> userIds;
+    private Add add;
 
-    private Long userGroupId;
+    private Remove remove;
+
+    @Data
+    public class Add {
+
+        private List<Long> userIds;
+
+        private Long userGroupId;
+    }
+
+    @Data
+    public class Remove {
+
+        private List<Long> userIds;
+
+        private Long userGroupId;
+    }
 }
