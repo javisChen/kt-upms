@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  * @since 2020-11-09
  */
 public interface UpmsUserGroupUserRelMapper extends BaseMapper<UpmsUserGroupUserRel> {
-    int insertBatch(@Param("upmsUserGroupUserRelCollection") Collection<UpmsUserGroupUserRel> upmsUserGroupUserRelCollection);
+    int insertBatch(@Param("list") List<UpmsUserGroupUserRel> list);
 
     int deleteByUserIdsAndUserGroupId(@Param("userGroupId") Long userGroupId, @Param("userIds") List<Long> userIds);
 

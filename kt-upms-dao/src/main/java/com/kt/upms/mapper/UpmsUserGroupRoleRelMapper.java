@@ -16,7 +16,8 @@ import java.util.List;
  */
 public interface UpmsUserGroupRoleRelMapper extends BaseMapper<UpmsUserGroupRoleRel> {
 
-    int deleteByRoleIdsAndUserGroupId(@Param("userGroupId") Long userGroupId, @Param("roleIds") List<Long> roleIds);
+    int deleteByRoleIdsAndUserGroupId(@Param("userGroupId") Long userGroupId,
+                                      @Param("roleIds") List<Long> roleIds);
 
-    void insertBatch(@Param("rels") List<UpmsUserGroupRoleRel> rels);
+    void insertBatch(@Param("list") List<UpmsUserGroupRoleRel> rels);
 }

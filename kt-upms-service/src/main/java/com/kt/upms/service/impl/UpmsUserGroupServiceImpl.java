@@ -13,16 +13,12 @@ import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.enums.UserGroupStatusEnum;
-import com.kt.upms.mapper.UpmsUserGroupMapper;
-import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
-import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
-import com.kt.upms.mapper.UpmsUserMapper;
+import com.kt.upms.mapper.*;
 import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.util.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,12 +37,14 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     private final UpmsUserGroupUserRelMapper userGroupUserRelMapper;
     private final UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
     private final UpmsUserMapper upmsUserMapper;
+    private final UpmsRoleMapper upmsRoleMapper;
 
     public UpmsUserGroupServiceImpl(UpmsUserGroupUserRelMapper userGroupUserRelMapper, UpmsUserGroupRoleRelMapper
-            upmsUserGroupRoleRelMapper, UpmsUserMapper upmsUserMapper) {
+            upmsUserGroupRoleRelMapper, UpmsUserMapper upmsUserMapper, UpmsRoleMapper upmsRoleMapper) {
         this.userGroupUserRelMapper = userGroupUserRelMapper;
         this.upmsUserGroupRoleRelMapper = upmsUserGroupRoleRelMapper;
         this.upmsUserMapper = upmsUserMapper;
+        this.upmsRoleMapper = upmsRoleMapper;
     }
 
 
@@ -113,10 +111,10 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
             Long userGroupId = dto.getUserGroupId();
             Assert.isTrue(countUserGroupById(userGroupId) == 0, BizEnums.USER_GROUP_NOT_EXISTS);
 
-            List<UpmsUserGroupUserRel> upmsUserGroupUserRels = userIds.stream()
+            List<UpmsUserGroupUserRel> rels = userIds.stream()
                     .map(item -> assembleUserGroupUserRel(userGroupId, item))
                     .collect(Collectors.toList());
-            userGroupUserRelMapper.insertBatch(upmsUserGroupUserRels);
+            userGroupUserRelMapper.insertBatch(rels);
         }
     }
 
@@ -124,10 +122,6 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         UpmsUserGroupUserRel upmsUserGroupUserRel = new UpmsUserGroupUserRel();
         upmsUserGroupUserRel.setUserGroupId(userGroupId);
         upmsUserGroupUserRel.setUserId(item);
-        upmsUserGroupUserRel.setGmtCreate(LocalDateTime.now());
-        upmsUserGroupUserRel.setGmtModified(LocalDateTime.now());
-        upmsUserGroupUserRel.setCreator(-1L);
-        upmsUserGroupUserRel.setModifier(-1L);
         return upmsUserGroupUserRel;
     }
 
@@ -178,8 +172,8 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     }
 
     @Override
-    public PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO params) {
-        return null;
+    public PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO dto) {
+        return PageResponse.success(upmsRoleMapper.selectByUserGroupId(page, dto.getId()));
     }
 
     private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum statusEnum) {

@@ -21,7 +21,7 @@
     <insert id="insertBatch">
         insert into upms_user_group_user_rel(user_group_id, user_id)
         values
-        <foreach collection="upmsUserGroupUserRelCollection" item="item" separator=",">
+        <foreach collection="list" item="item" separator=",">
             (#{item.userGroupId,jdbcType=NUMERIC}, #{item.userId,jdbcType=NUMERIC})
         </foreach>
     </insert>

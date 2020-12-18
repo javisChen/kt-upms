@@ -1,7 +1,11 @@
 package com.kt.upms.mapper;
 
-import com.kt.upms.entity.UpmsRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kt.model.vo.usergroup.UserGroupUserListVO;
+import com.kt.upms.entity.UpmsRole;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UpmsRoleMapper extends BaseMapper<UpmsRole> {
 
+    IPage<UserGroupUserListVO> selectByUserGroupId(@Param("page") Page page, @Param("userGroupId") Long id);
 }

@@ -22,9 +22,10 @@
     </sql>
 
     <select id="selectByUserGroupId" resultType="com.kt.model.vo.usergroup.UserGroupUserListVO">
-        select uu.id user_id, uu.name, uu.phone, uu.status, uugur.user_group_id
+        select
+                uu.id user_id, uu.name, uu.phone, uu.status, uugur.user_group_id
         from upms_user uu
-                 inner join upms_user_group_user_rel uugur on uugur.user_id = uu.id
+        inner join upms_user_group_user_rel uugur on uugur.user_id = uu.id
         where uugur.user_group_id = #{userGroupId}
     </select>
 
