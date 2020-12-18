@@ -9,17 +9,17 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
-import com.kt.component.exception.BizException;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
-import com.kt.model.enums.BizEnum;
+import com.kt.model.enums.BizEnums;
 import com.kt.upms.constants.UpmsConsts;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.enums.UserStatusEnum;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.service.IUpmsUserService;
+import com.kt.upms.util.Assert;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,12 +37,10 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     @Override
     public UserAddDTO save(UserAddDTO userAddDTO) {
         UpmsUser upmsUser = CglibUtil.copy(userAddDTO, UpmsUser.class);
-
         String phone = upmsUser.getPhone();
-        UpmsUser queryUser = this.getOne(new LambdaQueryWrapper<>(UpmsUser.class).eq(UpmsUser::getPhone, phone));
-        if (queryUser != null) {
-            throw new BizException(BizEnum.USER_ALREADY_EXISTS.getCode(), BizEnum.USER_ALREADY_EXISTS.getMsg());
-        }
+        int count = countUserByPhone(phone);
+        Assert.isTrue(count > 0, BizEnums.USER_ALREADY_EXISTS);
+
         upmsUser.setStatus(UserStatusEnum.ENABLED.getValue());
         upmsUser.setPassword(DigestUtil.bcrypt(phone + upmsUser.getPassword() + UpmsConsts.USER_SALT));
         this.save(upmsUser);
@@ -50,6 +48,10 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
 
         CglibUtil.copy(upmsUser, userAddDTO);
         return userAddDTO;
+    }
+
+    private int countUserByPhone(String phone) {
+        return this.count(new LambdaQueryWrapper<>(UpmsUser.class).eq(UpmsUser::getPhone, phone));
     }
 
     @Override

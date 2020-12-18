@@ -19,22 +19,13 @@
         user_group_id, user_id
     </sql>
     <insert id="insertBatch">
-        insert into upms_user_group_user_rel(user_group_id,
-        user_id,
-        gmt_create,
-        gmt_modified,
-        creator,
-        modifier)
+        insert into upms_user_group_user_rel(user_group_id, user_id)
         values
         <foreach collection="upmsUserGroupUserRelCollection" item="item" separator=",">
-            (#{item.userGroupId,jdbcType=NUMERIC},
-            #{item.userId,jdbcType=NUMERIC},
-            #{item.gmtCreate},
-            #{item.gmtModified},
-            #{item.creator,jdbcType=NUMERIC},
-            #{item.modifier,jdbcType=NUMERIC})
+            (#{item.userGroupId,jdbcType=NUMERIC}, #{item.userId,jdbcType=NUMERIC})
         </foreach>
     </insert>
+
     <delete id="deleteByUserIdsAndUserGroupId">
         delete from upms_user_group_user_rel
         where user_group_id = #{userGroupId}

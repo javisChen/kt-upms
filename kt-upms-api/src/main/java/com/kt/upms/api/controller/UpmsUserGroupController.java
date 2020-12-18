@@ -79,5 +79,18 @@ public class UpmsUserGroupController extends BaseController {
         return ServerResponse.ok(pageResponse);
     }
 
+    @PostMapping("/usergroup/role")
+    public ServerResponse addRoleToGroup(@Validated()
+                                         @RequestBody UserGroupRoleAddDTO dto) {
+        iUpmsUserGroupService.addOrRemoveRoleInUserGroup(dto);
+        return ServerResponse.ok();
+    }
+
+    @PostMapping("/usergroup/roles")
+    public ServerResponse getRolesUnderUserGroup(@RequestBody PageRequest<UserGroupRoleQueryDTO> dto) {
+        PageResponse pageResponse = iUpmsUserGroupService.getRolesUnderUserGroupPageList(getPage(dto), dto.getParams());
+        return ServerResponse.ok(pageResponse);
+    }
+
 }
 

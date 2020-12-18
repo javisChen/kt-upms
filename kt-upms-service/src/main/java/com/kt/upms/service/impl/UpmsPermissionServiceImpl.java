@@ -7,15 +7,15 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
-import com.kt.component.exception.BizException;
 import com.kt.model.dto.permission.PermissionAddDTO;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
-import com.kt.model.enums.BizEnum;
+import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionStatusEnum;
 import com.kt.upms.mapper.UpmsPermissionMapper;
 import com.kt.upms.service.IUpmsPermissionService;
+import com.kt.upms.util.Assert;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,20 +40,25 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
 
     @Override
     public PermissionAddDTO savePermission(PermissionAddDTO dto) {
+        int count = countPermissionByNameAndType(dto);
+        Assert.isTrue(count > 0, BizEnums.PERMISSION_ALREADY_EXISTS);
+
+        UpmsPermission permission = CglibUtil.copy(dto, UpmsPermission.class);
+        permission.setCode(generatePermissionCode());
+        this.save(permission);
+        return dto;
+    }
+
+    private String generatePermissionCode() {
+        // TODO 权限编码生成规则待定，暂时用uuid
+        return StrUtil.uuid();
+    }
+
+    private int countPermissionByNameAndType(PermissionAddDTO dto) {
         LambdaQueryWrapper<UpmsPermission> queryWrapper = new LambdaQueryWrapper<UpmsPermission>()
                 .eq(UpmsPermission::getName, dto.getName())
                 .eq(UpmsPermission::getType, dto.getType());
-        UpmsPermission upmsPermission = this.getOne(queryWrapper);
-        if (upmsPermission != null) {
-            throw new BizException(BizEnum.PERMISSION_ALREADY_EXISTS.getCode(),
-                    BizEnum.PERMISSION_ALREADY_EXISTS.getMsg());
-        }
-
-        UpmsPermission newUpmsPermission = CglibUtil.copy(dto, UpmsPermission.class);
-        // TODO 权限编码生成规则待定，暂时用uuid
-        newUpmsPermission.setCode(StrUtil.uuid());
-        this.save(newUpmsPermission);
-        return dto;
+        return this.count(queryWrapper);
     }
 
     @Override
@@ -62,13 +67,11 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
                 .eq(UpmsPermission::getName, dto.getName())
                 .eq(UpmsPermission::getType, dto.getType())
                 .ne(UpmsPermission::getId, dto.getId());
-        UpmsPermission upmsPermission = this.getOne(queryWrapper);
-        if (upmsPermission != null) {
-            throw new BizException(BizEnum.PERMISSION_ALREADY_EXISTS.getCode(),
-                    BizEnum.PERMISSION_ALREADY_EXISTS.getMsg());
-        }
-        UpmsPermission updateObj = CglibUtil.copy(dto, UpmsPermission.class);
-        this.updateById(updateObj);
+        int count = this.count(queryWrapper);
+        Assert.isTrue(count > 0, BizEnums.PERMISSION_ALREADY_EXISTS);
+
+        UpmsPermission permission = CglibUtil.copy(dto, UpmsPermission.class);
+        this.updateById(permission);
     }
 
     @Override

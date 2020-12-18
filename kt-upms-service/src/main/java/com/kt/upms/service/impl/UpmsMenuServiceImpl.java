@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
-import com.kt.component.exception.BizException;
 import com.kt.model.dto.menu.*;
-import com.kt.model.enums.BizEnum;
+import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsMenu;
 import com.kt.upms.enums.MenuStatusEnum;
 import com.kt.upms.mapper.UpmsMenuMapper;
 import com.kt.upms.service.IUpmsMenuService;
+import com.kt.upms.util.Assert;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -46,10 +46,10 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
 
     @Override
     public MenuAddDTO saveMenu(MenuAddDTO dto) {
-        UpmsMenu upmsMenu = this.getOne(new LambdaQueryWrapper<UpmsMenu>().eq(UpmsMenu::getName, dto.getName()));
-        if (upmsMenu != null) {
-            throw new BizException(BizEnum.MENU_ALREADY_EXISTS.getCode(), BizEnum.MENU_ALREADY_EXISTS.getMsg());
-        }
+        UpmsMenu upmsMenu = getMenuByName(dto.getName());
+
+        Assert.isTrue(upmsMenu != null, BizEnums.MENU_ALREADY_EXISTS);
+
         UpmsMenu newMenu = CglibUtil.copy(dto, UpmsMenu.class);
         if (newMenu.getPid().equals(DEFAULT_PID)) {
             newMenu.setLevel(LEVEL_ONE);
@@ -57,9 +57,8 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
         } else {
             UpmsMenu parentMenu = this.getOne(new LambdaQueryWrapper<UpmsMenu>()
                     .eq(UpmsMenu::getId, newMenu.getPid()));
-            if (parentMenu == null) {
-                throw new BizException(BizEnum.PARENT_MENU_NOT_EXISTS.getCode(), BizEnum.PARENT_MENU_NOT_EXISTS.getMsg());
-            }
+            Assert.isTrue(parentMenu == null, BizEnums.PARENT_MENU_NOT_EXISTS);
+
             int level = parentMenu.getLevel() + 1;
             newMenu.setLevel(level);
             newMenu.setLevelPath(parentMenu.getLevelPath() + level + StrUtil.DOT);
@@ -68,25 +67,25 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
         return dto;
     }
 
+    private UpmsMenu getMenuByName(String name) {
+        return this.getOne(new LambdaQueryWrapper<UpmsMenu>().eq(UpmsMenu::getName, name));
+    }
+
     @Override
     public void updateMenu(MenuUpdateDTO dto) {
         LambdaQueryWrapper<UpmsMenu> queryWrapper = new LambdaQueryWrapper<UpmsMenu>()
                 .eq(UpmsMenu::getName, dto.getName())
                 .ne(UpmsMenu::getId, dto.getId());
-        UpmsMenu upmsMenu = this.getOne(queryWrapper);
-        if (upmsMenu != null) {
-            throw new BizException(BizEnum.MENU_ALREADY_EXISTS.getCode(),
-                    BizEnum.MENU_ALREADY_EXISTS.getMsg());
-        }
+        int count = this.count(queryWrapper);
+        Assert.isTrue(count > 0, BizEnums.MENU_ALREADY_EXISTS);
+
         UpmsMenu updateMenu = CglibUtil.copy(dto, UpmsMenu.class);
         this.updateById(updateMenu);
     }
 
     @Override
     public void updateMenuStatus(MenuUpdateDTO dto) {
-        LambdaQueryWrapper<UpmsMenu> queryWrapper = new LambdaQueryWrapper<UpmsMenu>()
-                .eq(UpmsMenu::getId, dto.getId());
-        UpmsMenu menu = this.getOne(queryWrapper);
+        UpmsMenu menu = getMenuById(dto.getId());
         if (menu != null) {
             this.update(new LambdaUpdateWrapper<UpmsMenu>()
                     .likeRight(UpmsMenu::getLevelPath, menu.getLevelPath())
@@ -101,21 +100,20 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
 
     @Override
     public void modifyParent(MenuModifyParentDTO dto) {
-        LambdaQueryWrapper<UpmsMenu> queryWrapper = new LambdaQueryWrapper<UpmsMenu>()
-                .eq(UpmsMenu::getId, dto.getId());
-        UpmsMenu childMenu = this.getOne(queryWrapper);
-        if (childMenu != null) {
-            throw new BizException(BizEnum.MENU_NOT_EXISTS.getCode(),
-                    BizEnum.MENU_NOT_EXISTS.getMsg());
-        }
-        UpmsMenu parentMenu = this.getOne(new LambdaQueryWrapper<UpmsMenu>()
-                .eq(UpmsMenu::getId, dto.getPid()));
-        if (parentMenu == null) {
-            throw new BizException(BizEnum.PARENT_MENU_NOT_EXISTS.getCode(),
-                    BizEnum.PARENT_MENU_NOT_EXISTS.getMsg());
-        }
+        UpmsMenu childMenu = getMenuById(dto.getId());
+        Assert.isTrue(childMenu != null, BizEnums.MENU_NOT_EXISTS);
+
+        UpmsMenu parentMenu = getMenuById(dto.getPid());
+        Assert.isTrue(parentMenu != null, BizEnums.PARENT_MENU_NOT_EXISTS);
+
         UpmsMenu updateMenu = CglibUtil.copy(dto, UpmsMenu.class);
         this.updateById(updateMenu);
+    }
+
+    private UpmsMenu getMenuById(Long id) {
+        LambdaQueryWrapper<UpmsMenu> queryWrapper = new LambdaQueryWrapper<UpmsMenu>()
+                .eq(UpmsMenu::getId, id);
+        return this.getOne(queryWrapper);
     }
 
     @Override

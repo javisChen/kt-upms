@@ -1,6 +1,6 @@
 package com.kt.model.enums;
 
-public enum BizEnum {
+public enum BizEnums {
 
     /**
      * A0101 ~ A0200是upms系统编码
@@ -17,7 +17,7 @@ public enum BizEnum {
     private String code;
     private String msg;
 
-    BizEnum(String code, String msg) {
+    BizEnums(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }

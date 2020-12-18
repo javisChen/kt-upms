@@ -27,4 +27,9 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
     void addOrRemoveUserInUserGroup(UserGroupUserAddDTO dto);
 
     PageResponse getUsersUnderUserGroupPageList(Page page, UserGroupUserQueryDTO dto);
+
+    void addOrRemoveRoleInUserGroup(UserGroupRoleAddDTO dto);
+
+    PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO params);
+
 }

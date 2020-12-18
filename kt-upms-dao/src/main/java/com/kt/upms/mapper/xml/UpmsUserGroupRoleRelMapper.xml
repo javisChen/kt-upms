@@ -19,4 +19,21 @@
         user_group_id, role_id
     </sql>
 
+    <insert id="insertBatch">
+        insert into upms_user_group_role_rel(user_group_id, role_id)
+        values
+        <foreach collection="upmsUserGroupUserRelCollection" item="item" separator=",">
+            (#{item.userGroupId,jdbcType=NUMERIC}, #{item.roleId,jdbcType=NUMERIC})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleIdsAndUserGroupId" >
+        delete from upms_user_group_role_rel
+        where user_group_id = #{userGroupId}
+        and role_id in
+        <foreach open="("  close=")" collection="roleIds" item="item" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
 </mapper>
