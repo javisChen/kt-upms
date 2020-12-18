@@ -3,12 +3,10 @@ package com.kt.upms.api.controller;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
+import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.model.dto.usergroup.UserGroupAddDTO;
-import com.kt.model.dto.usergroup.UserGroupQueryDTO;
-import com.kt.model.dto.usergroup.UserGroupUpdateDTO;
-import com.kt.model.dto.usergroup.UserGroupUserAddDTO;
+import com.kt.model.dto.usergroup.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.service.IUpmsUserGroupService;
@@ -70,9 +68,15 @@ public class UpmsUserGroupController extends BaseController {
 
     @PostMapping("/usergroup/user")
     public ServerResponse addUserToGroup(@Validated()
-                                       @RequestBody UserGroupUserAddDTO dto) {
-        iUpmsUserGroupService.addUserToGroup(dto);
+                                         @RequestBody UserGroupUserAddDTO dto) {
+        iUpmsUserGroupService.addOrRemoveUserInUserGroup(dto);
         return ServerResponse.ok();
+    }
+
+    @PostMapping("/usergroup/users")
+    public ServerResponse getUsersUnderUserGroup(@RequestBody PageRequest<UserGroupUserQueryDTO> dto) {
+        PageResponse pageResponse = iUpmsUserGroupService.getUsersUnderUserGroupPageList(getPage(dto), dto.getParams());
+        return ServerResponse.ok(pageResponse);
     }
 
 }
