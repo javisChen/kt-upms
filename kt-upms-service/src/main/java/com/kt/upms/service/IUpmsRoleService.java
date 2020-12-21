@@ -8,6 +8,10 @@ import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.upms.entity.UpmsRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * <p>
  * 角色表 服务类
@@ -26,4 +30,7 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
 
     void updateStatus(RoleUpdateDTO dto);
 
+    List<UpmsRole> getRolesByUserId(Long userId);
+
+    List<UpmsRole> getRolesByUserGroupIds(List<Long> longStream);
 }

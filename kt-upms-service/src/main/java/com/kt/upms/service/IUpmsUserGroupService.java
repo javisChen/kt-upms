@@ -6,6 +6,8 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
 import com.kt.upms.entity.UpmsUserGroup;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户组表 服务类
@@ -32,4 +34,5 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
     PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO params);
 
+    List<UpmsUserGroup> getUserGroupsByUserId(Long userId);
 }

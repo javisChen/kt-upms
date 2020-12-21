@@ -82,9 +82,5 @@ public class UpmsMenuController extends BaseController {
         return ServerResponse.ok(menuAllDTO);
     }
 
-    @PostMapping("/menus/test/demo")
-    public ServerResponse test(List<MultipartFile> file, Integer id) {
-        return ServerResponse.ok();
-    }
 }
 

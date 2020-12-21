@@ -15,12 +15,23 @@ import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.upms.constants.UpmsConsts;
+import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.enums.UserStatusEnum;
 import com.kt.upms.mapper.UpmsUserMapper;
+import com.kt.upms.service.IUpmsPermissionService;
+import com.kt.upms.service.IUpmsRoleService;
+import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.service.IUpmsUserService;
 import com.kt.upms.util.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,6 +44,13 @@ import org.springframework.stereotype.Service;
 @Service
 @CatchAndLog
 public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUpmsUserService {
+
+    @Autowired
+    private IUpmsRoleService iUpmsRoleService;
+    @Autowired
+    private IUpmsUserGroupService iUpmsUserGroupService;
+    @Autowired
+    private IUpmsPermissionService iUpmsPermissionService;
 
     @Override
     public UserAddDTO save(UserAddDTO userAddDTO) {
@@ -75,6 +93,25 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     @Override
     public void updateStatus(UserUpdateDTO userUpdateDTO) {
         updateStatus(userUpdateDTO, UserStatusEnum.ENABLED);
+    }
+
+    @Override
+    public Set<UpmsPermission> getUserPermissions(Long userId) {
+        /*
+            用户权限 = 用户角色+用户组角色下所有权限
+            1. 获取用户所有角色
+            2. 获取用户所有用户组
+            3. 聚合所有角色查询权限
+         */
+        List<UpmsRole> roles = iUpmsRoleService.getRolesByUserId(userId);
+
+        List<UpmsUserGroup> userGroups = iUpmsUserGroupService.getUserGroupsByUserId(userId);
+
+        List<Long> collect = userGroups.stream().map(UpmsUserGroup::getId).collect(Collectors.toList());
+        roles.addAll(iUpmsRoleService.getRolesByUserGroupIds(collect));
+
+
+        return null;
     }
 
     private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum normal) {
