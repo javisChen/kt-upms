@@ -48,14 +48,11 @@ KT-UPMS 通用用户权限管理系统
 	- [x] 查询角色列表（加Redis）
 
 - 权限管理
-	- [x] 添加权限
 	- [x] 修改权限状态
-	- [x] 编辑权限
 	- [x] 查看权限列表
 	- [x] 查看单个权限
-	- [ ] 资源分配（菜单、页面元素）
 
-- 菜单管理
+- 菜单管理m
 	- [x] 添加菜单
 	- [x] 删除菜单
 	- [x] 修改菜单状态
@@ -88,8 +85,7 @@ KT-UPMS 通用用户权限管理系统
 | upms_role | 角色表 |
 | upms_user_role_rel | 用户角色关联表 |
 | upms_permission | 权限表 |
-| upms_permission_resource_rel | 权限与资源关联表 |
-| upms_permission_role_rel | 角色与权限关联表 |
+| upms_permission_role_rel | 角色与权限联表 |
 | upms_menu | 用户表 |
 | upms_page | 页面表 |
 | upms_page_element | 页面元素表 |

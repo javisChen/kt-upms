@@ -24,8 +24,6 @@ public interface IUpmsMenuService extends IService<UpmsMenu> {
 
     void updateMenuStatus(MenuUpdateDTO dto);
 
-    void enableMenu(MenuUpdateDTO dto);
-
     void modifyParent(MenuModifyParentDTO dto);
 
     MenuAllDTO getAllMenus();

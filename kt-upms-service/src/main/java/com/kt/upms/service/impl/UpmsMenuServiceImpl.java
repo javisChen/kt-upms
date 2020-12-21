@@ -12,10 +12,13 @@ import com.kt.model.dto.menu.*;
 import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsMenu;
 import com.kt.upms.enums.MenuStatusEnum;
+import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsMenuMapper;
 import com.kt.upms.service.IUpmsMenuService;
+import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.util.Assert;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +39,12 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
     private final static Long DEFAULT_PID = 0L;
     private final static Integer LEVEL_ONE = 1;
 
+    private final IUpmsPermissionService iUpmsPermissionService;
+
+    public UpmsMenuServiceImpl(IUpmsPermissionService iUpmsPermissionService) {
+        this.iUpmsPermissionService = iUpmsPermissionService;
+    }
+
     @Override
     public PageResponse<UpmsMenu> pageList(Page page, MenuQueryDTO params) {
         LambdaQueryWrapper<UpmsMenu> query = new LambdaQueryWrapper<UpmsMenu>()
@@ -45,6 +54,7 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 20000)
     public MenuAddDTO saveMenu(MenuAddDTO dto) {
         UpmsMenu upmsMenu = getMenuByName(dto.getName());
 
@@ -55,15 +65,16 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
             newMenu.setLevel(LEVEL_ONE);
             newMenu.setLevelPath(LEVEL_ONE + StrUtil.DOT);
         } else {
-            UpmsMenu parentMenu = this.getOne(new LambdaQueryWrapper<UpmsMenu>()
-                    .eq(UpmsMenu::getId, newMenu.getPid()));
+            UpmsMenu parentMenu = getMenuById(newMenu.getPid());
             Assert.isTrue(parentMenu == null, BizEnums.PARENT_MENU_NOT_EXISTS);
-
             int level = parentMenu.getLevel() + 1;
             newMenu.setLevel(level);
             newMenu.setLevelPath(parentMenu.getLevelPath() + level + StrUtil.DOT);
         }
         this.save(newMenu);
+
+        iUpmsPermissionService.addPermission(newMenu.getId(), PermissionTypeEnums.MENU);
+
         return dto;
     }
 
@@ -91,11 +102,6 @@ public class UpmsMenuServiceImpl extends ServiceImpl<UpmsMenuMapper, UpmsMenu> i
                     .likeRight(UpmsMenu::getLevelPath, menu.getLevelPath())
                     .set(UpmsMenu::getStatus, dto.getStatus()));
         }
-    }
-
-    @Override
-    public void enableMenu(MenuUpdateDTO dto) {
-        updateStatus(dto, MenuStatusEnum.ENABLED);
     }
 
     @Override

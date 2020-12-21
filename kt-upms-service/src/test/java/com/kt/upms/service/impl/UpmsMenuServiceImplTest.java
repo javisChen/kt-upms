@@ -44,7 +44,7 @@ public class UpmsMenuServiceImplTest {
         menus.add(new UpmsMenu(12L, "日志管理", 8L, "1", 1, "/user/add", ""));
         menus.add(new UpmsMenu(13L, "日志查看", 12L, "1.2", 2, "/user/update", ""));
 
-        Set<MenuAllDTO.MenuItemDTO> tree = new UpmsMenuServiceImpl().getTree(menus);
+        Set<MenuAllDTO.MenuItemDTO> tree = new UpmsMenuServiceImpl(new UpmsPermissionServiceImpl()).getTree(menus);
         System.out.println(JSONObject.toJSONString(tree, SerializerFeature.PrettyFormat));
     }
 }

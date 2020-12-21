@@ -21,13 +21,7 @@ public class UpmsPermission extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 权限名称
-     */
-    @TableField("name")
-    private String name;
-
-    /**
-     * 权限类型 MENU-菜单权限；PAGE_ELEMENT-页面元素；FILE-文件；SER_API-内部服务API；OPEN_API-开放API
+     * 权限类型 MENU-菜单权限；PAGE_ELEMENT-页面元素；FILE-文件；INTERNAL_API-内部服务API；OPEN_API-开放API
      */
     @TableField("type")
     private String type;
@@ -37,5 +31,11 @@ public class UpmsPermission extends BaseEntity {
      */
     @TableField("code")
     private String code;
+
+    /**
+     * 权限编码
+     */
+    @TableField("resource_id")
+    private Long resourceId;
 
 }

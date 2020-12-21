@@ -5,7 +5,6 @@ import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.model.dto.permission.PermissionAddDTO;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
@@ -40,16 +39,6 @@ public class UpmsPermissionController extends BaseController {
         return ServerResponse.ok(iUpmsPermissionService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 
-    @PostMapping("/permission")
-    public ServerResponse add(@RequestBody @Validated PermissionAddDTO dto) {
-        return ServerResponse.ok(iUpmsPermissionService.savePermission(dto));
-    }
-
-    @PutMapping("/permission")
-    public ServerResponse update(@RequestBody @Validated PermissionUpdateDTO dto) {
-        iUpmsPermissionService.updatePermissionById(dto);
-        return ServerResponse.ok();
-    }
 
     @GetMapping("/permission/{id}")
     public ServerResponse get(@PathVariable("id") String id) {
