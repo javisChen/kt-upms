@@ -1,10 +1,10 @@
 package com.kt.upms.api.controller;
 
-
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.menu.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
@@ -12,8 +12,10 @@ import com.kt.upms.entity.UpmsMenu;
 import com.kt.upms.service.IUpmsMenuService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.groups.Default;
+import java.util.List;
 
 
 /**
@@ -26,6 +28,7 @@ import javax.validation.groups.Default;
  */
 @RestController
 @RequestMapping
+@CatchAndLog
 public class UpmsMenuController extends BaseController {
 
 
@@ -77,6 +80,11 @@ public class UpmsMenuController extends BaseController {
     public ServerResponse allMenu() {
         MenuAllDTO menuAllDTO = iUpmsMenuService.getAllMenus();
         return ServerResponse.ok(menuAllDTO);
+    }
+
+    @PostMapping("/menus/test/demo")
+    public ServerResponse test(List<MultipartFile> file, Integer id) {
+        return ServerResponse.ok();
     }
 }
 

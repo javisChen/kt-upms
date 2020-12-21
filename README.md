@@ -8,14 +8,14 @@ KT-UPMS 通用用户权限管理系统
 # 目录结构
 
 ```
-├── asserts         // 项目资源（sql等）
-├── kt-upms-api     // 负责系统内部api
-├── kt-upms-dao     // 数据访问层，负责和db做数据交互
-├── kt-upms-manager // 第三方服务聚合层，统一封装集成第三方服务的调用，比如微信、百度等
-├── kt-upms-openapi // 对外部系统提供能力
-├── kt-upms-rpc     // rpc封装（Thrift，Feign、ProtoBuf等） 
-├── kt-upms-service // 业务聚合层
-├── kt-upms-start   // 程序入口
+├── asserts         -- 项目资源（sql等）
+├── kt-upms-api     -- 负责系统内部api
+├── kt-upms-dao     -- 数据访问层，负责和db做数据交互
+├── kt-upms-manager -- 第三方服务聚合层，统一封装集成第三方服务的调用，比如微信、百度等
+├── kt-upms-openapi -- 对外部系统提供能力
+├── kt-upms-rpc     -- rpc封装（Thrift，Feign、ProtoBuf等） 
+├── kt-upms-service -- 业务聚合层
+├── kt-upms-start   -- 程序入口
 └── pom.xml
 
 ```
@@ -91,3 +91,13 @@ KT-UPMS 通用用户权限管理系统
 | upms_page_element | 页面元素表 |
 | upms_api | api表 |
 
+# 主要技术选型
+
+## 后端
+
+| 表名  | 说明 |
+| ----- | ---- |
+| SpringBoot | web框架 |
+| MybatisPlus | 数据层 |
+
+## 前端

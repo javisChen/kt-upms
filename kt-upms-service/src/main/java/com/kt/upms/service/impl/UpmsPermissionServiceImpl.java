@@ -25,7 +25,8 @@ import org.springframework.stereotype.Service;
  * @since 2020-11-09
  */
 @Service
-public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission> implements IUpmsPermissionService {
+public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission>
+        implements IUpmsPermissionService {
 
     @Override
     public PageResponse pageList(Page page, PermissionQueryDTO dto) {
