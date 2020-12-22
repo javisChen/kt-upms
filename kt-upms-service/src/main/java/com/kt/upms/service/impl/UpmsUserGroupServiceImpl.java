@@ -16,6 +16,7 @@ import com.kt.upms.enums.UserGroupStatusEnum;
 import com.kt.upms.mapper.*;
 import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.util.Assert;
+import com.sun.tools.corba.se.idl.ValueRepositoryId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -174,6 +175,11 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     @Override
     public PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO dto) {
         return PageResponse.success(upmsRoleMapper.selectByUserGroupId(page, dto.getId()));
+    }
+
+    @Override
+    public List<Long> getUserGroupIdsByUserId(Long userId) {
+        return this.baseMapper.selectUserGroupIdsByUserId(userId);
     }
 
     private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum statusEnum) {

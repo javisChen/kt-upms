@@ -34,5 +34,5 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
     PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO params);
 
-    List<UpmsUserGroup> getUserGroupsByUserId(Long userId);
+    List<Long> getUserGroupIdsByUserId(Long userId);
 }

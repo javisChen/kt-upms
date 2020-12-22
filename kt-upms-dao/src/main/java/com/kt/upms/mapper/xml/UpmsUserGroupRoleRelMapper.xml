@@ -35,5 +35,13 @@
             #{item}
         </foreach>
     </delete>
+    <select id="selectRoleIdsByUserGroupIds" resultType="java.lang.Long">
+        select uugrr.role_id
+        from upms_user_group_role_rel uugrr
+        where uugrr.user_group_id in
+        <foreach collection="userGroupIds" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

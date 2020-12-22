@@ -9,12 +9,19 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
 import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.enums.PermissionStatusEnum;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
+import com.kt.upms.service.IUpmsPermissionRoleRelService;
 import com.kt.upms.service.IUpmsPermissionService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -57,6 +64,11 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
     @Override
     public void updateStatus(PermissionUpdateDTO dto) {
         updateStatus(dto, PermissionStatusEnum.DISABLED);
+    }
+
+    @Override
+    public Set<UpmsPermission> getPermissionByRoleIds(List<Long> roleIds) {
+        return new HashSet<>(this.baseMapper.selectByRoleIds(roleIds));
     }
 
     private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnum statusEnum) {

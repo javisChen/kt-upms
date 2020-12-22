@@ -20,5 +20,10 @@
         gmt_modified,
         type, code, status, resource_id
     </sql>
+    <select id="selectByRoleIds" resultType="com.kt.upms.entity.UpmsPermission">
+        select up.id, up.type, up.code
+        from upms_permission up
+        inner join upms_permission_role_rel uprr on up.id = uprr.permission_id
+    </select>
 
 </mapper>

@@ -6,7 +6,11 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
 import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.enums.PermissionTypeEnums;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -24,4 +28,5 @@ public interface IUpmsPermissionService extends IService<UpmsPermission> {
 
     void updateStatus(PermissionUpdateDTO dto);
 
+    Set<UpmsPermission> getPermissionByRoleIds(List<Long> roleIds);
 }

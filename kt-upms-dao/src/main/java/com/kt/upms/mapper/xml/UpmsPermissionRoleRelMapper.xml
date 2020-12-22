@@ -19,4 +19,10 @@
         permission_id, role_id
     </sql>
 
+    <select id="selectRoleIdsByUserId" resultType="java.lang.Long">
+        select uurr.role_id
+        from upms_user_role_rel uurr
+        where uurr.user_id = #{userId}
+    </select>
+
 </mapper>

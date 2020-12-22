@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * <p>
@@ -30,7 +29,13 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
 
     void updateStatus(RoleUpdateDTO dto);
 
-    List<UpmsRole> getRolesByUserId(Long userId);
+    /**
+     * 根据用户id查询下面的所有角色id
+     */
+    List<Long> getRoleIdsByUserId(Long userId);
 
-    List<UpmsRole> getRolesByUserGroupIds(List<Long> longStream);
+    /**
+     * 根据用户组id查询下面的所有角色id
+     */
+    List<Long> getRoleIdsByUserGroupIds(List<Long> userGroupIds);
 }

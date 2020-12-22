@@ -63,8 +63,15 @@ public class UpmsRoleController extends BaseController {
     }
 
     @PutMapping("/role/status")
-    public ServerResponse updateStatus(@RequestBody
-                                       @Validated({UpmsValidateGroup.UpdateStatus.class, Default.class}) RoleUpdateDTO dto) {
+    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
+                                       @RequestBody RoleUpdateDTO dto) {
+        iUpmsRoleService.updateStatus(dto);
+        return ServerResponse.ok();
+    }
+
+    @PostMapping("/role/permission")
+    public ServerResponse addRolePermission(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
+                                       @RequestBody RoleUpdateDTO dto) {
         iUpmsRoleService.updateStatus(dto);
         return ServerResponse.ok();
     }

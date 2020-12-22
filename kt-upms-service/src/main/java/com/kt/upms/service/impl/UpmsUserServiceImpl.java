@@ -16,9 +16,7 @@ import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.upms.constants.UpmsConsts;
 import com.kt.upms.entity.UpmsPermission;
-import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.entity.UpmsUser;
-import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.enums.UserStatusEnum;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.service.IUpmsPermissionService;
@@ -31,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -103,15 +100,13 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
             2. 获取用户所有用户组
             3. 聚合所有角色查询权限
          */
-        List<UpmsRole> roles = iUpmsRoleService.getRolesByUserId(userId);
+        List<Long> roleIds = iUpmsRoleService.getRoleIdsByUserId(userId);
 
-        List<UpmsUserGroup> userGroups = iUpmsUserGroupService.getUserGroupsByUserId(userId);
+        List<Long> userGroupIds = iUpmsUserGroupService.getUserGroupIdsByUserId(userId);
 
-        List<Long> collect = userGroups.stream().map(UpmsUserGroup::getId).collect(Collectors.toList());
-        roles.addAll(iUpmsRoleService.getRolesByUserGroupIds(collect));
+        roleIds.addAll(iUpmsRoleService.getRoleIdsByUserGroupIds(userGroupIds));
 
-
-        return null;
+        return iUpmsPermissionService.getPermissionByRoleIds(roleIds);
     }
 
     private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum normal) {
