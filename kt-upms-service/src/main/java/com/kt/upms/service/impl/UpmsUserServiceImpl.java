@@ -2,6 +2,7 @@ package com.kt.upms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import cn.hutool.crypto.digest.MD5;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,10 +24,13 @@ import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRoleService;
 import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.service.IUpmsUserService;
+import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +44,7 @@ import java.util.Set;
  */
 @Service
 @CatchAndLog
+@Slf4j
 public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUpmsUserService {
 
     @Autowired
@@ -48,21 +53,29 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     private IUpmsUserGroupService iUpmsUserGroupService;
     @Autowired
     private IUpmsPermissionService iUpmsPermissionService;
+    @Autowired
+    private IUserPasswordHelper iUserPasswordHelper;
 
     @Override
-    public UserAddDTO save(UserAddDTO userAddDTO) {
-        UpmsUser upmsUser = CglibUtil.copy(userAddDTO, UpmsUser.class);
-        String phone = upmsUser.getPhone();
-        int count = countUserByPhone(phone);
-        Assert.isTrue(count > 0, BizEnums.USER_ALREADY_EXISTS);
+    public void saveUser(UserAddDTO userAddDTO) {
+        validateBeforeSave(userAddDTO);
 
+        doSave(userAddDTO);
+    }
+
+    private void doSave(UserAddDTO dto) {
+        UpmsUser upmsUser = new UpmsUser();
+        upmsUser.setPhone(dto.getPhone());
+        upmsUser.setPassword(dto.getPassword());
+        upmsUser.setName(dto.getName());
         upmsUser.setStatus(UserStatusEnum.ENABLED.getValue());
-        upmsUser.setPassword(DigestUtil.bcrypt(phone + upmsUser.getPassword() + UpmsConsts.USER_SALT));
+        upmsUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(upmsUser.getPassword())));
         this.save(upmsUser);
-        upmsUser.setPassword(null);
+    }
 
-        CglibUtil.copy(upmsUser, userAddDTO);
-        return userAddDTO;
+    private void validateBeforeSave(UserAddDTO dto) {
+        int count = countUserByPhone(dto.getPhone());
+        Assert.isTrue(count > 0, BizEnums.USER_ALREADY_EXISTS);
     }
 
     private int countUserByPhone(String phone) {
@@ -70,12 +83,9 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public UserUpdateDTO updateUserById(UserUpdateDTO userUpdateDTO) {
+    public void updateUserById(UserUpdateDTO userUpdateDTO) {
         UpmsUser upmsUser = CglibUtil.copy(userUpdateDTO, UpmsUser.class);
         this.updateById(upmsUser);
-
-        CglibUtil.copy(upmsUser, userUpdateDTO);
-        return userUpdateDTO;
     }
 
     @Override
@@ -93,26 +103,28 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public Set<UpmsPermission> getUserPermissions(Long userId) {
-        /*
-            用户权限 = 用户角色+用户组角色下所有权限
-            1. 获取用户所有角色
-            2. 获取用户所有用户组
-            3. 聚合所有角色查询权限
-         */
+    public List<UpmsPermission> getUserPermissions(Long userId) {
         List<Long> roleIds = iUpmsRoleService.getRoleIdsByUserId(userId);
-
         List<Long> userGroupIds = iUpmsUserGroupService.getUserGroupIdsByUserId(userId);
-
-        roleIds.addAll(iUpmsRoleService.getRoleIdsByUserGroupIds(userGroupIds));
-
-        return iUpmsPermissionService.getPermissionByRoleIds(roleIds);
+        List<Long> userGroupsRoleIds = iUpmsRoleService.getRoleIdsByUserGroupIds(userGroupIds);
+        log.debug("用户拥有的角色 --------> {}", roleIds);
+        log.debug("用户所归属的用户组 --------> {}", userGroupIds);
+        roleIds.addAll(userGroupsRoleIds);
+        log.debug("用户组拥有的角色 --------> {}", roleIds);
+        Set<Long> roleIdSet = new HashSet<>(roleIds);
+        log.debug("角色交集 --------> {}", roleIdSet);
+        return iUpmsPermissionService.getPermissionByRoleIds(roleIdSet);
     }
 
-    private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum normal) {
+    @Override
+    public UpmsUser getUserByPhone(String username) {
+        return this.getOne(new LambdaQueryWrapper<UpmsUser>().eq(UpmsUser::getPhone, username));
+    }
+
+    private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsUser>()
                 .eq(UpmsUser::getStatus, userUpdateDTO.getId())
-                .set(UpmsUser::getStatus, normal.getValue()));
+                .set(UpmsUser::getStatus, statusEnum.getValue()));
     }
 
 }

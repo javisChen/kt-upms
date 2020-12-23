@@ -9,7 +9,7 @@ import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * <p>
@@ -21,9 +21,9 @@ import java.util.Set;
  */
 public interface IUpmsUserService extends IService<UpmsUser> {
 
-    UserAddDTO save(UserAddDTO entity);
+    void saveUser(UserAddDTO entity);
 
-    UserUpdateDTO updateUserById(UserUpdateDTO userUpdateDTO);
+    void updateUserById(UserUpdateDTO userUpdateDTO);
 
     PageResponse<UpmsUser> pageList(IPage<UpmsUser> page, UserQueryDTO params);
 
@@ -31,7 +31,8 @@ public interface IUpmsUserService extends IService<UpmsUser> {
 
     /**
      * 获取用户所拥有的全部权限
-     * @param userId
      */
-    Set<UpmsPermission> getUserPermissions(Long userId);
+    List<UpmsPermission> getUserPermissions(Long userId);
+
+    UpmsUser getUserByPhone(String username);
 }

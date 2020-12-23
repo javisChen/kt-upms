@@ -31,8 +31,4 @@ public class UserAddDTO implements Serializable {
     @NotBlank(message = "password 不能为空")
     private String password;
 
-    /**
-     * 用户状态：1-正常；2-锁定；
-     */
-    private Integer status;
 }

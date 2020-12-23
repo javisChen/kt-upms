@@ -46,7 +46,8 @@ public class UpmsUserController extends BaseController {
      */
     @PostMapping("/user")
     public ServerResponse add(@RequestBody @Validated UserAddDTO userAddDTO) {
-        return ServerResponse.ok(iUpmsUserService.save(userAddDTO));
+        iUpmsUserService.saveUser(userAddDTO);
+        return ServerResponse.ok();
     }
 
     /**

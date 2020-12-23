@@ -98,9 +98,9 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
         return upmsUserGroupRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
     }
 
-    private void updateStatus(RoleUpdateDTO dto, RoleStatusEnum roleStatusEnum) {
+    private void updateStatus(RoleUpdateDTO dto, RoleStatusEnum statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsRole>()
                 .eq(UpmsRole::getStatus, dto.getId())
-                .set(UpmsRole::getStatus, roleStatusEnum.getValue()));
+                .set(UpmsRole::getStatus, statusEnum.getValue()));
     }
 }

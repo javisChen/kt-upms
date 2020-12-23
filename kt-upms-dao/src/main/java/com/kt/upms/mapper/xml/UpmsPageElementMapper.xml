@@ -7,7 +7,7 @@
     <result column="id" property="id" />
     <result column="gmt_create" property="gmtCreate" />
     <result column="gmt_modified" property="gmtModified" />
-        <result column="page_id" property="pageId" />
+        <result column="menu_id" property="menuId" />
         <result column="name" property="name" />
         <result column="status" property="status" />
     </resultMap>
@@ -17,7 +17,8 @@
         id,
         gmt_create,
         gmt_modified,
-        page_id, name, status
+        menu_id,
+        name, status
     </sql>
 
 </mapper>

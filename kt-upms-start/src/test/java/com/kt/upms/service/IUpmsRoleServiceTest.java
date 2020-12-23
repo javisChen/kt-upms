@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,11 +31,13 @@ public class IUpmsRoleServiceTest {
 
     @Test
     public void getRoleIdsByUserId() {
-     List<Long> roleIdsByUserId = iUpmsRoleService.getRoleIdsByUserId(1L);
+        List<Long> roleIdsByUserId = iUpmsRoleService.getRoleIdsByUserId(1L);
         System.out.println(roleIdsByUserId);
     }
 
     @Test
     public void getRoleIdsByUserGroupIds() {
+        List<Long> roleIdsByUserId = iUpmsRoleService.getRoleIdsByUserGroupIds(Collections.singletonList(1L));
+        System.out.println(roleIdsByUserId);
     }
 }

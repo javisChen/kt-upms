@@ -20,15 +20,21 @@ public class UpmsPageElement extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 页面id，关联upms_page.id
+     * 所属菜单id，关联upms_menu.id
      */
-    @TableField("page_id")
-    private Long pageId;
+    @TableField("menu_id")
+    private Long menuId;
 
     /**
      * 元素名称
      */
     @TableField("name")
     private String name;
+
+    /**
+     * 元素类型 1-按钮；2-层；
+     */
+    @TableField("type")
+    private Integer type;
 
 }
