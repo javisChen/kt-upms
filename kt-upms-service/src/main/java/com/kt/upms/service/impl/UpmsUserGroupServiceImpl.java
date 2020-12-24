@@ -16,7 +16,6 @@ import com.kt.upms.enums.UserGroupStatusEnum;
 import com.kt.upms.mapper.*;
 import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.util.Assert;
-import com.sun.tools.corba.se.idl.ValueRepositoryId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

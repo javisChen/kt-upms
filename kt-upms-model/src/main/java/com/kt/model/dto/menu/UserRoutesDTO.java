@@ -1,7 +1,6 @@
 package com.kt.model.dto.menu;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +31,7 @@ public class UserRoutesDTO implements Serializable {
             private String title;
             private Boolean show;
             private Boolean hideChildren;
+            private Boolean hiddenHeaderContent = true;
 
         }
     }
