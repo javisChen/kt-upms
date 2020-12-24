@@ -148,6 +148,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         userMenuItem.setMeta(assembleMeta(item));
         userMenuItem.setComponent(item.getComponent());
         userMenuItem.setRedirect("");
+        userMenuItem.setPath(item.getPath());
         return userMenuItem;
     }
 
