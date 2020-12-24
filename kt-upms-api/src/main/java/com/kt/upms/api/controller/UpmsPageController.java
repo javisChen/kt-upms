@@ -6,7 +6,7 @@ import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.model.dto.menu.MenuQueryDTO;
+import com.kt.model.dto.menu.RouteQueryDTO;
 import com.kt.model.dto.page.PageAddDTO;
 import com.kt.model.dto.page.PageQueryDTO;
 import com.kt.model.dto.page.PageUpdateDTO;
@@ -37,7 +37,7 @@ public class UpmsPageController extends BaseController {
     }
 
     @PostMapping("/pages")
-    public ServerResponse<PageResponse<MenuQueryDTO>> list(@RequestBody PageRequest<PageQueryDTO> pageRequest) {
+    public ServerResponse<PageResponse<RouteQueryDTO>> list(@RequestBody PageRequest<PageQueryDTO> pageRequest) {
         return ServerResponse.ok(iUpmsPageService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 

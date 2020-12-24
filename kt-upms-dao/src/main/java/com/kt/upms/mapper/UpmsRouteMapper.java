@@ -1,6 +1,6 @@
 package com.kt.upms.mapper;
 
-import com.kt.upms.entity.UpmsMenu;
+import com.kt.upms.entity.UpmsRoute;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 
  * @since 2020-11-09
  */
-public interface UpmsMenuMapper extends BaseMapper<UpmsMenu> {
+public interface UpmsRouteMapper extends BaseMapper<UpmsRoute> {
 
 }

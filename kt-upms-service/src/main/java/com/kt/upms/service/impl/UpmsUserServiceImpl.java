@@ -2,7 +2,6 @@ package com.kt.upms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import cn.hutool.crypto.digest.MD5;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,7 +14,6 @@ import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.enums.BizEnums;
-import com.kt.upms.constants.UpmsConsts;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.enums.UserStatusEnum;
@@ -58,7 +56,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
 
     @Override
     public void saveUser(UserAddDTO userAddDTO) {
-        validateBeforeSave(userAddDTO);
+        doCheckBeforeSave(userAddDTO);
 
         doSave(userAddDTO);
     }
@@ -73,7 +71,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         this.save(upmsUser);
     }
 
-    private void validateBeforeSave(UserAddDTO dto) {
+    private void doCheckBeforeSave(UserAddDTO dto) {
         int count = countUserByPhone(dto.getPhone());
         Assert.isTrue(count > 0, BizEnums.USER_ALREADY_EXISTS);
     }

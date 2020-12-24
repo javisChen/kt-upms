@@ -6,8 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PermissionTypeEnums {
-
-    MENU("M","MENU", "菜单权限"),
+    FRONT_ROUTE("FR","FRONT_ROUTE", "前端路由"),
     PAGE_ELEMENT("PE", "PAGE_ELEMENT", "页面元素"),
     FILE("F","FILE", "文件"),
     SER_API("IA", "SER_API", "内部服务API"),

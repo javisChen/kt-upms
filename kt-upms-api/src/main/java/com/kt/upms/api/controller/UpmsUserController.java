@@ -9,6 +9,7 @@ import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.service.IUpmsUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,11 @@ import javax.validation.groups.Default;
 public class UpmsUserController extends BaseController {
 
     private final IUpmsUserService iUpmsUserService;
+    private final IUpmsRouteService iUpmsMenuService;
 
-    public UpmsUserController(IUpmsUserService iUpmsUserService) {
+    public UpmsUserController(IUpmsUserService iUpmsUserService, IUpmsRouteService iUpmsMenuService) {
         this.iUpmsUserService = iUpmsUserService;
+        this.iUpmsMenuService = iUpmsMenuService;
     }
 
     /**
@@ -80,6 +83,14 @@ public class UpmsUserController extends BaseController {
         }
         upmsUser.setPassword(null);
         return ServerResponse.ok(CglibUtil.copy(upmsUser, UserUpdateDTO.class));
+    }
+
+    /**
+     * 获取用户菜单
+     */
+    @GetMapping("/user/routes")
+    public ServerResponse getUserRoutes() {
+        return ServerResponse.ok(iUpmsMenuService.getAllRoutes());
     }
 
 }

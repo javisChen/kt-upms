@@ -17,12 +17,11 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class UpmsMenu extends BaseEntity {
+public class UpmsRoute extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-
-    public UpmsMenu(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
+    public UpmsRoute(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
         super(id);
         this.name = name;
         this.pid = pid;
@@ -37,6 +36,24 @@ public class UpmsMenu extends BaseEntity {
      */
     @TableField("name")
     private String name;
+
+    /**
+     * 唯一键
+     */
+    @TableField("code")
+    private String code;
+
+    /**
+     * 组件名
+     */
+    @TableField("component")
+    private String component;
+
+    /**
+     * 隐藏子菜单
+     */
+    @TableField("hide_children")
+    private Boolean hideChildren;
 
     /**
      * 父级菜单id
@@ -55,6 +72,12 @@ public class UpmsMenu extends BaseEntity {
      */
     @TableField("level")
     private Integer level;
+
+    /**
+     * 排序序号
+     */
+    @TableField("sequence")
+    private Integer sequence;
 
     /**
      * 路径

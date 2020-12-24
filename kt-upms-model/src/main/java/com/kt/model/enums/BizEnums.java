@@ -3,7 +3,7 @@ package com.kt.model.enums;
 public enum BizEnums {
 
     /**
-     * A0101 ~ A0200是upms系统编码
+     * A0101 ~ A0199是upms系统编码
      */
     USER_ALREADY_EXISTS("A0101", "手机号已存在"),
     USER_GROUP_ALREADY_EXISTS("A0102", "用户组名称已存在"),
@@ -13,8 +13,10 @@ public enum BizEnums {
     PARENT_MENU_NOT_EXISTS("A0106", "父级菜单不存在"),
     MENU_NOT_EXISTS("A0107", "菜单不存在"),
     USER_GROUP_NOT_EXISTS("A0108", "用户组不存在"),
+    MENU_COMPONENT_IS_REQUIRE("A0109", "组件名不能为空"),
+    MENU_UNIQUE_KEY_ALREADY_EXISTS("A0110", "菜单唯一键已存在"),
 
-    USER_LOGIN_INVALID("A0109", "用户名或密码错误");
+    USER_LOGIN_INVALID("A0200", "用户名或密码错误");
 
     private String code;
     private String msg;

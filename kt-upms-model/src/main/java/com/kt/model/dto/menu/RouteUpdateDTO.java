@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class MenuUpdateDTO implements Serializable {
+public class RouteUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
