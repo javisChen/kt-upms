@@ -8,13 +8,8 @@
     <result column="gmt_create" property="gmtCreate" />
     <result column="gmt_modified" property="gmtModified" />
         <result column="name" property="name" />
-        <result column="code" property="code" />
         <result column="component" property="component" />
-        <result column="pid" property="pid" />
-        <result column="level_path" property="levelPath" />
-        <result column="level" property="level" />
         <result column="path" property="path" />
-        <result column="icon" property="icon" />
         <result column="status" property="status" />
     </resultMap>
 
@@ -25,7 +20,7 @@
         gmt_modified,
         code,
         component,
-        name, pid, level_path, level, path, icon, status
+        name, path, status
     </sql>
 
 </mapper>

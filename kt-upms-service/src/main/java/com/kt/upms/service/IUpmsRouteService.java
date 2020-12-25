@@ -28,4 +28,8 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
 
     UserRoutesDTO getAllRoutes();
 
+    RouteTreeDTO getRouteTree();
+
+    MenuAnotherTreeDTO getRouteAnotherTree();
+
 }

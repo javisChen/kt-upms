@@ -1,4 +1,5 @@
 package com.kt.upms.service.impl;
+import cn.hutool.core.collection.CollectionUtil;
 import com.kt.model.dto.menu.UserRoutesDTO.UserRouteItem.Meta;
 
 import cn.hutool.core.util.StrUtil;
@@ -20,7 +21,10 @@ import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -161,35 +165,85 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         return meta;
     }
 
-//    public Set<UserMenusDTO.UserMenuItem> getTree(List<UpmsMenu> list) {
-//        if (CollectionUtil.isEmpty(list)) {
-//            return CollectionUtil.newHashSet();
-//        }
-//        Set<UserMenusDTO.UserMenuItem> resultSet = CollectionUtil.newHashSet();
-//        Set<UpmsMenu> levelOneMenus = list.stream().filter(item -> item.getPid().equals(DEFAULT_PID))
-//                .collect(Collectors.toSet());
-//        Set<UpmsMenu> anotherMenus = list.stream().filter(item -> !item.getPid().equals(DEFAULT_PID))
-//                .collect(Collectors.toSet());
-//
-//        for (UpmsMenu upmsMenu : levelOneMenus) {
-//            UserMenusDTO.UserMenuItem item = CglibUtil.copy(upmsMenu, UserMenusDTO.UserMenuItem.class);
-//            item.setChildren(CollectionUtil.newHashSet());
-//            findChildren(item, anotherMenus);
-//            resultSet.add(item);
-//        }
-//        return resultSet;
-//    }
+    @Override
+    public RouteTreeDTO getRouteTree() {
+        RouteTreeDTO dto = new RouteTreeDTO();
+        List<UpmsRoute> list = this.list();
+        if (CollectionUtil.isEmpty(list)) {
+            return dto;
+        }
+        List<UpmsRoute> levelOneMenus = list.stream().filter(item -> item.getPid().equals(DEFAULT_PID))
+                .collect(Collectors.toList());
+        List<UpmsRoute> anotherMenus = list.stream().filter(item -> !item.getPid().equals(DEFAULT_PID))
+                .collect(Collectors.toList());
 
-//    private void findChildren(UserMenusDTO.UserMenuItem parent, Set<UpmsMenu> list) {
-//        for (UpmsMenu upmsMenu : list) {
-//            if (parent.getId().equals(upmsMenu.getPid())) {
-//                UserMenusDTO.UserMenuItem item = CglibUtil.copy(upmsMenu, UserMenusDTO.UserMenuItem.class);
-//                item.setChildren(new HashSet<>());
-//                parent.getChildren().add(item);
-//                findChildren(item, list);
-//            }
-//        }
-//    }
+        List<RouteTreeDTO.TreeNode> resultSet = CollectionUtil.newArrayList();
+        for (UpmsRoute route : levelOneMenus) {
+            RouteTreeDTO.TreeNode item = CglibUtil.copy(route, RouteTreeDTO.TreeNode.class);
+            item.setChildren(CollectionUtil.newArrayList());
+            findChildren(item, anotherMenus);
+            resultSet.add(item);
+        }
+        dto.setRoutes(resultSet);
+        return dto;
+    }
+
+    private void findChildren(RouteTreeDTO.TreeNode parent, List<UpmsRoute> list) {
+        for (UpmsRoute route : list) {
+            if (parent.getId().equals(route.getPid())) {
+                RouteTreeDTO.TreeNode item = CglibUtil.copy(route, RouteTreeDTO.TreeNode.class);
+                item.setChildren(CollectionUtil.newArrayList());
+                parent.getChildren().add(item);
+                findChildren(item, list);
+            }
+        }
+    }
+
+    @Override
+    public MenuAnotherTreeDTO getRouteAnotherTree() {
+        MenuAnotherTreeDTO dto = new MenuAnotherTreeDTO();
+        List<UpmsRoute> list = this.list();
+        if (CollectionUtil.isEmpty(list)) {
+            return dto;
+        }
+        List<UpmsRoute> levelOneMenus = list.stream().filter(item -> item.getPid().equals(DEFAULT_PID))
+                .collect(Collectors.toList());
+        List<UpmsRoute> anotherMenus = list.stream().filter(item -> !item.getPid().equals(DEFAULT_PID))
+                .collect(Collectors.toList());
+
+        List<MenuAnotherTreeDTO.TreeNode> resultSet = CollectionUtil.newArrayList();
+        for (UpmsRoute route : levelOneMenus) {
+            MenuAnotherTreeDTO.TreeNode item = assembleAnotherTreeNo(route);
+            findAnotherTreeNodeChildren(item, anotherMenus);
+            resultSet.add(item);
+        }
+        dto.setRoutes(resultSet);
+        return dto;
+    }
+
+    private MenuAnotherTreeDTO.TreeNode assembleAnotherTreeNo(UpmsRoute route) {
+        MenuAnotherTreeDTO.TreeNode treeNode = new MenuAnotherTreeDTO.TreeNode();
+//        treeNode.setKey(route.getCode());
+        treeNode.setTitle(route.getName());
+//        treeNode.setIcon(route.getIcon());
+        treeNode.setChildren(new ArrayList<MenuAnotherTreeDTO.TreeNode>());
+        treeNode.setId(route.getId());
+//        treeNode.setPid(route.getPid());
+        return treeNode;
+    }
+
+    private void findAnotherTreeNodeChildren(MenuAnotherTreeDTO.TreeNode parent, List<UpmsRoute> list) {
+        for (UpmsRoute route : list) {
+            if (parent.getId().equals(route.getPid())) {
+                MenuAnotherTreeDTO.TreeNode item = assembleAnotherTreeNo(route);
+                parent.getChildren().add(item);
+                findAnotherTreeNodeChildren(item, list);
+                if (!CollectionUtils.isEmpty(parent.getChildren())) {
+                    parent.setGroup(true);
+                }
+            }
+        }
+    }
 
     private void updateStatus(RouteUpdateDTO dto, MenuStatusEnum statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsRoute>()

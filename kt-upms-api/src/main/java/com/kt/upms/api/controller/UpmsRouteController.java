@@ -75,6 +75,11 @@ public class UpmsRouteController extends BaseController {
         return ServerResponse.ok();
     }
 
+    @PostMapping("/route/tree")
+    public ServerResponse getRouteTree() {
+        return ServerResponse.ok(iUpmsRouteService.getRouteAnotherTree());
+    }
+
     @PostMapping("/routes/init")
     public ServerResponse init(@RequestBody UserRoutesDTO userMenusDTO) {
         for (UserRoutesDTO.UserRouteItem menu : userMenusDTO.getRoutes()) {
