@@ -45,7 +45,7 @@ INSERT INTO kt.upms_route (id, name, code, component, path, hide_children, pid, 
 INSERT INTO kt.upms_route (id, name, code, component, path, hide_children, pid, level_path, level, sequence, icon, status, gmt_create, gmt_modified, creator, modifier) VALUES (42, '角色列表', 'RoleList', 'RoleList', '/other/list/role-list', 0, 37, '1.2.3.', 3, 825, '', 1, '2020-12-25 17:23:25', '2020-12-25 17:23:25', -1, -1);
 INSERT INTO kt.upms_route (id, name, code, component, path, hide_children, pid, level_path, level, sequence, icon, status, gmt_create, gmt_modified, creator, modifier) VALUES (43, '角色列表2', 'SystemRole', 'SystemRole', '/other/list/system-role', 0, 37, '1.2.3.', 3, 826, '', 1, '2020-12-25 17:23:25', '2020-12-25 17:23:25', -1, -1);
 
-drop table if exists upms_permission;
+truncate table upms_permission;
 INSERT INTO kt.upms_permission (id, code, type, resource_id, status, gmt_create, gmt_modified, creator, modifier) VALUES (1, 'FR00001', 'FRONT_ROUTE', 1, 1, '2020-12-24 15:49:19', '2020-12-24 15:49:19', -1, -1);
 INSERT INTO kt.upms_permission (id, code, type, resource_id, status, gmt_create, gmt_modified, creator, modifier) VALUES (2, 'FR00002', 'FRONT_ROUTE', 2, 1, '2020-12-24 15:49:19', '2020-12-24 15:49:19', -1, -1);
 INSERT INTO kt.upms_permission (id, code, type, resource_id, status, gmt_create, gmt_modified, creator, modifier) VALUES (3, 'FR00003', 'FRONT_ROUTE', 3, 1, '2020-12-24 15:49:19', '2020-12-24 15:49:19', -1, -1);
