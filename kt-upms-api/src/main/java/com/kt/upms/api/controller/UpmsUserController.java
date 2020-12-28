@@ -3,6 +3,7 @@ package com.kt.upms.api.controller;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
@@ -26,6 +27,7 @@ import javax.validation.groups.Default;
  */
 @RestController
 @RequestMapping
+@CatchAndLog
 public class UpmsUserController extends BaseController {
 
     private final IUpmsUserService iUpmsUserService;

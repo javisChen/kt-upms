@@ -8,6 +8,7 @@ import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.menu.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
+import com.kt.model.vo.route.RouteDetailVO;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.service.IUpmsRouteService;
 import org.springframework.validation.annotation.Validated;
@@ -61,11 +62,9 @@ public class UpmsRouteController extends BaseController {
 
     @GetMapping("/routes/{id}")
     public ServerResponse get(@PathVariable("id") String id) {
-        UpmsRoute upmsMenu = iUpmsRouteService.getById(id);
-        if (upmsMenu == null) {
-            return ServerResponse.ok();
-        }
-        return ServerResponse.ok(CglibUtil.copy(upmsMenu, RouteQueryDTO.class));
+        UpmsRoute route = iUpmsRouteService.getRouteById(Long.valueOf(id));
+        RouteDetailVO vo = CglibUtil.copy(route, RouteDetailVO.class);
+        return ServerResponse.ok(vo);
     }
 
     @PutMapping("/route/status")

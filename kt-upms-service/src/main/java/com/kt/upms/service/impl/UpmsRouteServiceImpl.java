@@ -11,8 +11,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.menu.*;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.route.RouteAnotherTreeVO;
 import com.kt.upms.entity.UpmsRoute;
-import com.kt.upms.enums.MenuStatusEnum;
+import com.kt.upms.enums.RouteStatusEnum;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.service.IUpmsRouteService;
@@ -128,7 +129,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.updateById(route);
     }
 
-    private UpmsRoute getRouteById(Long id) {
+    @Override
+    public UpmsRoute getRouteById(Long id) {
         LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getId, id);
         return this.getOne(queryWrapper);
@@ -136,8 +138,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
     @Override
     public UserRoutesDTO getAllRoutes() {
-        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
-                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
+        LambdaQueryWrapper<UpmsRoute> qw = buildQueryWrapper();
         return new UserRoutesDTO(this.list(qw).stream()
                 .map(this::assembleUserMenuItem)
                 .collect(Collectors.toList())
@@ -161,7 +162,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         meta.setIcon(item.getIcon());
         meta.setTitle(item.getName());
         meta.setHideChildren(item.getHideChildren());
-        meta.setShow(item.getStatus().equals(MenuStatusEnum.ENABLED.getValue()));
+        meta.setShow(item.getStatus().equals(RouteStatusEnum.ENABLED.getValue()));
         return meta;
     }
 
@@ -200,9 +201,10 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     @Override
-    public MenuAnotherTreeDTO getRouteAnotherTree() {
-        MenuAnotherTreeDTO dto = new MenuAnotherTreeDTO();
-        List<UpmsRoute> list = this.list();
+    public RouteAnotherTreeVO getRouteAnotherTree() {
+        RouteAnotherTreeVO dto = new RouteAnotherTreeVO();
+        LambdaQueryWrapper<UpmsRoute> qw = buildQueryWrapper();
+        List<UpmsRoute> list = this.list(qw);
         if (CollectionUtil.isEmpty(list)) {
             return dto;
         }
@@ -211,9 +213,9 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         List<UpmsRoute> anotherMenus = list.stream().filter(item -> !item.getPid().equals(DEFAULT_PID))
                 .collect(Collectors.toList());
 
-        List<MenuAnotherTreeDTO.TreeNode> resultSet = CollectionUtil.newArrayList();
+        List<RouteAnotherTreeVO.TreeNode> resultSet = CollectionUtil.newArrayList();
         for (UpmsRoute route : levelOneMenus) {
-            MenuAnotherTreeDTO.TreeNode item = assembleAnotherTreeNo(route);
+            RouteAnotherTreeVO.TreeNode item = assembleAnotherTreeNo(route);
             findAnotherTreeNodeChildren(item, anotherMenus);
             resultSet.add(item);
         }
@@ -221,21 +223,30 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         return dto;
     }
 
-    private MenuAnotherTreeDTO.TreeNode assembleAnotherTreeNo(UpmsRoute route) {
-        MenuAnotherTreeDTO.TreeNode treeNode = new MenuAnotherTreeDTO.TreeNode();
-//        treeNode.setKey(route.getCode());
-        treeNode.setTitle(route.getName());
-//        treeNode.setIcon(route.getIcon());
-        treeNode.setChildren(new ArrayList<MenuAnotherTreeDTO.TreeNode>());
+    private LambdaQueryWrapper<UpmsRoute> buildQueryWrapper() {
+        return new LambdaQueryWrapper<UpmsRoute>()
+                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
+    }
+
+    private RouteAnotherTreeVO.TreeNode assembleAnotherTreeNo(UpmsRoute route) {
+        RouteAnotherTreeVO.TreeNode treeNode = new RouteAnotherTreeVO.TreeNode();
+        treeNode.setCode(route.getCode());
+        treeNode.setName(route.getName());
+        treeNode.setIcon(route.getIcon());
+        treeNode.setChildren(new ArrayList<>());
         treeNode.setId(route.getId());
-//        treeNode.setPid(route.getPid());
+        treeNode.setPid(route.getPid());
+        treeNode.setComponent(route.getComponent());
+        treeNode.setPath(route.getPath());
+        treeNode.setSequence(route.getSequence());
+        treeNode.setStatus(route.getStatus());
         return treeNode;
     }
 
-    private void findAnotherTreeNodeChildren(MenuAnotherTreeDTO.TreeNode parent, List<UpmsRoute> list) {
+    private void findAnotherTreeNodeChildren(RouteAnotherTreeVO.TreeNode parent, List<UpmsRoute> list) {
         for (UpmsRoute route : list) {
             if (parent.getId().equals(route.getPid())) {
-                MenuAnotherTreeDTO.TreeNode item = assembleAnotherTreeNo(route);
+                RouteAnotherTreeVO.TreeNode item = assembleAnotherTreeNo(route);
                 parent.getChildren().add(item);
                 findAnotherTreeNodeChildren(item, list);
                 if (!CollectionUtils.isEmpty(parent.getChildren())) {
@@ -245,7 +256,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         }
     }
 
-    private void updateStatus(RouteUpdateDTO dto, MenuStatusEnum statusEnum) {
+    private void updateStatus(RouteUpdateDTO dto, RouteStatusEnum statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getStatus, dto.getId())
                 .set(UpmsRoute::getStatus, statusEnum.getValue()));
