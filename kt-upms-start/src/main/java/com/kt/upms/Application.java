@@ -15,7 +15,6 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-
     @Bean
     public RequestBodyAdvice pageRequestRequestBodyAdvice() {
         return new PageRequestRequestBodyAdvice();
