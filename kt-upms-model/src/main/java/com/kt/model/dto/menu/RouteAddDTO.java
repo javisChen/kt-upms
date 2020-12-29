@@ -28,6 +28,6 @@ public class RouteAddDTO implements Serializable {
 
     private String icon;
 
-
+    private Integer sequence;
 
 }

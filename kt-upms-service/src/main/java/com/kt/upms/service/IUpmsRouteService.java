@@ -36,4 +36,5 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
 
     RouteAnotherTreeVO getRouteAnotherTree();
 
+    void deleteRouteById(Long id);
 }

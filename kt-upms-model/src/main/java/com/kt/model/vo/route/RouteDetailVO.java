@@ -20,4 +20,5 @@ public class RouteDetailVO implements Serializable {
     private String component;
     private Integer status;
     private String path;
+    private String levelPath;
 }

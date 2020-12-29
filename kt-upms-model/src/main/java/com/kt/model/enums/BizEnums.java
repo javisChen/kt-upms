@@ -9,12 +9,12 @@ public enum BizEnums {
     USER_GROUP_ALREADY_EXISTS("A0102", "用户组名称已存在"),
     ROLE_ALREADY_EXISTS("A0103", "角色名称已存在"),
     PERMISSION_ALREADY_EXISTS("A0104", "权限已存在"),
-    MENU_ALREADY_EXISTS("A0105", "菜单已存在"),
-    PARENT_MENU_NOT_EXISTS("A0106", "父级菜单不存在"),
-    MENU_NOT_EXISTS("A0107", "菜单不存在"),
+    ROUTE_ALREADY_EXISTS("A0105", "路由已存在"),
+    PARENT_ROUTE_NOT_EXISTS("A0106", "父级路由不存在"),
+    ROUTE_NOT_EXISTS("A0107", "路由不存在"),
     USER_GROUP_NOT_EXISTS("A0108", "用户组不存在"),
-    MENU_COMPONENT_IS_REQUIRE("A0109", "组件名不能为空"),
-    MENU_UNIQUE_KEY_ALREADY_EXISTS("A0110", "菜单唯一键已存在"),
+    ROUTE_COMPONENT_IS_REQUIRE("A0109", "组件名不能为空"),
+    ROUTE_CODE_ALREADY_EXISTS("A0110", "路由编码已存在"),
 
     USER_LOGIN_INVALID("A0200", "用户名或密码错误");
 

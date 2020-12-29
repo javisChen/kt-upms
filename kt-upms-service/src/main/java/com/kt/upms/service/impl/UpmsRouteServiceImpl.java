@@ -19,7 +19,6 @@ import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.util.Assert;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -60,27 +59,40 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
     public void saveRoute(RouteAddDTO dto) {
         UpmsRoute queryRoute = getMenuByName(dto.getName());
-        Assert.isTrue(queryRoute != null, BizEnums.MENU_ALREADY_EXISTS);
+        Assert.isTrue(queryRoute != null, BizEnums.ROUTE_ALREADY_EXISTS);
         queryRoute = getRouteByCode(dto.getCode());
-        Assert.isTrue(queryRoute != null, BizEnums.MENU_UNIQUE_KEY_ALREADY_EXISTS);
+        Assert.isTrue(queryRoute != null, BizEnums.ROUTE_CODE_ALREADY_EXISTS);
 
         UpmsRoute route = assembleUpmsRoute(dto);
+        UpmsRoute parentRoute = null;
         if (route.getPid().equals(DEFAULT_PID)) {
             route.setLevel(LEVEL_ONE);
-            route.setLevelPath(LEVEL_ONE + StrUtil.DOT);
         } else {
-            UpmsRoute parentMenu = getRouteById(route.getPid());
-            Assert.isTrue(parentMenu == null, BizEnums.PARENT_MENU_NOT_EXISTS);
-            Assert.isTrue(StringUtils.isBlank(dto.getComponent()), BizEnums.MENU_COMPONENT_IS_REQUIRE);
-
-            int level = parentMenu.getLevel() + 1;
-            route.setLevel(level);
-            route.setLevelPath(parentMenu.getLevelPath() + level + StrUtil.DOT);
+            parentRoute = getRouteById(route.getPid());
+            Assert.isTrue(parentRoute == null, BizEnums.PARENT_ROUTE_NOT_EXISTS);
+            route.setLevel(parentRoute.getLevel() + 1);
         }
         this.save(route);
 
+        updateRoutePath(route, parentRoute);
+
         iUpmsPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
 
+    }
+
+    private void updateRoutePath(UpmsRoute route, UpmsRoute parentRoute) {
+        Long routeId = route.getId();
+        String levelPath = "";
+        if (route.getPid().equals(DEFAULT_PID)) {
+            route.setLevel(LEVEL_ONE);
+            levelPath = routeId + StrUtil.DOT;
+        } else {
+            levelPath = parentRoute.getLevelPath() + routeId + StrUtil.DOT;
+        }
+        UpmsRoute entity = new UpmsRoute();
+        entity.setId(routeId);
+        entity.setLevelPath(levelPath);
+        this.updateById(entity);
     }
 
     private UpmsRoute getRouteByCode(String code) {
@@ -101,7 +113,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .eq(UpmsRoute::getName, dto.getName())
                 .ne(UpmsRoute::getId, dto.getId());
         int count = this.count(queryWrapper);
-        Assert.isTrue(count > 0, BizEnums.MENU_ALREADY_EXISTS);
+        Assert.isTrue(count > 0, BizEnums.ROUTE_ALREADY_EXISTS);
 
         UpmsRoute updateMenu = CglibUtil.copy(dto, UpmsRoute.class);
         this.updateById(updateMenu);
@@ -120,10 +132,10 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     @Override
     public void modifyParent(RouteModifyParentDTO dto) {
         UpmsRoute childMenu = getRouteById(dto.getId());
-        Assert.isTrue(childMenu != null, BizEnums.MENU_NOT_EXISTS);
+        Assert.isTrue(childMenu != null, BizEnums.ROUTE_NOT_EXISTS);
 
         UpmsRoute parentMenu = getRouteById(dto.getPid());
-        Assert.isTrue(parentMenu != null, BizEnums.PARENT_MENU_NOT_EXISTS);
+        Assert.isTrue(parentMenu != null, BizEnums.PARENT_ROUTE_NOT_EXISTS);
 
         UpmsRoute route = CglibUtil.copy(dto, UpmsRoute.class);
         this.updateById(route);
@@ -221,6 +233,14 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         }
         dto.setRoutes(resultSet);
         return dto;
+    }
+
+    @Override
+    public void deleteRouteById(Long id) {
+        UpmsRoute route = getRouteById(id);
+        LambdaQueryWrapper<UpmsRoute> wrapper = new LambdaQueryWrapper<UpmsRoute>()
+                .likeRight(UpmsRoute::getLevelPath, route.getLevelPath());
+        this.remove(wrapper);
     }
 
     private LambdaQueryWrapper<UpmsRoute> buildQueryWrapper() {

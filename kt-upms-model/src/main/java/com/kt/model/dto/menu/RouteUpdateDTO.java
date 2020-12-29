@@ -26,4 +26,6 @@ public class RouteUpdateDTO implements Serializable {
     @Range(min = 0, max = 1)
     private Integer status;
 
+    private Integer sequence;
+
 }
