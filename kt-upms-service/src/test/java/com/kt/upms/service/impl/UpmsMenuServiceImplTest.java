@@ -43,4 +43,34 @@ public class UpmsMenuServiceImplTest {
 //        Set<UserMenusDTO.UserMenuItem> tree = new UpmsMenuServiceImpl(new UpmsPermissionServiceImpl()).getTree(menus);
 //        System.out.println(JSONObject.toJSONString(tree, SerializerFeature.PrettyFormat));
     }
+
+    @Test
+    public void testModifyParent() {
+
+        UpmsRoute route = new UpmsRoute();
+        route.setId(1L);
+        route.setPath("1.");
+        route.setLevel(1);
+        route.setPid(0L);
+
+        UpmsRoute routeA = new UpmsRoute();
+        routeA.setId(2L);
+        routeA.setPath("1.2");
+        routeA.setLevel(1);
+        route.setPid(0L);
+
+        UpmsRoute routeB = new UpmsRoute();
+        routeB.setId(3L);
+        routeB.setPath("1.3.");
+        routeB.setLevel(2);
+        route.setPid(2L);
+
+        UpmsRoute routeC = new UpmsRoute();
+        routeC.setId(4L);
+        routeC.setPath("1.3.4.");
+        routeC.setLevel(3);
+        route.setPid(3L);
+
+
+    }
 }

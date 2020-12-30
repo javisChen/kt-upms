@@ -1,4 +1,6 @@
 package com.kt.upms.service.impl;
+import java.time.LocalDateTime;
+
 import cn.hutool.core.collection.CollectionUtil;
 import com.kt.model.dto.menu.UserRoutesDTO.UserRouteItem.Meta;
 
@@ -19,12 +21,14 @@ import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.util.Assert;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +43,7 @@ import java.util.stream.Collectors;
 public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> implements IUpmsRouteService {
 
     private final static Long DEFAULT_PID = 0L;
-    private final static Integer LEVEL_ONE = 1;
+    private final static Integer FIRST_LEVEL = 1;
 
     private final IUpmsPermissionService iUpmsPermissionService;
 
@@ -65,8 +69,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
         UpmsRoute route = assembleUpmsRoute(dto);
         UpmsRoute parentRoute = null;
-        if (route.getPid().equals(DEFAULT_PID)) {
-            route.setLevel(LEVEL_ONE);
+        if (this.isFirstLevelRoute(route)) {
+            route.setLevel(FIRST_LEVEL);
         } else {
             parentRoute = getRouteById(route.getPid());
             Assert.isTrue(parentRoute == null, BizEnums.PARENT_ROUTE_NOT_EXISTS);
@@ -74,21 +78,17 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         }
         this.save(route);
 
-        updateRoutePath(route, parentRoute);
+        updateLevelPathAfterSave(route, parentRoute);
 
         iUpmsPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
 
     }
 
-    private void updateRoutePath(UpmsRoute route, UpmsRoute parentRoute) {
+    private void updateLevelPathAfterSave(UpmsRoute route, UpmsRoute parentRoute) {
         Long routeId = route.getId();
-        String levelPath = "";
-        if (route.getPid().equals(DEFAULT_PID)) {
-            route.setLevel(LEVEL_ONE);
-            levelPath = routeId + StrUtil.DOT;
-        } else {
-            levelPath = parentRoute.getLevelPath() + routeId + StrUtil.DOT;
-        }
+        String levelPath = isFirstLevelRoute(route)
+                ? routeId + StrUtil.DOT
+                : parentRoute.getLevelPath() + routeId + StrUtil.DOT;
         UpmsRoute entity = new UpmsRoute();
         entity.setId(routeId);
         entity.setLevelPath(levelPath);
@@ -100,7 +100,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     private UpmsRoute assembleUpmsRoute(RouteAddDTO dto) {
-        return CglibUtil.copy(dto, UpmsRoute.class);
+        UpmsRoute route = CglibUtil.copy(dto, UpmsRoute.class);
+        return route;
     }
 
     private UpmsRoute getMenuByName(String name) {
@@ -108,15 +109,109 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 20000)
     public void updateRoute(RouteUpdateDTO dto) {
-        LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
-                .eq(UpmsRoute::getName, dto.getName())
-                .ne(UpmsRoute::getId, dto.getId());
-        int count = this.count(queryWrapper);
-        Assert.isTrue(count > 0, BizEnums.ROUTE_ALREADY_EXISTS);
+        Long routeId = dto.getId();
+        String routeName = dto.getName();
+        String routeCode = dto.getCode();
 
-        UpmsRoute updateMenu = CglibUtil.copy(dto, UpmsRoute.class);
+        UpmsRoute queryRoute = getRouteByNameAndNotEqualToId(routeName, routeId);
+        Assert.isTrue(queryRoute != null, BizEnums.ROUTE_ALREADY_EXISTS);
+        queryRoute = getRouteByCodeAndNotEqualToId(routeCode, routeId);
+        Assert.isTrue(queryRoute != null, BizEnums.ROUTE_CODE_ALREADY_EXISTS);
+
+        UpmsRoute updateMenu = assembleUpdateRoute(dto);
         this.updateById(updateMenu);
+
+        if (dto.getPid() != null) {
+            this.updateRouteLevelInfo(dto.getId(), dto.getPid());
+        }
+    }
+
+    private UpmsRoute assembleUpdateRoute(RouteUpdateDTO dto) {
+        UpmsRoute copy = CglibUtil.copy(dto, UpmsRoute.class);
+        copy.setPid(null);
+        return copy;
+    }
+
+    /**
+     * 更改路由层级
+     *
+     * @param fromRouteId 原路由id
+     * @param toRouteId   所属路由id
+     */
+    private void updateRouteLevelInfo(Long fromRouteId, Long toRouteId) {
+        UpmsRoute oldRoute = getRouteById(fromRouteId);
+        Long oldPid = oldRoute.getPid();
+        // 如果pid不一致的话才做更新
+        if (!oldPid.equals(toRouteId)) {
+
+            UpmsRoute parentRoute = toRouteId.equals(DEFAULT_PID) ? getDefaultParentRoute() : getRouteById(toRouteId);
+            updateRouteLevel(oldRoute, parentRoute);
+
+            List<UpmsRoute> children = getChildrenRouteByLevelPath(oldRoute.getLevelPath());
+            updateRouteChildrenLevel(parentRoute, children);
+        }
+    }
+
+    private UpmsRoute getDefaultParentRoute() {
+        UpmsRoute route = new UpmsRoute();
+        route.setId(0L);
+        route.setPid(0L);
+        route.setLevelPath("");
+        route.setLevel(0);
+        return route;
+    }
+
+    private void updateRouteChildrenLevel(UpmsRoute parentRoute, List<UpmsRoute> children) {
+        if (CollectionUtil.isNotEmpty(children)) {
+            List<UpmsRoute> collect = children.stream().map(item -> {
+                UpmsRoute route = new UpmsRoute();
+                route.setId(item.getId());
+                route.setLevel(parentRoute.getLevel() + 1);
+                route.setLevelPath(createChildLevelPath(item.getId(), item.getLevelPath(), parentRoute.getLevelPath()));
+                return route;
+            }).collect(Collectors.toList());
+            this.updateBatchById(collect);
+        }
+    }
+
+    /**
+     * 更新路由的层级信息
+     */
+    private void updateRouteLevel(UpmsRoute route, UpmsRoute parentRoute) {
+        UpmsRoute newRoute = new UpmsRoute();
+        newRoute.setId(route.getId());
+        newRoute.setPid(parentRoute.getId());
+        String routeLevelPath = route.getLevelPath();
+        String parentRouteLevelPath = parentRoute.getLevelPath();
+        String levelPath = isFirstLevelRoute(route) ? (parentRouteLevelPath + routeLevelPath)
+                : createNewLevelPath(route.getId(), routeLevelPath, parentRouteLevelPath);
+        newRoute.setLevelPath(levelPath);
+        newRoute.setLevel(parentRoute.getLevel() + 1);
+        this.updateById(newRoute);
+    }
+
+    private boolean isFirstLevelRoute(UpmsRoute route) {
+        return DEFAULT_PID.equals(route.getPid()) || FIRST_LEVEL.equals(route.getLevel());
+    }
+
+    private String createNewLevelPath(Long oldRouteId, String oldRouteLevelPath, String parentRouteLevelPath) {
+        String partOfOldParent = StringUtils.substringBefore(oldRouteLevelPath, String.valueOf(oldRouteId));
+        return StringUtils.replace(oldRouteLevelPath, partOfOldParent, parentRouteLevelPath);
+    }
+
+    private String createChildLevelPath(Long oldRoutePid, String oldRouteLevelPath,
+                                        String newParentRouteLevelPath) {
+        // 如果当前路由是"64.65.66." 父路由id是"65"，那么该值就是"64."，把该值替换成当前修改的父级路由的level_path
+        String partOfOldParent = StringUtils.substringBefore(oldRouteLevelPath, String.valueOf(oldRoutePid));
+        return StringUtils.replace(oldRouteLevelPath, partOfOldParent, newParentRouteLevelPath);
+    }
+
+
+    private List<UpmsRoute> getChildrenRouteByLevelPath(String levelPath) {
+        return this.list(new LambdaQueryWrapper<UpmsRoute>()
+                .likeRight(UpmsRoute::getLevelPath, levelPath));
     }
 
     @Override
@@ -280,6 +375,20 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.update(new LambdaUpdateWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getStatus, dto.getId())
                 .set(UpmsRoute::getStatus, statusEnum.getValue()));
+    }
+
+    private UpmsRoute getRouteByNameAndNotEqualToId(String name, Long id) {
+        LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
+                .eq(UpmsRoute::getName, name)
+                .ne(UpmsRoute::getId, id);
+        return this.getOne(queryWrapper);
+    }
+
+    private UpmsRoute getRouteByCodeAndNotEqualToId(String code, Long id) {
+        LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
+                .eq(UpmsRoute::getCode, code)
+                .ne(UpmsRoute::getId, id);
+        return this.getOne(queryWrapper);
     }
 
 }

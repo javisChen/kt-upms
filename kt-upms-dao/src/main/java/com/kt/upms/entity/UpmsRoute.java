@@ -21,16 +21,6 @@ public class UpmsRoute extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    public UpmsRoute(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
-        super(id);
-        this.name = name;
-        this.pid = pid;
-        this.levelPath = levelPath;
-        this.level = level;
-        this.path = path;
-        this.icon = icon;
-    }
-
     /**
      * 元素名称
      */
@@ -91,5 +81,15 @@ public class UpmsRoute extends BaseEntity {
     @TableField("icon")
     private String icon;
 
+
+    public UpmsRoute(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
+        super(id);
+        this.name = name;
+        this.pid = pid;
+        this.levelPath = levelPath;
+        this.level = level;
+        this.path = path;
+        this.icon = icon;
+    }
 
 }

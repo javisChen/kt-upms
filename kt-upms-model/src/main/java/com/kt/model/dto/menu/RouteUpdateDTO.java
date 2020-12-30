@@ -18,14 +18,18 @@ public class RouteUpdateDTO implements Serializable {
 
     private String name;
 
+    private String code;
+
     private String path;
 
     private String icon;
 
     @NotNull(groups = UpmsValidateGroup.UpdateStatus.class, message = "status 不能为空")
-    @Range(min = 0, max = 1)
+    @Range(min = 1, max = 2)
     private Integer status;
 
     private Integer sequence;
+
+    private Long pid;
 
 }
