@@ -355,6 +355,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         treeNode.setPath(route.getPath());
         treeNode.setSequence(route.getSequence());
         treeNode.setStatus(route.getStatus());
+        treeNode.setLevelPath(route.getLevelPath());
         return treeNode;
     }
 

@@ -28,6 +28,7 @@ public class RouteAnotherTreeVO implements Serializable {
         private String name;
         private String icon;
         private String component;
+        private String levelPath;
         private Integer status;
         private String path;
         private List<TreeNode> children;
