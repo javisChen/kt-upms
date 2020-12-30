@@ -75,8 +75,8 @@ public class UpmsRouteController extends BaseController {
     }
 
     @PostMapping("/routes/tree")
-    public ServerResponse<RouteAnotherTreeVO> getRouteTree() {
-        return ServerResponse.ok(iUpmsRouteService.getRouteAnotherTree());
+    public ServerResponse<RouteAnotherTreeVO> getRouteTree(@RequestBody RouteQueryDTO dto) {
+        return ServerResponse.ok(iUpmsRouteService.getRouteAnotherTree(dto));
     }
 
     @DeleteMapping("/route/{id}")

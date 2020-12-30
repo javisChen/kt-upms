@@ -1,9 +1,6 @@
 package com.kt.upms.service.impl;
-import java.time.LocalDateTime;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.kt.model.dto.menu.UserRoutesDTO.UserRouteItem.Meta;
-
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -12,14 +9,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.menu.*;
+import com.kt.model.dto.menu.UserRoutesDTO.UserRouteItem.Meta;
 import com.kt.model.enums.BizEnums;
 import com.kt.model.vo.route.RouteAnotherTreeVO;
 import com.kt.upms.entity.UpmsRoute;
-import com.kt.upms.enums.RouteStatusEnum;
 import com.kt.upms.enums.PermissionTypeEnums;
+import com.kt.upms.enums.RouteStatusEnum;
 import com.kt.upms.mapper.UpmsRouteMapper;
-import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.service.IUpmsPermissionService;
+import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -55,7 +52,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     public PageResponse<UpmsRoute> pageList(Page page, RouteQueryDTO params) {
         LambdaQueryWrapper<UpmsRoute> query = new LambdaQueryWrapper<UpmsRoute>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
-                .eq(params.getPid() != null, UpmsRoute::getId, params.getPid());
+                .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
+                .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus());
         return PageResponse.success(this.page(page, query));
     }
 
@@ -245,7 +243,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
     @Override
     public UserRoutesDTO getAllRoutes() {
-        LambdaQueryWrapper<UpmsRoute> qw = buildQueryWrapper();
+        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
+                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
         return new UserRoutesDTO(this.list(qw).stream()
                 .map(this::assembleUserMenuItem)
                 .collect(Collectors.toList())
@@ -308,9 +307,9 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     @Override
-    public RouteAnotherTreeVO getRouteAnotherTree() {
+    public RouteAnotherTreeVO getRouteAnotherTree(RouteQueryDTO params) {
         RouteAnotherTreeVO dto = new RouteAnotherTreeVO();
-        LambdaQueryWrapper<UpmsRoute> qw = buildQueryWrapper();
+        LambdaQueryWrapper<UpmsRoute> qw = buildGetTreeQueryWrapper(params);
         List<UpmsRoute> list = this.list(qw);
         if (CollectionUtil.isEmpty(list)) {
             return dto;
@@ -330,17 +329,21 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         return dto;
     }
 
+    private LambdaQueryWrapper<UpmsRoute> buildGetTreeQueryWrapper(RouteQueryDTO params) {
+        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
+                .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
+                .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
+                .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
+                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
+        return qw;
+    }
+
     @Override
     public void deleteRouteById(Long id) {
         UpmsRoute route = getRouteById(id);
         LambdaQueryWrapper<UpmsRoute> wrapper = new LambdaQueryWrapper<UpmsRoute>()
                 .likeRight(UpmsRoute::getLevelPath, route.getLevelPath());
         this.remove(wrapper);
-    }
-
-    private LambdaQueryWrapper<UpmsRoute> buildQueryWrapper() {
-        return new LambdaQueryWrapper<UpmsRoute>()
-                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
     }
 
     private RouteAnotherTreeVO.TreeNode assembleAnotherTreeNo(UpmsRoute route) {

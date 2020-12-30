@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.menu.*;
 import com.kt.model.vo.route.RouteAnotherTreeVO;
-import com.kt.model.vo.route.RouteDetailVO;
 import com.kt.upms.entity.UpmsRoute;
 
 /**
@@ -34,7 +33,7 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
 
     RouteTreeDTO getRouteTree();
 
-    RouteAnotherTreeVO getRouteAnotherTree();
+    RouteAnotherTreeVO getRouteAnotherTree(RouteQueryDTO dto);
 
     void deleteRouteById(Long id);
 }

@@ -16,4 +16,6 @@ public class RouteQueryDTO implements Serializable {
 
     private String path;
 
+    private Integer status;
+
 }
