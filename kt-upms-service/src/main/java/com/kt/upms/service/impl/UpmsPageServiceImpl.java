@@ -12,7 +12,7 @@ import com.kt.model.dto.page.PageQueryDTO;
 import com.kt.model.dto.page.PageUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsPage;
-import com.kt.upms.enums.PageStatusEnum;
+import com.kt.upms.enums.PageStatusEnums;
 import com.kt.upms.mapper.UpmsPageMapper;
 import com.kt.upms.service.IUpmsPageService;
 import com.kt.upms.util.Assert;
@@ -31,7 +31,7 @@ public class UpmsPageServiceImpl extends ServiceImpl<UpmsPageMapper, UpmsPage> i
 
     @Override
     public void updateStatus(PageUpdateDTO dto) {
-        updateStatus(dto, PageStatusEnum.DISABLED);
+        updateStatus(dto, PageStatusEnums.DISABLED);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class UpmsPageServiceImpl extends ServiceImpl<UpmsPageMapper, UpmsPage> i
     }
 
 
-    private void updateStatus(PageUpdateDTO dto, PageStatusEnum statusEnum) {
+    private void updateStatus(PageUpdateDTO dto, PageStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsPage>()
                 .eq(UpmsPage::getId, dto.getId())
                 .set(UpmsPage::getStatus, statusEnum.getValue()));

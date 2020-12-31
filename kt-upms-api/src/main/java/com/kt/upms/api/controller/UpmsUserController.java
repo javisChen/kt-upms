@@ -92,7 +92,7 @@ public class UpmsUserController extends BaseController {
      */
     @GetMapping("/user/routes")
     public ServerResponse getUserRoutes() {
-        return ServerResponse.ok(iUpmsMenuService.getAllRoutes());
+        return ServerResponse.ok(iUpmsMenuService.getUserRoutes());
     }
 
 }

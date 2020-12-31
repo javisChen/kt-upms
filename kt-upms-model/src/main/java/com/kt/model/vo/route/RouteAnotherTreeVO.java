@@ -1,9 +1,5 @@
 package com.kt.model.vo.route;
 
-
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +27,8 @@ public class RouteAnotherTreeVO implements Serializable {
         private String levelPath;
         private Integer status;
         private String path;
+        private Integer type;
+        private Boolean hideChildren;
         private List<TreeNode> children;
         private Boolean group;
 

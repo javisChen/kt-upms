@@ -2,12 +2,12 @@ package com.kt.upms.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
-public enum UserGroupStatusEnum {
+public enum PageStatusEnums {
 
     ENABLED(1, "已启用"),
     DISABLED(2, "已禁用");
 
-    UserGroupStatusEnum(int value, String desc) {
+    PageStatusEnums(int value, String desc) {
         this.value = value;
         this.desc = desc;
     }

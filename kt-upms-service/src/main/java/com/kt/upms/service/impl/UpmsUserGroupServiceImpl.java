@@ -12,7 +12,7 @@ import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
-import com.kt.upms.enums.UserGroupStatusEnum;
+import com.kt.upms.enums.UserGroupStatusEnums;
 import com.kt.upms.mapper.*;
 import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.util.Assert;
@@ -87,7 +87,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
     @Override
     public void updateStatus(UserGroupUpdateDTO dto) {
-        updateStatus(dto, UserGroupStatusEnum.DISABLED);
+        updateStatus(dto, UserGroupStatusEnums.DISABLED);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         return this.baseMapper.selectUserGroupIdsByUserId(userId);
     }
 
-    private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnum statusEnum) {
+    private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsUserGroup>()
                 .eq(UpmsUserGroup::getStatus, dto.getId())
                 .set(UpmsUserGroup::getStatus, statusEnum.getValue()));

@@ -32,4 +32,6 @@ public class RouteUpdateDTO implements Serializable {
 
     private Long pid;
 
+    private Boolean hideChildren;
+
 }

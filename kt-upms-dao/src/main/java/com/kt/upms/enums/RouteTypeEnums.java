@@ -2,12 +2,12 @@ package com.kt.upms.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
-public enum RouteStatusEnum {
+public enum RouteTypeEnums {
 
-    ENABLED(1, "已启用"),
-    DISABLED(2, "已禁用");
+    MENU(1, "菜单路由"),
+    PAGE(2, "页面路由");
 
-    RouteStatusEnum(int value, String desc) {
+    RouteTypeEnums(int value, String desc) {
         this.value = value;
         this.desc = desc;
     }

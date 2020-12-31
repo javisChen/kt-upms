@@ -14,7 +14,8 @@ import com.kt.model.enums.BizEnums;
 import com.kt.model.vo.route.RouteAnotherTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
-import com.kt.upms.enums.RouteStatusEnum;
+import com.kt.upms.enums.RouteStatusEnums;
+import com.kt.upms.enums.RouteTypeEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRouteService;
@@ -76,8 +77,10 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         }
         this.save(route);
 
+        // 新增完路由记录后再更新层级信息
         updateLevelPathAfterSave(route, parentRoute);
 
+        // 添加到权限
         iUpmsPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
 
     }
@@ -242,7 +245,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     @Override
-    public UserRoutesDTO getAllRoutes() {
+    public UserRoutesDTO getUserRoutes() {
         LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
                 .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
         return new UserRoutesDTO(this.list(qw).stream()
@@ -268,7 +271,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         meta.setIcon(item.getIcon());
         meta.setTitle(item.getName());
         meta.setHideChildren(item.getHideChildren());
-        meta.setShow(item.getStatus().equals(RouteStatusEnum.ENABLED.getValue()));
+        meta.setShow(item.getStatus().equals(RouteStatusEnums.ENABLED.getValue()));
         return meta;
     }
 
@@ -359,6 +362,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         treeNode.setSequence(route.getSequence());
         treeNode.setStatus(route.getStatus());
         treeNode.setLevelPath(route.getLevelPath());
+        treeNode.setType(route.getType());
+        treeNode.setHideChildren(route.getHideChildren());
         return treeNode;
     }
 
@@ -375,7 +380,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         }
     }
 
-    private void updateStatus(RouteUpdateDTO dto, RouteStatusEnum statusEnum) {
+    private void updateStatus(RouteUpdateDTO dto, RouteStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getStatus, dto.getId())
                 .set(UpmsRoute::getStatus, statusEnum.getValue()));

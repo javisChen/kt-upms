@@ -16,7 +16,7 @@ import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
-import com.kt.upms.enums.UserStatusEnum;
+import com.kt.upms.enums.UserStatusEnums;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRoleService;
@@ -66,7 +66,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         upmsUser.setPhone(dto.getPhone());
         upmsUser.setPassword(dto.getPassword());
         upmsUser.setName(dto.getName());
-        upmsUser.setStatus(UserStatusEnum.ENABLED.getValue());
+        upmsUser.setStatus(UserStatusEnums.ENABLED.getValue());
         upmsUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(upmsUser.getPassword())));
         this.save(upmsUser);
     }
@@ -97,7 +97,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
 
     @Override
     public void updateStatus(UserUpdateDTO userUpdateDTO) {
-        updateStatus(userUpdateDTO, UserStatusEnum.ENABLED);
+        updateStatus(userUpdateDTO, UserStatusEnums.ENABLED);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         return this.getOne(new LambdaQueryWrapper<UpmsUser>().eq(UpmsUser::getPhone, username));
     }
 
-    private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnum statusEnum) {
+    private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsUser>()
                 .eq(UpmsUser::getStatus, userUpdateDTO.getId())
                 .set(UpmsUser::getStatus, statusEnum.getValue()));

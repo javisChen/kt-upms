@@ -9,7 +9,7 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
 import com.kt.upms.entity.UpmsPermission;
-import com.kt.upms.enums.PermissionStatusEnum;
+import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
 import com.kt.upms.service.IUpmsPermissionService;
@@ -44,7 +44,7 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
         UpmsPermission permission = new UpmsPermission();
         permission.setType(permissionTypeEnums.getType());
         permission.setResourceId(resourceId);
-        permission.setStatus(PermissionStatusEnum.ENABLED.getValue());
+        permission.setStatus(PermissionStatusEnums.ENABLED.getValue());
         permission.setCode(generatePermissionCode(permissionTypeEnums.getTag(), resourceId));
         this.save(permission);
     }
@@ -59,7 +59,7 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
 
     @Override
     public void updateStatus(PermissionUpdateDTO dto) {
-        updateStatus(dto, PermissionStatusEnum.DISABLED);
+        updateStatus(dto, PermissionStatusEnums.DISABLED);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
         return this.baseMapper.selectByRoleIds(roleIds);
     }
 
-    private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnum statusEnum) {
+    private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsPermission>()
                 .eq(UpmsPermission::getId, dto.getId())
                 .set(UpmsPermission::getStatus, statusEnum.getValue()));

@@ -1,6 +1,5 @@
 package com.kt.upms.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,11 +12,10 @@ import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.upms.entity.UpmsRole;
-import com.kt.upms.enums.RoleStatusEnum;
+import com.kt.upms.enums.RoleStatusEnums;
 import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
 import com.kt.upms.mapper.UpmsRoleMapper;
 import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
-import com.kt.upms.service.IUpmsPermissionRoleRelService;
 import com.kt.upms.service.IUpmsRoleService;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,7 +79,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
 
     @Override
     public void updateStatus(RoleUpdateDTO dto) {
-        updateStatus(dto, RoleStatusEnum.DISABLED);
+        updateStatus(dto, RoleStatusEnums.DISABLED);
     }
 
     @Override
@@ -98,7 +95,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
         return upmsUserGroupRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
     }
 
-    private void updateStatus(RoleUpdateDTO dto, RoleStatusEnum statusEnum) {
+    private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsRole>()
                 .eq(UpmsRole::getStatus, dto.getId())
                 .set(UpmsRole::getStatus, statusEnum.getValue()));

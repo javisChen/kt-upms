@@ -40,7 +40,13 @@ public class UpmsRoute extends BaseEntity {
     private String component;
 
     /**
-     * 隐藏子菜单
+     * 路由类型 1：菜单路由 2：页面路由
+     */
+    @TableField("type")
+    private Integer type;
+
+    /**
+     * 是否隐藏子路由 0-否 1-是
      */
     @TableField("hide_children")
     private Boolean hideChildren;

@@ -99,6 +99,5 @@ public class UpmsRouteController extends BaseController {
         }
         return ServerResponse.ok();
     }
-
 }
 
