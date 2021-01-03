@@ -2,8 +2,10 @@ package com.kt.model.dto.user;
 
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -30,5 +32,9 @@ public class UserAddDTO implements Serializable {
      */
     @NotBlank(message = "password 不能为空")
     private String password;
+
+    @NotNull(message = "status 不能为空")
+    @Range(min = 1, max = 2)
+    private Integer status;
 
 }

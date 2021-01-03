@@ -66,7 +66,6 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
         upmsUser.setPhone(dto.getPhone());
         upmsUser.setPassword(dto.getPassword());
         upmsUser.setName(dto.getName());
-        upmsUser.setStatus(UserStatusEnums.ENABLED.getValue());
         upmsUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(upmsUser.getPassword())));
         this.save(upmsUser);
     }

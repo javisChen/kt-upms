@@ -1,6 +1,7 @@
 package com.kt.model.dto.menu;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,10 @@ public class RouteAddDTO implements Serializable {
 
     @NotBlank(message = "code 不能为空")
     private String code;
+
+    @NotNull(message = "status 不能为空")
+    @Range(min = 1, max = 2)
+    private Integer status;
 
     private String component;
 

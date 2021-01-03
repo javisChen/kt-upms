@@ -15,7 +15,6 @@ import com.kt.model.vo.route.RouteAnotherTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RouteStatusEnums;
-import com.kt.upms.enums.RouteTypeEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRouteService;
@@ -101,8 +100,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     private UpmsRoute assembleUpmsRoute(RouteAddDTO dto) {
-        UpmsRoute route = CglibUtil.copy(dto, UpmsRoute.class);
-        return route;
+        return CglibUtil.copy(dto, UpmsRoute.class);
     }
 
     private UpmsRoute getMenuByName(String name) {
@@ -125,13 +123,18 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.updateById(updateMenu);
 
         if (dto.getPid() != null) {
-            this.updateRouteLevelInfo(dto.getId(), dto.getPid());
+            updateRouteLevelInfo(dto.getId(), dto.getPid());
         }
+        if (dto.getStatus() != null) {
+            updateRouteStatus(dto.getId(), dto.getStatus());
+        }
+
     }
 
     private UpmsRoute assembleUpdateRoute(RouteUpdateDTO dto) {
         UpmsRoute copy = CglibUtil.copy(dto, UpmsRoute.class);
         copy.setPid(null);
+        copy.setStatus(null);
         return copy;
     }
 
@@ -217,11 +220,15 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
     @Override
     public void updateRouteStatus(RouteUpdateDTO dto) {
-        UpmsRoute menu = getRouteById(dto.getId());
+        updateRouteStatus(dto.getId(), dto.getStatus());
+    }
+
+    public void updateRouteStatus(Long routeId, Integer status) {
+        UpmsRoute menu = getRouteById(routeId);
         if (menu != null) {
             this.update(new LambdaUpdateWrapper<UpmsRoute>()
                     .likeRight(UpmsRoute::getLevelPath, menu.getLevelPath())
-                    .set(UpmsRoute::getStatus, dto.getStatus()));
+                    .set(UpmsRoute::getStatus, status));
         }
     }
 
@@ -333,12 +340,11 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     private LambdaQueryWrapper<UpmsRoute> buildGetTreeQueryWrapper(RouteQueryDTO params) {
-        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
+        return new LambdaQueryWrapper<UpmsRoute>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
                 .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
                 .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
                 .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
-        return qw;
     }
 
     @Override
@@ -378,12 +384,6 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 }
             }
         }
-    }
-
-    private void updateStatus(RouteUpdateDTO dto, RouteStatusEnums statusEnum) {
-        this.update(new LambdaUpdateWrapper<UpmsRoute>()
-                .eq(UpmsRoute::getStatus, dto.getId())
-                .set(UpmsRoute::getStatus, statusEnum.getValue()));
     }
 
     private UpmsRoute getRouteByNameAndNotEqualToId(String name, Long id) {
