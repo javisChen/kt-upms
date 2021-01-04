@@ -39,6 +39,11 @@ public class UpmsUserGroupController extends BaseController {
         return ServerResponse.ok(iUpmsUserGroupService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 
+    @PostMapping("/usergroups/tree")
+    public ServerResponse getUserGroupsTree(@RequestBody UserGroupQueryDTO dto) {
+        return ServerResponse.ok(iUpmsUserGroupService.getTree(dto));
+    }
+
     @PostMapping("/usergroup")
     public ServerResponse add(@RequestBody @Validated UserGroupAddDTO userGroupAddDTO) {
         return ServerResponse.ok(iUpmsUserGroupService.saveUserGroup(userGroupAddDTO));

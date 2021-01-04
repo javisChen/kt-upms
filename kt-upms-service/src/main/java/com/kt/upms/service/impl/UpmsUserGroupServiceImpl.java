@@ -1,5 +1,4 @@
 package com.kt.upms.service.impl;
-
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -9,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.usergroup.UserGroupTreeVO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
@@ -19,7 +19,10 @@ import com.kt.upms.util.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -179,6 +182,21 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     @Override
     public List<Long> getUserGroupIdsByUserId(Long userId) {
         return this.baseMapper.selectUserGroupIdsByUserId(userId);
+    }
+
+    @Override
+    public List<UserGroupTreeVO> getTree(UserGroupQueryDTO dto) {
+        List<UpmsUserGroup> list = Optional.ofNullable(this.list()).orElseGet(ArrayList::new);
+        return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
+    }
+
+    private Function<UpmsUserGroup, UserGroupTreeVO> assembleUserGroupUserGroupTreeVO() {
+        return item -> {
+            UserGroupTreeVO userGroupTreeVO = new UserGroupTreeVO();
+            userGroupTreeVO.setTitle(item.getName());
+            userGroupTreeVO.setKey(String.valueOf(item.getId()));
+            return userGroupTreeVO;
+        };
     }
 
     private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnums statusEnum) {
