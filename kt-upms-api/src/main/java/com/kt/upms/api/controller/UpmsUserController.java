@@ -2,6 +2,7 @@ package com.kt.upms.api.controller;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
+import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
@@ -42,7 +43,7 @@ public class UpmsUserController extends BaseController {
      * 查看用户列表
      */
     @PostMapping("/users")
-    public ServerResponse list(@RequestBody PageRequest<UserQueryDTO> pageRequest) {
+    public ServerResponse<PageResponse<UpmsUser>> list(@RequestBody PageRequest<UserQueryDTO> pageRequest) {
         return ServerResponse.ok(iUpmsUserService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 

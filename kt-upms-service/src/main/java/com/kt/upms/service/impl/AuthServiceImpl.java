@@ -55,7 +55,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     private void checkPassword(String passwordHashed, String password) {
-        boolean check = iUserPasswordHelper.checkPassword(password, passwordHashed);
+        boolean check = iUserPasswordHelper.checkPassword(DigestUtil.md5Hex(password), passwordHashed);
         Assert.isFalse(check, BizEnums.USER_LOGIN_INVALID);
     }
 }
