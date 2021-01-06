@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
+import com.kt.model.vo.usergroup.UserGroupListTreeVO;
 import com.kt.model.vo.usergroup.UserGroupTreeVO;
 import com.kt.upms.entity.UpmsUserGroup;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
-    PageResponse pageList(Page page, UserGroupQueryDTO params);
+    PageResponse<UserGroupListTreeVO> pageList(UserGroupQueryDTO pageRequest);
 
     UserGroupAddDTO saveUserGroup(UserGroupAddDTO userGroupAddDTO);
 

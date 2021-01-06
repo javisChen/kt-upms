@@ -1,4 +1,6 @@
 package com.kt.upms.service.impl;
+
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -8,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.usergroup.UserGroupListTreeVO;
 import com.kt.model.vo.usergroup.UserGroupTreeVO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
@@ -37,6 +40,8 @@ import java.util.stream.Collectors;
 public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsUserGroup>
         implements IUpmsUserGroupService {
 
+    private final static Long DEFAULT_PID = 0L;
+
     private final UpmsUserGroupUserRelMapper userGroupUserRelMapper;
     private final UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
     private final UpmsUserMapper upmsUserMapper;
@@ -50,12 +55,46 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         this.upmsRoleMapper = upmsRoleMapper;
     }
 
-
     @Override
-    public PageResponse pageList(Page page, UserGroupQueryDTO dto) {
+    public PageResponse<UserGroupListTreeVO> pageList(UserGroupQueryDTO dto) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
-                .like(StrUtil.isNotBlank(dto.getName()), UpmsUserGroup::getName, dto.getName());
-        return PageResponse.success(this.page(page, queryWrapper));
+                .like(StrUtil.isNotBlank(dto.getName()), UpmsUserGroup::getName, dto.getName())
+                .eq(UpmsUserGroup::getPid, DEFAULT_PID);
+        Page<UpmsUserGroup> pageResult = this.page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
+
+        List<UpmsUserGroup> levelOneUserGroups = pageResult.getRecords();
+        List<UpmsUserGroup> anotherUserGroups = this.list(new LambdaQueryWrapper<UpmsUserGroup>()
+                .ne(UpmsUserGroup::getPid, DEFAULT_PID));
+
+        List<UserGroupListTreeVO> vos = CollectionUtil.newArrayList();
+        for (UpmsUserGroup item : levelOneUserGroups) {
+            UserGroupListTreeVO vo = assembleUserGroupListTreeVO(item);
+            findChildren(vo, anotherUserGroups);
+            vos.add(vo);
+        }
+        return PageResponse.success(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), vos);
+    }
+
+    private void findChildren(UserGroupListTreeVO parent, List<UpmsUserGroup> list) {
+        for (UpmsUserGroup route : list) {
+            if (parent.getId().equals(route.getPid())) {
+                UserGroupListTreeVO item = assembleUserGroupListTreeVO(route);
+                parent.getChildren().add(item);
+                findChildren(item, list);
+            }
+        }
+    }
+
+    private UserGroupListTreeVO assembleUserGroupListTreeVO(UpmsUserGroup item) {
+        UserGroupListTreeVO vo = new UserGroupListTreeVO();
+        vo.setId(item.getId());
+        vo.setPid(item.getPid());
+        vo.setName(item.getName());
+        vo.setStatus(item.getStatus());
+        vo.setCreateTime(item.getGmtCreate());
+        vo.setUpdateTime(item.getGmtModified());
+        vo.setChildren(new ArrayList<>());
+        return vo;
     }
 
     @Override

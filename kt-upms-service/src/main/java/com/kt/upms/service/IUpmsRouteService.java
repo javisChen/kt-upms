@@ -1,10 +1,9 @@
 package com.kt.upms.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.menu.*;
-import com.kt.model.vo.route.RouteAnotherTreeVO;
+import com.kt.model.vo.route.RouteListTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 
 /**
@@ -17,7 +16,7 @@ import com.kt.upms.entity.UpmsRoute;
  */
 public interface IUpmsRouteService extends IService<UpmsRoute> {
 
-    PageResponse<UpmsRoute> pageList(Page page, RouteQueryDTO params);
+    PageResponse<RouteListTreeVO> pageList(RouteQueryDTO pageRequest);
 
     void saveRoute(RouteAddDTO dto);
 
@@ -30,10 +29,6 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
     UpmsRoute getRouteById(Long id);
 
     UserRoutesDTO getUserRoutes();
-
-    RouteTreeDTO getRouteTree();
-
-    RouteAnotherTreeVO getRouteAnotherTree(RouteQueryDTO dto);
 
     void deleteRouteById(Long id);
 }

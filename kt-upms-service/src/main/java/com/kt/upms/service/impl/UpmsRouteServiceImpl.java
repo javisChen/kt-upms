@@ -11,7 +11,7 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.menu.*;
 import com.kt.model.dto.menu.UserRoutesDTO.UserRouteItem.Meta;
 import com.kt.model.enums.BizEnums;
-import com.kt.model.vo.route.RouteAnotherTreeVO;
+import com.kt.model.vo.route.RouteListTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RouteStatusEnums;
@@ -22,7 +22,6 @@ import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +48,25 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     @Override
-    public PageResponse<UpmsRoute> pageList(Page page, RouteQueryDTO params) {
+    public PageResponse<RouteListTreeVO> pageList(RouteQueryDTO params) {
         LambdaQueryWrapper<UpmsRoute> query = new LambdaQueryWrapper<UpmsRoute>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
                 .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
-                .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus());
-        return PageResponse.success(this.page(page, query));
+                .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
+                .eq(UpmsRoute::getPid, DEFAULT_PID);
+        Page<UpmsRoute> pageResult = this.page(new Page<>(params.getCurrent(), params.getSize()), query);
+
+        List<UpmsRoute> levelOneMenus = pageResult.getRecords();
+        List<UpmsRoute> anotherMenus = this.list(new LambdaQueryWrapper<UpmsRoute>().ne(UpmsRoute::getPid, DEFAULT_PID));
+
+        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
+        for (UpmsRoute route : levelOneMenus) {
+            RouteListTreeVO item = assembleRouteListTreeVO(route);
+            item.setChildren(CollectionUtil.newArrayList());
+            findChildren(item, anotherMenus);
+            vos.add(item);
+        }
+        return PageResponse.success(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), vos);
     }
 
     @Override
@@ -282,69 +294,15 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         return meta;
     }
 
-    @Override
-    public RouteTreeDTO getRouteTree() {
-        RouteTreeDTO dto = new RouteTreeDTO();
-        List<UpmsRoute> list = this.list();
-        if (CollectionUtil.isEmpty(list)) {
-            return dto;
-        }
-        List<UpmsRoute> levelOneMenus = list.stream().filter(item -> item.getPid().equals(DEFAULT_PID))
-                .collect(Collectors.toList());
-        List<UpmsRoute> anotherMenus = list.stream().filter(item -> !item.getPid().equals(DEFAULT_PID))
-                .collect(Collectors.toList());
-
-        List<RouteTreeDTO.TreeNode> resultSet = CollectionUtil.newArrayList();
-        for (UpmsRoute route : levelOneMenus) {
-            RouteTreeDTO.TreeNode item = CglibUtil.copy(route, RouteTreeDTO.TreeNode.class);
-            item.setChildren(CollectionUtil.newArrayList());
-            findChildren(item, anotherMenus);
-            resultSet.add(item);
-        }
-        dto.setRoutes(resultSet);
-        return dto;
-    }
-
-    private void findChildren(RouteTreeDTO.TreeNode parent, List<UpmsRoute> list) {
+    private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {
         for (UpmsRoute route : list) {
             if (parent.getId().equals(route.getPid())) {
-                RouteTreeDTO.TreeNode item = CglibUtil.copy(route, RouteTreeDTO.TreeNode.class);
+                RouteListTreeVO item = assembleRouteListTreeVO(route);
                 item.setChildren(CollectionUtil.newArrayList());
                 parent.getChildren().add(item);
                 findChildren(item, list);
             }
         }
-    }
-
-    @Override
-    public RouteAnotherTreeVO getRouteAnotherTree(RouteQueryDTO params) {
-        RouteAnotherTreeVO dto = new RouteAnotherTreeVO();
-        LambdaQueryWrapper<UpmsRoute> qw = buildGetTreeQueryWrapper(params);
-        List<UpmsRoute> list = this.list(qw);
-        if (CollectionUtil.isEmpty(list)) {
-            return dto;
-        }
-        List<UpmsRoute> levelOneMenus = list.stream().filter(item -> item.getPid().equals(DEFAULT_PID))
-                .collect(Collectors.toList());
-        List<UpmsRoute> anotherMenus = list.stream().filter(item -> !item.getPid().equals(DEFAULT_PID))
-                .collect(Collectors.toList());
-
-        List<RouteAnotherTreeVO.TreeNode> resultSet = CollectionUtil.newArrayList();
-        for (UpmsRoute route : levelOneMenus) {
-            RouteAnotherTreeVO.TreeNode item = assembleAnotherTreeNo(route);
-            findAnotherTreeNodeChildren(item, anotherMenus);
-            resultSet.add(item);
-        }
-        dto.setRoutes(resultSet);
-        return dto;
-    }
-
-    private LambdaQueryWrapper<UpmsRoute> buildGetTreeQueryWrapper(RouteQueryDTO params) {
-        return new LambdaQueryWrapper<UpmsRoute>()
-                .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
-                .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
-                .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
-                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
     }
 
     @Override
@@ -355,8 +313,8 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.remove(wrapper);
     }
 
-    private RouteAnotherTreeVO.TreeNode assembleAnotherTreeNo(UpmsRoute route) {
-        RouteAnotherTreeVO.TreeNode treeNode = new RouteAnotherTreeVO.TreeNode();
+    private RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
+        RouteListTreeVO treeNode = new RouteListTreeVO();
         treeNode.setCode(route.getCode());
         treeNode.setName(route.getName());
         treeNode.setIcon(route.getIcon());
@@ -370,20 +328,9 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         treeNode.setLevelPath(route.getLevelPath());
         treeNode.setType(route.getType());
         treeNode.setHideChildren(route.getHideChildren());
+        treeNode.setCreateTime(route.getGmtCreate());
+        treeNode.setUpdateTime(route.getGmtModified());
         return treeNode;
-    }
-
-    private void findAnotherTreeNodeChildren(RouteAnotherTreeVO.TreeNode parent, List<UpmsRoute> list) {
-        for (UpmsRoute route : list) {
-            if (parent.getId().equals(route.getPid())) {
-                RouteAnotherTreeVO.TreeNode item = assembleAnotherTreeNo(route);
-                parent.getChildren().add(item);
-                findAnotherTreeNodeChildren(item, list);
-                if (!CollectionUtils.isEmpty(parent.getChildren())) {
-                    parent.setGroup(true);
-                }
-            }
-        }
     }
 
     private UpmsRoute getRouteByNameAndNotEqualToId(String name, Long id) {

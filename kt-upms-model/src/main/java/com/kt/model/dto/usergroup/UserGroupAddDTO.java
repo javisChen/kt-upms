@@ -18,4 +18,6 @@ public class UserGroupAddDTO implements Serializable {
     @NotBlank(message = "name 不能为空")
     private String name;
 
+    private Long pid;
+
 }

@@ -2,12 +2,14 @@ package com.kt.upms.api.controller;
 
 
 import cn.hutool.extra.cglib.CglibUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
+import com.kt.model.vo.usergroup.UserGroupListTreeVO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.service.IUpmsUserGroupService;
 import org.springframework.validation.annotation.Validated;
@@ -35,8 +37,8 @@ public class UpmsUserGroupController extends BaseController {
     }
 
     @PostMapping("/usergroups")
-    public ServerResponse list(@RequestBody PageRequest<UserGroupQueryDTO> pageRequest) {
-        return ServerResponse.ok(iUpmsUserGroupService.pageList(getPage(pageRequest), pageRequest.getParams()));
+    public ServerResponse<PageResponse<UserGroupListTreeVO>> list(@RequestBody UserGroupQueryDTO dto) {
+        return ServerResponse.ok(iUpmsUserGroupService.pageList(dto));
     }
 
     @PostMapping("/usergroups/tree")
@@ -72,8 +74,7 @@ public class UpmsUserGroupController extends BaseController {
     }
 
     @PostMapping("/usergroup/user")
-    public ServerResponse addUserToGroup(@Validated()
-                                         @RequestBody UserGroupUserAddDTO dto) {
+    public ServerResponse addUserToGroup(@Validated() @RequestBody UserGroupUserAddDTO dto) {
         iUpmsUserGroupService.addOrRemoveUserInUserGroup(dto);
         return ServerResponse.ok();
     }
@@ -85,8 +86,7 @@ public class UpmsUserGroupController extends BaseController {
     }
 
     @PostMapping("/usergroup/role")
-    public ServerResponse addRoleToGroup(@Validated()
-                                         @RequestBody UserGroupRoleAddDTO dto) {
+    public ServerResponse addRoleToGroup(@Validated() @RequestBody UserGroupRoleAddDTO dto) {
         iUpmsUserGroupService.addOrRemoveRoleInUserGroup(dto);
         return ServerResponse.ok();
     }

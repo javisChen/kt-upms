@@ -26,5 +26,11 @@ public class UpmsUserGroup extends BaseEntity {
     @TableField("name")
     private String name;
 
+    /**
+     * 用户组名称
+     */
+    @TableField("pid")
+    private Long pid;
+
 
 }

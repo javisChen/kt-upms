@@ -10,6 +10,7 @@ import com.kt.model.dto.menu.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.model.vo.route.RouteAnotherTreeVO;
 import com.kt.model.vo.route.RouteDetailVO;
+import com.kt.model.vo.route.RouteListTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.service.IUpmsRouteService;
 import org.springframework.validation.annotation.Validated;
@@ -38,8 +39,8 @@ public class UpmsRouteController extends BaseController {
     }
 
     @PostMapping("/routes")
-    public ServerResponse<PageResponse<UpmsRoute>> list(@RequestBody PageRequest<RouteQueryDTO> pageRequest) {
-        return ServerResponse.ok(iUpmsRouteService.pageList(getPage(pageRequest), pageRequest.getParams()));
+    public ServerResponse<PageResponse<RouteListTreeVO>> list(@RequestBody RouteQueryDTO dto) {
+        return ServerResponse.ok(iUpmsRouteService.pageList(dto));
     }
 
     @PostMapping("/route")
@@ -72,11 +73,6 @@ public class UpmsRouteController extends BaseController {
                                                @RequestBody RouteUpdateDTO dto) {
         iUpmsRouteService.updateRouteStatus(dto);
         return ServerResponse.ok();
-    }
-
-    @PostMapping("/routes/tree")
-    public ServerResponse<RouteAnotherTreeVO> getRouteTree(@RequestBody RouteQueryDTO dto) {
-        return ServerResponse.ok(iUpmsRouteService.getRouteAnotherTree(dto));
     }
 
     @DeleteMapping("/route/{id}")
