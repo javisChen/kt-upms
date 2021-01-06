@@ -1,5 +1,4 @@
 package com.kt.upms.service.impl;
-
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -11,6 +10,7 @@ import com.kt.model.dto.role.RoleAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.role.RoleListVO;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.enums.RoleStatusEnums;
 import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
@@ -24,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -42,10 +43,22 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
 
     @Override
-    public PageResponse pageList(Page page, RoleQueryDTO params) {
+    public PageResponse<RoleListVO> pageList(RoleQueryDTO params) {
         LambdaQueryWrapper<UpmsRole> queryWrapper = new LambdaQueryWrapper<UpmsRole>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRole::getName, params.getName());
-        return PageResponse.success(this.page(page, queryWrapper));
+        Page<UpmsRole> page = this.page(new Page<>(params.getCurrent(), params.getSize()), queryWrapper);
+
+        List<RoleListVO> vos = page.getRecords().stream().map(this::assembleRoleListVO).collect(Collectors.toList());
+        return PageResponse.success(page.getCurrent(), page.getSize(), page.getTotal(), vos);
+    }
+
+    private RoleListVO assembleRoleListVO(UpmsRole item) {
+        RoleListVO roleListVO = new RoleListVO();
+        roleListVO.setId(item.getId());
+        roleListVO.setName(item.getName());
+        roleListVO.setCreateTime(item.getGmtCreate());
+        roleListVO.setUpdateTime(item.getGmtModified());
+        return roleListVO;
     }
 
     @Override

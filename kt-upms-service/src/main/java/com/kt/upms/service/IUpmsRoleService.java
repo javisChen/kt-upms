@@ -1,14 +1,13 @@
 package com.kt.upms.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.role.RoleAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
+import com.kt.model.vo.role.RoleListVO;
 import com.kt.upms.entity.UpmsRole;
-import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
  */
 public interface IUpmsRoleService extends IService<UpmsRole> {
 
-    PageResponse pageList(Page page, RoleQueryDTO params);
+    PageResponse<RoleListVO> pageList(RoleQueryDTO dto);
 
     RoleAddDTO saveRole(RoleAddDTO userGroupAddDTO);
 

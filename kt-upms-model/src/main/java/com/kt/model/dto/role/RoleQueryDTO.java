@@ -1,12 +1,15 @@
 package com.kt.model.dto.role;
 
 
+import com.kt.component.dto.PagingDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RoleQueryDTO implements Serializable {
+public class RoleQueryDTO extends PagingDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -36,10 +36,9 @@ public class UpmsRoleController extends BaseController {
         this.iUpmsRoleService = iUpmsRoleService;
     }
 
-
     @PostMapping("/roles")
-    public ServerResponse list(@RequestBody PageRequest<RoleQueryDTO> pageRequest) {
-        return ServerResponse.ok(iUpmsRoleService.pageList(getPage(pageRequest), pageRequest.getParams()));
+    public ServerResponse list(@RequestBody RoleQueryDTO dto) {
+        return ServerResponse.ok(iUpmsRoleService.pageList(dto));
     }
 
     @PostMapping("/role")
