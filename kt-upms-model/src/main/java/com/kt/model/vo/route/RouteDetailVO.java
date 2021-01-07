@@ -1,6 +1,7 @@
 package com.kt.model.vo.route;
 
 
+import com.kt.model.vo.pageelement.PageElementVO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +19,12 @@ public class RouteDetailVO implements Serializable {
     private String name;
     private String icon;
     private String component;
+    private String levelPath;
     private Integer status;
     private String path;
-    private String levelPath;
+    private Integer type;
+    private Boolean hideChildren;
+    private Boolean group;
+    private List<PageElementVO> elements;
+
 }

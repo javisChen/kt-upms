@@ -1,16 +1,17 @@
 package com.kt.upms.service.impl;
-import java.time.LocalDateTime;
 
 import cn.hutool.extra.cglib.CglibUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.model.dto.route.RouteAddDTO;
 import com.kt.model.dto.pageelement.PageElementAddDTO;
 import com.kt.model.dto.pageelement.PageElementQueryDTO;
 import com.kt.model.dto.pageelement.PageElementUpdateDTO;
-import com.kt.model.vo.pageelement.PageElementListVO;
+import com.kt.model.vo.pageelement.PageElementVO;
 import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPageElementMapper;
 import com.kt.upms.service.IUpmsPageElementService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.service.IUpmsPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
  * 页面元素表 服务实现类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @Service
@@ -61,13 +62,32 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
     }
 
     @Override
-    public List<PageElementListVO> listPageElement(PageElementQueryDTO dto) {
+    public List<PageElementVO> listPageElement(PageElementQueryDTO dto) {
         List<UpmsPageElement> list = Optional.ofNullable(this.list()).orElseGet(ArrayList::new);
-        return list.stream().map(this::assemblePageElementListVO).collect(Collectors.toList());
+        return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
     }
 
-    private PageElementListVO assemblePageElementListVO(UpmsPageElement item) {
-        PageElementListVO vo = new PageElementListVO();
+    @Override
+    public void batchSavePageElement(Long routeId, List<RouteAddDTO.Element> elements) {
+        elements.forEach(item -> {
+            PageElementAddDTO dto = new PageElementAddDTO();
+            dto.setRouteId(routeId);
+            dto.setName(item.getName());
+            dto.setType(item.getType());
+            this.savePageElement(dto);
+        });
+    }
+
+    @Override
+    public List<PageElementVO> getPageElementsByRouteId(Long routeId) {
+        LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<UpmsPageElement>().eq(UpmsPageElement::getRouteId, routeId);
+        List<UpmsPageElement> list = Optional.ofNullable(this.list(qw)).orElseGet(ArrayList::new);
+        return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
+    }
+
+    private PageElementVO assemblePageElementVO(UpmsPageElement item) {
+        PageElementVO vo = new PageElementVO();
+        vo.setId(item.getId());
         vo.setRouteId(item.getRouteId());
         vo.setName(item.getName());
         vo.setType(item.getType());

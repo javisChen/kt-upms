@@ -1,9 +1,10 @@
 package com.kt.upms.service;
 
+import com.kt.model.dto.route.RouteAddDTO;
 import com.kt.model.dto.pageelement.PageElementAddDTO;
 import com.kt.model.dto.pageelement.PageElementQueryDTO;
 import com.kt.model.dto.pageelement.PageElementUpdateDTO;
-import com.kt.model.vo.pageelement.PageElementListVO;
+import com.kt.model.vo.pageelement.PageElementVO;
 import com.kt.upms.entity.UpmsPageElement;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -25,5 +26,9 @@ public interface IUpmsPageElementService extends IService<UpmsPageElement> {
 
     void savePageElement(PageElementAddDTO dto);
 
-    List<PageElementListVO> listPageElement(PageElementQueryDTO dto);
+    List<PageElementVO> listPageElement(PageElementQueryDTO dto);
+
+    void batchSavePageElement(Long routeId, List<RouteAddDTO.Element> elements);
+
+    List<PageElementVO> getPageElementsByRouteId(Long id);
 }

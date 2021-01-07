@@ -8,14 +8,16 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
-import com.kt.model.dto.menu.*;
-import com.kt.model.dto.menu.UserRoutesDTO.UserRouteItem.Meta;
+import com.kt.model.dto.route.*;
+import com.kt.model.dto.route.UserRoutesDTO.UserRouteItem.Meta;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.route.RouteDetailVO;
 import com.kt.model.vo.route.RouteListTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RouteStatusEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
+import com.kt.upms.service.IUpmsPageElementService;
 import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.util.Assert;
@@ -42,9 +44,11 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     private final static Integer FIRST_LEVEL = 1;
 
     private final IUpmsPermissionService iUpmsPermissionService;
+    private final IUpmsPageElementService iUpmsPageElementService;
 
-    public UpmsRouteServiceImpl(IUpmsPermissionService iUpmsPermissionService) {
+    public UpmsRouteServiceImpl(IUpmsPermissionService iUpmsPermissionService, IUpmsPageElementService iUpmsPageElementService) {
         this.iUpmsPermissionService = iUpmsPermissionService;
+        this.iUpmsPageElementService = iUpmsPageElementService;
     }
 
     @Override
@@ -90,9 +94,12 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
         // 新增完路由记录后再更新层级信息
         updateLevelPathAfterSave(route, parentRoute);
-
         // 添加到权限
         iUpmsPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
+
+        iUpmsPageElementService.batchSavePageElement(route.getId(), dto.getElements());
+
+
 
     }
 
@@ -256,11 +263,20 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.updateById(route);
     }
 
-    @Override
     public UpmsRoute getRouteById(Long id) {
         LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getId, id);
         return this.getOne(queryWrapper);
+    }
+
+    @Override
+    public RouteDetailVO getRoute(Long id) {
+        LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
+                .eq(UpmsRoute::getId, id);
+        UpmsRoute route = this.getOne(queryWrapper);
+        RouteDetailVO vo = CglibUtil.copy(route, RouteDetailVO.class);
+        vo.setElements(iUpmsPageElementService.getPageElementsByRouteId(id));
+        return vo;
     }
 
     @Override

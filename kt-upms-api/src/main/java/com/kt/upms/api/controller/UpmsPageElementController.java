@@ -8,7 +8,7 @@ import com.kt.model.dto.page.PageQueryDTO;
 import com.kt.model.dto.pageelement.PageElementAddDTO;
 import com.kt.model.dto.pageelement.PageElementQueryDTO;
 import com.kt.model.dto.pageelement.PageElementUpdateDTO;
-import com.kt.model.vo.pageelement.PageElementListVO;
+import com.kt.model.vo.pageelement.PageElementVO;
 import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.service.IUpmsPageElementService;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +37,7 @@ public class UpmsPageElementController extends BaseController {
     }
 
     @PostMapping("/page-elements")
-    public ServerResponse<List<PageElementListVO>> list(@RequestBody PageElementQueryDTO dto) {
+    public ServerResponse<List<PageElementVO>> list(@RequestBody PageElementQueryDTO dto) {
         return ServerResponse.ok(iUpmsPageElementService.listPageElement(dto));
     }
 

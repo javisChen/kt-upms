@@ -1,4 +1,4 @@
-package com.kt.model.dto.menu;
+package com.kt.model.dto.route;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class RouteAddDTO implements Serializable {
@@ -37,4 +38,11 @@ public class RouteAddDTO implements Serializable {
 
     private Integer sequence;
 
+    private List<Element> elements;
+
+    @Data
+    public static class Element {
+        private String name;
+        private Integer type;
+    }
 }

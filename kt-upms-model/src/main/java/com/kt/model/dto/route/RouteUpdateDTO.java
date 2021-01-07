@@ -1,4 +1,4 @@
-package com.kt.model.dto.menu;
+package com.kt.model.dto.route;
 
 
 import com.kt.model.validgroup.UpmsValidateGroup;

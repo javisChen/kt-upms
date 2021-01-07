@@ -1,15 +1,13 @@
 package com.kt.upms.api.controller;
 
-import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
-import com.kt.model.dto.menu.*;
+import com.kt.model.dto.route.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.model.vo.route.RouteDetailVO;
 import com.kt.model.vo.route.RouteListTreeVO;
-import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.service.IUpmsRouteService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -67,8 +65,7 @@ public class UpmsRouteController extends BaseController {
 
     @GetMapping("/route/{id}")
     public ServerResponse<RouteDetailVO> get(@PathVariable("id") String id) {
-        UpmsRoute route = iUpmsRouteService.getRouteById(Long.valueOf(id));
-        RouteDetailVO vo = CglibUtil.copy(route, RouteDetailVO.class);
+        RouteDetailVO vo = iUpmsRouteService.getRoute(Long.valueOf(id));
         return ServerResponse.ok(vo);
     }
 

@@ -6,7 +6,7 @@ import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.model.dto.menu.RouteQueryDTO;
+import com.kt.model.dto.route.RouteQueryDTO;
 import com.kt.model.dto.page.PageAddDTO;
 import com.kt.model.dto.page.PageQueryDTO;
 import com.kt.model.dto.page.PageUpdateDTO;

@@ -1,4 +1,4 @@
-package com.kt.model.dto.menu;
+package com.kt.model.dto.route;
 
 
 import lombok.Data;
