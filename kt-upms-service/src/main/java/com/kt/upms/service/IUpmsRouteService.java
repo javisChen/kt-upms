@@ -6,6 +6,8 @@ import com.kt.model.dto.menu.*;
 import com.kt.model.vo.route.RouteListTreeVO;
 import com.kt.upms.entity.UpmsRoute;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜单表 服务类
@@ -31,4 +33,6 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
     UserRoutesDTO getUserRoutes();
 
     void deleteRouteById(Long id);
+
+    List<RouteListTreeVO> getTree();
 }

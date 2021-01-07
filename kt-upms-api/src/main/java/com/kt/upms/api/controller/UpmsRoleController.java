@@ -3,12 +3,14 @@ package com.kt.upms.api.controller;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageRequest;
+import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.role.RoleAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
+import com.kt.model.vo.role.RoleListVO;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.service.IUpmsRoleService;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +39,7 @@ public class UpmsRoleController extends BaseController {
     }
 
     @PostMapping("/roles")
-    public ServerResponse list(@RequestBody RoleQueryDTO dto) {
+    public ServerResponse<PageResponse<RoleListVO>> list(@RequestBody RoleQueryDTO dto) {
         return ServerResponse.ok(iUpmsRoleService.pageList(dto));
     }
 

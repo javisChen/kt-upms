@@ -11,7 +11,7 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.enums.BizEnums;
 import com.kt.model.vo.usergroup.UserGroupListTreeVO;
-import com.kt.model.vo.usergroup.UserGroupTreeVO;
+import com.kt.model.vo.TreeVO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
@@ -224,14 +224,14 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     }
 
     @Override
-    public List<UserGroupTreeVO> getTree(UserGroupQueryDTO dto) {
+    public List<TreeVO> getTree(UserGroupQueryDTO dto) {
         List<UpmsUserGroup> list = Optional.ofNullable(this.list()).orElseGet(ArrayList::new);
         return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
     }
 
-    private Function<UpmsUserGroup, UserGroupTreeVO> assembleUserGroupUserGroupTreeVO() {
+    private Function<UpmsUserGroup, TreeVO> assembleUserGroupUserGroupTreeVO() {
         return item -> {
-            UserGroupTreeVO userGroupTreeVO = new UserGroupTreeVO();
+            TreeVO userGroupTreeVO = new TreeVO();
             userGroupTreeVO.setTitle(item.getName());
             userGroupTreeVO.setKey(String.valueOf(item.getId()));
             return userGroupTreeVO;

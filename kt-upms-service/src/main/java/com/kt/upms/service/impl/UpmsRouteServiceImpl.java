@@ -313,6 +313,21 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.remove(wrapper);
     }
 
+    @Override
+    public List<RouteListTreeVO> getTree() {
+        List<UpmsRoute> pageResult = this.list(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getPid, DEFAULT_PID));
+        List<UpmsRoute> anotherMenus = this.list(new LambdaQueryWrapper<UpmsRoute>().ne(UpmsRoute::getPid, DEFAULT_PID));
+
+        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
+        for (UpmsRoute route : pageResult) {
+            RouteListTreeVO item = assembleRouteListTreeVO(route);
+            item.setChildren(CollectionUtil.newArrayList());
+            findChildren(item, anotherMenus);
+            vos.add(item);
+        }
+        return vos;
+    }
+
     private RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
         RouteListTreeVO treeNode = new RouteListTreeVO();
         treeNode.setCode(route.getCode());

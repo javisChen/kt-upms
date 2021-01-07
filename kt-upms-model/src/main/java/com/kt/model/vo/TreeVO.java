@@ -1,4 +1,4 @@
-package com.kt.model.vo.usergroup;
+package com.kt.model.vo;
 
 
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class UserGroupTreeVO implements Serializable {
+public class TreeVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

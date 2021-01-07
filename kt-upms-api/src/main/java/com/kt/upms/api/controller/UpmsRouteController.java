@@ -1,14 +1,12 @@
 package com.kt.upms.api.controller;
 
 import cn.hutool.extra.cglib.CglibUtil;
-import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.menu.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
-import com.kt.model.vo.route.RouteAnotherTreeVO;
 import com.kt.model.vo.route.RouteDetailVO;
 import com.kt.model.vo.route.RouteListTreeVO;
 import com.kt.upms.entity.UpmsRoute;
@@ -17,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
+import java.util.List;
 
 
 /**
@@ -41,6 +40,11 @@ public class UpmsRouteController extends BaseController {
     @PostMapping("/routes")
     public ServerResponse<PageResponse<RouteListTreeVO>> list(@RequestBody RouteQueryDTO dto) {
         return ServerResponse.ok(iUpmsRouteService.pageList(dto));
+    }
+
+    @PostMapping("/routes/tree")
+    public ServerResponse<List<RouteListTreeVO>> getTree() {
+        return ServerResponse.ok(iUpmsRouteService.getTree());
     }
 
     @PostMapping("/route")

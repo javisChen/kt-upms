@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.vo.usergroup.UserGroupListTreeVO;
-import com.kt.model.vo.usergroup.UserGroupTreeVO;
+import com.kt.model.vo.TreeVO;
 import com.kt.upms.entity.UpmsUserGroup;
 
 import java.util.List;
@@ -38,5 +38,5 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
 
     List<Long> getUserGroupIdsByUserId(Long userId);
 
-    List<UserGroupTreeVO> getTree(UserGroupQueryDTO dto);
+    List<TreeVO> getTree(UserGroupQueryDTO dto);
 }

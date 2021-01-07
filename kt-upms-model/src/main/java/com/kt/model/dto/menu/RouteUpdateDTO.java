@@ -26,6 +26,8 @@ public class RouteUpdateDTO implements Serializable {
 
     private String icon;
 
+    private Integer type;
+
     @NotNull(groups = UpmsValidateGroup.UpdateStatus.class, message = "status 不能为空")
     @Range(min = 1, max = 2)
     private Integer status;

@@ -8,7 +8,7 @@ import com.kt.upms.entity.UpmsApi;
 
 /**
  * <p>
- * api表 服务类
+ * 认证授权
  * </p>
  *
  * @author 

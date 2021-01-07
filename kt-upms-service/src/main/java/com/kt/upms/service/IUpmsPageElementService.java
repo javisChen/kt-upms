@@ -1,7 +1,13 @@
 package com.kt.upms.service;
 
+import com.kt.model.dto.pageelement.PageElementAddDTO;
+import com.kt.model.dto.pageelement.PageElementQueryDTO;
+import com.kt.model.dto.pageelement.PageElementUpdateDTO;
+import com.kt.model.vo.pageelement.PageElementListVO;
 import com.kt.upms.entity.UpmsPageElement;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +19,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUpmsPageElementService extends IService<UpmsPageElement> {
 
+    void updatePageElement(PageElementUpdateDTO dto);
+
+    void removePageElement(PageElementUpdateDTO dto);
+
+    void savePageElement(PageElementAddDTO dto);
+
+    List<PageElementListVO> listPageElement(PageElementQueryDTO dto);
 }

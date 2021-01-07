@@ -31,6 +31,8 @@ public class RouteAddDTO implements Serializable {
 
     private String path;
 
+    private Integer type;
+
     private String icon;
 
     private Integer sequence;
