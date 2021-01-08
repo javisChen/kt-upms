@@ -99,8 +99,6 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
         iUpmsPageElementService.batchSavePageElement(route.getId(), dto.getElements());
 
-
-
     }
 
     private void updateLevelPathAfterSave(UpmsRoute route, UpmsRoute parentRoute) {
@@ -142,11 +140,16 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.updateById(updateMenu);
 
         if (dto.getPid() != null) {
-            updateRouteLevelInfo(dto.getId(), dto.getPid());
+            updateRouteLevelInfo(routeId, dto.getPid());
         }
         if (dto.getStatus() != null) {
-            updateRouteStatus(dto.getId(), dto.getStatus());
+            updateRouteStatus(routeId, dto.getStatus());
         }
+
+        // 先删除元素再重新添加
+        iUpmsPageElementService.removePageElementByRouteId(routeId);
+
+        iUpmsPageElementService.batchSavePageElement(routeId, dto.getElements());
 
     }
 

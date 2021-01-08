@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class RouteUpdateDTO implements Serializable {
@@ -37,5 +38,13 @@ public class RouteUpdateDTO implements Serializable {
     private Long pid;
 
     private Boolean hideChildren;
+
+    private List<RouteAddDTO.Element> elements;
+
+    @Data
+    public static class Element {
+        private String name;
+        private Integer type;
+    }
 
 }

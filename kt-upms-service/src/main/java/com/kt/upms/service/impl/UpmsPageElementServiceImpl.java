@@ -2,11 +2,13 @@ package com.kt.upms.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.model.dto.route.RouteAddDTO;
 import com.kt.model.dto.pageelement.PageElementAddDTO;
 import com.kt.model.dto.pageelement.PageElementQueryDTO;
 import com.kt.model.dto.pageelement.PageElementUpdateDTO;
+import com.kt.model.enums.DeletedEnums;
 import com.kt.model.vo.pageelement.PageElementVO;
 import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.enums.PermissionTypeEnums;
@@ -80,9 +82,19 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
 
     @Override
     public List<PageElementVO> getPageElementsByRouteId(Long routeId) {
-        LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<UpmsPageElement>().eq(UpmsPageElement::getRouteId, routeId);
+        LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<>();
+        qw.eq(UpmsPageElement::getRouteId, routeId);
+        qw.eq(UpmsPageElement::getIsDeleted, DeletedEnums.NOT.getCode());
         List<UpmsPageElement> list = Optional.ofNullable(this.list(qw)).orElseGet(ArrayList::new);
         return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void removePageElementByRouteId(Long routeId) {
+        this.update(new LambdaUpdateWrapper<UpmsPageElement>()
+                .eq(UpmsPageElement::getRouteId, routeId)
+                .set(UpmsPageElement::getIsDeleted, DeletedEnums.YET.getCode())
+        );
     }
 
     private PageElementVO assemblePageElementVO(UpmsPageElement item) {

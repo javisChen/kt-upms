@@ -31,4 +31,6 @@ public interface IUpmsPageElementService extends IService<UpmsPageElement> {
     void batchSavePageElement(Long routeId, List<RouteAddDTO.Element> elements);
 
     List<PageElementVO> getPageElementsByRouteId(Long id);
+
+    void removePageElementByRouteId(Long routeId);
 }
