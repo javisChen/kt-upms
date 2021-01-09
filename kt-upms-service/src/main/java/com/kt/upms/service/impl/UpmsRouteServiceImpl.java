@@ -57,7 +57,9 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
                 .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
                 .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
-                .eq(UpmsRoute::getPid, DEFAULT_PID);
+                .eq(UpmsRoute::getPid, DEFAULT_PID)
+                .orderByAsc(UpmsRoute::getSequence)
+                ;
         Page<UpmsRoute> pageResult = this.page(new Page<>(params.getCurrent(), params.getSize()), query);
 
         List<UpmsRoute> levelOneMenus = pageResult.getRecords();
@@ -96,7 +98,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         updateLevelPathAfterSave(route, parentRoute);
         // 添加到权限
         iUpmsPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
-
+        // 添加页面元素
         iUpmsPageElementService.batchSavePageElement(route.getId(), dto.getElements());
 
     }
