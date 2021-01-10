@@ -1,13 +1,14 @@
 package com.kt.upms.service.impl;
 
 import cn.hutool.extra.cglib.CglibUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.model.dto.route.RouteAddDTO;
 import com.kt.model.dto.pageelement.PageElementAddDTO;
 import com.kt.model.dto.pageelement.PageElementQueryDTO;
 import com.kt.model.dto.pageelement.PageElementUpdateDTO;
+import com.kt.model.dto.route.RouteAddDTO;
 import com.kt.model.enums.DeletedEnums;
 import com.kt.model.vo.pageelement.PageElementVO;
 import com.kt.upms.entity.UpmsPageElement;
@@ -33,7 +34,8 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMapper, UpmsPageElement> implements IUpmsPageElementService {
+public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMapper, UpmsPageElement>
+        implements IUpmsPageElementService {
 
     @Autowired
     private IUpmsPermissionService iUpmsPermissionService;
@@ -64,9 +66,17 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
     }
 
     @Override
-    public List<PageElementVO> listPageElement(PageElementQueryDTO dto) {
-        List<UpmsPageElement> list = Optional.ofNullable(this.list()).orElseGet(ArrayList::new);
+    public List<PageElementVO> listPageElementVO(PageElementQueryDTO dto) {
+        List<UpmsPageElement> list = listPageElements();
         return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
+    }
+
+    public List<UpmsPageElement> listPageElements() {
+        return listPageElements(null);
+    }
+
+    public List<UpmsPageElement> listPageElements(Wrapper<UpmsPageElement> queryWrapper) {
+        return Optional.ofNullable(this.list(queryWrapper)).orElseGet(ArrayList::new);
     }
 
     @Override
@@ -81,12 +91,16 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
     }
 
     @Override
-    public List<PageElementVO> getPageElementsByRouteId(Long routeId) {
+    public List<PageElementVO> getPageElementVOSByRouteId(Long routeId) {
+        return getPageElementsByRouteId(routeId).stream().map(this::assemblePageElementVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UpmsPageElement> getPageElementsByRouteId(Long routeId) {
         LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<>();
         qw.eq(UpmsPageElement::getRouteId, routeId);
         qw.eq(UpmsPageElement::getIsDeleted, DeletedEnums.NOT.getCode());
-        List<UpmsPageElement> list = Optional.ofNullable(this.list(qw)).orElseGet(ArrayList::new);
-        return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
+        return listPageElements(qw);
     }
 
     @Override

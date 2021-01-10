@@ -8,12 +8,14 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
+import com.kt.model.vo.permission.PermissionElementsVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.service.IUpmsPermissionService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
+import java.util.List;
 
 
 /**
@@ -55,5 +57,12 @@ public class UpmsPermissionController extends BaseController {
         iUpmsPermissionService.updateStatus(dto);
         return ServerResponse.ok();
     }
+
+    @GetMapping("/permissions/elements")
+    public ServerResponse getPermissionsElements(Long routeId) {
+        List<PermissionElementsVO> vos = iUpmsPermissionService.getPermissionElements(routeId);
+        return ServerResponse.ok(vos);
+    }
+
 }
 

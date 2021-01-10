@@ -280,7 +280,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .eq(UpmsRoute::getId, id);
         UpmsRoute route = this.getOne(queryWrapper);
         RouteDetailVO vo = CglibUtil.copy(route, RouteDetailVO.class);
-        vo.setElements(iUpmsPageElementService.getPageElementsByRouteId(id));
+        vo.setElements(iUpmsPageElementService.getPageElementVOSByRouteId(id));
         return vo;
     }
 

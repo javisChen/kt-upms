@@ -38,7 +38,7 @@ public class UpmsPageElementController extends BaseController {
 
     @PostMapping("/page-elements")
     public ServerResponse<List<PageElementVO>> list(@RequestBody PageElementQueryDTO dto) {
-        return ServerResponse.ok(iUpmsPageElementService.listPageElement(dto));
+        return ServerResponse.ok(iUpmsPageElementService.listPageElementVO(dto));
     }
 
     @PostMapping("/page-element")

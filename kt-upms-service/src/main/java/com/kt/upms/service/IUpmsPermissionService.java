@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
+import com.kt.model.vo.permission.PermissionElementsVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
 
@@ -28,4 +29,6 @@ public interface IUpmsPermissionService extends IService<UpmsPermission> {
     void updateStatus(PermissionUpdateDTO dto);
 
     List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds);
+
+    List<PermissionElementsVO> getPermissionElements(Long routeId);
 }

@@ -8,16 +8,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
+import com.kt.model.vo.permission.PermissionElementsVO;
+import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
+import com.kt.upms.service.IUpmsPageElementService;
 import com.kt.upms.service.IUpmsPermissionService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,6 +35,9 @@ import java.util.Set;
 @Service
 public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission>
         implements IUpmsPermissionService {
+
+    @Autowired
+    private IUpmsPageElementService iUpmsPageElementService;
 
     @Override
     public PageResponse pageList(Page page, PermissionQueryDTO dto) {
@@ -65,6 +73,21 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
     @Override
     public List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds) {
         return this.baseMapper.selectByRoleIds(roleIds);
+    }
+
+    @Override
+    public List<PermissionElementsVO> getPermissionElements(Long routeId) {
+        List<UpmsPageElement> elements = iUpmsPageElementService.getPageElementsByRouteId(routeId);
+        return elements.stream().map(this::assemblePermissionElementsVO).collect(Collectors.toList());
+    }
+
+    private PermissionElementsVO assemblePermissionElementsVO(UpmsPageElement upmsPageElement) {
+        PermissionElementsVO vo = new PermissionElementsVO();
+        vo.setId(0L);
+        vo.setRouteId(0L);
+        vo.setName("");
+        vo.setType(0);
+        return null;
     }
 
     private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnums statusEnum) {
