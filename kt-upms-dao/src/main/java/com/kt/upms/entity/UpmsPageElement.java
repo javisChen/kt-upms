@@ -1,6 +1,7 @@
 package com.kt.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,5 +37,9 @@ public class UpmsPageElement extends BaseEntity {
      */
     @TableField("type")
     private Integer type;
+
+    @TableField(value = "is_deleted")
+    @TableLogic
+    private Long isDeleted;
 
 }

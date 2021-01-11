@@ -40,7 +40,7 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
      */
     List<Long> getRoleIdsByUserGroupIds(List<Long> userGroupIds);
 
-    void updateRolePermissions(RolePermissionAddDTO dto);
+    void updateRoleRoutePermissions(RolePermissionAddDTO dto);
 
     List<PermissionVO> getRoleRoutePermissionById(Long id);
 

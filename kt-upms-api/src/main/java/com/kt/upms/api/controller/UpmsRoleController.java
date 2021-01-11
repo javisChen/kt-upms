@@ -5,12 +5,11 @@ import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.model.dto.role.RolePermissionAddDTO;
 import com.kt.model.dto.role.RoleAddDTO;
+import com.kt.model.dto.role.RolePermissionAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
-import com.kt.model.vo.permission.PermissionRouteVO;
 import com.kt.model.vo.permission.PermissionVO;
 import com.kt.model.vo.role.RoleListVO;
 import com.kt.upms.entity.UpmsRole;
@@ -73,9 +72,9 @@ public class UpmsRoleController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @PostMapping("/role/permission")
-    public ServerResponse updateRolePermissions(@RequestBody RolePermissionAddDTO dto) {
-        iUpmsRoleService.updateRolePermissions(dto);
+    @PostMapping("/role/permission/routes")
+    public ServerResponse updateRoleRoutePermissions(@RequestBody RolePermissionAddDTO dto) {
+        iUpmsRoleService.updateRoleRoutePermissions(dto);
         return ServerResponse.ok();
     }
 

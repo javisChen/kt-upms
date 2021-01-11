@@ -1,6 +1,7 @@
 package com.kt.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -93,6 +94,9 @@ public class UpmsRoute extends BaseEntity {
     @TableField("status")
     private Integer status;
 
+    @TableField(value = "is_deleted")
+    @TableLogic
+    private Long isDeleted;
 
     public UpmsRoute(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
         super(id);

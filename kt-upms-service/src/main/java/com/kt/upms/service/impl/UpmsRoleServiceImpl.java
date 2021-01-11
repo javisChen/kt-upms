@@ -1,4 +1,6 @@
 package com.kt.upms.service.impl;
+
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,7 +15,7 @@ import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.model.vo.permission.PermissionVO;
 import com.kt.model.vo.role.RoleListVO;
-import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RoleStatusEnums;
@@ -37,7 +39,7 @@ import java.util.stream.Collectors;
  * 角色表 服务实现类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @Service
@@ -118,18 +120,31 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void updateRolePermissions(RolePermissionAddDTO dto) {
-        upmsPermissionRoleRelMapper.batchInsert(dto.getRoleId(), dto.getPermissionIds());
+    public void updateRoleRoutePermissions(RolePermissionAddDTO dto) {
+        Long roleId = dto.getRoleId();
+        String frontRouteType = PermissionTypeEnums.FRONT_ROUTE.getType();
+        String pageElementType = PermissionTypeEnums.PAGE_ELEMENT.getType();
+        LambdaQueryWrapper<UpmsPermissionRoleRel> qw = new LambdaQueryWrapper<UpmsPermissionRoleRel>()
+                .eq(UpmsPermissionRoleRel::getRoleId, roleId)
+                .and(wrapper -> wrapper.eq(UpmsPermissionRoleRel::getType, frontRouteType)
+                        .or().eq(UpmsPermissionRoleRel::getType, pageElementType));
+        upmsPermissionRoleRelMapper.delete(qw);
+        if (CollectionUtil.isNotEmpty(dto.getRoutePermissionIds())) {
+            upmsPermissionRoleRelMapper.batchInsert(roleId, frontRouteType, dto.getRoutePermissionIds());
+        }
+        if (CollectionUtil.isNotEmpty(dto.getElementPermissionIds())) {
+            upmsPermissionRoleRelMapper.batchInsert(roleId, frontRouteType, dto.getElementPermissionIds());
+        }
     }
 
     @Override
     public List<PermissionVO> getRoleRoutePermissionById(Long id) {
-        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id , PermissionTypeEnums.FRONT_ROUTE.getType());
+        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id, PermissionTypeEnums.FRONT_ROUTE.getType());
     }
 
     @Override
     public List<PermissionVO> getRoleElementPermissionById(Long id) {
-        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id , PermissionTypeEnums.PAGE_ELEMENT.getType());
+        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id, PermissionTypeEnums.PAGE_ELEMENT.getType());
     }
 
     private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {
