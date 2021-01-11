@@ -71,11 +71,11 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
         return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
     }
 
-    public List<UpmsPageElement> listPageElements() {
+    private List<UpmsPageElement> listPageElements() {
         return listPageElements(null);
     }
 
-    public List<UpmsPageElement> listPageElements(Wrapper<UpmsPageElement> queryWrapper) {
+    private List<UpmsPageElement> listPageElements(Wrapper<UpmsPageElement> queryWrapper) {
         return Optional.ofNullable(this.list(queryWrapper)).orElseGet(ArrayList::new);
     }
 

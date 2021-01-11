@@ -8,7 +8,7 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
-import com.kt.model.vo.permission.PermissionElementsVO;
+import com.kt.model.vo.permission.PermissionElementVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.service.IUpmsPermissionService;
 import org.springframework.validation.annotation.Validated;
@@ -41,7 +41,6 @@ public class UpmsPermissionController extends BaseController {
         return ServerResponse.ok(iUpmsPermissionService.pageList(getPage(pageRequest), pageRequest.getParams()));
     }
 
-
     @GetMapping("/permission/{id}")
     public ServerResponse get(@PathVariable("id") String id) {
         UpmsPermission upmsPermission = iUpmsPermissionService.getById(id);
@@ -58,10 +57,12 @@ public class UpmsPermissionController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("/permissions/elements")
-    public ServerResponse getPermissionsElements(Long routeId) {
-        List<PermissionElementsVO> vos = iUpmsPermissionService.getPermissionElements(routeId);
-        return ServerResponse.ok(vos);
+    /**
+     * 获取元素权限
+     */
+    @GetMapping("/permission/elements")
+    public ServerResponse<List<PermissionElementVO>> getPermissionsElements(Long routePermissionId) {
+        return ServerResponse.ok(iUpmsPermissionService.getPermissionElements(routePermissionId));
     }
 
 }

@@ -7,19 +7,25 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.role.RoleAddDTO;
+import com.kt.model.dto.role.RolePermissionAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.permission.PermissionVO;
 import com.kt.model.vo.role.RoleListVO;
+import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsRole;
+import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RoleStatusEnums;
 import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
 import com.kt.upms.mapper.UpmsRoleMapper;
 import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
+import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRoleService;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -41,6 +47,8 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     private UpmsPermissionRoleRelMapper upmsPermissionRoleRelMapper;
     @Autowired
     private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
+    @Autowired
+    private IUpmsPermissionService iUpmsPermissionService;
 
     @Override
     public PageResponse<RoleListVO> pageList(RoleQueryDTO params) {
@@ -106,6 +114,22 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
             return new ArrayList<>();
         }
         return upmsUserGroupRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 20000)
+    public void updateRolePermissions(RolePermissionAddDTO dto) {
+        upmsPermissionRoleRelMapper.batchInsert(dto.getRoleId(), dto.getPermissionIds());
+    }
+
+    @Override
+    public List<PermissionVO> getRoleRoutePermissionById(Long id) {
+        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id , PermissionTypeEnums.FRONT_ROUTE.getType());
+    }
+
+    @Override
+    public List<PermissionVO> getRoleElementPermissionById(Long id) {
+        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id , PermissionTypeEnums.PAGE_ELEMENT.getType());
     }
 
     private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {

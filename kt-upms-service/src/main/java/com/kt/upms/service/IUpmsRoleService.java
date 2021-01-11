@@ -3,8 +3,10 @@ package com.kt.upms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.role.RoleAddDTO;
+import com.kt.model.dto.role.RolePermissionAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
+import com.kt.model.vo.permission.PermissionVO;
 import com.kt.model.vo.role.RoleListVO;
 import com.kt.upms.entity.UpmsRole;
 
@@ -37,4 +39,10 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
      * 根据用户组id查询下面的所有角色id
      */
     List<Long> getRoleIdsByUserGroupIds(List<Long> userGroupIds);
+
+    void updateRolePermissions(RolePermissionAddDTO dto);
+
+    List<PermissionVO> getRoleRoutePermissionById(Long id);
+
+    List<PermissionVO> getRoleElementPermissionById(Long id);
 }

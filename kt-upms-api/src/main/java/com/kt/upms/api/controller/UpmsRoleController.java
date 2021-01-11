@@ -2,14 +2,16 @@ package com.kt.upms.api.controller;
 
 
 import cn.hutool.extra.cglib.CglibUtil;
-import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
+import com.kt.model.dto.role.RolePermissionAddDTO;
 import com.kt.model.dto.role.RoleAddDTO;
 import com.kt.model.dto.role.RoleQueryDTO;
 import com.kt.model.dto.role.RoleUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
+import com.kt.model.vo.permission.PermissionRouteVO;
+import com.kt.model.vo.permission.PermissionVO;
 import com.kt.model.vo.role.RoleListVO;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.service.IUpmsRoleService;
@@ -17,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
+import java.util.List;
 
 
 /**
@@ -71,10 +74,21 @@ public class UpmsRoleController extends BaseController {
     }
 
     @PostMapping("/role/permission")
-    public ServerResponse addRolePermission(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
-                                       @RequestBody RoleUpdateDTO dto) {
-        iUpmsRoleService.updateStatus(dto);
+    public ServerResponse updateRolePermissions(@RequestBody RolePermissionAddDTO dto) {
+        iUpmsRoleService.updateRolePermissions(dto);
         return ServerResponse.ok();
+    }
+
+    @GetMapping("/role/permission/routes")
+    public ServerResponse getRoleRoutePermission(Long roleId) {
+        List<PermissionVO> vos = iUpmsRoleService.getRoleRoutePermissionById(roleId);
+        return ServerResponse.ok(vos);
+    }
+
+    @GetMapping("/role/permission/elements")
+    public ServerResponse getRoleElementPermission(Long roleId) {
+        List<PermissionVO> vos = iUpmsRoleService.getRoleElementPermissionById(roleId);
+        return ServerResponse.ok(vos);
     }
 }
 

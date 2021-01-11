@@ -1,5 +1,6 @@
 package com.kt.upms.mapper;
 
+import com.kt.model.vo.permission.PermissionElementVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,8 @@ import java.util.Set;
 public interface UpmsPermissionMapper extends BaseMapper<UpmsPermission> {
 
     List<UpmsPermission> selectByRoleIds(@Param("roleIds") Set<Long> roleIds);
+
+    List<PermissionElementVO> selectPageElementPermissionsByRouteId(Long routeId);
+
+    List<UpmsPermission> selectByRoleIdAndType(@Param("roleId") Long roleId, @Param("type") String type);
 }

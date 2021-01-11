@@ -37,4 +37,10 @@ public class UpmsUser extends BaseEntity {
     @TableField("password")
     private String password;
 
+    /**
+     * 状态 1-已启用；2-已禁用；
+     */
+    @TableField("status")
+    private Integer status;
+
 }

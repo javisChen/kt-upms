@@ -8,19 +8,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.permission.PermissionQueryDTO;
 import com.kt.model.dto.permission.PermissionUpdateDTO;
-import com.kt.model.vo.permission.PermissionElementsVO;
-import com.kt.upms.entity.UpmsPageElement;
+import com.kt.model.vo.permission.PermissionElementVO;
+import com.kt.model.vo.permission.PermissionVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
-import com.kt.upms.service.IUpmsPageElementService;
 import com.kt.upms.service.IUpmsPermissionService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,9 +34,6 @@ import java.util.stream.Collectors;
 @Service
 public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission>
         implements IUpmsPermissionService {
-
-    @Autowired
-    private IUpmsPageElementService iUpmsPageElementService;
 
     @Override
     public PageResponse pageList(Page page, PermissionQueryDTO dto) {
@@ -76,18 +72,33 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
     }
 
     @Override
-    public List<PermissionElementsVO> getPermissionElements(Long routeId) {
-        List<UpmsPageElement> elements = iUpmsPageElementService.getPageElementsByRouteId(routeId);
-        return elements.stream().map(this::assemblePermissionElementsVO).collect(Collectors.toList());
+    public List<PermissionElementVO> getPermissionElements(Long routePermissionId) {
+        UpmsPermission permission = getPermissionById(routePermissionId);
+        return this.baseMapper.selectPageElementPermissionsByRouteId(permission.getResourceId());
     }
 
-    private PermissionElementsVO assemblePermissionElementsVO(UpmsPageElement upmsPageElement) {
-        PermissionElementsVO vo = new PermissionElementsVO();
-        vo.setId(0L);
-        vo.setRouteId(0L);
-        vo.setName("");
-        vo.setType(0);
-        return null;
+    private UpmsPermission getPermissionById(Long routePermissionId) {
+        return this.getOne(new LambdaQueryWrapper<UpmsPermission>().eq(UpmsPermission::getId, routePermissionId));
+    }
+
+    @Override
+    public UpmsPermission getPermissionByResourceIdAndType(Long resourceId, PermissionTypeEnums permissionTypeEnums) {
+        final LambdaQueryWrapper<UpmsPermission> eq = new LambdaQueryWrapper<UpmsPermission>()
+                .eq(UpmsPermission::getResourceId, resourceId)
+                .eq(UpmsPermission::getType, permissionTypeEnums.getType());
+        return Optional.ofNullable(this.getOne(eq)).orElseGet(UpmsPermission::new);
+    }
+
+    @Override
+    public List<PermissionVO> getPermissionVOSByRoleIdAndType(Long roleId, String type) {
+        List<UpmsPermission> permissions = this.baseMapper.selectByRoleIdAndType(roleId, type);
+        return permissions.stream().map(this::assembleVo).collect(Collectors.toList());
+    }
+
+    private PermissionVO assembleVo(UpmsPermission upmsPermission) {
+        PermissionVO vo = new PermissionVO();
+        vo.setPermissionId(upmsPermission.getId());
+        return vo;
     }
 
     private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnums statusEnum) {

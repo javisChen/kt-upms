@@ -26,4 +26,10 @@ public class UpmsRole extends BaseEntity {
     @TableField("name")
     private String name;
 
+    /**
+     * 状态 1-已启用；2-已禁用；
+     */
+    @TableField("status")
+    private Integer status;
+
 }

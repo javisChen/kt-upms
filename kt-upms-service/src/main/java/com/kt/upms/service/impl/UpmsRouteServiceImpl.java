@@ -11,8 +11,10 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.route.*;
 import com.kt.model.dto.route.UserRoutesDTO.UserRouteItem.Meta;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.enums.DeletedEnums;
 import com.kt.model.vo.route.RouteDetailVO;
 import com.kt.model.vo.route.RouteListTreeVO;
+import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RouteStatusEnums;
@@ -22,6 +24,7 @@ import com.kt.upms.service.IUpmsPermissionService;
 import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,13 +46,10 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     private final static Long DEFAULT_PID = 0L;
     private final static Integer FIRST_LEVEL = 1;
 
-    private final IUpmsPermissionService iUpmsPermissionService;
-    private final IUpmsPageElementService iUpmsPageElementService;
-
-    public UpmsRouteServiceImpl(IUpmsPermissionService iUpmsPermissionService, IUpmsPageElementService iUpmsPageElementService) {
-        this.iUpmsPermissionService = iUpmsPermissionService;
-        this.iUpmsPageElementService = iUpmsPageElementService;
-    }
+    @Autowired
+    private IUpmsPermissionService iUpmsPermissionService;
+    @Autowired
+    private IUpmsPageElementService iUpmsPageElementService;
 
     @Override
     public PageResponse<RouteListTreeVO> pageList(RouteQueryDTO params) {
@@ -58,20 +58,14 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
                 .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
                 .eq(UpmsRoute::getPid, DEFAULT_PID)
-                .orderByAsc(UpmsRoute::getSequence)
-                ;
+                .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode())
+                .orderByAsc(UpmsRoute::getSequence);
         Page<UpmsRoute> pageResult = this.page(new Page<>(params.getCurrent(), params.getSize()), query);
 
-        List<UpmsRoute> levelOneMenus = pageResult.getRecords();
-        List<UpmsRoute> anotherMenus = this.list(new LambdaQueryWrapper<UpmsRoute>().ne(UpmsRoute::getPid, DEFAULT_PID));
-
-        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
-        for (UpmsRoute route : levelOneMenus) {
-            RouteListTreeVO item = assembleRouteListTreeVO(route);
-            item.setChildren(CollectionUtil.newArrayList());
-            findChildren(item, anotherMenus);
-            vos.add(item);
-        }
+        List<UpmsRoute> firstLevelRoutes = pageResult.getRecords();
+        List<UpmsRoute> childrenLevelRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>()
+                .ne(UpmsRoute::getPid, DEFAULT_PID).eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
+        List<RouteListTreeVO> vos = assembleRouteListTreeVOS(firstLevelRoutes, childrenLevelRoutes);
         return PageResponse.success(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), vos);
     }
 
@@ -336,21 +330,18 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
 
     @Override
     public List<RouteListTreeVO> getTree() {
-        List<UpmsRoute> pageResult = this.list(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getPid, DEFAULT_PID));
-        List<UpmsRoute> anotherMenus = this.list(new LambdaQueryWrapper<UpmsRoute>().ne(UpmsRoute::getPid, DEFAULT_PID));
-
-        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
-        for (UpmsRoute route : pageResult) {
-            RouteListTreeVO item = assembleRouteListTreeVO(route);
-            item.setChildren(CollectionUtil.newArrayList());
-            findChildren(item, anotherMenus);
-            vos.add(item);
-        }
-        return vos;
+        List<UpmsRoute> firstLevelRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getPid, DEFAULT_PID)
+                .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
+        List<UpmsRoute> childrenRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>().ne(UpmsRoute::getPid, DEFAULT_PID)
+                .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
+        return assembleRouteListTreeVOS(firstLevelRoutes, childrenRoutes);
     }
 
     private RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
+        UpmsPermission permission = iUpmsPermissionService.getPermissionByResourceIdAndType(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
         RouteListTreeVO treeNode = new RouteListTreeVO();
+        treeNode.setPermissionCode(permission.getCode());
+        treeNode.setPermissionId(permission.getId());
         treeNode.setCode(route.getCode());
         treeNode.setName(route.getName());
         treeNode.setIcon(route.getIcon());
@@ -381,6 +372,17 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .eq(UpmsRoute::getCode, code)
                 .ne(UpmsRoute::getId, id);
         return this.getOne(queryWrapper);
+    }
+
+    private List<RouteListTreeVO> assembleRouteListTreeVOS(List<UpmsRoute> levelOneMenus, List<UpmsRoute> anotherMenus) {
+        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
+        for (UpmsRoute route : levelOneMenus) {
+            RouteListTreeVO item = assembleRouteListTreeVO(route);
+            item.setChildren(CollectionUtil.newArrayList());
+            findChildren(item, anotherMenus);
+            vos.add(item);
+        }
+        return vos;
     }
 
 }

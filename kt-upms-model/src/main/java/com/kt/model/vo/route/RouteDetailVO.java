@@ -14,6 +14,8 @@ public class RouteDetailVO implements Serializable {
 
     private Long id;
     private Long pid;
+    private Long permissionId;
+    private String permissionCode;
     private Integer sequence;
     private String code;
     private String name;

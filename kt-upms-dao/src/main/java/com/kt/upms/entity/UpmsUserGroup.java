@@ -32,5 +32,11 @@ public class UpmsUserGroup extends BaseEntity {
     @TableField("pid")
     private Long pid;
 
+    /**
+     * 状态 1-已启用；2-已禁用；
+     */
+    @TableField("status")
+    private Integer status;
+
 
 }

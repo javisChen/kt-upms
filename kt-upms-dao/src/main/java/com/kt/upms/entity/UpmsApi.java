@@ -31,6 +31,9 @@ public class UpmsApi extends BaseEntity {
     @TableField("code")
     private String code;
 
-
-
+    /**
+     * 状态 1-已启用；2-已禁用；
+     */
+    @TableField("status")
+    private Integer status;
 }

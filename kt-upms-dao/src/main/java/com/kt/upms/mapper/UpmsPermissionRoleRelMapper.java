@@ -1,5 +1,6 @@
 package com.kt.upms.mapper;
 
+import com.kt.model.dto.role.RolePermissionAddDTO;
 import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,4 +18,6 @@ import java.util.List;
 public interface UpmsPermissionRoleRelMapper extends BaseMapper<UpmsPermissionRoleRel> {
 
     List<Long> selectRoleIdsByUserId(@Param("userId") Long userId);
+
+    void batchInsert(@Param("roleId") Long roleId, @Param("permissionIds") List<Long> permissionIds);
 }

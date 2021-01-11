@@ -29,10 +29,6 @@ public interface IUpmsPageElementService extends IService<UpmsPageElement> {
 
     List<PageElementVO> listPageElementVO(PageElementQueryDTO dto);
 
-    List<UpmsPageElement> listPageElements();
-
-    List<UpmsPageElement> listPageElements(Wrapper<UpmsPageElement> queryWrapper);
-
     void batchSavePageElement(Long routeId, List<RouteAddDTO.Element> elements);
 
     List<PageElementVO> getPageElementVOSByRouteId(Long id);

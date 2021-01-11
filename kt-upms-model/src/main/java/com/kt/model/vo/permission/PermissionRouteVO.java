@@ -1,20 +1,18 @@
-package com.kt.model.vo.route;
+package com.kt.model.vo.permission;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RouteListTreeVO implements Serializable {
+public class PermissionRouteVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +30,7 @@ public class RouteListTreeVO implements Serializable {
     private String path;
     private Integer type;
     private Boolean hideChildren;
-    private List<RouteListTreeVO> children;
+    private List<PermissionRouteVO> children;
     private Boolean group;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
