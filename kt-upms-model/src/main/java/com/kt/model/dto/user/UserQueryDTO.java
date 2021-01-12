@@ -1,15 +1,17 @@
 package com.kt.model.dto.user;
 
 
+import com.kt.component.dto.PagingDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserQueryDTO implements Serializable {
+public class UserQueryDTO extends PagingDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
 
     /**
      * 用户名称

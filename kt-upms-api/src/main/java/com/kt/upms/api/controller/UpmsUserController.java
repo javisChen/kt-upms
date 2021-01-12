@@ -1,7 +1,5 @@
 package com.kt.upms.api.controller;
 
-import cn.hutool.extra.cglib.CglibUtil;
-import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.logger.CatchAndLog;
@@ -9,15 +7,13 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
-import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.model.vo.user.UserDetailVO;
-import com.kt.upms.entity.UpmsUser;
+import com.kt.model.vo.user.UserListVO;
 import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.service.IUpmsUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.groups.Default;
 
 /**
  * <p>
@@ -32,20 +28,17 @@ import javax.validation.groups.Default;
 @CatchAndLog
 public class UpmsUserController extends BaseController {
 
-    private final IUpmsUserService iUpmsUserService;
-    private final IUpmsRouteService iUpmsMenuService;
-
-    public UpmsUserController(IUpmsUserService iUpmsUserService, IUpmsRouteService iUpmsMenuService) {
-        this.iUpmsUserService = iUpmsUserService;
-        this.iUpmsMenuService = iUpmsMenuService;
-    }
+    @Autowired
+    private IUpmsUserService iUpmsUserService;
+    @Autowired
+    private IUpmsRouteService iUpmsMenuService;
 
     /**
      * 查看用户列表
      */
     @PostMapping("/users")
-    public ServerResponse<PageResponse<UpmsUser>> list(@RequestBody PageRequest<UserQueryDTO> pageRequest) {
-        return ServerResponse.ok(iUpmsUserService.pageList(getPage(pageRequest), pageRequest.getParams()));
+    public ServerResponse<PageResponse<UserListVO>> list(@RequestBody UserQueryDTO pageRequest) {
+        return ServerResponse.ok(iUpmsUserService.pageList(pageRequest));
     }
 
     /**

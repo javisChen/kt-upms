@@ -10,10 +10,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.enums.BizEnums;
-import com.kt.model.vo.usergroup.UserGroupListTreeVO;
 import com.kt.model.vo.TreeVO;
+import com.kt.model.vo.usergroup.UserGroupListTreeVO;
 import com.kt.model.vo.usergroup.UserGroupVO;
-import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
@@ -257,6 +256,11 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
                 .orderByAsc(UpmsUserGroup::getGmtCreate)
                 .orderByAsc(UpmsUserGroup::getLevel);
         return list(queryWrapper).stream().map(this::assembleUserGroupVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getUserGroupNamesByUserId(Long userId) {
+        return this.baseMapper.selectUserGroupNamesByUserId(userId);
     }
 
     private Function<UpmsUserGroup, TreeVO> assembleUserGroupUserGroupTreeVO() {

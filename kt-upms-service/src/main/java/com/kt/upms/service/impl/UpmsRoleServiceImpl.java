@@ -30,7 +30,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,6 +149,11 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     @Override
     public List<RoleListVO> listAllVos() {
         return this.list().stream().map(this::assembleRoleListVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getRoleNamesByUserId(Long userId) {
+        return upmsPermissionRoleRelMapper.selectRoleNamesByUserId(userId);
     }
 
     private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {

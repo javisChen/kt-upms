@@ -21,4 +21,6 @@ public interface UpmsPermissionRoleRelMapper extends BaseMapper<UpmsPermissionRo
     void batchInsert(@Param("roleId") Long roleId,
                      @Param("type") String type,
                      @Param("permissionIds") List<Long> permissionIds);
+
+    List<String> selectRoleNamesByUserId(@Param("userId") Long userId);
 }

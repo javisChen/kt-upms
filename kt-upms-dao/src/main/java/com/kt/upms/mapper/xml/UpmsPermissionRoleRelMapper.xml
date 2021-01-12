@@ -33,4 +33,11 @@
         where uurr.user_id = #{userId}
     </select>
 
+    <select id="selectRoleNamesByUserId" resultType="java.lang.String">
+        select ur.name
+        from upms_user_role_rel uurr
+        inner join upms_role ur on uurr.role_id = ur.id
+        where uurr.user_id = #{userId}
+    </select>
+
 </mapper>

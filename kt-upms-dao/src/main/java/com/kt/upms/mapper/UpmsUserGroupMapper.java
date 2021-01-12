@@ -17,4 +17,6 @@ import java.util.List;
 public interface UpmsUserGroupMapper extends BaseMapper<UpmsUserGroup> {
 
     List<Long> selectUserGroupIdsByUserId(@Param("userId") Long userId);
+
+    List<String> selectUserGroupNamesByUserId(@Param("userId") Long userId);
 }

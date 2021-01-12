@@ -42,4 +42,6 @@ public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
     List<TreeVO> getTree(UserGroupQueryDTO dto);
 
     List<UserGroupVO> listAllVos();
+
+    List<String> getUserGroupNamesByUserId(Long userId);
 }

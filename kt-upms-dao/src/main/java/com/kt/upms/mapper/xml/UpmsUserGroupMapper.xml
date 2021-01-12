@@ -24,5 +24,11 @@
         from upms_user_group_user_rel uugur
         where user_id = #{userId}
     </select>
+    <select id="selectUserGroupNamesByUserId" resultType="java.lang.String">
+        select uug.name
+        from upms_user_group_user_rel uugur
+        inner join upms_user_group uug on uug.id = uugur.user_group_id
+        where user_id = #{userId}
+    </select>
 
 </mapper>

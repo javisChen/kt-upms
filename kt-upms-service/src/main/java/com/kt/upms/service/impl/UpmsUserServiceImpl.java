@@ -1,6 +1,4 @@
 package com.kt.upms.service.impl;
-import java.util.*;
-
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
@@ -9,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.logger.CatchAndLog;
@@ -17,6 +16,7 @@ import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.enums.BizEnums;
 import com.kt.model.vo.user.UserDetailVO;
+import com.kt.model.vo.user.UserListVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
@@ -25,13 +25,19 @@ import com.kt.upms.enums.UserStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.mapper.UpmsUserRoleRelMapper;
-import com.kt.upms.service.*;
+import com.kt.upms.service.IUpmsPermissionService;
+import com.kt.upms.service.IUpmsRoleService;
+import com.kt.upms.service.IUpmsUserGroupService;
+import com.kt.upms.service.IUpmsUserService;
 import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -133,12 +139,28 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public PageResponse<UpmsUser> pageList(IPage<UpmsUser> page, UserQueryDTO params) {
-        IPage<UpmsUser> result = this.page(page, new QueryWrapper<UpmsUser>()
+    public PageResponse<UserListVO> pageList(UserQueryDTO params) {
+        IPage<UpmsUser> result = this.page(new Page<>(params.getCurrent(), params.getSize()), new QueryWrapper<UpmsUser>()
                 .like(StrUtil.isNotBlank(params.getPhone()), "phone", params.getPhone())
                 .like(StrUtil.isNotBlank(params.getName()), "name", params.getName())
                 .select("id", "phone", "name", "status"));
-        return PageResponse.success(result);
+        List<UpmsUser> records = result.getRecords();
+        List<UserListVO> collect = records.stream().map(this::assembleUserVO).collect(Collectors.toList());
+        return PageResponse.success(result.getCurrent(), result.getSize(), result.getTotal(), collect);
+    }
+
+    private UserListVO assembleUserVO(UpmsUser upmsUser) {
+        Long userId = upmsUser.getId();
+        List<String> roles = iUpmsRoleService.getRoleNamesByUserId(userId);
+        List<String> userGroups = iUpmsUserGroupService.getUserGroupNamesByUserId(userId);
+        UserListVO userListVO = new UserListVO();
+        userListVO.setId(upmsUser.getId());
+        userListVO.setPhone(upmsUser.getPhone());
+        userListVO.setName(upmsUser.getName());
+        userListVO.setStatus(upmsUser.getStatus());
+        userListVO.setRoles(roles);
+        userListVO.setUserGroups(userGroups);
+        return userListVO;
     }
 
     @Override
