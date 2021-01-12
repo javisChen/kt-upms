@@ -12,6 +12,8 @@ import com.kt.model.dto.usergroup.*;
 import com.kt.model.enums.BizEnums;
 import com.kt.model.vo.usergroup.UserGroupListTreeVO;
 import com.kt.model.vo.TreeVO;
+import com.kt.model.vo.usergroup.UserGroupVO;
+import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
@@ -19,6 +21,7 @@ import com.kt.upms.enums.UserGroupStatusEnums;
 import com.kt.upms.mapper.*;
 import com.kt.upms.service.IUpmsUserGroupService;
 import com.kt.upms.util.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,25 +44,23 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         implements IUpmsUserGroupService {
 
     private final static Long DEFAULT_PID = 0L;
+    private final static Integer FIRST_LEVEL = 1;
 
-    private final UpmsUserGroupUserRelMapper userGroupUserRelMapper;
-    private final UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
-    private final UpmsUserMapper upmsUserMapper;
-    private final UpmsRoleMapper upmsRoleMapper;
-
-    public UpmsUserGroupServiceImpl(UpmsUserGroupUserRelMapper userGroupUserRelMapper, UpmsUserGroupRoleRelMapper
-            upmsUserGroupRoleRelMapper, UpmsUserMapper upmsUserMapper, UpmsRoleMapper upmsRoleMapper) {
-        this.userGroupUserRelMapper = userGroupUserRelMapper;
-        this.upmsUserGroupRoleRelMapper = upmsUserGroupRoleRelMapper;
-        this.upmsUserMapper = upmsUserMapper;
-        this.upmsRoleMapper = upmsRoleMapper;
-    }
+    @Autowired
+    private UpmsUserGroupUserRelMapper userGroupUserRelMapper;
+    @Autowired
+    private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
+    @Autowired
+    private UpmsUserMapper upmsUserMapper;
+    @Autowired
+    private UpmsRoleMapper upmsRoleMapper;
 
     @Override
     public PageResponse<UserGroupListTreeVO> pageList(UserGroupQueryDTO dto) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .like(StrUtil.isNotBlank(dto.getName()), UpmsUserGroup::getName, dto.getName())
-                .eq(UpmsUserGroup::getPid, DEFAULT_PID);
+                .eq(UpmsUserGroup::getPid, DEFAULT_PID)
+                .orderByAsc(UpmsUserGroup::getGmtCreate);
         Page<UpmsUserGroup> pageResult = this.page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
 
         List<UpmsUserGroup> levelOneUserGroups = pageResult.getRecords();
@@ -85,26 +86,47 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         }
     }
 
-    private UserGroupListTreeVO assembleUserGroupListTreeVO(UpmsUserGroup item) {
-        UserGroupListTreeVO vo = new UserGroupListTreeVO();
-        vo.setId(item.getId());
-        vo.setPid(item.getPid());
-        vo.setName(item.getName());
-        vo.setStatus(item.getStatus());
-        vo.setCreateTime(item.getGmtCreate());
-        vo.setUpdateTime(item.getGmtModified());
-        vo.setChildren(new ArrayList<>());
-        return vo;
-    }
-
     @Override
     public UserGroupAddDTO saveUserGroup(UserGroupAddDTO dto) {
         int count = countUserGroupByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.USER_GROUP_ALREADY_EXISTS);
 
         UpmsUserGroup newUserGroup = CglibUtil.copy(dto, UpmsUserGroup.class);
+
+        UpmsUserGroup parentRoute = null;
+        if (this.isFirstLevelUserGroup(newUserGroup)) {
+            newUserGroup.setLevel(FIRST_LEVEL);
+        } else {
+            parentRoute = getUserGroupById(newUserGroup.getPid());
+            Assert.isTrue(parentRoute == null, BizEnums.PARENT_ROUTE_NOT_EXISTS);
+            newUserGroup.setLevel(parentRoute.getLevel() + 1);
+        }
         this.save(newUserGroup);
+
+        // 新增完路由记录后再更新层级信息
+        updateLevelPathAfterSave(newUserGroup, parentRoute);
         return dto;
+    }
+
+    private void updateLevelPathAfterSave(UpmsUserGroup route, UpmsUserGroup parentRoute) {
+        Long routeId = route.getId();
+        String levelPath = isFirstLevelUserGroup(route)
+                ? routeId + StrUtil.DOT
+                : parentRoute.getLevelPath() + routeId + StrUtil.DOT;
+        UpmsUserGroup entity = new UpmsUserGroup();
+        entity.setId(routeId);
+        entity.setLevelPath(levelPath);
+        this.updateById(entity);
+    }
+
+    public UpmsUserGroup getUserGroupById(Long id) {
+        LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
+                .eq(UpmsUserGroup::getId, id);
+        return this.getOne(queryWrapper);
+    }
+
+    private boolean isFirstLevelUserGroup(UpmsUserGroup userGroup) {
+        return DEFAULT_PID.equals(userGroup.getPid()) || FIRST_LEVEL.equals(userGroup.getLevel());
     }
 
     private int countUserGroupByName(String name) {
@@ -229,6 +251,14 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
     }
 
+    @Override
+    public List<UserGroupVO> listAllVos() {
+        LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
+                .orderByAsc(UpmsUserGroup::getGmtCreate)
+                .orderByAsc(UpmsUserGroup::getLevel);
+        return list(queryWrapper).stream().map(this::assembleUserGroupVO).collect(Collectors.toList());
+    }
+
     private Function<UpmsUserGroup, TreeVO> assembleUserGroupUserGroupTreeVO() {
         return item -> {
             TreeVO userGroupTreeVO = new TreeVO();
@@ -242,5 +272,27 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         this.update(new LambdaUpdateWrapper<UpmsUserGroup>()
                 .eq(UpmsUserGroup::getStatus, dto.getId())
                 .set(UpmsUserGroup::getStatus, statusEnum.getValue()));
+    }
+
+    private UserGroupVO assembleUserGroupVO(UpmsUserGroup item) {
+        UserGroupVO vo = new UserGroupVO();
+        vo.setId(item.getId());
+        vo.setPid(item.getPid());
+        vo.setName(item.getName());
+        vo.setLevel(item.getLevel());
+        vo.setStatus(item.getStatus());
+        return vo;
+    }
+
+    private UserGroupListTreeVO assembleUserGroupListTreeVO(UpmsUserGroup item) {
+        UserGroupListTreeVO vo = new UserGroupListTreeVO();
+        vo.setId(item.getId());
+        vo.setPid(item.getPid());
+        vo.setName(item.getName());
+        vo.setStatus(item.getStatus());
+        vo.setCreateTime(item.getGmtCreate());
+        vo.setUpdateTime(item.getGmtModified());
+        vo.setChildren(new ArrayList<>());
+        return vo;
     }
 }

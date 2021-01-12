@@ -39,6 +39,15 @@ public class UpmsUserGroup extends BaseEntity {
     @TableField("status")
     private Integer status;
 
+    /**
+     * 状态 1-已启用；2-已禁用；
+     */
+    @TableField("level")
+    private Integer level;
+
+    @TableField("level_path")
+    private String levelPath;
+
     @TableField(value = "is_deleted")
     @TableLogic
     private Long isDeleted;

@@ -45,4 +45,6 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
     List<PermissionVO> getRoleRoutePermissionById(Long id);
 
     List<PermissionVO> getRoleElementPermissionById(Long id);
+
+    List<RoleListVO> listAllVos();
 }

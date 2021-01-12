@@ -1,8 +1,6 @@
 package com.kt.upms.api.controller;
 
-
 import cn.hutool.extra.cglib.CglibUtil;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kt.component.dto.PageRequest;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
@@ -10,21 +8,18 @@ import com.kt.component.web.base.BaseController;
 import com.kt.model.dto.usergroup.*;
 import com.kt.model.validgroup.UpmsValidateGroup;
 import com.kt.model.vo.usergroup.UserGroupListTreeVO;
+import com.kt.model.vo.usergroup.UserGroupVO;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.service.IUpmsUserGroupService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.groups.Default;
-
+import java.util.List;
 
 /**
  * <p>
  * 用户组表 前端控制器
  * </p>
- *
- * @author
- * @since 2020-11-09
  */
 @RestController
 @RequestMapping
@@ -39,6 +34,11 @@ public class UpmsUserGroupController extends BaseController {
     @PostMapping("/usergroups")
     public ServerResponse<PageResponse<UserGroupListTreeVO>> list(@RequestBody UserGroupQueryDTO dto) {
         return ServerResponse.ok(iUpmsUserGroupService.pageList(dto));
+    }
+
+    @GetMapping("/usergroups/all")
+    public ServerResponse<List<UserGroupVO>> list() {
+        return ServerResponse.ok(iUpmsUserGroupService.listAllVos());
     }
 
     @PostMapping("/usergroups/tree")

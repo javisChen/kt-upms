@@ -6,6 +6,7 @@ import com.kt.component.dto.PageResponse;
 import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
+import com.kt.model.vo.user.UserDetailVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 
@@ -35,4 +36,6 @@ public interface IUpmsUserService extends IService<UpmsUser> {
     List<UpmsPermission> getUserPermissions(Long userId);
 
     UpmsUser getUserByPhone(String username);
+
+    UserDetailVO getUserDetailVOById(Long userId);
 }

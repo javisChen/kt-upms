@@ -33,7 +33,6 @@ import java.util.List;
 @RequestMapping
 public class UpmsRoleController extends BaseController {
 
-
     private final IUpmsRoleService iUpmsRoleService;
 
     public UpmsRoleController(IUpmsRoleService iUpmsRoleService) {
@@ -43,6 +42,11 @@ public class UpmsRoleController extends BaseController {
     @PostMapping("/roles")
     public ServerResponse<PageResponse<RoleListVO>> list(@RequestBody RoleQueryDTO dto) {
         return ServerResponse.ok(iUpmsRoleService.pageList(dto));
+    }
+
+    @GetMapping("/roles/all")
+    public ServerResponse<List<RoleListVO>> listAll() {
+        return ServerResponse.ok(iUpmsRoleService.listAllVos());
     }
 
     @PostMapping("/role")

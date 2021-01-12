@@ -11,7 +11,7 @@ import java.util.List;
  * 用户组与用户关联表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsUserGroupUserRelMapper extends BaseMapper<UpmsUserGroupUserRel> {
@@ -20,4 +20,5 @@ public interface UpmsUserGroupUserRelMapper extends BaseMapper<UpmsUserGroupUser
     int deleteByUserIdsAndUserGroupId(@Param("userGroupId") Long userGroupId, @Param("userIds") List<Long> userIds);
 
 
+    void batchSaveRelation(@Param("userId") Long userId, @Param("userGroupIds") List<Long> userGroupIds);
 }

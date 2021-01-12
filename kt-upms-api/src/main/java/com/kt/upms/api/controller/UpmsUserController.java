@@ -10,6 +10,7 @@ import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.validgroup.UpmsValidateGroup;
+import com.kt.model.vo.user.UserDetailVO;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.service.IUpmsRouteService;
 import com.kt.upms.service.IUpmsUserService;
@@ -66,26 +67,11 @@ public class UpmsUserController extends BaseController {
     }
 
     /**
-     * 修改用户状态
-     */
-    @PutMapping("/user/status")
-    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
-                                       @RequestBody UserUpdateDTO userUpdateDTO) {
-        iUpmsUserService.updateStatus(userUpdateDTO);
-        return ServerResponse.ok();
-    }
-
-    /**
      * 查看用户详情
      */
-    @GetMapping("/user/{id}")
-    public ServerResponse get(@PathVariable("id") String userId) {
-        UpmsUser upmsUser = iUpmsUserService.getById(userId);
-        if (upmsUser == null) {
-            return ServerResponse.ok();
-        }
-        upmsUser.setPassword(null);
-        return ServerResponse.ok(CglibUtil.copy(upmsUser, UserUpdateDTO.class));
+    @GetMapping("/user")
+    public ServerResponse<UserDetailVO> get(Long id) {
+        return ServerResponse.ok(iUpmsUserService.getUserDetailVOById(id));
     }
 
     /**

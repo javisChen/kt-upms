@@ -19,4 +19,12 @@
         user_id, role_id
     </sql>
 
+    <insert id="batchSaveRelation">
+        insert into upms_user_role_rel(user_id, role_id)
+        values
+        <foreach collection="roleIds" item="item" separator=",">
+            (#{userId}, #{item})
+        </foreach>
+    </insert>
+
 </mapper>

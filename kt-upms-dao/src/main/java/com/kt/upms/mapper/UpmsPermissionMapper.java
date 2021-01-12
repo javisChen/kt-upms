@@ -20,7 +20,7 @@ public interface UpmsPermissionMapper extends BaseMapper<UpmsPermission> {
 
     List<UpmsPermission> selectByRoleIds(@Param("roleIds") Set<Long> roleIds);
 
-    List<PermissionElementVO> selectPageElementPermissionsByRouteId(Long routeId);
+    List<PermissionElementVO> selectPageElementPermissionsByRouteId(@Param("routeId") Long routeId);
 
     List<UpmsPermission> selectByRoleIdAndType(@Param("roleId") Long roleId, @Param("type") String type);
 }

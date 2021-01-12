@@ -2,6 +2,9 @@ package com.kt.upms.mapper;
 
 import com.kt.upms.entity.UpmsUserRoleRel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UpmsUserRoleRelMapper extends BaseMapper<UpmsUserRoleRel> {
 
+    void batchSaveRelation(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds);
 }

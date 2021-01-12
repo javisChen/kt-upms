@@ -96,8 +96,8 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
         int count = this.count(queryWrapper);
         Assert.isTrue(count > 0, BizEnums.ROLE_ALREADY_EXISTS);
 
-        UpmsRole updateUpmsRole = CglibUtil.copy(dto, UpmsRole.class);
-        this.updateById(updateUpmsRole);
+        UpmsRole role = CglibUtil.copy(dto, UpmsRole.class);
+        this.updateById(role);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     @Override
     public List<Long> getRoleIdsByUserGroupIds(List<Long> userGroupIds) {
         if (CollectionUtils.isEmpty(userGroupIds)) {
-            return new ArrayList<>();
+            return CollectionUtil.newArrayList();
         }
         return upmsUserGroupRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
     }
@@ -145,6 +145,11 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     @Override
     public List<PermissionVO> getRoleElementPermissionById(Long id) {
         return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id, PermissionTypeEnums.PAGE_ELEMENT.getType());
+    }
+
+    @Override
+    public List<RoleListVO> listAllVos() {
+        return this.list().stream().map(this::assembleRoleListVO).collect(Collectors.toList());
     }
 
     private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {

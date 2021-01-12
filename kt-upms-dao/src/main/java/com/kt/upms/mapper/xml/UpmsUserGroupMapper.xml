@@ -5,6 +5,8 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.kt.upms.entity.UpmsUserGroup">
     <result column="id" property="id" />
+    <result column="pid" property="pid" />
+    <result column="level" property="level" />
     <result column="gmt_create" property="gmtCreate" />
     <result column="gmt_modified" property="gmtModified" />
         <result column="name" property="name" />

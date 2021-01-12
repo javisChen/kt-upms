@@ -1,4 +1,4 @@
-package com.kt.model.dto.user;
+package com.kt.model.vo.user;
 
 
 import com.kt.model.validgroup.UpmsValidateGroup;
@@ -10,20 +10,14 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class UserUpdateDTO implements Serializable {
+public class UserDetailVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id 不能为空")
     private Long id;
-
+    private String phone;
     private String name;
-
-    @NotNull(groups = UpmsValidateGroup.UpdateStatus.class, message = "status 不能为空")
-    @Range(min = 1, max = 2)
     private Integer status;
-
-    public List<Long> roleIds;
-
-    public List<Long> userGroupIds;
+    private List<Long> roleIds;
+    private List<Long> userGroupIds;;
 }

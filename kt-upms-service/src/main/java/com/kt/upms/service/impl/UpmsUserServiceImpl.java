@@ -1,5 +1,7 @@
 package com.kt.upms.service.impl;
+import java.util.*;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.extra.cglib.CglibUtil;
@@ -14,23 +16,22 @@ import com.kt.model.dto.user.UserAddDTO;
 import com.kt.model.dto.user.UserQueryDTO;
 import com.kt.model.dto.user.UserUpdateDTO;
 import com.kt.model.enums.BizEnums;
+import com.kt.model.vo.user.UserDetailVO;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.entity.UpmsUserGroupUserRel;
+import com.kt.upms.entity.UpmsUserRoleRel;
 import com.kt.upms.enums.UserStatusEnums;
+import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.mapper.UpmsUserMapper;
-import com.kt.upms.service.IUpmsPermissionService;
-import com.kt.upms.service.IUpmsRoleService;
-import com.kt.upms.service.IUpmsUserGroupService;
-import com.kt.upms.service.IUpmsUserService;
+import com.kt.upms.mapper.UpmsUserRoleRelMapper;
+import com.kt.upms.service.*;
 import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -53,21 +54,44 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     private IUpmsPermissionService iUpmsPermissionService;
     @Autowired
     private IUserPasswordHelper iUserPasswordHelper;
+    @Autowired
+    private UpmsUserRoleRelMapper upmsUserRoleRelMapper;
+    @Autowired
+    private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
 
     @Override
-    public void saveUser(UserAddDTO userAddDTO) {
-        doCheckBeforeSave(userAddDTO);
+    @Transactional(rollbackFor = Exception.class, timeout = 20000)
+    public void saveUser(UserAddDTO dto) {
+        doCheckBeforeSave(dto);
 
-        doSave(userAddDTO);
+        UpmsUser upmsUser = doSaveUser(dto);
+        Long userId = upmsUser.getId();
+
+        doSaveUserRoleRelation(userId, dto.getRoleIds());
+
+        doSaveUserUserGroupRelation(userId, dto.getUserGroupIds());
     }
 
-    private void doSave(UserAddDTO dto) {
+    private void doSaveUserUserGroupRelation(Long userId, List<Long> userGroupIds) {
+        if (CollectionUtil.isNotEmpty(userGroupIds)) {
+            upmsUserGroupUserRelMapper.batchSaveRelation(userId, userGroupIds);
+        }
+    }
+
+    private void doSaveUserRoleRelation(Long userId, List<Long> roleIds) {
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            upmsUserRoleRelMapper.batchSaveRelation(userId, roleIds);
+        }
+    }
+
+    private UpmsUser doSaveUser(UserAddDTO dto) {
         UpmsUser upmsUser = new UpmsUser();
         upmsUser.setPhone(dto.getPhone());
         upmsUser.setPassword(dto.getPassword());
         upmsUser.setName(dto.getName());
         upmsUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(upmsUser.getPassword())));
         this.save(upmsUser);
+        return upmsUser;
     }
 
     private void doCheckBeforeSave(UserAddDTO dto) {
@@ -80,9 +104,32 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public void updateUserById(UserUpdateDTO userUpdateDTO) {
-        UpmsUser upmsUser = CglibUtil.copy(userUpdateDTO, UpmsUser.class);
+    public void updateUserById(UserUpdateDTO dto) {
+        UpmsUser upmsUser = CglibUtil.copy(dto, UpmsUser.class);
+        Long userId = upmsUser.getId();
+
+        // 先把原本角色和用户组清空
+        removeUserRoleRelation(userId);
+
+        removeUserUserGroupRelation(userId);
+
+        doSaveUserRoleRelation(userId, dto.getRoleIds());
+
+        doSaveUserUserGroupRelation(userId, dto.getUserGroupIds());
+
         this.updateById(upmsUser);
+    }
+
+    private void removeUserUserGroupRelation(Long userId) {
+        final LambdaQueryWrapper<UpmsUserGroupUserRel> eq = new LambdaQueryWrapper<UpmsUserGroupUserRel>()
+                .eq(UpmsUserGroupUserRel::getUserId, userId);
+        upmsUserGroupUserRelMapper.delete(eq);
+    }
+
+    private void removeUserRoleRelation(Long userId) {
+        LambdaQueryWrapper<UpmsUserRoleRel> eq = new LambdaQueryWrapper<UpmsUserRoleRel>()
+                .eq(UpmsUserRoleRel::getUserId, userId);
+        upmsUserRoleRelMapper.delete(eq);
     }
 
     @Override
@@ -101,8 +148,8 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
 
     @Override
     public List<UpmsPermission> getUserPermissions(Long userId) {
-        List<Long> roleIds = iUpmsRoleService.getRoleIdsByUserId(userId);
-        List<Long> userGroupIds = iUpmsUserGroupService.getUserGroupIdsByUserId(userId);
+        List<Long> roleIds = getRoleIdsByUserId(userId);
+        List<Long> userGroupIds = getUserGroupIdsByUserId(userId);
         List<Long> userGroupsRoleIds = iUpmsRoleService.getRoleIdsByUserGroupIds(userGroupIds);
         log.debug("用户拥有的角色 --------> {}", roleIds);
         log.debug("用户所归属的用户组 --------> {}", userGroupIds);
@@ -116,6 +163,31 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     @Override
     public UpmsUser getUserByPhone(String username) {
         return this.getOne(new LambdaQueryWrapper<UpmsUser>().eq(UpmsUser::getPhone, username));
+    }
+
+    @Override
+    public UserDetailVO getUserDetailVOById(Long userId) {
+        UpmsUser user = getUserById(userId);
+        UserDetailVO vo = new UserDetailVO();
+        vo.setId(user.getId());
+        vo.setPhone(user.getPhone());
+        vo.setName(user.getName());
+        vo.setStatus(user.getStatus());
+        vo.setRoleIds(getRoleIdsByUserId(userId));
+        vo.setUserGroupIds(getUserGroupIdsByUserId(userId));
+        return vo;
+    }
+
+    private List<Long> getUserGroupIdsByUserId(Long userId) {
+        return iUpmsUserGroupService.getUserGroupIdsByUserId(userId);
+    }
+
+    private List<Long> getRoleIdsByUserId(Long userId) {
+        return iUpmsRoleService.getRoleIdsByUserId(userId);
+    }
+
+    private UpmsUser getUserById(Long userId) {
+        return Optional.ofNullable(this.getById(userId)).orElseGet(UpmsUser::new);
     }
 
     private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnums statusEnum) {

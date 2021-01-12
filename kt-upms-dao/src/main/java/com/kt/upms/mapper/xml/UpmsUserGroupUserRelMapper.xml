@@ -25,6 +25,13 @@
             (#{item.userGroupId,jdbcType=NUMERIC}, #{item.userId,jdbcType=NUMERIC})
         </foreach>
     </insert>
+    <insert id="batchSaveRelation">
+        insert into upms_user_group_user_rel(user_id, user_group_id)
+        values
+        <foreach collection="userGroupIds" item="item" separator=",">
+            (#{userId}, #{item})
+        </foreach>
+    </insert>
 
     <delete id="deleteByUserIdsAndUserGroupId">
         delete from upms_user_group_user_rel

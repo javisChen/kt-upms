@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class UserAddDTO implements Serializable {
@@ -36,5 +37,9 @@ public class UserAddDTO implements Serializable {
     @NotNull(message = "status 不能为空")
     @Range(min = 1, max = 2)
     private Integer status;
+
+    public List<Long> roleIds;
+
+    public List<Long> userGroupIds;
 
 }
