@@ -26,9 +26,9 @@
                  inner join upms_permission_role_rel uprr on up.id = uprr.permission_id
     </select>
 
-    <select id="selectPageElementPermissionsByRouteId" resultType="com.kt.upms.module.permission.vo.PermissionElementVO">
-        select up.id id,
-               up.code,
+    <select id="selectPageElementPermissionsByRouteId" resultType="com.kt.upms.module.route.vo.RouteElementVO">
+        select up.id as id,
+               up.code as permission_code,
                route_id,
                name,
                upe.type

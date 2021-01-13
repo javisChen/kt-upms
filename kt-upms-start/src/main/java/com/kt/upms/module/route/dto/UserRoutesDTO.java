@@ -31,7 +31,6 @@ public class UserRoutesDTO implements Serializable {
             private String title;
             private Boolean show;
             private Boolean hideChildren;
-//            private Boolean hiddenHeaderContent = true;
 
         }
     }

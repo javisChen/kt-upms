@@ -1,4 +1,4 @@
-package com.kt.upms.module.permission.vo;
+package com.kt.upms.module.route.vo;
 
 
 import lombok.Data;
@@ -6,14 +6,15 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class PermissionElementVO implements Serializable {
+public class RouteElementVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
     private Long routeId;
     private String name;
-    private String code;
+    private Long permissionId;
+    private String permissionCode;
     private Integer type;
 
 }

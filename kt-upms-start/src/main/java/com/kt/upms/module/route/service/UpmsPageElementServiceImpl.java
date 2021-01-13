@@ -11,10 +11,8 @@ import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPageElementMapper;
 import com.kt.upms.module.permission.service.IUpmsPermissionService;
-import com.kt.upms.module.route.dto.PageElementAddDTO;
-import com.kt.upms.module.route.dto.PageElementQueryDTO;
 import com.kt.upms.module.route.dto.PageElementUpdateDTO;
-import com.kt.upms.module.route.dto.RouteAddDTO;
+import com.kt.upms.module.route.dto.RouteUpdateDTO;
 import com.kt.upms.module.route.vo.PageElementVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,38 +39,11 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
     private IUpmsPermissionService iUpmsPermissionService;
 
     @Override
-    public void updatePageElement(PageElementUpdateDTO dto) {
-        UpmsPageElement entity = new UpmsPageElement();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setType(dto.getType());
-        this.updateById(entity);
-    }
-
-    @Override
-    public void removePageElement(PageElementUpdateDTO dto) {
-        UpmsPageElement entity = new UpmsPageElement();
-        entity.setId(dto.getId());
-        entity.setIsDeleted(dto.getId());
-        this.updateById(entity);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void savePageElement(PageElementAddDTO dto) {
+    public void savePageElement(PageElementUpdateDTO dto) {
         UpmsPageElement pageElement = CglibUtil.copy(dto, UpmsPageElement.class);
         this.save(pageElement);
         iUpmsPermissionService.addPermission(pageElement.getId(), PermissionTypeEnums.PAGE_ELEMENT);
-    }
-
-    @Override
-    public List<PageElementVO> listElementVO(PageElementQueryDTO dto) {
-        List<UpmsPageElement> list = listPageElements();
-        return list.stream().map(this::assemblePageElementVO).collect(Collectors.toList());
-    }
-
-    private List<UpmsPageElement> listPageElements() {
-        return listPageElements(null);
     }
 
     private List<UpmsPageElement> listPageElements(Wrapper<UpmsPageElement> queryWrapper) {
@@ -80,9 +51,9 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
     }
 
     @Override
-    public void batchSavePageElement(Long routeId, List<RouteAddDTO.Element> elements) {
+    public void batchSavePageElement(Long routeId, List<RouteUpdateDTO.Element> elements) {
         elements.forEach(item -> {
-            PageElementAddDTO dto = new PageElementAddDTO();
+            PageElementUpdateDTO dto = new PageElementUpdateDTO();
             dto.setRouteId(routeId);
             dto.setName(item.getName());
             dto.setType(item.getType());
@@ -109,6 +80,14 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
                 .eq(UpmsPageElement::getRouteId, routeId)
                 .set(UpmsPageElement::getIsDeleted, DeletedEnums.YET.getCode())
         );
+    }
+
+    @Override
+    public List<UpmsPageElement> listElementsByRouteId(Long routeId) {
+        LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<>();
+        qw.eq(UpmsPageElement::getRouteId, routeId);
+        qw.eq(UpmsPageElement::getIsDeleted, DeletedEnums.NOT.getCode());
+        return this.listPageElements(qw);
     }
 
     private PageElementVO assemblePageElementVO(UpmsPageElement item) {

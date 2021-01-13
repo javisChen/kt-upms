@@ -7,8 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.component.dto.PageResponse;
-import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.DeletedEnums;
@@ -16,8 +15,10 @@ import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RouteStatusEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.module.permission.service.IUpmsPermissionService;
+import com.kt.upms.module.route.converter.RouteBeanConverter;
 import com.kt.upms.module.route.dto.*;
 import com.kt.upms.module.route.vo.RouteDetailVO;
+import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
 import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,9 +47,21 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     private IUpmsPermissionService iUpmsPermissionService;
     @Autowired
     private IUpmsPageElementService iUpmsPageElementService;
+    @Autowired
+    private RouteBeanConverter beanConverter;
 
     @Override
-    public PageResponse<RouteListTreeVO> pageList(RouteQueryDTO params) {
+    public Page<RouteListTreeVO> pageList(RouteQueryDTO params) {
+        Page<UpmsRoute> pageResult = getFirstLevelRoutesByPage(params);
+        List<UpmsRoute> firstLevelRoutes = pageResult.getRecords();
+        List<UpmsRoute> childrenLevelRoutes = getChildrenRoutes();
+        List<RouteListTreeVO> vos = recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
+        Page<RouteListTreeVO> voPage = new Page<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal());
+        voPage.setRecords(vos);
+        return voPage;
+    }
+
+    private Page<UpmsRoute> getFirstLevelRoutesByPage(RouteQueryDTO params) {
         LambdaQueryWrapper<UpmsRoute> query = new LambdaQueryWrapper<UpmsRoute>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
                 .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
@@ -57,24 +69,40 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .eq(UpmsRoute::getPid, DEFAULT_PID)
                 .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode())
                 .orderByAsc(UpmsRoute::getSequence);
-        Page<UpmsRoute> pageResult = this.page(new Page<>(params.getCurrent(), params.getSize()), query);
+        return this.page(new Page<>(params.getCurrent(), params.getSize()), query);
+    }
 
-        List<UpmsRoute> firstLevelRoutes = pageResult.getRecords();
-        List<UpmsRoute> childrenLevelRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>()
+    private List<UpmsRoute> getChildrenRoutes() {
+        return this.list(new LambdaQueryWrapper<UpmsRoute>()
                 .ne(UpmsRoute::getPid, DEFAULT_PID).eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
-        List<RouteListTreeVO> vos = assembleRouteListTreeVOS(firstLevelRoutes, childrenLevelRoutes);
-        return PageResponse.success(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), vos);
+    }
+
+    /**
+     * 递归组装路由
+     * @param firstLevelRoutes 一级路由
+     * @param childrenLevelRoutes 子路由
+     */
+    private List<RouteListTreeVO> recursionRoutes(List<UpmsRoute> firstLevelRoutes,
+                                                  List<UpmsRoute> childrenLevelRoutes) {
+        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
+        for (UpmsRoute route : firstLevelRoutes) {
+            RouteListTreeVO item = beanConverter.assembleRouteListTreeVO(route);
+            item.setChildren(CollectionUtil.newArrayList());
+            findChildren(item, childrenLevelRoutes);
+            vos.add(item);
+        }
+        return vos;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void saveRoute(RouteAddDTO dto) {
-        UpmsRoute queryRoute = getMenuByName(dto.getName());
+    public void saveRoute(RouteUpdateDTO dto) {
+        UpmsRoute queryRoute = getRouteByName(dto.getName());
         Assert.isTrue(queryRoute != null, BizEnums.ROUTE_ALREADY_EXISTS);
         queryRoute = getRouteByCode(dto.getCode());
         Assert.isTrue(queryRoute != null, BizEnums.ROUTE_CODE_ALREADY_EXISTS);
 
-        UpmsRoute route = assembleUpmsRoute(dto);
+        UpmsRoute route = beanConverter.convertToDataObject(dto);
         UpmsRoute parentRoute = null;
         if (this.isFirstLevelRoute(route)) {
             route.setLevel(FIRST_LEVEL);
@@ -109,11 +137,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         return this.getOne(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getCode, code));
     }
 
-    private UpmsRoute assembleUpmsRoute(RouteAddDTO dto) {
-        return CglibUtil.copy(dto, UpmsRoute.class);
-    }
-
-    private UpmsRoute getMenuByName(String name) {
+    private UpmsRoute getRouteByName(String name) {
         return this.getOne(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getName, name));
     }
 
@@ -238,6 +262,9 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         updateRouteStatus(dto.getId(), dto.getStatus());
     }
 
+    /**
+     * 更新一个路由状态，要同时把它下面的子路由状态都统一更改
+     */
     public void updateRouteStatus(Long routeId, Integer status) {
         UpmsRoute menu = getRouteById(routeId);
         if (menu != null) {
@@ -306,17 +333,6 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         return meta;
     }
 
-    private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {
-        for (UpmsRoute route : list) {
-            if (parent.getId().equals(route.getPid())) {
-                RouteListTreeVO item = assembleRouteListTreeVO(route);
-                item.setChildren(CollectionUtil.newArrayList());
-                parent.getChildren().add(item);
-                findChildren(item, list);
-            }
-        }
-    }
-
     @Override
     public void deleteRouteById(Long id) {
         UpmsRoute route = getRouteById(id);
@@ -329,32 +345,25 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     public List<RouteListTreeVO> getTree() {
         List<UpmsRoute> firstLevelRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getPid, DEFAULT_PID)
                 .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
-        List<UpmsRoute> childrenRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>().ne(UpmsRoute::getPid, DEFAULT_PID)
-                .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
-        return assembleRouteListTreeVOS(firstLevelRoutes, childrenRoutes);
+        List<UpmsRoute> childrenRoutes = getChildrenRoutes();
+        return recursionRoutes(firstLevelRoutes, childrenRoutes);
     }
 
-    private RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
-        UpmsPermission permission = iUpmsPermissionService.getPermissionByResourceIdAndType(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
-        RouteListTreeVO treeNode = new RouteListTreeVO();
-        treeNode.setPermissionCode(permission.getCode());
-        treeNode.setPermissionId(permission.getId());
-        treeNode.setCode(route.getCode());
-        treeNode.setName(route.getName());
-        treeNode.setIcon(route.getIcon());
-        treeNode.setChildren(new ArrayList<>());
-        treeNode.setId(route.getId());
-        treeNode.setPid(route.getPid());
-        treeNode.setComponent(route.getComponent());
-        treeNode.setPath(route.getPath());
-        treeNode.setSequence(route.getSequence());
-        treeNode.setStatus(route.getStatus());
-        treeNode.setLevelPath(route.getLevelPath());
-        treeNode.setType(route.getType());
-        treeNode.setHideChildren(route.getHideChildren());
-        treeNode.setCreateTime(route.getGmtCreate());
-        treeNode.setUpdateTime(route.getGmtModified());
-        return treeNode;
+    @Override
+    public List<RouteElementVO> listRouteElementsById(Long routeId) {
+        List<UpmsPageElement> elements = this.iUpmsPageElementService.listElementsByRouteId(routeId);
+        return elements.stream().map(beanConverter::convertForRouteElementVO).collect(Collectors.toList());
+    }
+
+    private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {
+        for (UpmsRoute route : list) {
+            if (parent.getId().equals(route.getPid())) {
+                RouteListTreeVO item = beanConverter.assembleRouteListTreeVO(route);
+                item.setChildren(CollectionUtil.newArrayList());
+                parent.getChildren().add(item);
+                findChildren(item, list);
+            }
+        }
     }
 
     private UpmsRoute getRouteByNameAndNotEqualToId(String name, Long id) {
@@ -369,17 +378,6 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
                 .eq(UpmsRoute::getCode, code)
                 .ne(UpmsRoute::getId, id);
         return this.getOne(queryWrapper);
-    }
-
-    private List<RouteListTreeVO> assembleRouteListTreeVOS(List<UpmsRoute> levelOneMenus, List<UpmsRoute> anotherMenus) {
-        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
-        for (UpmsRoute route : levelOneMenus) {
-            RouteListTreeVO item = assembleRouteListTreeVO(route);
-            item.setChildren(CollectionUtil.newArrayList());
-            findChildren(item, anotherMenus);
-            vos.add(item);
-        }
-        return vos;
     }
 
 }

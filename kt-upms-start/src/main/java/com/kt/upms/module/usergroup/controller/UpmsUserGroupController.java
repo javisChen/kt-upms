@@ -1,20 +1,22 @@
 package com.kt.upms.module.usergroup.controller;
 
-import cn.hutool.extra.cglib.CglibUtil;
-import com.kt.component.dto.PageRequest;
+import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.dto.SingleResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.upms.module.usergroup.dto.*;
-import com.kt.upms.validgroup.UpmsValidateGroup;
-import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
-import com.kt.upms.module.usergroup.vo.UserGroupVO;
-import com.kt.upms.entity.UpmsUserGroup;
+import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
+import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
+import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
+import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
+import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
+import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
+import com.kt.upms.validgroup.UpmsValidateGroup;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.groups.Default;
-import java.util.List;
 
 /**
  * <p>
@@ -32,23 +34,24 @@ public class UpmsUserGroupController extends BaseController {
     }
 
     @PostMapping("/usergroups")
-    public ServerResponse<PageResponse<UserGroupListTreeVO>> list(@RequestBody UserGroupQueryDTO dto) {
-        return ServerResponse.ok(iUpmsUserGroupService.pageList(dto));
+    public SingleResponse<PageResponse<UserGroupListTreeVO>> list(@RequestBody UserGroupQueryDTO dto) {
+        return SingleResponse.ok(PageResponse.build(iUpmsUserGroupService.pageList(dto)));
     }
 
     @GetMapping("/usergroups/all")
-    public ServerResponse<List<UserGroupVO>> list() {
-        return ServerResponse.ok(iUpmsUserGroupService.listAllVos());
+    public MultiResponse<UserGroupBaseVO> list() {
+        return MultiResponse.ok(iUpmsUserGroupService.listAllVos());
     }
 
     @PostMapping("/usergroups/tree")
-    public ServerResponse getUserGroupsTree(@RequestBody UserGroupQueryDTO dto) {
-        return ServerResponse.ok(iUpmsUserGroupService.getTree(dto));
+    public MultiResponse<UserGroupTreeVO> getUserGroupsTree(@RequestBody UserGroupQueryDTO dto) {
+        return MultiResponse.ok(iUpmsUserGroupService.getTree(dto));
     }
 
     @PostMapping("/usergroup")
     public ServerResponse add(@RequestBody @Validated UserGroupAddDTO userGroupAddDTO) {
-        return ServerResponse.ok(iUpmsUserGroupService.saveUserGroup(userGroupAddDTO));
+        iUpmsUserGroupService.saveUserGroup(userGroupAddDTO);
+        return ServerResponse.ok();
     }
 
     @PutMapping("/usergroup")
@@ -57,44 +60,21 @@ public class UpmsUserGroupController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("/usergroup/{id}")
-    public ServerResponse get(@PathVariable("id") String userGroupId) {
-        UpmsUserGroup upmsUserGroup = iUpmsUserGroupService.getById(userGroupId);
-        if (upmsUserGroup == null) {
-            return ServerResponse.ok();
-        }
-        return ServerResponse.ok(CglibUtil.copy(upmsUserGroup, UserGroupQueryDTO.class));
-    }
+//    @GetMapping("/usergroup/{id}")
+//    public ServerResponse get(@PathVariable("id") String userGroupId) {
+//        UpmsUserGroup upmsUserGroup = iUpmsUserGroupService.getById(userGroupId);
+//        if (upmsUserGroup == null) {
+//            return ServerResponse.ok();
+//        }
+//        UserGroupQueryDTO copy = CglibUtil.copy(upmsUserGroup, UserGroupQueryDTO.class);
+//        return ServerResponse.ok(copy);
+//    }
 
     @PutMapping("/usergroup/status")
     public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
                                        @RequestBody UserGroupUpdateDTO dto) {
         iUpmsUserGroupService.updateStatus(dto);
         return ServerResponse.ok();
-    }
-
-    @PostMapping("/usergroup/user")
-    public ServerResponse addUserToGroup(@Validated() @RequestBody UserGroupUserAddDTO dto) {
-        iUpmsUserGroupService.addOrRemoveUserInUserGroup(dto);
-        return ServerResponse.ok();
-    }
-
-    @PostMapping("/usergroup/users")
-    public ServerResponse getUsersUnderUserGroup(@RequestBody PageRequest<UserGroupUserQueryDTO> dto) {
-        PageResponse pageResponse = iUpmsUserGroupService.getUsersUnderUserGroupPageList(getPage(dto), dto.getParams());
-        return ServerResponse.ok(pageResponse);
-    }
-
-    @PostMapping("/usergroup/role")
-    public ServerResponse addRoleToGroup(@Validated() @RequestBody UserGroupRoleAddDTO dto) {
-        iUpmsUserGroupService.addOrRemoveRoleInUserGroup(dto);
-        return ServerResponse.ok();
-    }
-
-    @PostMapping("/usergroup/roles")
-    public ServerResponse getRolesUnderUserGroup(@RequestBody PageRequest<UserGroupRoleQueryDTO> dto) {
-        PageResponse pageResponse = iUpmsUserGroupService.getRolesUnderUserGroupPageList(getPage(dto), dto.getParams());
-        return ServerResponse.ok(pageResponse);
     }
 
 }

@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.component.dto.PageResponse;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
@@ -28,7 +27,7 @@ import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
-import com.kt.upms.module.user.vo.UserVoFactory;
+import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
 import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
@@ -66,7 +65,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     @Autowired
     private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
     @Autowired
-    private UserVoFactory userVoFactory;
+    private UserBeanConverter beanConverter;
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
@@ -142,14 +141,16 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public PageResponse<UserPageListVO> pageList(UserPageListSearchDTO params) {
+    public Page<UserPageListVO> pageList(UserPageListSearchDTO params) {
         IPage<UpmsUser> result = this.page(new Page<>(params.getCurrent(), params.getSize()), new QueryWrapper<UpmsUser>()
                 .like(StrUtil.isNotBlank(params.getPhone()), "phone", params.getPhone())
                 .like(StrUtil.isNotBlank(params.getName()), "name", params.getName())
                 .select("id", "phone", "name", "status"));
         List<UpmsUser> records = result.getRecords();
-        List<UserPageListVO> collect = records.stream().map(userVoFactory::convertForUserPageListVO).collect(Collectors.toList());
-        return PageResponse.success(result.getCurrent(), result.getSize(), result.getTotal(), collect);
+        List<UserPageListVO> vos = records.stream().map(beanConverter::convertToUserPageListVO).collect(Collectors.toList());
+        Page<UserPageListVO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
+        pageVo.setRecords(vos);
+        return pageVo;
     }
 
     @Override
@@ -179,8 +180,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     @Override
     public UserDetailVO getUserDetailVOById(Long userId) {
         UpmsUser user = getUserById(userId);
-        UserDetailVO vo = userVoFactory.convertForUserPageListVO(userId, user);
-        return vo;
+        return beanConverter.convertToUserDetailVO(user);
     }
 
     private List<Long> getUserGroupIdsByUserId(Long userId) {

@@ -1,7 +1,7 @@
 package com.kt.upms.module.user.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.component.dto.PageResponse;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.module.user.dto.UserAddDTO;
@@ -26,7 +26,7 @@ public interface IUpmsUserService extends IService<UpmsUser> {
 
     void updateUserById(UserUpdateDTO userUpdateDTO);
 
-    PageResponse<UserPageListVO> pageList(UserPageListSearchDTO pageRequest);
+    Page<UserPageListVO> pageList(UserPageListSearchDTO pageRequest);
 
     void updateStatus(UserUpdateDTO userUpdateDTO);
 

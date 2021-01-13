@@ -10,10 +10,10 @@ import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
-import com.kt.upms.module.permission.vo.PermissionElementVO;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.route.dto.PermissionQueryDTO;
 import com.kt.upms.module.route.dto.PermissionUpdateDTO;
+import com.kt.upms.module.route.vo.RouteElementVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * 权限表 服务实现类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @Service
@@ -40,7 +40,7 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
                 .like(StrUtil.isNotBlank(dto.getCode()), UpmsPermission::getCode, dto.getCode())
                 .eq(StrUtil.isNotBlank(dto.getType()), UpmsPermission::getType, dto.getType());
         Page pageResult = this.page(page, queryWrapper);
-        return PageResponse.success(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), page.getRecords());
+        return PageResponse.build(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), page.getRecords());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
     }
 
     @Override
-    public List<PermissionElementVO> getPermissionElements(Long routePermissionId) {
+    public List<RouteElementVO> getPermissionElements(Long routePermissionId) {
         UpmsPermission permission = getPermissionById(routePermissionId);
         return this.baseMapper.selectPageElementPermissionsByRouteId(permission.getResourceId());
     }
@@ -90,9 +90,18 @@ public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper,
     }
 
     @Override
-    public List<PermissionVO> getPermissionVOSByRoleIdAndType(Long roleId, String type) {
-        List<UpmsPermission> permissions = this.baseMapper.selectByRoleIdAndType(roleId, type);
+    public List<PermissionVO> getPermissionVOSByRoleIdAndType(Long permissionId, String permissionType) {
+        List<UpmsPermission> permissions = this.baseMapper.selectByRoleIdAndType(permissionId, permissionType);
         return permissions.stream().map(this::assembleVo).collect(Collectors.toList());
+    }
+
+    @Override
+    public UpmsPermission getPermission(Long resourceId, PermissionTypeEnums pageElement) {
+        LambdaQueryWrapper<UpmsPermission> qw = new LambdaQueryWrapper<>();
+        qw.select(UpmsPermission::getId, UpmsPermission::getCode);
+        qw.eq(UpmsPermission::getResourceId, resourceId);
+        qw.eq(UpmsPermission::getType, pageElement.getType());
+        return Optional.ofNullable(this.getOne(qw)).orElseGet(UpmsPermission::new);
     }
 
     private PermissionVO assembleVo(UpmsPermission upmsPermission) {

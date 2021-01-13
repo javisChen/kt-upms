@@ -19,11 +19,4 @@
         name, status
     </sql>
 
-    <select id="selectByUserGroupId" resultType="com.kt.upms.module.usergroup.vo.UserGroupUserListVO">
-        select
-                ur.id role_id, ur.name, ur.status, uugur.user_group_id
-        from upms_role ur
-        inner join upms_user_group_role_rel uugur on uugur.role_id = ur.id
-        where uugur.user_group_id = #{userGroupId}
-    </select>
 </mapper>

@@ -41,10 +41,11 @@ public class UpmsUserController extends BaseController {
 
     /**
      * 查看用户列表
+     * @return
      */
     @PostMapping("/users")
-    public PageResponse<UserPageListVO> list(@RequestBody UserPageListSearchDTO pageRequest) {
-        return iUpmsUserService.pageList(pageRequest);
+    public SingleResponse<PageResponse<UserPageListVO>> list(@RequestBody UserPageListSearchDTO pageRequest) {
+        return SingleResponse.ok(PageResponse.build(iUpmsUserService.pageList(pageRequest)));
     }
 
     /**

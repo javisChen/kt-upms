@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.component.dto.PageResponse;
 import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.enums.BizEnums;
@@ -18,10 +17,10 @@ import com.kt.upms.mapper.UpmsRoleMapper;
 import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
 import com.kt.upms.module.permission.service.IUpmsPermissionService;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.role.dto.RoleAddDTO;
-import com.kt.upms.module.role.dto.RolePermissionAddDTO;
-import com.kt.upms.module.role.dto.RoleQueryDTO;
+import com.kt.upms.module.role.converter.RoleBeanConverter;
 import com.kt.upms.module.role.dto.RoleUpdateDTO;
+import com.kt.upms.module.role.dto.RolePermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleQueryDTO;
 import com.kt.upms.module.role.vo.RoleBaseVO;
 import com.kt.upms.module.role.vo.RoleListVO;
 import com.kt.upms.util.Assert;
@@ -51,28 +50,23 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
     @Autowired
     private IUpmsPermissionService iUpmsPermissionService;
+    @Autowired
+    private RoleBeanConverter beanConverter;
 
     @Override
-    public PageResponse<RoleListVO> pageList(RoleQueryDTO params) {
+    public Page<RoleListVO> pageList(RoleQueryDTO params) {
         LambdaQueryWrapper<UpmsRole> queryWrapper = new LambdaQueryWrapper<UpmsRole>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRole::getName, params.getName());
         Page<UpmsRole> page = this.page(new Page<>(params.getCurrent(), params.getSize()), queryWrapper);
 
-        List<RoleListVO> vos = page.getRecords().stream().map(this::assembleRoleListVO).collect(Collectors.toList());
-        return PageResponse.success(page.getCurrent(), page.getSize(), page.getTotal(), vos);
-    }
-
-    private RoleListVO assembleRoleListVO(UpmsRole item) {
-        RoleListVO roleListVO = new RoleListVO();
-        roleListVO.setId(item.getId());
-        roleListVO.setName(item.getName());
-        roleListVO.setCreateTime(item.getGmtCreate());
-        roleListVO.setUpdateTime(item.getGmtModified());
-        return roleListVO;
+        List<RoleListVO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO).collect(Collectors.toList());
+        Page<RoleListVO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        pageVo.setRecords(vos);
+        return pageVo;
     }
 
     @Override
-    public void saveRole(RoleAddDTO dto) {
+    public void saveRole(RoleUpdateDTO dto) {
         int count = countRoleByName(dto);
         Assert.isTrue(count > 0, BizEnums.ROLE_ALREADY_EXISTS);
 
@@ -80,7 +74,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
         this.save(role);
     }
 
-    private int countRoleByName(RoleAddDTO dto) {
+    private int countRoleByName(RoleUpdateDTO dto) {
         LambdaQueryWrapper<UpmsRole> queryWrapper = new LambdaQueryWrapper<UpmsRole>()
                 .eq(UpmsRole::getName, dto.getName());
         return this.count(queryWrapper);
@@ -118,7 +112,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void updateRoleRoutePermissions(RolePermissionAddDTO dto) {
+    public void updateRoleRoutePermissions(RolePermissionUpdateDTO dto) {
         Long roleId = dto.getRoleId();
         String frontRouteType = PermissionTypeEnums.FRONT_ROUTE.getType();
         String pageElementType = PermissionTypeEnums.PAGE_ELEMENT.getType();
@@ -131,23 +125,23 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
             upmsPermissionRoleRelMapper.batchInsert(roleId, frontRouteType, dto.getRoutePermissionIds());
         }
         if (CollectionUtil.isNotEmpty(dto.getElementPermissionIds())) {
-            upmsPermissionRoleRelMapper.batchInsert(roleId, frontRouteType, dto.getElementPermissionIds());
+            upmsPermissionRoleRelMapper.batchInsert(roleId, pageElementType, dto.getElementPermissionIds());
         }
     }
 
     @Override
-    public List<PermissionVO> getRoleRoutePermissionById(Long id) {
-        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id, PermissionTypeEnums.FRONT_ROUTE.getType());
+    public List<PermissionVO> getRoleRoutePermissionById(Long roleId) {
+        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(roleId, PermissionTypeEnums.FRONT_ROUTE.getType());
     }
 
     @Override
-    public List<PermissionVO> getRoleElementPermissionById(Long id) {
-        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(id, PermissionTypeEnums.PAGE_ELEMENT.getType());
+    public List<PermissionVO> getRoleElementPermissionById(Long roleId) {
+        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(roleId, PermissionTypeEnums.PAGE_ELEMENT.getType());
     }
 
     @Override
     public List<RoleListVO> listAllVos() {
-        return this.list().stream().map(this::assembleRoleListVO).collect(Collectors.toList());
+        return this.list().stream().map(beanConverter::convertToRoleListVO).collect(Collectors.toList());
     }
 
     @Override
@@ -162,7 +156,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     }
 
     private UpmsRole getRoleById(String id) {
-        return Optional.ofNullable(this.getRoleById(id)).orElseGet(UpmsRole::new);
+        return Optional.ofNullable(this.getById(id)).orElseGet(UpmsRole::new);
     }
 
     private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {

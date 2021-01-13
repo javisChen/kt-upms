@@ -1,21 +1,26 @@
 package com.kt.upms.module.route.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.component.web.base.BaseController;
-import com.kt.upms.module.route.dto.*;
-import com.kt.upms.validgroup.UpmsValidateGroup;
-import com.kt.upms.module.route.vo.RouteDetailVO;
-import com.kt.upms.module.route.vo.RouteListTreeVO;
+import com.kt.upms.module.route.dto.RouteModifyParentDTO;
+import com.kt.upms.module.route.dto.RouteQueryDTO;
+import com.kt.upms.module.route.dto.RouteUpdateDTO;
+import com.kt.upms.module.route.dto.UserRoutesDTO;
 import com.kt.upms.module.route.service.IUpmsRouteService;
+import com.kt.upms.module.route.vo.RouteDetailVO;
+import com.kt.upms.module.route.vo.RouteElementVO;
+import com.kt.upms.module.route.vo.RouteListTreeVO;
+import com.kt.upms.validgroup.UpmsValidateGroup;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
-import java.util.List;
 
 
 /**
@@ -31,15 +36,13 @@ import java.util.List;
 @CatchAndLog
 public class UpmsRouteController extends BaseController {
 
-    private final IUpmsRouteService iUpmsRouteService;
-
-    public UpmsRouteController(IUpmsRouteService iUpmsRouteService) {
-        this.iUpmsRouteService = iUpmsRouteService;
-    }
+    @Autowired
+    private IUpmsRouteService iUpmsRouteService;
 
     @PostMapping("/routes")
-    public PageResponse<RouteListTreeVO> list(@RequestBody RouteQueryDTO dto) {
-        return iUpmsRouteService.pageList(dto);
+    public SingleResponse<PageResponse<RouteListTreeVO>> list(@RequestBody RouteQueryDTO dto) {
+        Page<RouteListTreeVO> routeListTreeVOPage = iUpmsRouteService.pageList(dto);
+        return SingleResponse.ok(PageResponse.build(routeListTreeVOPage));
     }
 
     @PostMapping("/routes/tree")
@@ -48,7 +51,7 @@ public class UpmsRouteController extends BaseController {
     }
 
     @PostMapping("/route")
-    public ServerResponse add(@RequestBody @Validated RouteAddDTO dto) {
+    public ServerResponse add(@RequestBody @Validated RouteUpdateDTO dto) {
         iUpmsRouteService.saveRoute(dto);
         return ServerResponse.ok();
     }
@@ -73,7 +76,7 @@ public class UpmsRouteController extends BaseController {
 
     @PutMapping("/route/status")
     public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
-                                               @RequestBody RouteUpdateDTO dto) {
+                                       @RequestBody RouteUpdateDTO dto) {
         iUpmsRouteService.updateRouteStatus(dto);
         return ServerResponse.ok();
     }
@@ -84,10 +87,15 @@ public class UpmsRouteController extends BaseController {
         return ServerResponse.ok();
     }
 
+    @GetMapping("/route/{routeId}/elements")
+    public MultiResponse<RouteElementVO> getRouteElements(@PathVariable Long routeId) {
+        return MultiResponse.ok(iUpmsRouteService.listRouteElementsById(routeId));
+    }
+
     @PostMapping("/routes/init")
     public ServerResponse init(@RequestBody UserRoutesDTO userMenusDTO) {
         for (UserRoutesDTO.UserRouteItem menu : userMenusDTO.getRoutes()) {
-            RouteAddDTO dto = new RouteAddDTO();
+            RouteUpdateDTO dto = new RouteUpdateDTO();
             dto.setName(menu.getMeta().getTitle());
             dto.setPid(Long.valueOf(menu.getParentId()));
             dto.setCode(menu.getName());

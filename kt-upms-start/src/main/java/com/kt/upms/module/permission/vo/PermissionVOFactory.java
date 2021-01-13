@@ -1,9 +1,10 @@
-package com.kt.upms.module.user.vo;
+package com.kt.upms.module.permission.vo;
 
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.module.role.service.IUpmsRoleService;
 import com.kt.upms.module.user.service.IUpmsUserService;
-import com.kt.upms.module.user.service.UpmsUserServiceImpl;
+import com.kt.upms.module.user.vo.UserDetailVO;
+import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author: Javis
  */
 @Component
-public class UserVoFactory {
+public class PermissionVOFactory {
 
     @Autowired
     private IUpmsRoleService iUpmsRoleService;
@@ -25,7 +26,7 @@ public class UserVoFactory {
     @Autowired
     private IUpmsUserService iUpmsUserService;
 
-    public UserPageListVO convertForUserPageListVO(UpmsUser upmsUser) {
+    public UserPageListVO convertTo(UpmsUser upmsUser) {
         Long userId = upmsUser.getId();
         List<String> roles = iUpmsRoleService.getRoleNamesByUserId(userId);
         List<String> userGroups = iUpmsUserGroupService.getUserGroupNamesByUserId(userId);
@@ -39,7 +40,7 @@ public class UserVoFactory {
         return userListVO;
     }
 
-    public UserDetailVO convertForUserPageListVO(Long userId, UpmsUser user) {
+    public UserDetailVO convertTo(Long userId, UpmsUser user) {
         UserDetailVO vo = new UserDetailVO();
         vo.setId(user.getId());
         vo.setPhone(user.getPhone());

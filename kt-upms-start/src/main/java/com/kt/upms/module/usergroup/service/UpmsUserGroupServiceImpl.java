@@ -8,21 +8,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.component.dto.PageResponse;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.UserGroupStatusEnums;
-import com.kt.upms.mapper.*;
-import com.kt.upms.module.usergroup.dto.*;
-import com.kt.upms.module.usergroup.vo.TreeVO;
+import com.kt.upms.mapper.UpmsUserGroupMapper;
+import com.kt.upms.module.usergroup.converter.UserGroupBeanConverter;
+import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
+import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
+import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
+import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
-import com.kt.upms.module.usergroup.vo.UserGroupVO;
+import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,16 +47,10 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     private final static Integer FIRST_LEVEL = 1;
 
     @Autowired
-    private UpmsUserGroupUserRelMapper userGroupUserRelMapper;
-    @Autowired
-    private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
-    @Autowired
-    private UpmsUserMapper upmsUserMapper;
-    @Autowired
-    private UpmsRoleMapper upmsRoleMapper;
+    private UserGroupBeanConverter beanConverter;
 
     @Override
-    public PageResponse<UserGroupListTreeVO> pageList(UserGroupQueryDTO dto) {
+    public Page<UserGroupListTreeVO> pageList(UserGroupQueryDTO dto) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .like(StrUtil.isNotBlank(dto.getName()), UpmsUserGroup::getName, dto.getName())
                 .eq(UpmsUserGroup::getPid, DEFAULT_PID)
@@ -66,19 +61,27 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         List<UpmsUserGroup> anotherUserGroups = this.list(new LambdaQueryWrapper<UpmsUserGroup>()
                 .ne(UpmsUserGroup::getPid, DEFAULT_PID));
 
+        List<UserGroupListTreeVO> vos = recursionUserGroups(levelOneUserGroups, anotherUserGroups);
+
+        Page<UserGroupListTreeVO> pageVo = new Page<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal());
+        pageVo.setRecords(vos);
+        return pageVo;
+    }
+
+    private List<UserGroupListTreeVO> recursionUserGroups(List<UpmsUserGroup> levelOneUserGroups, List<UpmsUserGroup> anotherUserGroups) {
         List<UserGroupListTreeVO> vos = CollectionUtil.newArrayList();
         for (UpmsUserGroup item : levelOneUserGroups) {
-            UserGroupListTreeVO vo = assembleUserGroupListTreeVO(item);
+            UserGroupListTreeVO vo = beanConverter.convertToUserGroupListTreeVO(item);
             findChildren(vo, anotherUserGroups);
             vos.add(vo);
         }
-        return PageResponse.success(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), vos);
+        return vos;
     }
 
     private void findChildren(UserGroupListTreeVO parent, List<UpmsUserGroup> list) {
         for (UpmsUserGroup route : list) {
             if (parent.getId().equals(route.getPid())) {
-                UserGroupListTreeVO item = assembleUserGroupListTreeVO(route);
+                UserGroupListTreeVO item = beanConverter.convertToUserGroupListTreeVO(route);
                 parent.getChildren().add(item);
                 findChildren(item, list);
             }
@@ -86,7 +89,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     }
 
     @Override
-    public UserGroupAddDTO saveUserGroup(UserGroupAddDTO dto) {
+    public void saveUserGroup(UserGroupAddDTO dto) {
         int count = countUserGroupByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.USER_GROUP_ALREADY_EXISTS);
 
@@ -104,7 +107,6 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
         // 新增完路由记录后再更新层级信息
         updateLevelPathAfterSave(newUserGroup, parentRoute);
-        return dto;
     }
 
     private void updateLevelPathAfterSave(UpmsUserGroup route, UpmsUserGroup parentRoute) {
@@ -153,72 +155,11 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         updateStatus(dto, UserGroupStatusEnums.DISABLED);
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void addOrRemoveUserInUserGroup(UserGroupUserAddDTO dto) {
-
-        doAddUserToUserGroup(dto.getAdd());
-
-        doRemoveUserFromUserGroup(dto.getRemove());
-    }
-
-    private void doRemoveUserFromUserGroup(UserGroupUserAddDTO.Remove dto) {
-        if (dto != null) {
-            userGroupUserRelMapper.deleteByUserIdsAndUserGroupId(dto.getUserGroupId(), dto.getUserIds());
-        }
-    }
-
-    private void doAddUserToUserGroup(UserGroupUserAddDTO.Add dto) {
-        if (dto != null) {
-            List<Long> userIds = dto.getUserIds();
-            Long userGroupId = dto.getUserGroupId();
-            Assert.isTrue(countUserGroupById(userGroupId) == 0, BizEnums.USER_GROUP_NOT_EXISTS);
-
-            List<UpmsUserGroupUserRel> rels = userIds.stream()
-                    .map(item -> assembleUserGroupUserRel(userGroupId, item))
-                    .collect(Collectors.toList());
-            userGroupUserRelMapper.insertBatch(rels);
-        }
-    }
-
     private UpmsUserGroupUserRel assembleUserGroupUserRel(Long userGroupId, Long item) {
         UpmsUserGroupUserRel upmsUserGroupUserRel = new UpmsUserGroupUserRel();
         upmsUserGroupUserRel.setUserGroupId(userGroupId);
         upmsUserGroupUserRel.setUserId(item);
         return upmsUserGroupUserRel;
-    }
-
-    @Override
-    public PageResponse getUsersUnderUserGroupPageList(Page page, UserGroupUserQueryDTO dto) {
-        return PageResponse.success(upmsUserMapper.selectByUserGroupId(page, dto.getId()));
-    }
-
-    @Override
-    public void addOrRemoveRoleInUserGroup(UserGroupRoleAddDTO dto) {
-
-        doAddRoleToUserGroup(dto.getAdd());
-
-        doRemoveRoleFromUserGroup(dto.getRemove());
-    }
-
-    private void doAddRoleToUserGroup(UserGroupRoleAddDTO.Add dto) {
-        if (dto != null) {
-            upmsUserGroupRoleRelMapper.deleteByRoleIdsAndUserGroupId(dto.getUserGroupId(), dto.getRoleIds());
-        }
-    }
-
-    private void doRemoveRoleFromUserGroup(UserGroupRoleAddDTO.Remove dto) {
-        if (dto != null) {
-            List<Long> userIds = dto.getRoleIds();
-            Long userGroupId = dto.getUserGroupId();
-
-            Assert.isTrue(countUserGroupById(userGroupId) == 0, BizEnums.USER_GROUP_NOT_EXISTS);
-
-            List<UpmsUserGroupRoleRel> rels = userIds.stream()
-                    .map(item -> assembleUserGroupRoleRel(userGroupId, item))
-                    .collect(Collectors.toList());
-            upmsUserGroupRoleRelMapper.insertBatch(rels);
-        }
     }
 
     private int countUserGroupById(Long userGroupId) {
@@ -235,23 +176,18 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     }
 
     @Override
-    public PageResponse getRolesUnderUserGroupPageList(Page page, UserGroupRoleQueryDTO dto) {
-        return PageResponse.success(upmsRoleMapper.selectByUserGroupId(page, dto.getId()));
-    }
-
-    @Override
     public List<Long> getUserGroupIdsByUserId(Long userId) {
         return this.baseMapper.selectUserGroupIdsByUserId(userId);
     }
 
     @Override
-    public List<TreeVO> getTree(UserGroupQueryDTO dto) {
+    public List<UserGroupTreeVO> getTree(UserGroupQueryDTO dto) {
         List<UpmsUserGroup> list = Optional.ofNullable(this.list()).orElseGet(ArrayList::new);
         return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
     }
 
     @Override
-    public List<UserGroupVO> listAllVos() {
+    public List<UserGroupBaseVO> listAllVos() {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .orderByAsc(UpmsUserGroup::getGmtCreate)
                 .orderByAsc(UpmsUserGroup::getLevel);
@@ -263,9 +199,9 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         return this.baseMapper.selectUserGroupNamesByUserId(userId);
     }
 
-    private Function<UpmsUserGroup, TreeVO> assembleUserGroupUserGroupTreeVO() {
+    private Function<UpmsUserGroup, UserGroupTreeVO> assembleUserGroupUserGroupTreeVO() {
         return item -> {
-            TreeVO userGroupTreeVO = new TreeVO();
+            UserGroupTreeVO userGroupTreeVO = new UserGroupTreeVO();
             userGroupTreeVO.setTitle(item.getName());
             userGroupTreeVO.setKey(String.valueOf(item.getId()));
             return userGroupTreeVO;
@@ -278,8 +214,8 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
                 .set(UpmsUserGroup::getStatus, statusEnum.getValue()));
     }
 
-    private UserGroupVO assembleUserGroupVO(UpmsUserGroup item) {
-        UserGroupVO vo = new UserGroupVO();
+    private UserGroupBaseVO assembleUserGroupVO(UpmsUserGroup item) {
+        UserGroupBaseVO vo = new UserGroupBaseVO();
         vo.setId(item.getId());
         vo.setPid(item.getPid());
         vo.setName(item.getName());
@@ -288,15 +224,4 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         return vo;
     }
 
-    private UserGroupListTreeVO assembleUserGroupListTreeVO(UpmsUserGroup item) {
-        UserGroupListTreeVO vo = new UserGroupListTreeVO();
-        vo.setId(item.getId());
-        vo.setPid(item.getPid());
-        vo.setName(item.getName());
-        vo.setStatus(item.getStatus());
-        vo.setCreateTime(item.getGmtCreate());
-        vo.setUpdateTime(item.getGmtModified());
-        vo.setChildren(new ArrayList<>());
-        return vo;
-    }
 }
