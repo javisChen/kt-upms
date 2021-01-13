@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kt.upms.mapper.UpmsRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kt.upms.entity.UpmsRole">
+    <result column="id" property="id" />
+    <result column="gmt_create" property="gmtCreate" />
+    <result column="gmt_modified" property="gmtModified" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        gmt_create,
+        gmt_modified,
+        name, status
+    </sql>
+
+    <select id="selectByUserGroupId" resultType="com.kt.upms.module.usergroup.vo.UserGroupUserListVO">
+        select
+                ur.id role_id, ur.name, ur.status, uugur.user_group_id
+        from upms_role ur
+        inner join upms_user_group_role_rel uugur on uugur.role_id = ur.id
+        where uugur.user_group_id = #{userGroupId}
+    </select>
+</mapper>

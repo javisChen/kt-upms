@@ -10,13 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>kt-upms-model</module>
-        <module>kt-upms-dao</module>
-        <module>kt-upms-service</module>
-        <module>kt-upms-manager</module>
-        <module>kt-upms-api</module>
-        <module>kt-upms-openapi</module>
-        <module>kt-upms-rpc</module>
         <module>kt-upms-start</module>
     </modules>
 

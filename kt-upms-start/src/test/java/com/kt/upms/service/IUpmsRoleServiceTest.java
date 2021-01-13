@@ -1,7 +1,6 @@
 package com.kt.upms.service;
 
-import com.kt.upms.mapper.UpmsRoleMapper;
-import com.kt.upms.service.impl.UpmsRoleServiceImpl;
+import com.kt.upms.module.role.service.IUpmsRoleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
