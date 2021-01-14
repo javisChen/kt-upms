@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kt.upms.mapper.UpmsRouteMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kt.upms.entity.UpmsRoute">
+        <result column="id" property="id"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="name" property="name"/>
+        <result column="component" property="component"/>
+        <result column="path" property="path"/>
+        <result column="type" property="type"/>
+        <result column="level_path" property="levelPath"/>
+        <result column="application_id" property="applicationId"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="sequence" property="sequence"/>
+        <result column="pid" property="pid"/>
+        <result column="icon" property="icon"/>
+        <result column="status" property="status"/>
+        <result column="hide_children" property="hideChildren"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+       name,
+       code,
+       component,
+       pid,
+       level_path,
+       level,
+       path,
+       icon,
+       type,
+       sequence,
+       status,
+       hide_children,
+       gmt_create,
+       gmt_modified,
+       creator,
+       modifier
+    </sql>
+
+</mapper>

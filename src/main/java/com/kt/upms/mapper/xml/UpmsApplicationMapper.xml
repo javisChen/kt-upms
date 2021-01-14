@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kt.upms.mapper.UpmsApplicationMapper">
+  <resultMap id="BaseResultMap" type="com.kt.upms.entity.UpmsApplication">
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="type" jdbcType="BOOLEAN" property="type" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="is_deleted" jdbcType="BIGINT" property="isDeleted" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, `name`, code, `status`, `type`, gmt_modified, gmt_create, creator, modifier,
+    is_deleted
+  </sql>
+
+</mapper>
