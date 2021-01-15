@@ -20,7 +20,7 @@ import com.kt.upms.enums.UserStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.mapper.UpmsUserRoleRelMapper;
-import com.kt.upms.module.permission.service.IUpmsPermissionService;
+import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.role.service.IUpmsRoleService;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
@@ -57,7 +57,7 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     @Autowired
     private IUpmsUserGroupService iUpmsUserGroupService;
     @Autowired
-    private IUpmsPermissionService iUpmsPermissionService;
+    private IPermissionService iUpmsPermissionService;
     @Autowired
     private IUserPasswordHelper iUserPasswordHelper;
     @Autowired

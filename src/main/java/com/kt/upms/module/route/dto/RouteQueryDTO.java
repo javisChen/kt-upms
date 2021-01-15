@@ -21,4 +21,7 @@ public class RouteQueryDTO extends PagingDTO implements Serializable {
 
     private Integer status;
 
+    private Long applicationId;
+
+
 }

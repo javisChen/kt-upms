@@ -10,7 +10,7 @@ import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPageElementMapper;
-import com.kt.upms.module.permission.service.IUpmsPermissionService;
+import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.route.dto.PageElementUpdateDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
 import com.kt.upms.module.route.vo.PageElementVO;
@@ -36,7 +36,7 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
         implements IUpmsPageElementService {
 
     @Autowired
-    private IUpmsPermissionService iUpmsPermissionService;
+    private IPermissionService iUpmsPermissionService;
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)

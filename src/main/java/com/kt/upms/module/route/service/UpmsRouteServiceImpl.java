@@ -14,7 +14,7 @@ import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RouteStatusEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
-import com.kt.upms.module.permission.service.IUpmsPermissionService;
+import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.route.converter.RouteBeanConverter;
 import com.kt.upms.module.route.dto.*;
 import com.kt.upms.module.route.vo.RouteDetailVO;
@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +45,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     private final static Integer FIRST_LEVEL = 1;
 
     @Autowired
-    private IUpmsPermissionService iUpmsPermissionService;
+    private IPermissionService iUpmsPermissionService;
     @Autowired
     private IUpmsPageElementService iUpmsPageElementService;
     @Autowired
@@ -62,14 +63,19 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     private Page<UpmsRoute> getFirstLevelRoutesByPage(RouteQueryDTO params) {
-        LambdaQueryWrapper<UpmsRoute> query = new LambdaQueryWrapper<UpmsRoute>()
+        LambdaQueryWrapper<UpmsRoute> query = buildListQueryWrapper(params);
+        return this.page(new Page<>(params.getCurrent(), params.getSize()), query);
+    }
+
+    private LambdaQueryWrapper<UpmsRoute> buildListQueryWrapper(RouteQueryDTO params) {
+        return new LambdaQueryWrapper<UpmsRoute>()
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRoute::getName, params.getName())
+                .eq(params.getApplicationId() != null, UpmsRoute::getApplicationId, params.getApplicationId())
                 .eq(params.getPid() != null, UpmsRoute::getId, params.getPid())
                 .eq(params.getStatus() != null, UpmsRoute::getStatus, params.getStatus())
                 .eq(UpmsRoute::getPid, DEFAULT_PID)
                 .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode())
                 .orderByAsc(UpmsRoute::getSequence);
-        return this.page(new Page<>(params.getCurrent(), params.getSize()), query);
     }
 
     private List<UpmsRoute> getChildrenRoutes() {
@@ -164,6 +170,7 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         if (dto.getPid() != null) {
             updateRouteLevelInfo(routeId, dto.getPid());
         }
+
         if (dto.getStatus() != null) {
             updateRouteStatus(routeId, dto.getStatus());
         }
@@ -284,20 +291,16 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         this.updateById(route);
     }
 
-    public UpmsRoute getRouteById(Long id) {
-        LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
-                .eq(UpmsRoute::getId, id);
-        return this.getOne(queryWrapper);
-    }
-
     @Override
     public RouteDetailVO getRoute(Long id) {
+        UpmsRoute route = getRouteById(id);
+        return beanConverter.convertToRouteDetailVO(id, route);
+    }
+
+    private UpmsRoute getRouteById(Long id) {
         LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getId, id);
-        UpmsRoute route = this.getOne(queryWrapper);
-        RouteDetailVO vo = CglibUtil.copy(route, RouteDetailVO.class);
-        vo.setElements(iUpmsPageElementService.getPageElementVOSByRouteId(id));
-        return vo;
+        return Optional.ofNullable(this.getOne(queryWrapper)).orElseGet(UpmsRoute::new);
     }
 
     @Override
@@ -340,9 +343,11 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     }
 
     @Override
-    public List<RouteListTreeVO> getTree() {
-        List<UpmsRoute> firstLevelRoutes = this.list(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getPid, DEFAULT_PID)
-                .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
+    public List<RouteListTreeVO> listAllVOs(RouteQueryDTO dto) {
+        RouteQueryDTO params = new RouteQueryDTO();
+        params.setApplicationId(dto.getApplicationId());
+        LambdaQueryWrapper<UpmsRoute> qw = buildListQueryWrapper(params);
+        List<UpmsRoute> firstLevelRoutes = this.list(qw);
         List<UpmsRoute> childrenRoutes = getChildrenRoutes();
         return recursionRoutes(firstLevelRoutes, childrenRoutes);
     }
@@ -351,6 +356,13 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
     public List<RouteElementVO> listRouteElementsById(Long routeId) {
         List<UpmsPageElement> elements = this.iUpmsPageElementService.listElementsByRouteId(routeId);
         return elements.stream().map(beanConverter::convertForRouteElementVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getRouteNameById(Long pid) {
+        LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
+                .eq(UpmsRoute::getId, pid);
+        return Optional.ofNullable(this.getOne(queryWrapper)).orElseGet(UpmsRoute::new).getName();
     }
 
     private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {

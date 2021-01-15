@@ -16,6 +16,9 @@ public class RouteListTreeVO extends RouteBaseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Integer level;
+    private Long permissionId;
+    private String permissionCode;
     private List<RouteListTreeVO> children;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;

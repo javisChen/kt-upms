@@ -15,7 +15,7 @@ import com.kt.upms.enums.RoleStatusEnums;
 import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
 import com.kt.upms.mapper.UpmsRoleMapper;
 import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
-import com.kt.upms.module.permission.service.IUpmsPermissionService;
+import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.converter.RoleBeanConverter;
 import com.kt.upms.module.role.dto.RoleUpdateDTO;
@@ -49,7 +49,7 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     @Autowired
     private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
     @Autowired
-    private IUpmsPermissionService iUpmsPermissionService;
+    private IPermissionService iUpmsPermissionService;
     @Autowired
     private RoleBeanConverter beanConverter;
 

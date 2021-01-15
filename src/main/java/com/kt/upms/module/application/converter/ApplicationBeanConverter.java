@@ -15,12 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationBeanConverter {
 
-    public ApplicationBaseVO convertForApplicationBaseVO(UpmsApplication upmsApplication) {
+    public ApplicationBaseVO convertForApplicationBaseVO(UpmsApplication application) {
         ApplicationBaseVO vo = new ApplicationBaseVO();
-        vo.setName(upmsApplication.getName());
-        vo.setCode(upmsApplication.getCode());
-        vo.setStatus(upmsApplication.getStatus());
-        vo.setType(upmsApplication.getType());
+        vo.setId(application.getId());
+        vo.setName(application.getName());
+        vo.setCode(application.getCode());
+        vo.setStatus(application.getStatus());
+        vo.setType(application.getType());
         return vo;
     }
 

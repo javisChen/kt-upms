@@ -5,8 +5,12 @@ import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
-import com.kt.upms.module.permission.service.IUpmsPermissionService;
+import com.kt.upms.module.application.service.IApplicationService;
+import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
+import com.kt.upms.module.route.service.IUpmsPageElementService;
+import com.kt.upms.module.route.service.IUpmsRouteService;
+import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +22,24 @@ import java.util.ArrayList;
 public class RouteBeanConverter {
 
     @Autowired
-    private IUpmsPermissionService iUpmsPermissionService;
+    private IPermissionService iPermissionService;
+
+    @Autowired
+    private IApplicationService iApplicationService;
+
+    @Autowired
+    private IUpmsPageElementService iUpmsPageElementService;
+
+    @Autowired
+    private IUpmsRouteService iUpmsRouteService;
 
     public RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
-        UpmsPermission permission = iUpmsPermissionService.getPermissionByResourceIdAndType(route.getId(),
+        UpmsPermission permission = iPermissionService.getPermissionByResourceIdAndType(route.getId(),
                 PermissionTypeEnums.FRONT_ROUTE);
+        Long applicationId = route.getApplicationId();
+        String applicationName = getApplicationName(applicationId);
         RouteListTreeVO treeNode = new RouteListTreeVO();
+        treeNode.setLevel(route.getLevel());
         treeNode.setPermissionCode(permission.getCode());
         treeNode.setPermissionId(permission.getId());
         treeNode.setCode(route.getCode());
@@ -38,7 +54,8 @@ public class RouteBeanConverter {
         treeNode.setStatus(route.getStatus());
         treeNode.setLevelPath(route.getLevelPath());
         treeNode.setType(route.getType());
-        treeNode.setApplicationId(route.getApplicationId());
+        treeNode.setApplicationId(applicationId);
+        treeNode.setApplicationName(applicationName);
         treeNode.setHideChildren(route.getHideChildren());
         treeNode.setCreateTime(route.getGmtCreate());
         treeNode.setUpdateTime(route.getGmtModified());
@@ -63,7 +80,7 @@ public class RouteBeanConverter {
     }
 
     public RouteElementVO convertForRouteElementVO(UpmsPageElement obj) {
-        UpmsPermission permission = iUpmsPermissionService.getPermission(obj.getId(), PermissionTypeEnums.PAGE_ELEMENT);
+        UpmsPermission permission = iPermissionService.getPermission(obj.getId(), PermissionTypeEnums.PAGE_ELEMENT);
         RouteElementVO vo = new RouteElementVO();
         vo.setId(obj.getId());
         vo.setRouteId(obj.getRouteId());
@@ -88,5 +105,32 @@ public class RouteBeanConverter {
         upmsRoute.setStatus(dto.getStatus());
         upmsRoute.setApplicationId(dto.getApplicationId());
         return upmsRoute;
+    }
+
+    public RouteDetailVO convertToRouteDetailVO(Long id, UpmsRoute route) {
+        Long applicationId = route.getApplicationId();
+        String applicationName = getApplicationName(applicationId);
+        RouteDetailVO vo = new RouteDetailVO();
+        vo.setParentRouteName(iUpmsRouteService.getRouteNameById(route.getPid()));
+        vo.setId(route.getId());
+        vo.setPid(route.getPid());
+        vo.setApplicationId(applicationId);
+        vo.setApplicationName(applicationName);
+        vo.setSequence(route.getSequence());
+        vo.setCode(route.getCode());
+        vo.setName(route.getName());
+        vo.setIcon(route.getIcon());
+        vo.setComponent(route.getComponent());
+        vo.setLevelPath(route.getLevelPath());
+        vo.setStatus(route.getStatus());
+        vo.setPath(route.getPath());
+        vo.setType(route.getType());
+        vo.setHideChildren(route.getHideChildren());
+        vo.setElements(iUpmsPageElementService.getPageElementVOSByRouteId(id));
+        return vo;
+    }
+
+    private String getApplicationName(Long applicationId) {
+        return iApplicationService.getNameById(applicationId);
     }
 }

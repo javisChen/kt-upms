@@ -7,9 +7,8 @@ public class RouteBaseVO {
 
     private Long id;
     private Long pid;
-    private Long permissionId;
     private Long applicationId;
-    private String permissionCode;
+    private String applicationName;
     private Integer sequence;
     private String code;
     private String name;
@@ -20,4 +19,5 @@ public class RouteBaseVO {
     private String path;
     private Integer type;
     private Boolean hideChildren;
+
 }

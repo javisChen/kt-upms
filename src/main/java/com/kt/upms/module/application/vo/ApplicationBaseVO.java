@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class ApplicationBaseVO {
 
+    private Long id;
+
     /**
      * 应用名称
      */

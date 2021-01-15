@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsApplication;
 import com.kt.upms.enums.BizEnums;
+import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.mapper.UpmsApplicationMapper;
 import com.kt.upms.module.application.converter.ApplicationBeanConverter;
 import com.kt.upms.module.application.dto.ApplicationQueryDTO;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +51,16 @@ public class ApplicationServiceImpl extends ServiceImpl<UpmsApplicationMapper, U
     @Override
     public List<ApplicationBaseVO> listVos(ApplicationQueryDTO dto) {
         return this.list().stream().map(beanConverter::convertForApplicationBaseVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getNameById(Long applicationId) {
+        final LambdaQueryWrapper<UpmsApplication> qw = new LambdaQueryWrapper<>();
+        qw.select(UpmsApplication::getName);
+        qw.eq(UpmsApplication::getId, applicationId);
+        qw.eq(UpmsApplication::getIsDeleted, DeletedEnums.NOT.getCode());
+        UpmsApplication application = Optional.ofNullable(this.getOne(qw)).orElseGet(UpmsApplication::new);
+        return application.getName();
     }
 
     private void checkBeforeSave(ApplicationUpdateDTO dto) {

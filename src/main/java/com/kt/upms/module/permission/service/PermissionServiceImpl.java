@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UpmsPermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission>
-        implements IUpmsPermissionService {
+public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission>
+        implements IPermissionService {
 
     @Override
     public PageResponse pageList(Page page, PermissionQueryDTO dto) {

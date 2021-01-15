@@ -31,4 +31,6 @@ public interface IApplicationService extends IService<UpmsApplication> {
     void saveApplication(ApplicationUpdateDTO dto);
 
     List<ApplicationBaseVO> listVos(ApplicationQueryDTO dto);
+
+    String getNameById(Long applicationId);
 }

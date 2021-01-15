@@ -12,6 +12,7 @@ public class RouteDetailVO extends RouteBaseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String parentRouteName;
     private List<PageElementVO> elements;
 
 }

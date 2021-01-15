@@ -21,7 +21,7 @@ import java.util.Set;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsPermissionService extends IService<UpmsPermission> {
+public interface IPermissionService extends IService<UpmsPermission> {
 
     PageResponse pageList(Page page, PermissionQueryDTO params);
 

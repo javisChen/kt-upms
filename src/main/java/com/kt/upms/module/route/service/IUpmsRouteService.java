@@ -37,7 +37,9 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
 
     void deleteRouteById(Long id);
 
-    List<RouteListTreeVO> getTree();
+    List<RouteListTreeVO> listAllVOs(RouteQueryDTO dto);
 
     List<RouteElementVO> listRouteElementsById(Long routeId);
+
+    String getRouteNameById(Long pid);
 }

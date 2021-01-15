@@ -41,14 +41,14 @@ public class RouteController extends BaseController {
     private IUpmsRouteService iUpmsRouteService;
 
     @PostMapping("/routes")
-    public SingleResponse<PageResponse<RouteListTreeVO>> list(@RequestBody RouteQueryDTO dto) {
+    public SingleResponse<PageResponse<RouteListTreeVO>> listPage(@RequestBody RouteQueryDTO dto) {
         Page<RouteListTreeVO> routeListTreeVOPage = iUpmsRouteService.pageList(dto);
         return SingleResponse.ok(PageResponse.build(routeListTreeVOPage));
     }
 
-    @PostMapping("/routes/tree")
-    public MultiResponse<RouteListTreeVO> getTree() {
-        return MultiResponse.ok(iUpmsRouteService.getTree());
+    @PostMapping("/routes/all")
+    public MultiResponse<RouteListTreeVO> list(@RequestBody RouteQueryDTO dto) {
+        return MultiResponse.ok(iUpmsRouteService.listAllVOs(dto));
     }
 
     @PostMapping("/route")
