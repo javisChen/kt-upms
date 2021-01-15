@@ -19,7 +19,7 @@ import java.util.List;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsRouteService extends IService<UpmsRoute> {
+public interface IRouteService extends IService<UpmsRoute> {
 
     Page<RouteListTreeVO> pageList(RouteQueryDTO pageRequest);
 
@@ -42,4 +42,6 @@ public interface IUpmsRouteService extends IService<UpmsRoute> {
     List<RouteElementVO> listRouteElementsById(Long routeId);
 
     String getRouteNameById(Long pid);
+
+    Integer countByApplicationId(Long applicationId);
 }

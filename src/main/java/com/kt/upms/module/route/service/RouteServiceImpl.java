@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.upms.entity.UpmsApi;
 import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.BizEnums;
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> implements IUpmsRouteService {
+public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> implements IRouteService {
 
     private final static Long DEFAULT_PID = 0L;
     private final static Integer FIRST_LEVEL = 1;
@@ -363,6 +364,11 @@ public class UpmsRouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute
         LambdaQueryWrapper<UpmsRoute> queryWrapper = new LambdaQueryWrapper<UpmsRoute>()
                 .eq(UpmsRoute::getId, pid);
         return Optional.ofNullable(this.getOne(queryWrapper)).orElseGet(UpmsRoute::new).getName();
+    }
+
+    @Override
+    public Integer countByApplicationId(Long applicationId) {
+        return this.count(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getApplicationId, applicationId));
     }
 
     private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {

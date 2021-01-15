@@ -12,6 +12,7 @@ import com.kt.upms.entity.UpmsApi;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsApiService extends IService<UpmsApi> {
+public interface IApiService extends IService<UpmsApi> {
 
+    Integer countByApplicationId(Long applicationId);
 }

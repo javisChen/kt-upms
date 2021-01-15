@@ -12,7 +12,7 @@ import com.kt.upms.module.route.dto.RouteModifyParentDTO;
 import com.kt.upms.module.route.dto.RouteQueryDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
 import com.kt.upms.module.route.dto.UserRoutesDTO;
-import com.kt.upms.module.route.service.IUpmsRouteService;
+import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
@@ -38,59 +38,59 @@ import javax.validation.groups.Default;
 public class RouteController extends BaseController {
 
     @Autowired
-    private IUpmsRouteService iUpmsRouteService;
+    private IRouteService iRouteService;
 
     @PostMapping("/routes")
     public SingleResponse<PageResponse<RouteListTreeVO>> listPage(@RequestBody RouteQueryDTO dto) {
-        Page<RouteListTreeVO> routeListTreeVOPage = iUpmsRouteService.pageList(dto);
+        Page<RouteListTreeVO> routeListTreeVOPage = iRouteService.pageList(dto);
         return SingleResponse.ok(PageResponse.build(routeListTreeVOPage));
     }
 
     @PostMapping("/routes/all")
     public MultiResponse<RouteListTreeVO> list(@RequestBody RouteQueryDTO dto) {
-        return MultiResponse.ok(iUpmsRouteService.listAllVOs(dto));
+        return MultiResponse.ok(iRouteService.listAllVOs(dto));
     }
 
     @PostMapping("/route")
     public ServerResponse add(@RequestBody @Validated RouteUpdateDTO dto) {
-        iUpmsRouteService.saveRoute(dto);
+        iRouteService.saveRoute(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/route")
     public ServerResponse update(@RequestBody @Validated RouteUpdateDTO dto) {
-        iUpmsRouteService.updateRoute(dto);
+        iRouteService.updateRoute(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/route/parent")
     public ServerResponse move(@RequestBody @Validated RouteModifyParentDTO dto) {
-        iUpmsRouteService.modifyParent(dto);
+        iRouteService.modifyParent(dto);
         return ServerResponse.ok();
     }
 
     @GetMapping("/route/{id}")
     public SingleResponse<RouteDetailVO> get(@PathVariable("id") String id) {
-        RouteDetailVO vo = iUpmsRouteService.getRoute(Long.valueOf(id));
+        RouteDetailVO vo = iRouteService.getRoute(Long.valueOf(id));
         return SingleResponse.ok(vo);
     }
 
     @PutMapping("/route/status")
     public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
                                        @RequestBody RouteUpdateDTO dto) {
-        iUpmsRouteService.updateRouteStatus(dto);
+        iRouteService.updateRouteStatus(dto);
         return ServerResponse.ok();
     }
 
     @DeleteMapping("/route/{id}")
     public ServerResponse deleteRoute(@PathVariable String id) {
-        iUpmsRouteService.deleteRouteById(Long.valueOf(id));
+        iRouteService.deleteRouteById(Long.valueOf(id));
         return ServerResponse.ok();
     }
 
     @GetMapping("/route/{routeId}/elements")
     public MultiResponse<RouteElementVO> getRouteElements(@PathVariable Long routeId) {
-        return MultiResponse.ok(iUpmsRouteService.listRouteElementsById(routeId));
+        return MultiResponse.ok(iRouteService.listRouteElementsById(routeId));
     }
 
     @PostMapping("/routes/init")
@@ -103,7 +103,7 @@ public class RouteController extends BaseController {
             dto.setComponent(menu.getComponent());
             dto.setPath(menu.getPath());
             dto.setIcon(menu.getMeta().getIcon());
-            iUpmsRouteService.saveRoute(dto);
+            iRouteService.saveRoute(dto);
         }
         return ServerResponse.ok();
     }

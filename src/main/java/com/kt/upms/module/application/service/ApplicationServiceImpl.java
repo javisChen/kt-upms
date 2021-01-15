@@ -50,7 +50,7 @@ public class ApplicationServiceImpl extends ServiceImpl<UpmsApplicationMapper, U
 
     @Override
     public List<ApplicationBaseVO> listVos(ApplicationQueryDTO dto) {
-        return this.list().stream().map(beanConverter::convertForApplicationBaseVO).collect(Collectors.toList());
+        return this.list().stream().map(beanConverter::convertForApplicationListVO).collect(Collectors.toList());
     }
 
     @Override

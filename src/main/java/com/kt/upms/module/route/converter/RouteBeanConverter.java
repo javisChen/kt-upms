@@ -1,6 +1,5 @@
 package com.kt.upms.module.route.converter;
 
-import cn.hutool.extra.cglib.CglibUtil;
 import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsRoute;
@@ -9,7 +8,7 @@ import com.kt.upms.module.application.service.IApplicationService;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
 import com.kt.upms.module.route.service.IUpmsPageElementService;
-import com.kt.upms.module.route.service.IUpmsRouteService;
+import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
@@ -31,7 +30,7 @@ public class RouteBeanConverter {
     private IUpmsPageElementService iUpmsPageElementService;
 
     @Autowired
-    private IUpmsRouteService iUpmsRouteService;
+    private IRouteService iRouteService;
 
     public RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
         UpmsPermission permission = iPermissionService.getPermissionByResourceIdAndType(route.getId(),
@@ -111,7 +110,7 @@ public class RouteBeanConverter {
         Long applicationId = route.getApplicationId();
         String applicationName = getApplicationName(applicationId);
         RouteDetailVO vo = new RouteDetailVO();
-        vo.setParentRouteName(iUpmsRouteService.getRouteNameById(route.getPid()));
+        vo.setParentRouteName(iRouteService.getRouteNameById(route.getPid()));
         vo.setId(route.getId());
         vo.setPid(route.getPid());
         vo.setApplicationId(applicationId);

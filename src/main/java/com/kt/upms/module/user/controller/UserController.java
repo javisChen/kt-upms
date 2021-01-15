@@ -8,7 +8,7 @@ import com.kt.component.logger.CatchAndLog;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.route.dto.UserRoutesDTO;
-import com.kt.upms.module.route.service.IUpmsRouteService;
+import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     @Autowired
     private IUpmsUserService iUpmsUserService;
     @Autowired
-    private IUpmsRouteService iUpmsMenuService;
+    private IRouteService iUpmsMenuService;
 
     /**
      * 查看用户列表
