@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.upms.entity.UpmsApi;
 import com.kt.upms.entity.UpmsPageElement;
 import com.kt.upms.entity.UpmsRoute;
 import com.kt.upms.enums.BizEnums;
@@ -17,7 +16,10 @@ import com.kt.upms.enums.RouteStatusEnums;
 import com.kt.upms.mapper.UpmsRouteMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.route.converter.RouteBeanConverter;
-import com.kt.upms.module.route.dto.*;
+import com.kt.upms.module.route.dto.RouteModifyParentDTO;
+import com.kt.upms.module.route.dto.RouteQueryDTO;
+import com.kt.upms.module.route.dto.RouteUpdateDTO;
+import com.kt.upms.module.route.dto.UserRoutesDTO;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
@@ -80,8 +82,11 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     }
 
     private List<UpmsRoute> getChildrenRoutes() {
-        return this.list(new LambdaQueryWrapper<UpmsRoute>()
-                .ne(UpmsRoute::getPid, DEFAULT_PID).eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode()));
+        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
+                .ne(UpmsRoute::getPid, DEFAULT_PID)
+                .eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode())
+                .orderByAsc(UpmsRoute::getSequence);
+        return this.list(qw);
     }
 
     /**

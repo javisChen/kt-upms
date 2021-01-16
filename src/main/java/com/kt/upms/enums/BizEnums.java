@@ -17,6 +17,7 @@ public enum BizEnums {
     ROUTE_CODE_ALREADY_EXISTS("A0110", "路由编码已存在"),
     APPLICATION_NAME_ALREADY_EXISTS("A0111", "应用名称已存在"),
     APPLICATION_CODE_ALREADY_EXISTS("A0112", "应用编码已存在"),
+    API_ALREADY_EXISTS("A0113", "接口已存在"),
 
     USER_LOGIN_INVALID("A0200", "用户名或密码错误");
 

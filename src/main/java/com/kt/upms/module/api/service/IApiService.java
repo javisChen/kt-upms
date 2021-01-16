@@ -3,6 +3,11 @@ package com.kt.upms.module.api.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.upms.entity.UpmsApi;
+import com.kt.upms.module.api.dto.ApiQueryDTO;
+import com.kt.upms.module.api.dto.ApiUpdateDTO;
+import com.kt.upms.module.api.vo.ApiListVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +20,12 @@ import com.kt.upms.entity.UpmsApi;
 public interface IApiService extends IService<UpmsApi> {
 
     Integer countByApplicationId(Long applicationId);
+
+    void saveApplication(ApiUpdateDTO dto);
+
+    void updateApi(ApiUpdateDTO dto);
+
+    List<ApiListVO> listVos(ApiQueryDTO dto);
+
+    void removeApi(Long dto);
 }

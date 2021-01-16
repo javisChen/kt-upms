@@ -1,7 +1,6 @@
 package com.kt.upms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.kt.component.db.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,10 +32,22 @@ public class UpmsApi extends BaseEntity {
     private Long applicationId;
 
     /**
-     * API编码
+     * 接口地址
      */
-    @TableField("code")
-    private String code;
+    @TableField("url")
+    private String url;
+
+    /**
+     * http方法
+     */
+    @TableField("method")
+    private Integer method;
+
+    /**
+     * 认证授权类型
+     */
+    @TableField("auth_type")
+    private Integer authType;
 
     /**
      * 状态 1-已启用；2-已禁用；
@@ -45,6 +56,5 @@ public class UpmsApi extends BaseEntity {
     private Integer status;
 
     @TableField(value = "is_deleted")
-    @TableLogic
     private Long isDeleted;
 }

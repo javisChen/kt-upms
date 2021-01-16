@@ -9,18 +9,17 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsUserGroup;
-import com.kt.upms.entity.UpmsUserGroupRoleRel;
-import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.enums.BizEnums;
+import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.UserGroupStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupMapper;
 import com.kt.upms.module.usergroup.converter.UserGroupBeanConverter;
 import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
-import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
-import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
+import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
+import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +53,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .like(StrUtil.isNotBlank(dto.getName()), UpmsUserGroup::getName, dto.getName())
                 .eq(UpmsUserGroup::getPid, DEFAULT_PID)
+                .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .orderByAsc(UpmsUserGroup::getGmtCreate);
         Page<UpmsUserGroup> pageResult = this.page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
 
@@ -132,6 +132,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
     private int countUserGroupByName(String name) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
+                .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .eq(UpmsUserGroup::getName, name);
         return this.count(queryWrapper);
     }
@@ -139,6 +140,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     @Override
     public void updateUserGroupById(UserGroupUpdateDTO dto) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
+                .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .eq(UpmsUserGroup::getName, dto.getName())
                 .ne(UpmsUserGroup::getId, dto.getId());
         int count = this.count(queryWrapper);
@@ -153,26 +155,6 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     @Override
     public void updateStatus(UserGroupUpdateDTO dto) {
         updateStatus(dto, UserGroupStatusEnums.DISABLED);
-    }
-
-    private UpmsUserGroupUserRel assembleUserGroupUserRel(Long userGroupId, Long item) {
-        UpmsUserGroupUserRel upmsUserGroupUserRel = new UpmsUserGroupUserRel();
-        upmsUserGroupUserRel.setUserGroupId(userGroupId);
-        upmsUserGroupUserRel.setUserId(item);
-        return upmsUserGroupUserRel;
-    }
-
-    private int countUserGroupById(Long userGroupId) {
-        LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
-                .eq(UpmsUserGroup::getId, userGroupId);
-        return this.count(queryWrapper);
-    }
-
-    private UpmsUserGroupRoleRel assembleUserGroupRoleRel(Long userGroupId, Long item) {
-        UpmsUserGroupRoleRel entity = new UpmsUserGroupRoleRel();
-        entity.setUserGroupId(userGroupId);
-        entity.setRoleId(item);
-        return entity;
     }
 
     @Override
@@ -210,6 +192,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
     private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<UpmsUserGroup>()
+                .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .eq(UpmsUserGroup::getStatus, dto.getId())
                 .set(UpmsUserGroup::getStatus, statusEnum.getValue()));
     }
