@@ -9,10 +9,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsUserGroup;
+import com.kt.upms.entity.UpmsUserGroupRoleRel;
+import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.UserGroupStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupMapper;
+import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
+import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.module.usergroup.converter.UserGroupBeanConverter;
 import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
@@ -47,6 +51,10 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
     @Autowired
     private UserGroupBeanConverter beanConverter;
+    @Autowired
+    private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
+    @Autowired
+    private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
 
     @Override
     public Page<UserGroupListTreeVO> pageList(UserGroupQueryDTO dto) {
@@ -159,7 +167,10 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
 
     @Override
     public List<Long> getUserGroupIdsByUserId(Long userId) {
-        return this.baseMapper.selectUserGroupIdsByUserId(userId);
+        LambdaQueryWrapper<UpmsUserGroupUserRel> qw = new LambdaQueryWrapper<>();
+        qw.eq(UpmsUserGroupUserRel::getUserId, userId);
+        return upmsUserGroupUserRelMapper.selectList(qw).stream().map(UpmsUserGroupUserRel::getUserGroupId)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -23,11 +23,15 @@
     <select id="selectByRoleIds" resultType="com.kt.upms.entity.UpmsPermission">
         select up.id, up.type, up.code
         from upms_permission up
-                 inner join upms_permission_role_rel uprr on up.id = uprr.permission_id
+        inner join upms_permission_role_rel uprr on up.id = uprr.permission_id
+        where uprr.role_id in
+        <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
     </select>
 
     <select id="selectPageElementPermissionsByRouteId" resultType="com.kt.upms.module.route.vo.RouteElementVO">
-        select up.id as id,
+        select up.id   as id,
                up.code as permission_code,
                route_id,
                name,
@@ -46,9 +50,10 @@
         select up.id,
                code
         from upms_permission up
-        inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
-        where role_id = #{roleId} and up.type = #{type}
-        and up.is_deleted = 0
+                 inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
+        where role_id = #{roleId}
+          and up.type = #{type}
+          and up.is_deleted = 0
     </select>
 
 </mapper>

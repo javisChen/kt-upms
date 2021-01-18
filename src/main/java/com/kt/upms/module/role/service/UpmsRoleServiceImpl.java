@@ -9,12 +9,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.entity.UpmsRole;
+import com.kt.upms.entity.UpmsUserRoleRel;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RoleStatusEnums;
 import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
 import com.kt.upms.mapper.UpmsRoleMapper;
 import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
+import com.kt.upms.mapper.UpmsUserRoleRelMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.converter.RoleBeanConverter;
@@ -52,6 +54,8 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
     private IPermissionService iUpmsPermissionService;
     @Autowired
     private RoleBeanConverter beanConverter;
+    @Autowired
+    private UpmsUserRoleRelMapper upmsUserRoleRelMapper;
 
     @Override
     public Page<RoleListVO> pageList(RoleQueryDTO params) {
@@ -99,7 +103,9 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
 
     @Override
     public List<Long> getRoleIdsByUserId(Long userId) {
-        return upmsPermissionRoleRelMapper.selectRoleIdsByUserId(userId);
+        LambdaQueryWrapper<UpmsUserRoleRel> qw = new LambdaQueryWrapper<>();
+        qw.eq(UpmsUserRoleRel::getUserId, userId);
+        return upmsUserRoleRelMapper.selectList(qw).stream().map(UpmsUserRoleRel::getRoleId).collect(Collectors.toList());
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
+import com.kt.upms.security.DefaultUser;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsUserService extends IService<UpmsUser> {
+public interface IUserService extends IService<UpmsUser> {
 
     void saveUser(UserAddDTO entity);
 
@@ -38,4 +39,6 @@ public interface IUpmsUserService extends IService<UpmsUser> {
     UpmsUser getUserByPhone(String username);
 
     UserDetailVO getUserDetailVOById(Long userId);
+
+    DefaultUser getUserInfoByPhone(String phone);
 }

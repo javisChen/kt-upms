@@ -2,7 +2,7 @@ package com.kt.upms.module.permission.vo;
 
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.module.role.service.IUpmsRoleService;
-import com.kt.upms.module.user.service.IUpmsUserService;
+import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
@@ -24,7 +24,7 @@ public class PermissionVOFactory {
     @Autowired
     private IUpmsUserGroupService iUpmsUserGroupService;
     @Autowired
-    private IUpmsUserService iUpmsUserService;
+    private IUserService iUpmsUserService;
 
     public UserPageListVO convertTo(UpmsUser upmsUser) {
         Long userId = upmsUser.getId();

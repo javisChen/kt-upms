@@ -16,7 +16,6 @@ import java.util.List;
  */
 public interface UpmsPermissionRoleRelMapper extends BaseMapper<UpmsPermissionRoleRel> {
 
-    List<Long> selectRoleIdsByUserId(@Param("userId") Long userId);
 
     void batchInsert(@Param("roleId") Long roleId,
                      @Param("type") String type,

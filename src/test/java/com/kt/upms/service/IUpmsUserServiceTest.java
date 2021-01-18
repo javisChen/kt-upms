@@ -1,6 +1,6 @@
 package com.kt.upms.service;
 
-import com.kt.upms.module.user.service.IUpmsUserService;
+import com.kt.upms.module.user.service.IUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class IUpmsUserServiceTest {
 
     @Autowired
-    private IUpmsUserService iUpmsUserService;
+    private IUserService iUpmsUserService;
 
 
     @org.junit.Before

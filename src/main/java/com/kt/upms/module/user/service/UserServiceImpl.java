@@ -29,10 +29,12 @@ import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
+import com.kt.upms.security.DefaultUser;
 import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +52,7 @@ import java.util.stream.Collectors;
 @Service
 @CatchAndLog
 @Slf4j
-public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUpmsUserService {
+public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUserService {
 
     @Autowired
     private IUpmsRoleService iUpmsRoleService;
@@ -173,14 +175,24 @@ public class UpmsUserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> i
     }
 
     @Override
-    public UpmsUser getUserByPhone(String username) {
-        return this.getOne(new LambdaQueryWrapper<UpmsUser>().eq(UpmsUser::getPhone, username));
+    public UpmsUser getUserByPhone(String phone) {
+        return this.getOne(new LambdaQueryWrapper<UpmsUser>().eq(UpmsUser::getPhone, phone));
     }
 
     @Override
     public UserDetailVO getUserDetailVOById(Long userId) {
         UpmsUser user = getUserById(userId);
         return beanConverter.convertToUserDetailVO(user);
+    }
+
+    @Override
+    public DefaultUser getUserInfoByPhone(String phone) {
+        UpmsUser upmsUser = getUserByPhone(phone);
+        Long userId = upmsUser.getId();
+        List<UpmsPermission> userPermissions = getUserPermissions(userId);
+        List<SimpleGrantedAuthority>  grantedAuthorities = userPermissions.stream()
+                .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode()))).collect(Collectors.toList());
+        return new DefaultUser(upmsUser.getName(), upmsUser.getPassword(), grantedAuthorities);
     }
 
     private List<Long> getUserGroupIdsByUserId(Long userId) {

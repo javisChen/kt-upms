@@ -12,7 +12,7 @@ import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
-import com.kt.upms.module.user.service.IUpmsUserService;
+import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import javax.validation.groups.Default;
 public class UserController extends BaseController {
 
     @Autowired
-    private IUpmsUserService iUpmsUserService;
+    private IUserService iUpmsUserService;
     @Autowired
     private IRouteService iUpmsMenuService;
 
