@@ -1,9 +1,9 @@
-package com.kt.upms.security;
+package com.kt.upms.security.configuration;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
-import com.kt.component.dto.SingleResponse;
+import com.kt.upms.security.login.AccountPasswordLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -64,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 放行资源
-                .antMatchers("/**","/doLogin").permitAll()
+                .antMatchers("/**", "/doLogin").permitAll()
                 // 配置强制禁用的资源，是登录后之后投票器处理才会触发到这个
                 .antMatchers("/deny").denyAll()
                 .and()
@@ -79,14 +77,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 登出相关
                 .logout()
                 // 登出成功处理器
-                .logoutSuccessHandler(new DefaultLogoutSuccessHandler())
+                .logoutSuccessHandler((httpServletRequest, resp, authentication) -> {
+                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
+                })
                 .and()
                 // 异常状态处理
                 .exceptionHandling()
                 // 设置未登录返回
-                .authenticationEntryPoint(new DefaultAuthenticationEntryPoint())
+                .authenticationEntryPoint((httpServletRequest, resp, e) -> {
+                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
+                })
                 // 设置权限不足处理器
-                .accessDeniedHandler(new DefaultAccessDeniedHandler())
+                .accessDeniedHandler((httpServletRequest, resp, e) -> {
+                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_ACCESS_DENIED));
+                })
                 .and()
                 // 关闭csrf
                 .csrf().disable();

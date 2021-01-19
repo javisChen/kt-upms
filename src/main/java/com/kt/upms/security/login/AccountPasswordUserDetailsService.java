@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.kt.upms.security;
+package com.kt.upms.security.login;
 
 import com.kt.upms.module.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
-package com.kt.upms.security;
+package com.kt.upms.security.login;
 
+import com.kt.component.dto.auth.LoginUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -11,6 +12,16 @@ import java.util.Collection;
  * @author: Javis
  */
 public class DefaultUser extends User {
+
+    private LoginUser loginUser;
+
+    public LoginUser getLoginUser() {
+        return loginUser;
+    }
+
+    public void setLoginUser(LoginUser loginUser) {
+        this.loginUser = loginUser;
+    }
 
     public DefaultUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

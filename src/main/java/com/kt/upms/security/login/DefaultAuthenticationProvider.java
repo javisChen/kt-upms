@@ -3,23 +3,25 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.kt.upms.security;
+package com.kt.upms.security.login;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.kt.upms.constants.UpmsConsts;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserCache;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -54,6 +56,7 @@ public class DefaultAuthenticationProvider extends AbstractUserDetailsAuthentica
     protected void doAfterPropertiesSet() {
         Assert.notNull(this.userDetailsService, "A UserDetailsService must be set");
         this.passwordEncoder = new BCryptPasswordEncoder();
+        super.setUserCache(new SpringCacheBasedUserCache(new ConcurrentMapCache("user")));
     }
 
     @Override
@@ -71,6 +74,11 @@ public class DefaultAuthenticationProvider extends AbstractUserDetailsAuthentica
     @Override
     protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
         return super.createSuccessAuthentication(principal, authentication, user);
+    }
+
+    @Override
+    public void setUserCache(UserCache userCache) {
+        super.setUserCache(new SpringCacheBasedUserCache(new ConcurrentMapCache("user")));
     }
 
 

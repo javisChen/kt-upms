@@ -29,7 +29,7 @@ import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
-import com.kt.upms.security.DefaultUser;
+import com.kt.upms.security.login.DefaultUser;
 import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
 import lombok.extern.slf4j.Slf4j;

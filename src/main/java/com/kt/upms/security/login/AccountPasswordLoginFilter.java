@@ -1,6 +1,4 @@
-package com.kt.upms.security;
-import java.util.HashSet;
-
+package com.kt.upms.security.login;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kt.component.dto.ResponseEnums;
@@ -21,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -84,7 +83,7 @@ public class AccountPasswordLoginFilter extends UsernamePasswordAuthenticationFi
         return (httpServletRequest, response, e) -> {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             LoginUser loginUser = new LoginUser();
-            loginUser.setToken("");
+            loginUser.setAccessToken("");
             loginUser.setPermissionCode(new HashSet<String>());
             JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(ResponseEnums.USER_LOGIN_FAIL));
         };
