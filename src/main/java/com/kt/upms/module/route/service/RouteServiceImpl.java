@@ -48,7 +48,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     private final static Integer FIRST_LEVEL = 1;
 
     @Autowired
-    private IPermissionService iUpmsPermissionService;
+    private IPermissionService iPermissionService;
     @Autowired
     private IUpmsPageElementService iUpmsPageElementService;
     @Autowired
@@ -126,7 +126,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
         // 新增完路由记录后再更新层级信息
         updateLevelPathAfterSave(route, parentRoute);
         // 添加到权限
-        iUpmsPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
+        iPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
         // 添加页面元素
         iUpmsPageElementService.batchSavePageElement(route.getId(), dto.getElements());
 
