@@ -1,6 +1,5 @@
 package com.kt.upms.security;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +27,13 @@ public class Controller {
         return "hello";
     }
 
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('user123')")
     @PostMapping("/admin/hello")
     public String admin() {
         return "admin";
     }
 
-    @PreAuthorize("hasRole('user')")
+    //    @PreAuthorize("hasRole('user')")
     @PostMapping("/user/hello")
     public Authentication user() {
         return SecurityContextHolder.getContext().getAuthentication();

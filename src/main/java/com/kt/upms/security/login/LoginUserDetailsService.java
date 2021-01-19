@@ -5,27 +5,30 @@
 
 package com.kt.upms.security.login;
 
+import cn.hutool.core.util.StrUtil;
 import com.kt.upms.module.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccountPasswordUserDetailsService implements UserDetailsService {
+public class LoginUserDetailsService implements UserDetailsService {
 
     @Autowired
     private IUserService iUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        DefaultUser user = iUserService.getUserInfoByPhone(username);
+        User user = iUserService.getUserInfoByPhone(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         } else {
-            return new DefaultUser(user.getUsername(), user.getPassword(), user.isEnabled(), user.isAccountNonExpired(),
-                    user.isCredentialsNonExpired(), user.isAccountNonLocked(), user.getAuthorities());
+            LoginUserDetails loginUserDetails = (LoginUserDetails) user;
+            loginUserDetails.setAccessToken(StrUtil.uuid());
+            return loginUserDetails;
         }
     }
 

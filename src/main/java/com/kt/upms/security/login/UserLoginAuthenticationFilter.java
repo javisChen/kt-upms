@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
-import com.kt.component.dto.auth.LoginUser;
+import com.kt.upms.security.dto.SecurityLoginVO;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -19,15 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
  * 账号密码登录过滤器
  */
-public class AccountPasswordLoginFilter extends UsernamePasswordAuthenticationFilter {
-
-    private AuthenticationManager authenticationManager;
+public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -70,8 +67,7 @@ public class AccountPasswordLoginFilter extends UsernamePasswordAuthenticationFi
         }
     }
 
-    public AccountPasswordLoginFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    public UserLoginAuthenticationFilter(AuthenticationManager authenticationManager) {
         setAuthenticationSuccessHandler(authenticationSuccessHandler());
         setAuthenticationFailureHandler(authenticationFailureHandler());
         setAuthenticationManager(authenticationManager);
@@ -81,18 +77,21 @@ public class AccountPasswordLoginFilter extends UsernamePasswordAuthenticationFi
 
     private AuthenticationFailureHandler authenticationFailureHandler() {
         return (httpServletRequest, response, e) -> {
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            LoginUser loginUser = new LoginUser();
-            loginUser.setAccessToken("");
-            loginUser.setPermissionCode(new HashSet<String>());
+            setupContentType(response);
             JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(ResponseEnums.USER_LOGIN_FAIL));
         };
     }
 
+    private void setupContentType(HttpServletResponse response) {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    }
+
     private AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return (httpServletRequest, response, authentication) -> {
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            JSONObject.writeJSONString(response.getOutputStream(), SingleResponse.ok(authentication));
+        return (HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) -> {
+            setupContentType(response);
+            LoginUserDetails user = (LoginUserDetails) authentication.getPrincipal();
+            SecurityLoginVO vo = new SecurityLoginVO(user.getAccessToken(), user.getExpires());
+            JSONObject.writeJSONString(response.getOutputStream(), SingleResponse.ok(vo));
         };
     }
 }

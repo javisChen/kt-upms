@@ -27,7 +27,7 @@ public class SecurityCoreProperties {
      * 认证配置
      */
     @NestedConfigurationProperty
-    private AuthenticationProperties authentication;
+    private AuthenticationProperties authentication = new AuthenticationProperties();
 
 
     /**

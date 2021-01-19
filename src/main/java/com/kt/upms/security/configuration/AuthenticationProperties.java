@@ -5,14 +5,12 @@
 package com.kt.upms.security.configuration;
 
 import lombok.Data;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * jwt配置文件
  * @author javis
  */
 @Data
-@Configuration
 public class AuthenticationProperties {
     /**
      * token的Header

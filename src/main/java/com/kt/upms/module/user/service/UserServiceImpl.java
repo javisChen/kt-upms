@@ -22,23 +22,27 @@ import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.mapper.UpmsUserRoleRelMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.role.service.IUpmsRoleService;
+import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
-import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
-import com.kt.upms.security.login.DefaultUser;
+import com.kt.upms.security.login.LoginUserDetails;
 import com.kt.upms.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -186,13 +190,14 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     }
 
     @Override
-    public DefaultUser getUserInfoByPhone(String phone) {
+    public User getUserInfoByPhone(String phone) {
         UpmsUser upmsUser = getUserByPhone(phone);
         Long userId = upmsUser.getId();
         List<UpmsPermission> userPermissions = getUserPermissions(userId);
-        List<SimpleGrantedAuthority>  grantedAuthorities = userPermissions.stream()
-                .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode()))).collect(Collectors.toList());
-        return new DefaultUser(upmsUser.getName(), upmsUser.getPassword(), grantedAuthorities);
+        List<SimpleGrantedAuthority> grantedAuthorities = userPermissions.stream()
+                .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode())))
+                .collect(Collectors.toList());
+        return new LoginUserDetails(upmsUser.getName(), upmsUser.getPassword(), grantedAuthorities);
     }
 
     private List<Long> getUserGroupIdsByUserId(Long userId) {

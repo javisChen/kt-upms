@@ -3,9 +3,14 @@ package com.kt.upms.security.configuration;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
-import com.kt.upms.security.login.AccountPasswordLoginFilter;
+import com.kt.upms.security.login.UserLoginAuthenticationFilter;
+import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
+import com.kt.upms.security.token.extractor.DefaultTokenExtractor;
+import com.kt.upms.security.token.manager.LocalCacheTokenManager;
+import com.kt.upms.security.token.manager.UserTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.servlet.filter.OrderedCharacterEncodingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -21,10 +26,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.filter.CharacterEncodingFilter;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @title:
+ * @title:w
  * @desc:
  * @author: Javis
  */
@@ -33,8 +46,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier(value = "defaultAuthenticationProvider")
-    private AuthenticationProvider defaultAuthenticationProvider;
+    private SecurityCoreProperties securityCoreProperties;
+
+    @Autowired
+    @Qualifier(value = "userLoginAuthenticationProvider")
+    private AuthenticationProvider userLoginAuthenticationProvider;
+
+    @Autowired
+    @Qualifier(value = "userTokenAuthenticationProvider")
+    private AuthenticationProvider userTokenAuthenticationProvider;
 
     /**
      * 配置客户端认证的参数
@@ -62,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 放行资源
-                .antMatchers("/**", "/doLogin").permitAll()
+                .antMatchers("/doLogin").permitAll()
                 // 配置强制禁用的资源，是登录后之后投票器处理才会触发到这个
                 .antMatchers("/deny").denyAll()
                 .and()
@@ -77,30 +97,61 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 登出相关
                 .logout()
                 // 登出成功处理器
-                .logoutSuccessHandler((httpServletRequest, resp, authentication) -> {
-                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
-                })
+                .logoutSuccessHandler(logoutSuccessHandler())
                 .and()
                 // 异常状态处理
                 .exceptionHandling()
                 // 设置未登录返回
-                .authenticationEntryPoint((httpServletRequest, resp, e) -> {
-                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
-                })
+                .authenticationEntryPoint(authenticationEntryPoint())
                 // 设置权限不足处理器
-                .accessDeniedHandler((httpServletRequest, resp, e) -> {
-                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_ACCESS_DENIED));
-                })
+                .accessDeniedHandler(accessDeniedHandler())
                 .and()
                 // 关闭csrf
                 .csrf().disable();
 
-        http.addFilterAfter(accountPasswordLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+        setupAuthFilter(http);
 
         setupProvider(http);
+    }
+
+    private void setupAuthFilter(HttpSecurity http) throws Exception {
+        http
+                .addFilterBefore(userTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(userLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    protected UserTokenAuthenticationProcessingFilter userTokenAuthenticationProcessingFilter()
+            throws Exception {
+        List<String> pathsToSkip = new ArrayList<>(securityCoreProperties.getAllowList());
+        UserTokenAuthenticationProcessingFilter filter = new UserTokenAuthenticationProcessingFilter(
+                "/demo/**", new DefaultTokenExtractor(), securityCoreProperties.getAuthentication());
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
+    }
+
+    public UserLoginAuthenticationFilter userLoginAuthenticationFilter() throws Exception {
+        return new UserLoginAuthenticationFilter(authenticationManagerBean());
+    }
+
+    private LogoutSuccessHandler logoutSuccessHandler() {
+        return (httpServletRequest, resp, authentication) -> {
+            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
+        };
+    }
+
+    private AuthenticationEntryPoint authenticationEntryPoint() {
+        return (httpServletRequest, resp, e) -> {
+            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
+        };
+    }
+
+    private AccessDeniedHandler accessDeniedHandler() {
+        return (httpServletRequest, resp, e) -> {
+            resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_ACCESS_DENIED));
+        };
     }
 
     @Override
@@ -114,8 +165,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AccountPasswordLoginFilter accountPasswordLoginFilter() throws Exception {
-        return new AccountPasswordLoginFilter(authenticationManagerBean());
+    public UserTokenManager userTokenManager() {
+        return new LocalCacheTokenManager();
     }
 
 
@@ -136,6 +187,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private void setupProvider(HttpSecurity http) {
-        http.authenticationProvider(defaultAuthenticationProvider);
+        http.authenticationProvider(userLoginAuthenticationProvider)
+                .authenticationProvider(userTokenAuthenticationProvider);
+    }
+
+    @Bean
+    public CharacterEncodingFilter characterEncodingFilter() {
+        CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+        filter.setEncoding(StandardCharsets.UTF_8.displayName());
+        filter.setForceRequestEncoding(false);
+        filter.setForceResponseEncoding(true);
+        return filter;
     }
 }

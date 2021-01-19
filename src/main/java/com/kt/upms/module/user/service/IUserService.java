@@ -9,7 +9,7 @@ import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
-import com.kt.upms.security.login.DefaultUser;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
@@ -40,5 +40,5 @@ public interface IUserService extends IService<UpmsUser> {
 
     UserDetailVO getUserDetailVOById(Long userId);
 
-    DefaultUser getUserInfoByPhone(String phone);
+    User getUserInfoByPhone(String phone);
 }
