@@ -191,13 +191,13 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
 
     @Override
     public User getUserInfoByPhone(String phone) {
-        UpmsUser upmsUser = getUserByPhone(phone);
-        Long userId = upmsUser.getId();
+        UpmsUser user = getUserByPhone(phone);
+        Long userId = user.getId();
         List<UpmsPermission> userPermissions = getUserPermissions(userId);
         List<SimpleGrantedAuthority> grantedAuthorities = userPermissions.stream()
                 .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode())))
                 .collect(Collectors.toList());
-        return new LoginUserDetails(upmsUser.getName(), upmsUser.getPassword(), grantedAuthorities);
+        return new LoginUserDetails(user.getId(), user.getName(), user.getPassword(), grantedAuthorities);
     }
 
     private List<Long> getUserGroupIdsByUserId(Long userId) {

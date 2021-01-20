@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerExceptionAdvice {
 
     /**
-     * 捕获到该异常后直接往上抛，这样才能到达SpringSecurity的AccessDeniedHandler
+     * 注解@hasRole不match的时候会抛到这个异常
      * @param ex
      * @throws AccessDeniedException
      */
@@ -20,4 +20,5 @@ public class ControllerExceptionAdvice {
         log.error("权限不足", ex);
         throw ex;
     }
+
 }

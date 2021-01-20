@@ -12,8 +12,17 @@ import java.util.Collection;
  */
 public class LoginUserDetails extends User {
 
+    private Long userId;
     private String accessToken;
     private Long expires;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getAccessToken() {
         return accessToken;
@@ -31,11 +40,10 @@ public class LoginUserDetails extends User {
         this.accessToken = accessToken;
     }
 
-    public LoginUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public LoginUserDetails(Long userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+        this.userId = userId;
     }
 
-    public LoginUserDetails(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-    }
+
 }

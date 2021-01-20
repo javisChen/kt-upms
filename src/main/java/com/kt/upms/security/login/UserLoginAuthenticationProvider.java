@@ -31,13 +31,10 @@ public class UserLoginAuthenticationProvider extends AbstractUserDetailsAuthenti
 
     @Autowired
     private UserTokenManager userTokenManager;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private SecurityCoreProperties securityCoreProperties;
 

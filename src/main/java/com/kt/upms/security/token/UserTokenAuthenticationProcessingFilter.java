@@ -9,6 +9,7 @@ import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.upms.security.configuration.AuthenticationProperties;
 import com.kt.upms.security.token.extractor.TokenExtractor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -46,7 +47,7 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String token = tokenExtractor.extract(request, authenticationProperties);
         UserTokenAuthenticationToken authentication = new UserTokenAuthenticationToken(token,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_user")));
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_123")));
         return getAuthenticationManager().authenticate(authentication);
     }
 
@@ -62,12 +63,13 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException {
-        setupContentType(response);
+        setupResponse(response);
         SecurityContextHolder.clearContext();
         JSONObject.writeJSONString(response.getWriter(), response(ResponseEnums.USER_AUTHENTICATION_FAIL.getCode(), failed.getMessage()));
     }
 
-    private void setupContentType(HttpServletResponse response) {
+    private void setupResponse(HttpServletResponse response) {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     }
 

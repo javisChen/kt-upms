@@ -1,11 +1,11 @@
 package com.kt.upms.security;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @title:
@@ -22,18 +22,18 @@ public class Controller {
     }
 
     //    @PreAuthorize("hasAuthority('pms:product:create')")
-    @GetMapping("/hello")
-    public String hello() {
+    @GetMapping("/hello/{id}/user/{sid}")
+    public String hello(HttpServletRequest request, @PathVariable Integer id, @PathVariable Integer sid) {
         return "hello";
     }
 
-//    @PreAuthorize("hasRole('user123')")
+    @PreAuthorize("hasP('user123')")
     @PostMapping("/admin/hello")
     public String admin() {
         return "admin";
     }
 
-    //    @PreAuthorize("hasRole('user')")
+//    @PreAuthorize("hasRole('user123')")
     @PostMapping("/user/hello")
     public Authentication user() {
         return SecurityContextHolder.getContext().getAuthentication();

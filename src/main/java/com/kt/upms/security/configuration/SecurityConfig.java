@@ -8,11 +8,13 @@ import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
 import com.kt.upms.security.token.extractor.DefaultTokenExtractor;
 import com.kt.upms.security.token.manager.LocalCacheTokenManager;
 import com.kt.upms.security.token.manager.UserTokenManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.filter.OrderedCharacterEncodingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
@@ -37,12 +39,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @title:w
- * @desc:
- * @author: Javis
+ * 安全控制配置
  */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true) // 启用@PreAuthorize注解
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -89,10 +90,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 配置接口与对应角色权限关系，可用注解配置@PreAuthorize配置
                 // 注意，如果接口使用了@PreAuthorize进行了权限配置，当权限不匹配的时候，会先ControllerExceptionAdvice捕获
-                .antMatchers("/demo/admin/**").hasAnyRole("admin")
+                // 如果antMatchers和@PreAuthorize都进行了权限配置，则都需要匹配才能访问
+//                .antMatchers("/demo/admin/**").hasAnyAuthority("user")
 //                .antMatchers("/demo/user/**").hasAnyRole("user")
                 // 剩余资源都需要进行认证
-                .anyRequest().authenticated()
+                .anyRequest().access("@permissionChecker.check(request, authentication)")
+//                .anyRequest().authenticated()
                 .and()
                 // 登出相关
                 .logout()
@@ -142,6 +145,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationEntryPoint authenticationEntryPoint() {
         return (httpServletRequest, resp, e) -> {
+            resp.setStatus(HttpStatus.UNAUTHORIZED.value());
             resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
             JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_NOT_LOGIN));
         };
@@ -149,6 +153,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AccessDeniedHandler accessDeniedHandler() {
         return (httpServletRequest, resp, e) -> {
+            log.error("Authorization failed: access is denied", e);
+            resp.setStatus(HttpStatus.FORBIDDEN.value());
             resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
             JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_ACCESS_DENIED));
         };

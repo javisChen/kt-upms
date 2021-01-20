@@ -1,21 +1,26 @@
 package com.kt.upms.module.permission.service;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
+import com.kt.component.redis.RedisService;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
+import com.kt.upms.module.permission.bo.ApiPermissionBO;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.route.dto.PermissionQueryDTO;
 import com.kt.upms.module.route.dto.PermissionUpdateDTO;
-import com.kt.upms.module.route.vo.RouteElementVO;
+import com.kt.upms.module.user.service.IUserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +38,12 @@ import java.util.stream.Collectors;
 @Service
 public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, UpmsPermission>
         implements IPermissionService {
+
+    @Autowired
+    private RedisService redisService;
+
+    @Autowired
+    private IUserService iUserService;
 
     @Override
     public PageResponse pageList(Page page, PermissionQueryDTO dto) {
@@ -68,17 +79,21 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
 
     @Override
     public List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds) {
+        if (CollectionUtil.isEmpty(roleIds)) {
+            return CollectionUtil.newArrayList();
+        }
         return this.baseMapper.selectByRoleIds(roleIds);
     }
 
-    @Override
-    public List<RouteElementVO> getPermissionElements(Long routePermissionId) {
-        UpmsPermission permission = getPermissionById(routePermissionId);
-        return this.baseMapper.selectPageElementPermissionsByRouteId(permission.getResourceId());
+    private UpmsPermission getPermissionById(Long permissionId) {
+        return this.getOne(new LambdaQueryWrapper<UpmsPermission>().eq(UpmsPermission::getId, permissionId));
     }
 
-    private UpmsPermission getPermissionById(Long routePermissionId) {
-        return this.getOne(new LambdaQueryWrapper<UpmsPermission>().eq(UpmsPermission::getId, routePermissionId));
+    private List<ApiPermissionBO> getPermissionByIds(List<Long> permissionIds) {
+        if (CollectionUtil.isEmpty(permissionIds)) {
+            return CollectionUtil.newArrayList();
+        }
+        return this.baseMapper.selectApiPermissionByIds(permissionIds);
     }
 
     @Override
@@ -96,12 +111,37 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     }
 
     @Override
-    public UpmsPermission getPermission(Long resourceId, PermissionTypeEnums pageElement) {
+    public UpmsPermission getPermission(Long resourceId, PermissionTypeEnums permissionTypeEnums) {
         LambdaQueryWrapper<UpmsPermission> qw = new LambdaQueryWrapper<>();
         qw.select(UpmsPermission::getId, UpmsPermission::getCode);
         qw.eq(UpmsPermission::getResourceId, resourceId);
-        qw.eq(UpmsPermission::getType, pageElement.getType());
+        qw.eq(UpmsPermission::getType, permissionTypeEnums.getType());
         return Optional.ofNullable(this.getOne(qw)).orElseGet(UpmsPermission::new);
+    }
+
+    @Override
+    public boolean hasApiPermission(String application, Long userId, String url, String method) {
+        List<ApiPermissionBO> apiPermissions = getUserCanAccessApi(application, userId);
+        return apiPermissions.stream().anyMatch(item -> {
+            AntPathMatcher antPathMatcher = new AntPathMatcher();
+            if (item.getApiMethod().equalsIgnoreCase(method)) {
+            }
+            return true;
+        });
+    }
+
+    public static void main(String[] args) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        final boolean match = antPathMatcher.match("/admin/user", "/admin/user");
+        System.out.println(match);
+    }
+
+    private List<ApiPermissionBO> getUserCanAccessApi(String application, Long userId) {
+        // 先查出所有API权限
+        List<UpmsPermission> permissions = iUserService.getUserPermissions(userId);
+        // 根据权限id查出所有api
+        List<Long> permissionIds = permissions.stream().map(UpmsPermission::getId).collect(Collectors.toList());
+        return getPermissionByIds(permissionIds);
     }
 
     private PermissionVO assembleVo(UpmsPermission upmsPermission) {

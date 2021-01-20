@@ -7,14 +7,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsApi;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.DeletedEnums;
+import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsApiMapper;
 import com.kt.upms.module.api.converter.ApiBeanConverter;
 import com.kt.upms.module.api.dto.ApiQueryDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
 import com.kt.upms.module.api.vo.ApiListVO;
+import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,17 +36,24 @@ public class ApiServiceImpl extends ServiceImpl<UpmsApiMapper, UpmsApi> implemen
     @Autowired
     private ApiBeanConverter beanConverter;
 
+    @Autowired
+    private IPermissionService iPermissionService;
+
     @Override
     public Integer countByApplicationId(Long applicationId) {
         return this.count(new LambdaQueryWrapper<UpmsApi>().eq(UpmsApi::getApplicationId, applicationId));
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 20000)
     public void saveApplication(ApiUpdateDTO dto) {
         UpmsApi api = getApiByApplicationIdAndMethodAndUrl(dto);
         Assert.isTrue(api != null, BizEnums.API_ALREADY_EXISTS);
 
-        this.save(beanConverter.convertForUpdate(dto));
+        api = beanConverter.convertForUpdate(dto);
+        this.save(api);
+
+        iPermissionService.addPermission(api.getId(), PermissionTypeEnums.SER_API);
     }
 
     /**
