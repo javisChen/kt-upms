@@ -1,8 +1,8 @@
 package com.kt.upms.security.service;
 
 import com.kt.upms.module.permission.service.IPermissionService;
-import com.kt.upms.security.dto.AuthenticationRequest;
-import com.kt.upms.security.dto.AuthenticationResponse;
+import com.kt.upms.security.model.AuthenticationRequest;
+import com.kt.upms.security.model.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

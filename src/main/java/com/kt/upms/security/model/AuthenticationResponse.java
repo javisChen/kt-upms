@@ -1,4 +1,4 @@
-package com.kt.upms.security.dto;
+package com.kt.upms.security.model;
 
 import lombok.Data;
 

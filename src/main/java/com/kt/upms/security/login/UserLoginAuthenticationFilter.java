@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
-import com.kt.upms.security.dto.SecurityLoginVO;
+import com.kt.upms.security.model.SecurityLoginResult;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -71,7 +71,7 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
         setAuthenticationSuccessHandler(authenticationSuccessHandler());
         setAuthenticationFailureHandler(authenticationFailureHandler());
         setAuthenticationManager(authenticationManager);
-        setFilterProcessesUrl("/doLogin");
+        setFilterProcessesUrl("/auth/login");
     }
 
 
@@ -90,7 +90,7 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
         return (HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) -> {
             setupContentType(response);
             LoginUserDetails user = (LoginUserDetails) authentication.getPrincipal();
-            SecurityLoginVO vo = new SecurityLoginVO(user.getAccessToken(), user.getExpires());
+            SecurityLoginResult vo = new SecurityLoginResult(user.getAccessToken(), user.getExpires());
             JSONObject.writeJSONString(response.getOutputStream(), SingleResponse.ok(vo));
         };
     }

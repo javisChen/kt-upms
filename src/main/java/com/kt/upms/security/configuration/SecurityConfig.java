@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 放行资源
-                .antMatchers("/doLogin").permitAll()
+                .antMatchers("/**").permitAll()
                 // 配置强制禁用的资源，是登录后之后投票器处理才会触发到这个
                 .antMatchers("/deny").denyAll()
                 .and()
@@ -119,7 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void setupAuthFilter(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(userTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(userTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(userLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -127,7 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             throws Exception {
         List<String> pathsToSkip = new ArrayList<>(securityCoreProperties.getAllowList());
         UserTokenAuthenticationProcessingFilter filter = new UserTokenAuthenticationProcessingFilter(
-                "/demo/**", new DefaultTokenExtractor(), securityCoreProperties.getAuthentication());
+                "/**", new DefaultTokenExtractor(), securityCoreProperties.getAuthentication());
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }

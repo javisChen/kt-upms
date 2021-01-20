@@ -1,7 +1,7 @@
 package com.kt.upms.security.service;
 
-import com.kt.upms.security.dto.AuthenticationRequest;
-import com.kt.upms.security.dto.AuthenticationResponse;
+import com.kt.upms.security.model.AuthenticationRequest;
+import com.kt.upms.security.model.AuthenticationResponse;
 
 
 /**
