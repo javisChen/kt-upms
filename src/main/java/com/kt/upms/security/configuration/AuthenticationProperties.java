@@ -15,7 +15,7 @@ public class AuthenticationProperties {
     /**
      * token的Header
      */
-    private String tokenHeader = "X-Authentication";
+    private String tokenHeader = "Authorization";
 
     /**
      * 认证token前缀

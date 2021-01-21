@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.enums.PermissionTypeEnums;
-import com.kt.upms.module.route.dto.UserRoutesDTO;
+import com.kt.upms.module.permission.vo.PermissionVO;
+import com.kt.upms.module.user.vo.UserRouteVO;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
@@ -44,7 +45,13 @@ public interface IUserService extends IService<UpmsUser> {
 
     User getUserInfoByPhone(String phone);
 
-    UserRoutesDTO getUserRoutes();
-
     List<UpmsPermission> getUserApiPermissions(Long userId);
+
+    List<UpmsPermission> getUserRoutePermissions(Long userId);
+
+    List<UpmsPermission> getUserPageElementPermissions(Long userId);
+
+    List<UserRouteVO> getUserRoutes(long userId);
+
+    List<PermissionVO> getUserElements(long userId);
 }

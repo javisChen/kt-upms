@@ -7,7 +7,7 @@ import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.application.service.IApplicationService;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
-import com.kt.upms.module.route.service.IUpmsPageElementService;
+import com.kt.upms.module.route.service.IPageElementService;
 import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
@@ -27,7 +27,7 @@ public class RouteBeanConverter {
     private IApplicationService iApplicationService;
 
     @Autowired
-    private IUpmsPageElementService iUpmsPageElementService;
+    private IPageElementService iPageElementService;
 
     @Autowired
     private IRouteService iRouteService;
@@ -125,7 +125,7 @@ public class RouteBeanConverter {
         vo.setPath(route.getPath());
         vo.setType(route.getType());
         vo.setHideChildren(route.getHideChildren());
-        vo.setElements(iUpmsPageElementService.getPageElementVOSByRouteId(id));
+        vo.setElements(iPageElementService.getPageElementVOSByRouteId(id));
         return vo;
     }
 

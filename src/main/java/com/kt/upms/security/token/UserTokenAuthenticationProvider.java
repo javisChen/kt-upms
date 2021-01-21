@@ -30,15 +30,17 @@ public class UserTokenAuthenticationProvider implements AuthenticationProvider {
                 throw new AuthenticationServiceException("Authentication failed: token is invalid");
             }
 
-            LoginUserDetails user = tokenManager.get(RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + accessToken);
-            if (user == null) {
+            LoginUserDetails userDetails = tokenManager.get(RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + accessToken);
+            if (userDetails == null) {
                 throw new AuthenticationServiceException("Authentication failed: token is invalid");
             }
-            return new UserTokenAuthenticationToken(user.getUserId(), user.getUsername(), authentication.getAuthorities());
+            return new UserTokenAuthenticationToken(userDetails.getUserId(), accessToken,
+                    authentication.getAuthorities(), userDetails);
         }
 
         // TODO 加上权限查询
-        return new UserTokenAuthenticationToken(0L, (String) authentication.getCredentials(), authentication.getAuthorities());
+        return new UserTokenAuthenticationToken(0L, (String) authentication.getCredentials(),
+                authentication.getAuthorities(), null);
     }
 
     @Override

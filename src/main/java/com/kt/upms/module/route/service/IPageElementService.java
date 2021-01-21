@@ -17,7 +17,7 @@ import java.util.List;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsPageElementService extends IService<UpmsPageElement> {
+public interface IPageElementService extends IService<UpmsPageElement> {
 
     void savePageElement(PageElementUpdateDTO dto);
 
@@ -30,4 +30,6 @@ public interface IUpmsPageElementService extends IService<UpmsPageElement> {
     void removePageElementByRouteId(Long routeId);
 
     List<UpmsPageElement> listElementsByRouteId(Long routeId);
+
+    List<UpmsPageElement> getPageElementsByIds(List<Long> elementIds);
 }

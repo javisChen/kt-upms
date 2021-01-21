@@ -8,6 +8,7 @@ import com.kt.upms.module.route.dto.*;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
+import com.kt.upms.module.user.vo.UserRouteVO;
 
 import java.util.List;
 
@@ -33,8 +34,6 @@ public interface IRouteService extends IService<UpmsRoute> {
 
     RouteDetailVO getRoute(Long id);
 
-    UserRoutesDTO getUserRoutes();
-
     void deleteRouteById(Long id);
 
     List<RouteListTreeVO> listAllVOs(RouteQueryDTO dto);
@@ -44,4 +43,6 @@ public interface IRouteService extends IService<UpmsRoute> {
     String getRouteNameById(Long pid);
 
     Integer countByApplicationId(Long applicationId);
+
+    List<UserRouteVO> getRouteVOSByIds(List<Long> routeIds);
 }

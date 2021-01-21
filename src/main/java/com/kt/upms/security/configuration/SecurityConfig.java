@@ -3,10 +3,11 @@ package com.kt.upms.security.configuration;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.redis.RedisService;
 import com.kt.upms.security.login.UserLoginAuthenticationFilter;
 import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
 import com.kt.upms.security.token.extractor.DefaultTokenExtractor;
-import com.kt.upms.security.token.manager.LocalCacheTokenManager;
+import com.kt.upms.security.token.manager.RedisTokenManager;
 import com.kt.upms.security.token.manager.UserTokenManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier(value = "userTokenAuthenticationProvider")
     private AuthenticationProvider userTokenAuthenticationProvider;
-
+    
     /**
      * 配置客户端认证的参数
      */
@@ -147,7 +148,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AccessDeniedHandler accessDeniedHandler() {
         return (httpServletRequest, resp, e) -> {
-            log.error("Authorization failed: access is denied", e);
+            log.error("Authorization failed: Access is denied：{}", e.getMessage());
             resp.setStatus(HttpStatus.FORBIDDEN.value());
             resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
             JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_ACCESS_DENIED));
@@ -165,8 +166,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public UserTokenManager userTokenManager() {
-        return new LocalCacheTokenManager();
+    public UserTokenManager userTokenManager(RedisService redisService) {
+        return new RedisTokenManager(redisService);
     }
 
 

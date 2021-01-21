@@ -52,9 +52,11 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authentication) throws IOException, ServletException {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authResult);
+        UserTokenAuthenticationToken userTokenAuthenticationToken = (UserTokenAuthenticationToken) authentication;
+        userTokenAuthenticationToken.setAuthenticated(true);
+        context.setAuthentication(userTokenAuthenticationToken);
         SecurityContextHolder.setContext(context);
         chain.doFilter(request, response);
     }
@@ -64,7 +66,8 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
                                               AuthenticationException failed) throws IOException {
         setupResponse(response);
         SecurityContextHolder.clearContext();
-        JSONObject.writeJSONString(response.getWriter(), response(ResponseEnums.USER_AUTHENTICATION_FAIL.getCode(), failed.getMessage()));
+        JSONObject.writeJSONString(response.getWriter(), response(ResponseEnums.USER_AUTHENTICATION_FAIL.getCode(),
+                failed.getMessage()));
     }
 
     private void setupResponse(HttpServletResponse response) {

@@ -11,10 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RedisTokenManager implements UserTokenManager {
 
-    public RedisTokenManager() {
-        log.info("UserTokenManager ---------> LocalCacheTokenManager");
-    }
-
     private RedisService redisService;
 
     public RedisTokenManager(RedisService redisService) {

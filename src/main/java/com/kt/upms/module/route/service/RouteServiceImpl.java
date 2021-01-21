@@ -19,10 +19,10 @@ import com.kt.upms.module.route.converter.RouteBeanConverter;
 import com.kt.upms.module.route.dto.RouteModifyParentDTO;
 import com.kt.upms.module.route.dto.RouteQueryDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
-import com.kt.upms.module.route.dto.UserRoutesDTO;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
+import com.kt.upms.module.user.vo.UserRouteVO;
 import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     @Autowired
     private IPermissionService iPermissionService;
     @Autowired
-    private IUpmsPageElementService iUpmsPageElementService;
+    private IPageElementService iPageElementService;
     @Autowired
     private RouteBeanConverter beanConverter;
 
@@ -91,7 +91,8 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
 
     /**
      * 递归组装路由
-     * @param firstLevelRoutes 一级路由
+     *
+     * @param firstLevelRoutes    一级路由
      * @param childrenLevelRoutes 子路由
      */
     private List<RouteListTreeVO> recursionRoutes(List<UpmsRoute> firstLevelRoutes,
@@ -128,7 +129,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
         // 添加到权限
         iPermissionService.addPermission(route.getId(), PermissionTypeEnums.FRONT_ROUTE);
         // 添加页面元素
-        iUpmsPageElementService.batchSavePageElement(route.getId(), dto.getElements());
+        iPageElementService.batchSavePageElement(route.getId(), dto.getElements());
 
     }
 
@@ -182,9 +183,9 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
         }
 
         // 先删除元素再重新添加
-        iUpmsPageElementService.removePageElementByRouteId(routeId);
+        iPageElementService.removePageElementByRouteId(routeId);
 
-        iUpmsPageElementService.batchSavePageElement(routeId, dto.getElements());
+        iPageElementService.batchSavePageElement(routeId, dto.getElements());
 
     }
 
@@ -310,37 +311,6 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     }
 
     @Override
-    public UserRoutesDTO getUserRoutes() {
-        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<UpmsRoute>()
-                .orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
-        return new UserRoutesDTO(this.list(qw).stream()
-                .map(this::assembleUserMenuItem)
-                .collect(Collectors.toList())
-        );
-    }
-
-    private UserRoutesDTO.UserRouteItem assembleUserMenuItem(UpmsRoute item) {
-        UserRoutesDTO.UserRouteItem userMenuItem = new UserRoutesDTO.UserRouteItem();
-        userMenuItem.setName(item.getCode());
-        userMenuItem.setParentId(String.valueOf(item.getPid()));
-        userMenuItem.setId(String.valueOf(item.getId()));
-        userMenuItem.setMeta(assembleMeta(item));
-        userMenuItem.setComponent(item.getComponent());
-        userMenuItem.setRedirect("");
-        userMenuItem.setPath(item.getPath());
-        return userMenuItem;
-    }
-
-    private UserRoutesDTO.UserRouteItem.Meta assembleMeta(UpmsRoute item) {
-        UserRoutesDTO.UserRouteItem.Meta meta = new UserRoutesDTO.UserRouteItem.Meta();
-        meta.setIcon(item.getIcon());
-        meta.setTitle(item.getName());
-        meta.setHideChildren(item.getHideChildren());
-        meta.setShow(item.getStatus().equals(RouteStatusEnums.ENABLED.getValue()));
-        return meta;
-    }
-
-    @Override
     public void deleteRouteById(Long id) {
         UpmsRoute route = getRouteById(id);
         LambdaQueryWrapper<UpmsRoute> wrapper = new LambdaQueryWrapper<UpmsRoute>()
@@ -360,7 +330,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
 
     @Override
     public List<RouteElementVO> listRouteElementsById(Long routeId) {
-        List<UpmsPageElement> elements = this.iUpmsPageElementService.listElementsByRouteId(routeId);
+        List<UpmsPageElement> elements = this.iPageElementService.listElementsByRouteId(routeId);
         return elements.stream().map(beanConverter::convertForRouteElementVO).collect(Collectors.toList());
     }
 
@@ -374,6 +344,37 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     @Override
     public Integer countByApplicationId(Long applicationId) {
         return this.count(new LambdaQueryWrapper<UpmsRoute>().eq(UpmsRoute::getApplicationId, applicationId));
+    }
+
+    @Override
+    public List<UserRouteVO> getRouteVOSByIds(List<Long> routeIds) {
+        LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<>();
+        qw.in(UpmsRoute::getId, routeIds);
+        qw.orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
+        return this.list(qw).stream()
+                .map(this::convertToUserRouteVO)
+                .collect(Collectors.toList());
+    }
+
+    private UserRouteVO convertToUserRouteVO(UpmsRoute item) {
+        UserRouteVO userMenuItem = new UserRouteVO();
+        userMenuItem.setName(item.getCode());
+        userMenuItem.setParentId(item.getPid());
+        userMenuItem.setId(String.valueOf(item.getId()));
+        userMenuItem.setMeta(assembleMeta(item));
+        userMenuItem.setComponent(item.getComponent());
+        userMenuItem.setRedirect("");
+        userMenuItem.setPath(item.getPath());
+        return userMenuItem;
+    }
+
+    private UserRouteVO.Meta assembleMeta(UpmsRoute item) {
+        UserRouteVO.Meta meta = new UserRouteVO.Meta();
+        meta.setIcon(item.getIcon());
+        meta.setTitle(item.getName());
+        meta.setHideChildren(item.getHideChildren());
+        meta.setShow(item.getStatus().equals(RouteStatusEnums.ENABLED.getValue()));
+        return meta;
     }
 
     private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {

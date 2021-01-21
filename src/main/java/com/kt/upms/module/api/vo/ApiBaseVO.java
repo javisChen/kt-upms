@@ -22,7 +22,7 @@ public class ApiBaseVO implements Serializable {
 
     private String url;
 
-    private Integer method;
+    private String method;
 
     private Integer authType;
 

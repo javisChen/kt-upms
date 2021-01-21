@@ -104,7 +104,9 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
     @Override
     public List<Long> getRoleIdsByUserId(Long userId) {
         LambdaQueryWrapper<UpmsUserRoleRel> qw = new LambdaQueryWrapper<>();
-        qw.eq(UpmsUserRoleRel::getUserId, userId);
+        if (userId > 0) {
+            qw.eq(UpmsUserRoleRel::getUserId, userId);
+        }
         return upmsUserRoleRelMapper.selectList(qw).stream().map(UpmsUserRoleRel::getRoleId).collect(Collectors.toList());
     }
 

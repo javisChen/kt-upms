@@ -11,7 +11,7 @@ import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.route.dto.RouteModifyParentDTO;
 import com.kt.upms.module.route.dto.RouteQueryDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
-import com.kt.upms.module.route.dto.UserRoutesDTO;
+import com.kt.upms.module.user.vo.UserRouteVO;
 import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
@@ -95,17 +95,17 @@ public class RouteController extends BaseController {
     }
 
     @PostMapping("/routes/init")
-    public ServerResponse init(@RequestBody UserRoutesDTO userMenusDTO) {
-        for (UserRoutesDTO.UserRouteItem menu : userMenusDTO.getRoutes()) {
-            RouteUpdateDTO dto = new RouteUpdateDTO();
-            dto.setName(menu.getMeta().getTitle());
-            dto.setPid(Long.valueOf(menu.getParentId()));
-            dto.setCode(menu.getName());
-            dto.setComponent(menu.getComponent());
-            dto.setPath(menu.getPath());
-            dto.setIcon(menu.getMeta().getIcon());
-            iRouteService.saveRoute(dto);
-        }
+    public ServerResponse init(@RequestBody UserRouteVO userMenusDTO) {
+//        for (UserRouteVO menu : userMenusDTO.getRoutes()) {
+//            RouteUpdateDTO dto = new RouteUpdateDTO();
+//            dto.setName(menu.getMeta().getTitle());
+//            dto.setPid(Long.valueOf(menu.getParentId()));
+//            dto.setCode(menu.getName());
+//            dto.setComponent(menu.getComponent());
+//            dto.setPath(menu.getPath());
+//            dto.setIcon(menu.getMeta().getIcon());
+//            iRouteService.saveRoute(dto);
+//        }
         return ServerResponse.ok();
     }
 }

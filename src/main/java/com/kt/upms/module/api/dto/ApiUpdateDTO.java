@@ -22,8 +22,8 @@ public class ApiUpdateDTO implements Serializable {
     @NotBlank(message = "url不能为空", groups = {ValidateGroup.Add.class})
     private String url;
 
-    @NotBlank(message = "url不能为空", groups = {ValidateGroup.Add.class})
-    private Integer method;
+    @NotBlank(message = "method不能为空", groups = {ValidateGroup.Add.class})
+    private String method;
 
     @NotNull(message = "authType不能为空", groups = {ValidateGroup.Add.class})
     private Integer authType;

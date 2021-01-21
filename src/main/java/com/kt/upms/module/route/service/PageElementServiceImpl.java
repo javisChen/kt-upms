@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMapper, UpmsPageElement>
-        implements IUpmsPageElementService {
+public class PageElementServiceImpl extends ServiceImpl<UpmsPageElementMapper, UpmsPageElement>
+        implements IPageElementService {
 
     @Autowired
     private IPermissionService iUpmsPermissionService;
@@ -86,6 +86,14 @@ public class UpmsPageElementServiceImpl extends ServiceImpl<UpmsPageElementMappe
     public List<UpmsPageElement> listElementsByRouteId(Long routeId) {
         LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<>();
         qw.eq(UpmsPageElement::getRouteId, routeId);
+        qw.eq(UpmsPageElement::getIsDeleted, DeletedEnums.NOT.getCode());
+        return this.listPageElements(qw);
+    }
+
+    @Override
+    public List<UpmsPageElement> getPageElementsByIds(List<Long> elementIds) {
+        LambdaQueryWrapper<UpmsPageElement> qw = new LambdaQueryWrapper<>();
+        qw.in(UpmsPageElement::getId, elementIds);
         qw.eq(UpmsPageElement::getIsDeleted, DeletedEnums.NOT.getCode());
         return this.listPageElements(qw);
     }

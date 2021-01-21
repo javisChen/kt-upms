@@ -1,6 +1,8 @@
 package com.kt.upms.module.user.converter;
 
+import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
@@ -47,5 +49,11 @@ public class UserBeanConverter {
         vo.setRoleIds(iUpmsRoleService.getRoleIdsByUserId(userId));
         vo.setUserGroupIds(iUpmsUserGroupService.getUserGroupIdsByUserId(userId));
         return vo;
+    }
+
+    public PermissionVO convertToPermissionVO(UpmsPermission permission) {
+        PermissionVO permissionVO = new PermissionVO();
+        permissionVO.setPermissionCode(permission.getCode());
+        return permissionVO;
     }
 }

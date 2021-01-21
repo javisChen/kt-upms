@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,11 +30,15 @@ public class PermissionChecker implements InitializingBean {
     private IApiAuthService iApiAuthService;
 
     private Map<String, String> map = new HashMap<>();
+    private List<String> dontNeedAuthUrl = new ArrayList<>();
 
     public boolean check(HttpServletRequest request, Authentication authentication) {
 
         AuthenticationRequest authReq;
         String requestURI = request.getRequestURI();
+        if (allow(requestURI)) {
+            return true;
+        }
         Long userId;
         if ("DEV".equals(request.getHeader("X-DEV-MODE"))) {
             userId = 1L;
@@ -65,8 +71,15 @@ public class PermissionChecker implements InitializingBean {
         return authReq;
     }
 
+    private boolean allow(String url) {
+        return dontNeedAuthUrl.contains(url);
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         map.put("/upms/demo/hello/*/user/*", "/upms/hello/{id}/user/{sid}");
+
+        dontNeedAuthUrl.add("/upms/user/permission/elements");
+        dontNeedAuthUrl.add("/upms/user/permission/routes");
     }
 }

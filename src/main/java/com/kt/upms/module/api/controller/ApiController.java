@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.validation.groups.Default;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,12 +66,6 @@ public class ApiController extends BaseController {
     @GetMapping("/api/init")
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
     public ServerResponse init() {
-        Map<String, Integer> map = new HashMap<>(5);
-        map.put("GET", 1);
-        map.put("POST", 2);
-        map.put("PUT", 3);
-        map.put("DELETE", 4);
-        map.put("PATCH", 5);
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : requestMappingHandlerMapping.getHandlerMethods().entrySet()) {
             RequestMappingInfo requestMappingInfo = entry.getKey();
             HandlerMethod handlerMethod = entry.getValue();
@@ -89,7 +82,7 @@ public class ApiController extends BaseController {
                 continue;
             }
             next = methods.iterator().next();
-            dto.setMethod(map.get(next.name()));
+            dto.setMethod(next.name());
             dto.setAuthType(1);
             dto.setStatus(1);
             iApiService.saveApplication(dto);

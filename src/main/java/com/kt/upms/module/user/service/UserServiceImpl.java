@@ -11,10 +11,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.logger.CatchAndLog;
-import com.kt.upms.entity.UpmsPermission;
-import com.kt.upms.entity.UpmsUser;
-import com.kt.upms.entity.UpmsUserGroupUserRel;
-import com.kt.upms.entity.UpmsUserRoleRel;
+import com.kt.upms.entity.*;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.UserStatusEnums;
@@ -22,8 +19,11 @@ import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.mapper.UpmsUserRoleRelMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
+import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.service.IRoleService;
-import com.kt.upms.module.route.dto.UserRoutesDTO;
+import com.kt.upms.module.route.service.IPageElementService;
+import com.kt.upms.module.user.vo.UserRouteVO;
+import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
@@ -74,6 +74,10 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
     @Autowired
     private UserBeanConverter beanConverter;
+    @Autowired
+    private IRouteService iRouteService;
+    @Autowired
+    private IPageElementService iPageElementService;
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
@@ -202,6 +206,9 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     @Override
     public User getUserInfoByPhone(String phone) {
         UpmsUser user = getUserByPhone(phone);
+        if (user == null) {
+            return null;
+        }
         Long userId = user.getId();
         List<UpmsPermission> userPermissions = getUserPermissions(userId, PermissionTypeEnums.FRONT_ROUTE);
         List<SimpleGrantedAuthority> grantedAuthorities = userPermissions.stream()
@@ -211,13 +218,32 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     }
 
     @Override
-    public UserRoutesDTO getUserRoutes() {
-        return null;
+    public List<UpmsPermission> getUserApiPermissions(Long userId) {
+        return getUserPermissions(userId, PermissionTypeEnums.SER_API);
     }
 
     @Override
-    public List<UpmsPermission> getUserApiPermissions(Long userId) {
-        return this.getUserPermissions(userId, PermissionTypeEnums.SER_API);
+    public List<UpmsPermission> getUserRoutePermissions(Long userId) {
+        return getUserPermissions(userId, PermissionTypeEnums.FRONT_ROUTE);
+    }
+
+    @Override
+    public List<UpmsPermission> getUserPageElementPermissions(Long userId) {
+        return getUserPermissions(userId, PermissionTypeEnums.PAGE_ELEMENT);
+    }
+
+    @Override
+    public List<UserRouteVO> getUserRoutes(long userId) {
+        List<UpmsPermission> userRoutePermissions = getUserRoutePermissions(userId);
+        List<Long> routeIds = userRoutePermissions.stream()
+                .map(UpmsPermission::getResourceId).collect(Collectors.toList());
+        return iRouteService.getRouteVOSByIds(routeIds);
+    }
+
+    @Override
+    public List<PermissionVO> getUserElements(long userId) {
+        List<UpmsPermission> userRoutePermissions = getUserPageElementPermissions(userId);
+        return userRoutePermissions.stream().map(beanConverter::convertToPermissionVO).collect(Collectors.toList());
     }
 
     private List<Long> getUserGroupIdsByUserId(Long userId) {

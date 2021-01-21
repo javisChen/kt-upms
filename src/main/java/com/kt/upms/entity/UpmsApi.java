@@ -41,7 +41,7 @@ public class UpmsApi extends BaseEntity {
      * http方法
      */
     @TableField("method")
-    private Integer method;
+    private String method;
 
     /**
      * 认证授权类型
