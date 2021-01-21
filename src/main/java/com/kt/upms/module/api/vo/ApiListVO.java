@@ -16,5 +16,7 @@ public class ApiListVO extends ApiBaseVO {
 
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+    private Long permissionId;
+    private String permissionCode;
 
 }

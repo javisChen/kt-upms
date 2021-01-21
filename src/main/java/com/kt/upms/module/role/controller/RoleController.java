@@ -7,10 +7,11 @@ import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.role.dto.RolePermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
 import com.kt.upms.module.role.dto.RoleQueryDTO;
+import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;
 import com.kt.upms.module.role.dto.RoleUpdateDTO;
-import com.kt.upms.module.role.service.IUpmsRoleService;
+import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.role.vo.RoleBaseVO;
 import com.kt.upms.module.role.vo.RoleListVO;
 import com.kt.upms.validgroup.UpmsValidateGroup;
@@ -32,9 +33,9 @@ import java.util.List;
 @RequestMapping
 public class RoleController extends BaseController {
 
-    private final IUpmsRoleService iUpmsRoleService;
+    private final IRoleService iUpmsRoleService;
 
-    public RoleController(IUpmsRoleService iUpmsRoleService) {
+    public RoleController(IRoleService iUpmsRoleService) {
         this.iUpmsRoleService = iUpmsRoleService;
     }
 
@@ -74,11 +75,20 @@ public class RoleController extends BaseController {
     }
 
     /**
-     * 角色权限授权
+     * 角色路由权限授权
      */
-    @PostMapping("/role/permission/routes")
-    public ServerResponse updateRoleRoutePermissions(@RequestBody RolePermissionUpdateDTO dto) {
+    @PostMapping("/role/permission/route")
+    public ServerResponse updateRoleRoutePermissions(@RequestBody RoleRoutePermissionUpdateDTO dto) {
         iUpmsRoleService.updateRoleRoutePermissions(dto);
+        return ServerResponse.ok();
+    }
+
+    /**
+     * 角色api权限授权
+     */
+    @PostMapping("/role/permission/api")
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionUpdateDTO dto) {
+        iUpmsRoleService.updateRoleApiPermissions(dto);
         return ServerResponse.ok();
     }
 
@@ -86,8 +96,8 @@ public class RoleController extends BaseController {
      * 获取角色拥有的路由权限
      */
     @GetMapping("/role/permission/routes")
-    public MultiResponse<PermissionVO> getRoleRoutePermission(Long roleId) {
-        List<PermissionVO> vos = iUpmsRoleService.getRoleRoutePermissionById(roleId);
+    public MultiResponse<PermissionVO> getRoleRoutePermission(Long roleId, Long applicationId) {
+        List<PermissionVO> vos = iUpmsRoleService.getRoleRoutePermissionById(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 
@@ -95,8 +105,17 @@ public class RoleController extends BaseController {
      * 获取角色拥有的页面元素权限
      */
     @GetMapping("/role/permission/elements")
-    public MultiResponse<PermissionVO> getRoleElementPermission(Long roleId) {
-        List<PermissionVO> vos = iUpmsRoleService.getRoleElementPermissionById(roleId);
+    public MultiResponse<PermissionVO> getRoleElementPermission(Long roleId, Long applicationId) {
+        List<PermissionVO> vos = iUpmsRoleService.getRoleElementPermissionById(roleId, applicationId);
+        return MultiResponse.ok(vos);
+    }
+
+    /**
+     * 获取角色拥有的Api权限
+     */
+    @GetMapping("/role/permission/apis")
+    public MultiResponse<PermissionVO> getRoleApiPermission(Long roleId, Long applicationId) {
+        List<PermissionVO> vos = iUpmsRoleService.getRoleApiPermissionById(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 }

@@ -26,13 +26,23 @@ public interface IPermissionService extends IService<UpmsPermission> {
 
     void addPermission(Long resourceId, PermissionTypeEnums permissionTypeEnums);
 
+    void batchSaveRolePermission(Long applicationId, Long roleId, String type, List<Long> permissionIds);
+
+    /**
+     * 根据角色id和权限类型删除角色权限
+     * @param applicationId
+     * @param roleId 角色id
+     * @param permissionType 权限类型
+     */
+    void removeRolePermission(Long applicationId, Long roleId, String permissionType);
+
     void updateStatus(PermissionUpdateDTO dto);
 
-    List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds);
+    List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds, PermissionTypeEnums permissionTypeEnums);
 
     UpmsPermission getPermissionByResourceIdAndType(Long resourceId, PermissionTypeEnums permissionTypeEnums);
 
-    List<PermissionVO> getPermissionVOSByRoleIdAndType(Long permissionId, String permissionType);
+    List<PermissionVO> getRolePermissVos(Long applicationId, Long roleId, String permissionType);
 
     UpmsPermission getPermission(Long resourceId, PermissionTypeEnums pageElement);
 

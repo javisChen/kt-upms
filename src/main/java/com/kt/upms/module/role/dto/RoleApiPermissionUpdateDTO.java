@@ -7,15 +7,15 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 角色授权入参
+ * 角色路由授权入参
  */
 @Data
-public class RolePermissionUpdateDTO implements Serializable {
+public class RoleApiPermissionUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long applicationId;
     private Long roleId;
-    private List<Long> routePermissionIds;
-    private List<Long> elementPermissionIds;
+    private List<Long> apiPermissionIds;
 
 }

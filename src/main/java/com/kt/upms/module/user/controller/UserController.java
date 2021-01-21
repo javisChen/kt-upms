@@ -81,7 +81,8 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/routes")
     public SingleResponse<UserRoutesDTO> getUserRoutes() {
-        return SingleResponse.ok(iUpmsMenuService.getUserRoutes());
+        UserRoutesDTO userRoutes = iUpmsMenuService.getUserRoutes();
+        return SingleResponse.ok(userRoutes);
     }
 
 }

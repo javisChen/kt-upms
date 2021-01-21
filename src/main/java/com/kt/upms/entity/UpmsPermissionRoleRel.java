@@ -33,6 +33,12 @@ public class UpmsPermissionRoleRel extends BaseEntity {
     private Long roleId;
 
     /**
+     * 应用id,关联upms_application.id
+     */
+    @TableField("application_id")
+    private Long applicationId;
+
+    /**
      * 权限类型 FRONT_ROUTE-前端路由；PAGE_ELEMENT-页面元素；FILE-文件；INTERNAL_API-内部服务API；OPEN_API-开放API
      */
     @TableField("type")

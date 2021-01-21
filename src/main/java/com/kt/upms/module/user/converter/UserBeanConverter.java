@@ -1,7 +1,7 @@
 package com.kt.upms.module.user.converter;
 
 import com.kt.upms.entity.UpmsUser;
-import com.kt.upms.module.role.service.IUpmsRoleService;
+import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
@@ -19,7 +19,7 @@ import java.util.List;
 public class UserBeanConverter {
 
     @Autowired
-    private IUpmsRoleService iUpmsRoleService;
+    private IRoleService iUpmsRoleService;
     @Autowired
     private IUpmsUserGroupService iUpmsUserGroupService;
 

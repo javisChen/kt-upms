@@ -16,12 +16,14 @@ import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.entity.UpmsUserRoleRel;
 import com.kt.upms.enums.BizEnums;
+import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.UserStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.mapper.UpmsUserRoleRelMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
-import com.kt.upms.module.role.service.IUpmsRoleService;
+import com.kt.upms.module.role.service.IRoleService;
+import com.kt.upms.module.route.dto.UserRoutesDTO;
 import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
@@ -59,7 +61,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> implements IUserService {
 
     @Autowired
-    private IUpmsRoleService iUpmsRoleService;
+    private IRoleService iUpmsRoleService;
     @Autowired
     private IUpmsUserGroupService iUpmsUserGroupService;
     @Autowired
@@ -165,7 +167,15 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     }
 
     @Override
-    public List<UpmsPermission> getUserPermissions(Long userId) {
+    public List<UpmsPermission> getUserPermissions(Long userId, PermissionTypeEnums permissionTypeEnums) {
+        Set<Long> roleIdSet = getUserAllRoles(userId);
+        return iUpmsPermissionService.getPermissionByRoleIds(roleIdSet, permissionTypeEnums);
+    }
+
+    /**
+     * 获取用户的所有角色
+     */
+    private Set<Long> getUserAllRoles(Long userId) {
         List<Long> roleIds = getRoleIdsByUserId(userId);
         List<Long> userGroupIds = getUserGroupIdsByUserId(userId);
         List<Long> userGroupsRoleIds = iUpmsRoleService.getRoleIdsByUserGroupIds(userGroupIds);
@@ -175,7 +185,7 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
         log.debug("用户组拥有的角色 --------> {}", roleIds);
         Set<Long> roleIdSet = new HashSet<>(roleIds);
         log.debug("角色交集 --------> {}", roleIdSet);
-        return iUpmsPermissionService.getPermissionByRoleIds(roleIdSet);
+        return roleIdSet;
     }
 
     @Override
@@ -193,11 +203,21 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     public User getUserInfoByPhone(String phone) {
         UpmsUser user = getUserByPhone(phone);
         Long userId = user.getId();
-        List<UpmsPermission> userPermissions = getUserPermissions(userId);
+        List<UpmsPermission> userPermissions = getUserPermissions(userId, PermissionTypeEnums.FRONT_ROUTE);
         List<SimpleGrantedAuthority> grantedAuthorities = userPermissions.stream()
                 .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode())))
                 .collect(Collectors.toList());
         return new LoginUserDetails(user.getId(), user.getName(), user.getPassword(), grantedAuthorities);
+    }
+
+    @Override
+    public UserRoutesDTO getUserRoutes() {
+        return null;
+    }
+
+    @Override
+    public List<UpmsPermission> getUserApiPermissions(Long userId) {
+        return this.getUserPermissions(userId, PermissionTypeEnums.SER_API);
     }
 
     private List<Long> getUserGroupIdsByUserId(Long userId) {

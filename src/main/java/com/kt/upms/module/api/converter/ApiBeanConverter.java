@@ -1,8 +1,12 @@
 package com.kt.upms.module.api.converter;
 
 import com.kt.upms.entity.UpmsApi;
+import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
 import com.kt.upms.module.api.vo.ApiListVO;
+import com.kt.upms.module.permission.service.IPermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,6 +16,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApiBeanConverter {
+
+    @Autowired
+    private IPermissionService iPermissionService;
 
     public UpmsApi convertForUpdate(ApiUpdateDTO dto) {
         UpmsApi upmsApi = new UpmsApi();
@@ -26,6 +33,7 @@ public class ApiBeanConverter {
     }
 
     public ApiListVO convertToApiListVO(UpmsApi upmsApi) {
+        UpmsPermission permission = iPermissionService.getPermission(upmsApi.getId(), PermissionTypeEnums.SER_API);
         ApiListVO apiListVO = new ApiListVO();
         apiListVO.setId(upmsApi.getId());
         apiListVO.setName(upmsApi.getName());
@@ -34,6 +42,8 @@ public class ApiBeanConverter {
         apiListVO.setMethod(upmsApi.getMethod());
         apiListVO.setAuthType(upmsApi.getAuthType());
         apiListVO.setStatus(upmsApi.getStatus());
+        apiListVO.setPermissionId(permission.getId());
+        apiListVO.setPermissionCode(permission.getCode());
         apiListVO.setCreateTime(upmsApi.getGmtCreate());
         apiListVO.setUpdateTime(upmsApi.getGmtModified());
         return apiListVO;

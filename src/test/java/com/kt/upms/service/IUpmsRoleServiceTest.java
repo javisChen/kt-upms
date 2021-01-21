@@ -1,6 +1,6 @@
 package com.kt.upms.service;
 
-import com.kt.upms.module.role.service.IUpmsRoleService;
+import com.kt.upms.module.role.service.IRoleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ import java.util.List;
 public class IUpmsRoleServiceTest {
 
     @Autowired
-    private IUpmsRoleService iUpmsRoleService;
+    private IRoleService iUpmsRoleService;
 
     @Before
     public void setUp() throws Exception {

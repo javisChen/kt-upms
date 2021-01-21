@@ -31,30 +31,38 @@ public class PermissionChecker implements InitializingBean {
 
     public boolean check(HttpServletRequest request, Authentication authentication) {
 
-        if (request.getHeader("X-DEV-MODE").equals("DEV")) {
-            return true;
+        AuthenticationRequest authReq;
+        String requestURI = request.getRequestURI();
+        Long userId;
+        if ("DEV".equals(request.getHeader("X-DEV-MODE"))) {
+            userId = 1L;
+        } else {
+            UserTokenAuthenticationToken authenticationToken = (UserTokenAuthenticationToken) authentication;
+            userId = authenticationToken.getUserId();
         }
 //         Admin直接通过
         if (ADMIN.equals(authentication.getPrincipal())) {
             return true;
         }
-        String requestURI = request.getRequestURI();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (new AntPathMatcher().match(entry.getKey(), requestURI)) {
                 requestURI = entry.getValue();
                 break;
             }
         }
-        UserTokenAuthenticationToken authenticationToken = (UserTokenAuthenticationToken) authentication;
-        Long userId = authenticationToken.getUserId();
+        authReq = createAuthenticationRequest(request, requestURI, userId);
+        AuthenticationResponse authResp = iApiAuthService.auth(authReq);
+        return authResp.getHasPermission();
+    }
+
+    private AuthenticationRequest createAuthenticationRequest(HttpServletRequest request, String requestURI, Long userId) {
         // 检查是否有权限
         AuthenticationRequest authReq = new AuthenticationRequest();
         authReq.setUserId(userId);
         authReq.setUrl(requestURI);
         authReq.setMethod(request.getMethod());
         authReq.setApplication("permission");
-        AuthenticationResponse authResp = iApiAuthService.auth(authReq);
-        return authResp.getHasPermission();
+        return authReq;
     }
 
     @Override

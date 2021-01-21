@@ -1,7 +1,7 @@
 package com.kt.upms.module.permission.vo;
 
 import com.kt.upms.entity.UpmsUser;
-import com.kt.upms.module.role.service.IUpmsRoleService;
+import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
@@ -20,7 +20,7 @@ import java.util.List;
 public class PermissionVOFactory {
 
     @Autowired
-    private IUpmsRoleService iUpmsRoleService;
+    private IRoleService iUpmsRoleService;
     @Autowired
     private IUpmsUserGroupService iUpmsUserGroupService;
     @Autowired

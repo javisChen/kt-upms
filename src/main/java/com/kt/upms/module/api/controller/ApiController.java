@@ -91,7 +91,7 @@ public class ApiController extends BaseController {
             next = methods.iterator().next();
             dto.setMethod(map.get(next.name()));
             dto.setAuthType(1);
-            dto.setStatus(0);
+            dto.setStatus(1);
             iApiService.saveApplication(dto);
         }
         return ServerResponse.ok();

@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.role.dto.RolePermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;
 import com.kt.upms.module.role.dto.RoleQueryDTO;
 import com.kt.upms.module.role.dto.RoleUpdateDTO;
 import com.kt.upms.module.role.vo.RoleBaseVO;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsRoleService extends IService<UpmsRole> {
+public interface IRoleService extends IService<UpmsRole> {
 
     Page<RoleListVO> pageList(RoleQueryDTO dto);
 
@@ -40,15 +41,19 @@ public interface IUpmsRoleService extends IService<UpmsRole> {
      */
     List<Long> getRoleIdsByUserGroupIds(List<Long> userGroupIds);
 
-    void updateRoleRoutePermissions(RolePermissionUpdateDTO dto);
+    void updateRoleRoutePermissions(RoleRoutePermissionUpdateDTO dto);
 
-    List<PermissionVO> getRoleRoutePermissionById(Long roleId);
+    List<PermissionVO> getRoleRoutePermissionById(Long roleId, Long applicationId);
 
-    List<PermissionVO> getRoleElementPermissionById(Long roleId);
+    List<PermissionVO> getRoleElementPermissionById(Long roleId, Long applicationId);
 
     List<RoleListVO> listAllVos();
 
     List<String> getRoleNamesByUserId(Long userId);
 
     RoleBaseVO getRoleVoById(String id);
+
+    List<PermissionVO> getRoleApiPermissionById(Long roleId, Long applicationId);
+
+    void updateRoleApiPermissions(RoleApiPermissionUpdateDTO dto);
 }

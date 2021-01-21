@@ -9,10 +9,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.redis.RedisService;
 import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.mapper.UpmsPermissionMapper;
+import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
 import com.kt.upms.module.permission.bo.ApiPermissionBO;
+import com.kt.upms.module.permission.converter.PermissionBeanConverter;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.route.dto.PermissionQueryDTO;
 import com.kt.upms.module.route.dto.PermissionUpdateDTO;
@@ -40,10 +43,19 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
         implements IPermissionService {
 
     @Autowired
+    private PermissionBeanConverter beanConverter;
+
+    @Autowired
     private RedisService redisService;
 
     @Autowired
     private IUserService iUserService;
+
+    @Autowired
+    private UpmsPermissionRoleRelMapper permissionRoleRelMapper;
+
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
 
     @Override
     public PageResponse pageList(Page page, PermissionQueryDTO dto) {
@@ -64,6 +76,22 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
         this.save(permission);
     }
 
+    @Override
+    public void batchSaveRolePermission(Long applicationId, Long roleId, String type, List<Long> permissionIds) {
+        if (CollectionUtil.isNotEmpty(permissionIds)) {
+            permissionRoleRelMapper.batchInsert(applicationId, roleId, type, permissionIds);
+        }
+    }
+
+    @Override
+    public void removeRolePermission(Long applicationId, Long roleId, String permissionType) {
+        LambdaQueryWrapper<UpmsPermissionRoleRel> qw = new LambdaQueryWrapper<UpmsPermissionRoleRel>()
+                .eq(UpmsPermissionRoleRel::getRoleId, roleId)
+                .eq(UpmsPermissionRoleRel::getApplicationId, applicationId)
+                .eq(UpmsPermissionRoleRel::getType, permissionType);
+        permissionRoleRelMapper.delete(qw);
+    }
+
     /**
      * 生成权限编码
      * 规则：类型首字母+资源id（五位，不足左补0） EXAMPLE：P00001
@@ -78,18 +106,18 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     }
 
     @Override
-    public List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds) {
+    public List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds, PermissionTypeEnums permissionTypeEnums) {
         if (CollectionUtil.isEmpty(roleIds)) {
             return CollectionUtil.newArrayList();
         }
-        return this.baseMapper.selectByRoleIds(roleIds);
+        return this.baseMapper.selectByRoleIdsAndType(roleIds, permissionTypeEnums.getType());
     }
 
     private UpmsPermission getPermissionById(Long permissionId) {
         return this.getOne(new LambdaQueryWrapper<UpmsPermission>().eq(UpmsPermission::getId, permissionId));
     }
 
-    private List<ApiPermissionBO> getPermissionByIds(List<Long> permissionIds) {
+    private List<ApiPermissionBO> getApiPermissionByPermissionIds(List<Long> permissionIds) {
         if (CollectionUtil.isEmpty(permissionIds)) {
             return CollectionUtil.newArrayList();
         }
@@ -105,9 +133,9 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     }
 
     @Override
-    public List<PermissionVO> getPermissionVOSByRoleIdAndType(Long permissionId, String permissionType) {
-        List<UpmsPermission> permissions = this.baseMapper.selectByRoleIdAndType(permissionId, permissionType);
-        return permissions.stream().map(this::assembleVo).collect(Collectors.toList());
+    public List<PermissionVO> getRolePermissVos(Long applicationId, Long roleId, String permissionType) {
+        List<UpmsPermission> permissions = this.baseMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
+        return permissions.stream().map(beanConverter::convertToVO).collect(Collectors.toList());
     }
 
     @Override
@@ -122,32 +150,24 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     @Override
     public boolean hasApiPermission(String application, Long userId, String url, String method) {
         List<ApiPermissionBO> apiPermissions = getUserCanAccessApi(application, userId);
-        return apiPermissions.stream().anyMatch(item -> {
-            AntPathMatcher antPathMatcher = new AntPathMatcher();
-            if (item.getApiMethod().equalsIgnoreCase(method)) {
-            }
-            return true;
-        });
+        return apiPermissions
+                .stream()
+                .anyMatch(item -> {
+                    boolean methodEquals = item.getApiMethod().equalsIgnoreCase(method);
+                    boolean urlEquals = antPathMatcher.match(item.getApiUrl(), url);
+                    return methodEquals && urlEquals;
+                });
     }
 
-    public static void main(String[] args) {
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
-        final boolean match = antPathMatcher.match("/admin/user", "/admin/user");
-        System.out.println(match);
-    }
-
+    /**
+     * 获取用户可访问的api并且需要授权认证的API
+     */
     private List<ApiPermissionBO> getUserCanAccessApi(String application, Long userId) {
-        // 先查出所有API权限
-        List<UpmsPermission> permissions = iUserService.getUserPermissions(userId);
+        // 先查出所有权限
+        List<UpmsPermission> permissions = iUserService.getUserApiPermissions(userId);
         // 根据权限id查出所有api
         List<Long> permissionIds = permissions.stream().map(UpmsPermission::getId).collect(Collectors.toList());
-        return getPermissionByIds(permissionIds);
-    }
-
-    private PermissionVO assembleVo(UpmsPermission upmsPermission) {
-        PermissionVO vo = new PermissionVO();
-        vo.setPermissionId(upmsPermission.getId());
-        return vo;
+        return getApiPermissionByPermissionIds(permissionIds);
     }
 
     private void updateStatus(PermissionUpdateDTO dto, PermissionStatusEnums statusEnum) {

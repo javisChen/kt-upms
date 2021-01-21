@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.entity.UpmsRole;
 import com.kt.upms.entity.UpmsUserRoleRel;
 import com.kt.upms.enums.BizEnums;
@@ -20,9 +19,10 @@ import com.kt.upms.mapper.UpmsUserRoleRelMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.converter.RoleBeanConverter;
-import com.kt.upms.module.role.dto.RoleUpdateDTO;
-import com.kt.upms.module.role.dto.RolePermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
 import com.kt.upms.module.role.dto.RoleQueryDTO;
+import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleUpdateDTO;
 import com.kt.upms.module.role.vo.RoleBaseVO;
 import com.kt.upms.module.role.vo.RoleListVO;
 import com.kt.upms.util.Assert;
@@ -44,14 +44,14 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> implements IUpmsRoleService {
+public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> implements IRoleService {
 
     @Autowired
     private UpmsPermissionRoleRelMapper upmsPermissionRoleRelMapper;
     @Autowired
     private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
     @Autowired
-    private IPermissionService iUpmsPermissionService;
+    private IPermissionService iPermissionService;
     @Autowired
     private RoleBeanConverter beanConverter;
     @Autowired
@@ -118,31 +118,40 @@ public class UpmsRoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> i
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void updateRoleRoutePermissions(RolePermissionUpdateDTO dto) {
+    public void updateRoleRoutePermissions(RoleRoutePermissionUpdateDTO dto) {
         Long roleId = dto.getRoleId();
+        Long applicationId = dto.getApplicationId();
         String frontRouteType = PermissionTypeEnums.FRONT_ROUTE.getType();
         String pageElementType = PermissionTypeEnums.PAGE_ELEMENT.getType();
-        LambdaQueryWrapper<UpmsPermissionRoleRel> qw = new LambdaQueryWrapper<UpmsPermissionRoleRel>()
-                .eq(UpmsPermissionRoleRel::getRoleId, roleId)
-                .and(wrapper -> wrapper.eq(UpmsPermissionRoleRel::getType, frontRouteType)
-                        .or().eq(UpmsPermissionRoleRel::getType, pageElementType));
-        upmsPermissionRoleRelMapper.delete(qw);
-        if (CollectionUtil.isNotEmpty(dto.getRoutePermissionIds())) {
-            upmsPermissionRoleRelMapper.batchInsert(roleId, frontRouteType, dto.getRoutePermissionIds());
-        }
-        if (CollectionUtil.isNotEmpty(dto.getElementPermissionIds())) {
-            upmsPermissionRoleRelMapper.batchInsert(roleId, pageElementType, dto.getElementPermissionIds());
-        }
+        iPermissionService.removeRolePermission(applicationId, roleId, frontRouteType);
+        iPermissionService.removeRolePermission(applicationId, roleId, pageElementType);
+        iPermissionService.batchSaveRolePermission(applicationId, roleId, frontRouteType, dto.getRoutePermissionIds());
+        iPermissionService.batchSaveRolePermission(applicationId, roleId, pageElementType, dto.getElementPermissionIds());
     }
 
     @Override
-    public List<PermissionVO> getRoleRoutePermissionById(Long roleId) {
-        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(roleId, PermissionTypeEnums.FRONT_ROUTE.getType());
+    public List<PermissionVO> getRoleRoutePermissionById(Long roleId, Long applicationId) {
+        return iPermissionService.getRolePermissVos(applicationId, roleId, PermissionTypeEnums.FRONT_ROUTE.getType());
     }
 
     @Override
-    public List<PermissionVO> getRoleElementPermissionById(Long roleId) {
-        return iUpmsPermissionService.getPermissionVOSByRoleIdAndType(roleId, PermissionTypeEnums.PAGE_ELEMENT.getType());
+    public List<PermissionVO> getRoleElementPermissionById(Long roleId, Long applicationId) {
+        return iPermissionService.getRolePermissVos(applicationId, roleId, PermissionTypeEnums.PAGE_ELEMENT.getType());
+    }
+
+    @Override
+    public List<PermissionVO> getRoleApiPermissionById(Long roleId, Long applicationId) {
+        return iPermissionService.getRolePermissVos(applicationId, roleId, PermissionTypeEnums.SER_API.getType());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRoleApiPermissions(RoleApiPermissionUpdateDTO dto) {
+        Long roleId = dto.getRoleId();
+        Long applicationId = dto.getApplicationId();
+        String permissionType = PermissionTypeEnums.SER_API.getType();
+        iPermissionService.removeRolePermission(applicationId, roleId, permissionType);
+        iPermissionService.batchSaveRolePermission(applicationId, roleId, permissionType, dto.getApiPermissionIds());
     }
 
     @Override

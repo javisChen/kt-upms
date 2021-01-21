@@ -98,7 +98,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
                                                   List<UpmsRoute> childrenLevelRoutes) {
         List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
         for (UpmsRoute route : firstLevelRoutes) {
-            RouteListTreeVO item = beanConverter.assembleRouteListTreeVO(route);
+            RouteListTreeVO item = beanConverter.convertToRouteListTreeVO(route);
             item.setChildren(CollectionUtil.newArrayList());
             findChildren(item, childrenLevelRoutes);
             vos.add(item);
@@ -379,7 +379,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     private void findChildren(RouteListTreeVO parent, List<UpmsRoute> list) {
         for (UpmsRoute route : list) {
             if (parent.getId().equals(route.getPid())) {
-                RouteListTreeVO item = beanConverter.assembleRouteListTreeVO(route);
+                RouteListTreeVO item = beanConverter.convertToRouteListTreeVO(route);
                 item.setChildren(CollectionUtil.newArrayList());
                 parent.getChildren().add(item);
                 findChildren(item, list);

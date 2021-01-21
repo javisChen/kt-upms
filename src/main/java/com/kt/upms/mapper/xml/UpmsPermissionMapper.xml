@@ -20,7 +20,7 @@
         gmt_modified,
         type, code, status, resource_id
     </sql>
-    <select id="selectByRoleIds" resultType="com.kt.upms.entity.UpmsPermission">
+    <select id="selectByRoleIdsAndType" resultType="com.kt.upms.entity.UpmsPermission">
         select up.id, up.type, up.code
         from upms_permission up
         inner join upms_permission_role_rel uprr on up.id = uprr.permission_id
@@ -28,31 +28,17 @@
         <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
+        and uprr.type = #{type}
     </select>
 
-    <select id="selectPageElementPermissionsByRouteId" resultType="com.kt.upms.module.route.vo.RouteElementVO">
-        select up.id   as id,
-               up.code as permission_code,
-               route_id,
-               name,
-               upe.type
-        from upms_permission up
-                 inner join upms_page_element upe on upe.id = up.resource_id
-        where up.is_deleted = 0
-          and upe.is_deleted = 0
-          and up.type = 'PAGE_ELEMENT'
-          and upe.route_id = #{routeId}
-          and up.is_deleted = 0
-          and upe.is_deleted = 0
-
-    </select>
     <select id="selectByRoleIdAndType" resultType="com.kt.upms.entity.UpmsPermission">
         select up.id,
                code
         from upms_permission up
                  inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
         where role_id = #{roleId}
-          and up.type = #{type}
+          and uprr.application_id = #{applicationId}
+          and uprr.type = #{type}
           and up.is_deleted = 0
     </select>
 
@@ -64,7 +50,8 @@
                ua.id apiId,
                ua.name apiName,
                ua.url apiUrl,
-               ua.method apiMethod
+               ua.method apiMethod,
+               ua.auth_type apiAuthType
         from upms_permission up
         inner join upms_api ua on ua.id = up.resource_id
         where ua.is_deleted = 0

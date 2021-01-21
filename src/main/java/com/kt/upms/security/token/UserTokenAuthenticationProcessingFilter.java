@@ -7,7 +7,7 @@ package com.kt.upms.security.token;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
-import com.kt.upms.security.configuration.AuthenticationProperties;
+import com.kt.upms.security.configuration.SecurityCoreProperties;
 import com.kt.upms.security.token.extractor.TokenExtractor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,19 +33,18 @@ import java.util.Collections;
 public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     private TokenExtractor tokenExtractor;
-    private AuthenticationProperties authenticationProperties;
+    private SecurityCoreProperties securityCoreProperties;
 
-    public UserTokenAuthenticationProcessingFilter(String defaultFilterProcessesUrl,
-                                                   TokenExtractor tokenExtractor,
-                                                   AuthenticationProperties authenticationProperties) {
-        super(defaultFilterProcessesUrl);
+    public UserTokenAuthenticationProcessingFilter(TokenExtractor tokenExtractor,
+                                                   SecurityCoreProperties securityCoreProperties) {
+        super(new UserTokenFilterRequestMatcher(securityCoreProperties.getAllowList()));
         this.tokenExtractor = tokenExtractor;
-        this.authenticationProperties = authenticationProperties;
+        this.securityCoreProperties = securityCoreProperties;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String token = tokenExtractor.extract(request, authenticationProperties);
+        String token = tokenExtractor.extract(request, securityCoreProperties.getAuthentication());
         UserTokenAuthenticationToken authentication = new UserTokenAuthenticationToken(token,
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_123")));
         return getAuthenticationManager().authenticate(authentication);
@@ -76,4 +75,6 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
     private ServerResponse response(String code, String msg) {
         return ServerResponse.error(code, msg);
     }
+
+
 }

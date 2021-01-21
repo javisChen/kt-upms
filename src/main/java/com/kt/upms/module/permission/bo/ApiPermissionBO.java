@@ -17,4 +17,5 @@ public class ApiPermissionBO {
     private String apiName;
     private String apiUrl;
     private String apiMethod;
+    private String apiAuthType;
 }

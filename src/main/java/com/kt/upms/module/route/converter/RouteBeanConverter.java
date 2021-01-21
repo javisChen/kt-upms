@@ -32,7 +32,7 @@ public class RouteBeanConverter {
     @Autowired
     private IRouteService iRouteService;
 
-    public RouteListTreeVO assembleRouteListTreeVO(UpmsRoute route) {
+    public RouteListTreeVO convertToRouteListTreeVO(UpmsRoute route) {
         UpmsPermission permission = iPermissionService.getPermissionByResourceIdAndType(route.getId(),
                 PermissionTypeEnums.FRONT_ROUTE);
         Long applicationId = route.getApplicationId();

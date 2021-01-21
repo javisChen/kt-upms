@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.enums.PermissionTypeEnums;
+import com.kt.upms.module.route.dto.UserRoutesDTO;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
@@ -32,13 +34,17 @@ public interface IUserService extends IService<UpmsUser> {
     void updateStatus(UserUpdateDTO userUpdateDTO);
 
     /**
-     * 获取用户所拥有的全部权限
+     * 获取用户所拥有权限
      */
-    List<UpmsPermission> getUserPermissions(Long userId);
+    List<UpmsPermission> getUserPermissions(Long userId, PermissionTypeEnums permissionTypeEnums);
 
     UpmsUser getUserByPhone(String username);
 
     UserDetailVO getUserDetailVOById(Long userId);
 
     User getUserInfoByPhone(String phone);
+
+    UserRoutesDTO getUserRoutes();
+
+    List<UpmsPermission> getUserApiPermissions(Long userId);
 }

@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private final String filterProcessesUrl = "/auth/login";
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         if (!request.getMethod().equals("POST")) {
@@ -71,7 +73,7 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
         setAuthenticationSuccessHandler(authenticationSuccessHandler());
         setAuthenticationFailureHandler(authenticationFailureHandler());
         setAuthenticationManager(authenticationManager);
-        setFilterProcessesUrl("/auth/login");
+        setFilterProcessesUrl(filterProcessesUrl);
     }
 
 

@@ -35,8 +35,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 安全控制配置
@@ -71,9 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 配置请求认证的参数
-     *
-     * @param http
-     * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -83,11 +78,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 放行资源
-                .antMatchers("/**").permitAll()
+                .antMatchers(securityCoreProperties.getAllowList().toArray(new String[0])).permitAll()
                 // 配置强制禁用的资源，是登录后之后投票器处理才会触发到这个
                 .antMatchers("/deny").denyAll()
-                .and()
-                .authorizeRequests()
+//                .and()
+//                .authorizeRequests()
                 // 配置接口与对应角色权限关系，可用注解配置@PreAuthorize配置
                 // 注意，如果接口使用了@PreAuthorize进行了权限配置，当权限不匹配的时候，会先ControllerExceptionAdvice捕获
                 // 如果antMatchers和@PreAuthorize都进行了权限配置，则都需要匹配才能访问
@@ -119,15 +114,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void setupAuthFilter(HttpSecurity http) throws Exception {
         http
-//                .addFilterBefore(userTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(userTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(userLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     protected UserTokenAuthenticationProcessingFilter userTokenAuthenticationProcessingFilter()
             throws Exception {
-        List<String> pathsToSkip = new ArrayList<>(securityCoreProperties.getAllowList());
-        UserTokenAuthenticationProcessingFilter filter = new UserTokenAuthenticationProcessingFilter(
-                "/**", new DefaultTokenExtractor(), securityCoreProperties.getAuthentication());
+        UserTokenAuthenticationProcessingFilter filter =
+                new UserTokenAuthenticationProcessingFilter(new DefaultTokenExtractor(), securityCoreProperties);
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
