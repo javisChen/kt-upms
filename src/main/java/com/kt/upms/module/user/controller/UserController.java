@@ -75,7 +75,6 @@ public class UserController extends BaseController {
         iUserService.updateUserById(userUpdateDTO);
         return ServerResponse.ok();
     }
-
     /**
      * 查看用户详情
      */
