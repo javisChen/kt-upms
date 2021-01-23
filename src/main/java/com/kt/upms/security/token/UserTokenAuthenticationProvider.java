@@ -25,22 +25,16 @@ public class UserTokenAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String accessToken = (String) authentication.getCredentials();
-        if (!"ADMIN".equals(accessToken)) {
-            if (StringUtils.isBlank(accessToken)) {
-                throw new AuthenticationServiceException("Authentication failed: token is invalid");
-            }
-
-            LoginUserDetails userDetails = tokenManager.get(RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + accessToken);
-            if (userDetails == null) {
-                throw new AuthenticationServiceException("Authentication failed: token is invalid");
-            }
-            return new UserTokenAuthenticationToken(userDetails.getUserId(), accessToken,
-                    authentication.getAuthorities(), userDetails);
+        if (StringUtils.isBlank(accessToken)) {
+            throw new AuthenticationServiceException("Authentication failed: token is invalid");
         }
 
-        // TODO 加上权限查询
-        return new UserTokenAuthenticationToken(0L, (String) authentication.getCredentials(),
-                authentication.getAuthorities(), null);
+        LoginUserDetails userDetails = tokenManager.get(RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + accessToken);
+        if (userDetails == null) {
+            throw new AuthenticationServiceException("Authentication failed: token is invalid");
+        }
+        return new UserTokenAuthenticationToken(userDetails.getUserCode(), accessToken,
+                authentication.getAuthorities(), userDetails);
     }
 
     @Override

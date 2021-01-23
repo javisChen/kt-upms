@@ -33,6 +33,12 @@ public class UpmsUser extends BaseEntity {
     private String phone;
 
     /**
+     * 用户编码
+     */
+    @TableField("code")
+    private String code;
+
+    /**
      * 用户密码
      */
     @TableField("password")

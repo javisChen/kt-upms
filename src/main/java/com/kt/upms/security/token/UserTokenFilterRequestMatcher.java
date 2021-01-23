@@ -14,9 +14,6 @@ public class UserTokenFilterRequestMatcher implements RequestMatcher {
 
     @Override
     public boolean matches(HttpServletRequest request) {
-        if ("DEV".equals(request.getHeader("X-DEV-MODE"))) {
-            return false;
-        }
         if (CollectionUtil.isEmpty(allowList)) {
             return true;
         }

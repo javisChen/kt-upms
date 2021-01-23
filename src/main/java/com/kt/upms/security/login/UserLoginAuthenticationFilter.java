@@ -1,10 +1,15 @@
 package com.kt.upms.security.login;
+
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
+import com.kt.upms.security.common.RedisKeyConst;
+import com.kt.upms.security.configuration.SecurityCoreProperties;
 import com.kt.upms.security.model.SecurityLoginResult;
+import com.kt.upms.security.token.manager.UserTokenManager;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -27,6 +32,19 @@ import java.util.Map;
 public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final String filterProcessesUrl = "/auth/login";
+    private SecurityCoreProperties securityCoreProperties;
+    private UserTokenManager userTokenManager;
+
+    public UserLoginAuthenticationFilter(AuthenticationManager authenticationManager,
+                                         SecurityCoreProperties securityCoreProperties,
+                                         UserTokenManager userTokenManager) {
+        setAuthenticationSuccessHandler(authenticationSuccessHandler());
+        setAuthenticationFailureHandler(authenticationFailureHandler());
+        setAuthenticationManager(authenticationManager);
+        setFilterProcessesUrl(filterProcessesUrl);
+        this.securityCoreProperties = securityCoreProperties;
+        this.userTokenManager = userTokenManager;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -69,16 +87,10 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
         }
     }
 
-    public UserLoginAuthenticationFilter(AuthenticationManager authenticationManager) {
-        setAuthenticationSuccessHandler(authenticationSuccessHandler());
-        setAuthenticationFailureHandler(authenticationFailureHandler());
-        setAuthenticationManager(authenticationManager);
-        setFilterProcessesUrl(filterProcessesUrl);
-    }
-
 
     private AuthenticationFailureHandler authenticationFailureHandler() {
         return (httpServletRequest, response, e) -> {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             setupContentType(response);
             JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(ResponseEnums.USER_LOGIN_FAIL));
         };
@@ -90,10 +102,18 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
 
     private AuthenticationSuccessHandler authenticationSuccessHandler() {
         return (HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) -> {
-            setupContentType(response);
+            // 认证成功后执行缓存
             LoginUserDetails user = (LoginUserDetails) authentication.getPrincipal();
+            cacheAuthentication(user);
+            setupContentType(response);
             SecurityLoginResult vo = new SecurityLoginResult(user.getAccessToken(), user.getExpires());
             JSONObject.writeJSONString(response.getOutputStream(), SingleResponse.ok(vo));
         };
+    }
+
+    private void cacheAuthentication(LoginUserDetails user) {
+        String key = RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + user.getAccessToken();
+        user.setExpires(securityCoreProperties.getAuthentication().getExpire());
+        userTokenManager.save(key, JSONObject.toJSONString(user), user.getExpires());
     }
 }

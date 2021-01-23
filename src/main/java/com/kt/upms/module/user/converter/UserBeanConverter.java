@@ -1,12 +1,18 @@
 package com.kt.upms.module.user.converter;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.service.IRoleService;
+import com.kt.upms.module.user.dto.UserAddDTO;
+import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
-import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
+import com.kt.upms.module.usergroup.service.IUserGroupService;
+import com.kt.upms.module.user.support.IUserPasswordHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +27,18 @@ import java.util.List;
 public class UserBeanConverter {
 
     @Autowired
-    private IRoleService iUpmsRoleService;
+    private IRoleService iRoleService;
     @Autowired
-    private IUpmsUserGroupService iUpmsUserGroupService;
+    private IUserGroupService iUserGroupService;
+    @Autowired
+    private IUserPasswordHelper iUserPasswordHelper;
+    @Autowired
+    private IUserService iUserService;
 
     public UserPageListVO convertToUserPageListVO(UpmsUser upmsUser) {
         Long userId = upmsUser.getId();
-        List<String> roles = iUpmsRoleService.getRoleNamesByUserId(userId);
-        List<String> userGroups = iUpmsUserGroupService.getUserGroupNamesByUserId(userId);
+        List<String> roles = iRoleService.getRoleNamesByUserId(userId);
+        List<String> userGroups = iUserGroupService.getUserGroupNamesByUserId(userId);
         UserPageListVO userListVO = new UserPageListVO();
         userListVO.setId(upmsUser.getId());
         userListVO.setPhone(upmsUser.getPhone());
@@ -46,8 +56,8 @@ public class UserBeanConverter {
         vo.setPhone(user.getPhone());
         vo.setName(user.getName());
         vo.setStatus(user.getStatus());
-        vo.setRoleIds(iUpmsRoleService.getRoleIdsByUserId(userId));
-        vo.setUserGroupIds(iUpmsUserGroupService.getUserGroupIdsByUserId(userId));
+        vo.setRoleIds(iRoleService.getRoleIdsByUserId(userId));
+        vo.setUserGroupIds(iUserGroupService.getUserGroupIdsByUserId(userId));
         return vo;
     }
 
@@ -55,5 +65,31 @@ public class UserBeanConverter {
         PermissionVO permissionVO = new PermissionVO();
         permissionVO.setPermissionCode(permission.getCode());
         return permissionVO;
+    }
+
+    public UpmsUser convertToUserDO(UserAddDTO dto) {
+        UpmsUser upmsUser = new UpmsUser();
+        upmsUser.setName(dto.getName());
+        upmsUser.setPhone(dto.getPhone());
+        upmsUser.setPassword(dto.getPassword());
+        upmsUser.setStatus(dto.getStatus());
+        upmsUser.setId(dto.getId());
+        String code = generateUserCode();
+        upmsUser.setCode(code);
+        upmsUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(upmsUser.getPassword())));
+        return upmsUser;
+    }
+
+    private String generateUserCode() {
+        // 生成后先查询一遍，防止生成了重复的code，其实几率微乎其微
+        String code;
+        do {
+            code = StringUtils.remove(StrUtil.uuid(), "-");
+        } while (codeExists(code));
+        return code;
+    }
+
+    private boolean codeExists(String code) {
+        return iUserService.countUserByCode(code) > 0;
     }
 }

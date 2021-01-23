@@ -8,8 +8,6 @@
         <result column="gmt_create" property="gmtCreate"/>
         <result column="gmt_modified" property="gmtModified"/>
         <result column="permission_id" property="permissionId"/>
-        <result column="application_id" property="applicationId"/>
-        <result column="type" property="type"/>
         <result column="role_id" property="roleId"/>
     </resultMap>
 
@@ -18,15 +16,13 @@
         id,
         gmt_create,
         gmt_modified,
-        application_id,
-        type,
         permission_id, role_id
     </sql>
     <insert id="batchInsert">
-        insert into upms_permission_role_rel (application_id, permission_id, role_id, type)
+        insert into upms_permission_role_rel (permission_id, role_id)
         values
         <foreach collection="permissionIds" item="item" separator=",">
-            (#{applicationId}, #{item}, #{roleId}, #{type})
+            (#{item}, #{roleId})
         </foreach>
     </insert>
 

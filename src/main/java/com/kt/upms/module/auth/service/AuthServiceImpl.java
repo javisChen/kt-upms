@@ -7,7 +7,7 @@ import com.kt.upms.enums.BizEnums;
 import com.kt.upms.module.auth.dto.LoginDTO;
 import com.kt.upms.module.auth.dto.LoginUserDTO;
 import com.kt.upms.module.user.service.IUserService;
-import com.kt.upms.support.IUserPasswordHelper;
+import com.kt.upms.module.user.support.IUserPasswordHelper;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

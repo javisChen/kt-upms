@@ -8,7 +8,7 @@ import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
-import com.kt.upms.module.usergroup.service.IUpmsUserGroupService;
+import com.kt.upms.module.usergroup.service.IUserGroupService;
 import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
@@ -27,36 +27,36 @@ import javax.validation.groups.Default;
 @RequestMapping
 public class UserGroupController extends BaseController {
 
-    private final IUpmsUserGroupService iUpmsUserGroupService;
+    private final IUserGroupService iUserGroupService;
 
-    public UserGroupController(IUpmsUserGroupService iUpmsUserGroupService) {
-        this.iUpmsUserGroupService = iUpmsUserGroupService;
+    public UserGroupController(IUserGroupService iUserGroupService) {
+        this.iUserGroupService = iUserGroupService;
     }
 
     @PostMapping("/usergroups")
     public SingleResponse<PageResponse<UserGroupListTreeVO>> list(@RequestBody UserGroupQueryDTO dto) {
-        return SingleResponse.ok(PageResponse.build(iUpmsUserGroupService.pageList(dto)));
+        return SingleResponse.ok(PageResponse.build(iUserGroupService.pageList(dto)));
     }
 
     @GetMapping("/usergroups/all")
     public MultiResponse<UserGroupBaseVO> list() {
-        return MultiResponse.ok(iUpmsUserGroupService.listAllVos());
+        return MultiResponse.ok(iUserGroupService.listAllVos());
     }
 
     @PostMapping("/usergroups/tree")
     public MultiResponse<UserGroupTreeVO> getUserGroupsTree(@RequestBody UserGroupQueryDTO dto) {
-        return MultiResponse.ok(iUpmsUserGroupService.getTree(dto));
+        return MultiResponse.ok(iUserGroupService.getTree(dto));
     }
 
     @PostMapping("/usergroup")
     public ServerResponse add(@RequestBody @Validated UserGroupAddDTO userGroupAddDTO) {
-        iUpmsUserGroupService.saveUserGroup(userGroupAddDTO);
+        iUserGroupService.saveUserGroup(userGroupAddDTO);
         return ServerResponse.ok();
     }
 
     @PutMapping("/usergroup")
     public ServerResponse update(@RequestBody @Validated UserGroupUpdateDTO userGroupUpdateDTO) {
-        iUpmsUserGroupService.updateUserGroupById(userGroupUpdateDTO);
+        iUserGroupService.updateUserGroupById(userGroupUpdateDTO);
         return ServerResponse.ok();
     }
 
@@ -73,7 +73,7 @@ public class UserGroupController extends BaseController {
     @PutMapping("/usergroup/status")
     public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
                                        @RequestBody UserGroupUpdateDTO dto) {
-        iUpmsUserGroupService.updateStatus(dto);
+        iUserGroupService.updateStatus(dto);
         return ServerResponse.ok();
     }
 

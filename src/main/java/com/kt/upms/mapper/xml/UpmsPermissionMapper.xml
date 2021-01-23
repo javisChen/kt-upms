@@ -31,17 +31,14 @@
         <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        and uprr.type = #{type}
     </select>
 
     <select id="selectByRoleIdAndType" resultType="com.kt.upms.entity.UpmsPermission">
         select up.id,
                code
         from upms_permission up
-                 inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
+        inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
         where role_id = #{roleId}
-          and uprr.application_id = #{applicationId}
-          and uprr.type = #{type}
           and up.is_deleted = 0
     </select>
 

@@ -1,4 +1,4 @@
-package com.kt.upms.support;
+package com.kt.upms.module.user.support;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.kt.upms.constants.UpmsConsts;

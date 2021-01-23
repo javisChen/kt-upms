@@ -6,11 +6,7 @@
 package com.kt.upms.security.login;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.kt.upms.constants.UpmsConsts;
-import com.kt.upms.security.common.RedisKeyConst;
-import com.kt.upms.security.configuration.SecurityCoreProperties;
-import com.kt.upms.security.token.manager.UserTokenManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,13 +26,9 @@ import org.springframework.util.Assert;
 public class UserLoginAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider implements InitializingBean {
 
     @Autowired
-    private UserTokenManager userTokenManager;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private SecurityCoreProperties securityCoreProperties;
 
     public UserLoginAuthenticationProvider() {
 
@@ -74,12 +66,8 @@ public class UserLoginAuthenticationProvider extends AbstractUserDetailsAuthenti
 
     @Override
     protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
-        // 认证成功后执行缓存
-        LoginUserDetails loginUserDetails = (LoginUserDetails) user;
-        String key = RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + loginUserDetails.getAccessToken();
-        loginUserDetails.setExpires(securityCoreProperties.getAuthentication().getExpire());
-        userTokenManager.save(key, JSONObject.toJSONString(user), loginUserDetails.getExpires());
         return super.createSuccessAuthentication(principal, authentication, user);
     }
+
 
 }

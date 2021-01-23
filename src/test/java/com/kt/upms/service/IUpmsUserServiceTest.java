@@ -1,6 +1,5 @@
 package com.kt.upms.service;
 
-import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.user.service.IUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +36,5 @@ public class IUpmsUserServiceTest {
 
     @Test
     public void testGetUserPermissions() {
-        System.out.println(iUpmsUserService.getUserPermissions(1L, PermissionTypeEnums.SER_API));
     }
 }

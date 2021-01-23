@@ -55,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier(value = "userTokenAuthenticationProvider")
     private AuthenticationProvider userTokenAuthenticationProvider;
+
+    @Autowired
+    private UserTokenManager userTokenManager;
     
     /**
      * 配置客户端认证的参数
@@ -128,7 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public UserLoginAuthenticationFilter userLoginAuthenticationFilter() throws Exception {
-        return new UserLoginAuthenticationFilter(authenticationManagerBean());
+        return new UserLoginAuthenticationFilter(authenticationManagerBean(), securityCoreProperties, userTokenManager);
     }
 
     private LogoutSuccessHandler logoutSuccessHandler() {

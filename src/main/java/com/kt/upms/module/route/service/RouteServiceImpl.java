@@ -22,7 +22,7 @@ import com.kt.upms.module.route.dto.RouteUpdateDTO;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
-import com.kt.upms.module.user.vo.UserRouteVO;
+import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.upms.util.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -347,7 +347,7 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     }
 
     @Override
-    public List<UserRouteVO> getRouteVOSByIds(List<Long> routeIds) {
+    public List<UserPermissionRouteNavVO> getRouteVOSByIds(List<Long> routeIds) {
         LambdaQueryWrapper<UpmsRoute> qw = new LambdaQueryWrapper<>();
         qw.in(UpmsRoute::getId, routeIds);
         qw.orderByAsc(UpmsRoute::getLevel, UpmsRoute::getSequence);
@@ -356,8 +356,8 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
                 .collect(Collectors.toList());
     }
 
-    private UserRouteVO convertToUserRouteVO(UpmsRoute item) {
-        UserRouteVO userMenuItem = new UserRouteVO();
+    private UserPermissionRouteNavVO convertToUserRouteVO(UpmsRoute item) {
+        UserPermissionRouteNavVO userMenuItem = new UserPermissionRouteNavVO();
         userMenuItem.setName(item.getCode());
         userMenuItem.setParentId(item.getPid());
         userMenuItem.setId(String.valueOf(item.getId()));
@@ -368,8 +368,8 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
         return userMenuItem;
     }
 
-    private UserRouteVO.Meta assembleMeta(UpmsRoute item) {
-        UserRouteVO.Meta meta = new UserRouteVO.Meta();
+    private UserPermissionRouteNavVO.Meta assembleMeta(UpmsRoute item) {
+        UserPermissionRouteNavVO.Meta meta = new UserPermissionRouteNavVO.Meta();
         meta.setIcon(item.getIcon());
         meta.setTitle(item.getName());
         meta.setHideChildren(item.getHideChildren());

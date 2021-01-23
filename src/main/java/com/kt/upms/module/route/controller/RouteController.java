@@ -11,7 +11,7 @@ import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.route.dto.RouteModifyParentDTO;
 import com.kt.upms.module.route.dto.RouteQueryDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
-import com.kt.upms.module.user.vo.UserRouteVO;
+import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
@@ -95,7 +95,7 @@ public class RouteController extends BaseController {
     }
 
     @PostMapping("/routes/init")
-    public ServerResponse init(@RequestBody UserRouteVO userMenusDTO) {
+    public ServerResponse init(@RequestBody UserPermissionRouteNavVO userMenusDTO) {
 //        for (UserRouteVO menu : userMenusDTO.getRoutes()) {
 //            RouteUpdateDTO dto = new RouteUpdateDTO();
 //            dto.setName(menu.getMeta().getTitle());

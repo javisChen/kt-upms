@@ -14,9 +14,12 @@ public class RoleRoutePermissionUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long applicationId;
     private Long roleId;
-    private List<Long> routePermissionIds;
-    private List<Long> elementPermissionIds;
+
+    private List<Long> toAddRoutePermissionIds;
+    private List<Long> toRemoveRoutePermissionIds;
+
+    private List<Long> toAddElementPermissionIds;
+    private List<Long> toRemoveElementPermissionIds;
 
 }

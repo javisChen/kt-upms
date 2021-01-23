@@ -42,8 +42,8 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsUserGroup>
-        implements IUpmsUserGroupService {
+public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsUserGroup>
+        implements IUserGroupService {
 
     private final static Long DEFAULT_PID = 0L;
     private final static Integer FIRST_LEVEL = 1;
@@ -167,9 +167,7 @@ public class UpmsUserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, U
     @Override
     public List<Long> getUserGroupIdsByUserId(Long userId) {
         LambdaQueryWrapper<UpmsUserGroupUserRel> qw = new LambdaQueryWrapper<>();
-        if (userId > 0) {
-            qw.eq(UpmsUserGroupUserRel::getUserId, userId);
-        }
+        qw.eq(UpmsUserGroupUserRel::getUserId, userId);
         return upmsUserGroupUserRelMapper.selectList(qw).stream().map(UpmsUserGroupUserRel::getUserGroupId)
                 .collect(Collectors.toList());
     }

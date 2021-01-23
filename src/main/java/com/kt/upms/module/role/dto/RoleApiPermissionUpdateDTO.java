@@ -14,7 +14,6 @@ public class RoleApiPermissionUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long applicationId;
     private Long roleId;
     private List<Long> apiPermissionIds;
 

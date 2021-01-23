@@ -20,7 +20,7 @@ import java.util.List;
  * @author 
  * @since 2020-11-09
  */
-public interface IUpmsUserGroupService extends IService<UpmsUserGroup> {
+public interface IUserGroupService extends IService<UpmsUserGroup> {
 
     Page<UserGroupListTreeVO> pageList(UserGroupQueryDTO pageRequest);
 

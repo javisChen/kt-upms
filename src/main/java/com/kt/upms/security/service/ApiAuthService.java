@@ -20,7 +20,7 @@ public class ApiAuthService implements IApiAuthService {
     @Override
     public AuthenticationResponse auth(AuthenticationRequest request) {
         boolean hasPermission = iPermissionService
-                .hasApiPermission(request.getApplication(), request.getUserId(), request.getUrl(), request.getMethod());
+                .hasApiPermission(request.getApplication(), request.getUserCode(), request.getUrl(), request.getMethod());
         return AuthenticationResponse.create(hasPermission);
     }
 }

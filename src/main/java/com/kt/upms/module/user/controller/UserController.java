@@ -9,15 +9,16 @@ import com.kt.component.logger.CatchAndLog;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
+import com.kt.upms.module.user.service.IUserPermissionService;
 import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
-import com.kt.upms.module.user.vo.UserRouteVO;
+import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.upms.security.login.LoginUserDetails;
+import com.kt.upms.security.token.UserTokenAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,7 +44,7 @@ public class UserController extends BaseController {
     @Autowired
     private IUserService iUserService;
     @Autowired
-    private IRouteService iUpmsMenuService;
+    private IUserPermissionService iUserPermissionService;
 
     /**
      * 查看用户列表
@@ -75,6 +76,7 @@ public class UserController extends BaseController {
         iUserService.updateUserById(userUpdateDTO);
         return ServerResponse.ok();
     }
+
     /**
      * 查看用户详情
      */
@@ -84,13 +86,22 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 查看用户基本信息
+     */
+    @GetMapping("/user/info")
+    public SingleResponse<LoginUserDetails> getLoginUserInfo() {
+        UserTokenAuthenticationToken token = (UserTokenAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        return SingleResponse.ok(token.getDetails());
+    }
+
+    /**
      * 获取用户菜单权限
      */
     @GetMapping("/user/permission/routes")
-    public MultiResponse<UserRouteVO> getUserRoutePermission() {
+    public MultiResponse<UserPermissionRouteNavVO> getUserRoutePermission() {
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         LoginUserDetails details = (LoginUserDetails) context.getDetails();
-        List<UserRouteVO> userRoutes = iUserService.getUserRoutes(details.getUserId());
+        List<UserPermissionRouteNavVO> userRoutes = iUserPermissionService.getUserRoutes(details.getUserCode());
         return MultiResponse.ok(userRoutes);
     }
 
@@ -101,7 +112,7 @@ public class UserController extends BaseController {
     public MultiResponse<PermissionVO> getUserElementPermission() {
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
         LoginUserDetails details = (LoginUserDetails) context.getDetails();
-        List<PermissionVO> userRoutes = iUserService.getUserElements(details.getUserId());
+        List<PermissionVO> userRoutes = iUserPermissionService.getUserPermissionPageElements(details.getUserCode());
         return MultiResponse.ok(userRoutes);
     }
 
