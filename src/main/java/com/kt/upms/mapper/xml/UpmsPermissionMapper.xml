@@ -39,6 +39,7 @@
         from upms_permission up
         inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
         where role_id = #{roleId}
+          and up.type = #{type}
           and up.is_deleted = 0
     </select>
 

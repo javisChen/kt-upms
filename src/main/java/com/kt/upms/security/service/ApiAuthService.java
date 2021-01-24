@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApiAuthService implements IApiAuthService {
 
-    @Autowiredpermission
+    @Autowired
     private IPermissionService iPermissionService;
 
     @Override

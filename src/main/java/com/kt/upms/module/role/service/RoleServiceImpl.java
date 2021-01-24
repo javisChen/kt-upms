@@ -148,9 +148,8 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
     @Transactional(rollbackFor = Exception.class)
     public void updateRoleApiPermissions(RoleApiPermissionUpdateDTO dto) {
         Long roleId = dto.getRoleId();
-        String permissionType = PermissionTypeEnums.SER_API.getType();
-//        iPermissionService.removeRolePermission(roleId, permissionType);
-        iPermissionService.batchSaveRolePermissionRel(roleId, dto.getApiPermissionIds());
+        iPermissionService.removeRolePermission(roleId, dto.getToRemoveApiPermissionIds());
+        iPermissionService.batchSaveRolePermissionRel(roleId, dto.getToAddApiPermissionIds());
     }
 
     @Override
