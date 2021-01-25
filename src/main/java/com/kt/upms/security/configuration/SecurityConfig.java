@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.redis.RedisService;
+import com.kt.upms.security.access.ApiAccessChecker;
+import com.kt.upms.security.cache.RedisUserTokenCache;
+import com.kt.upms.security.cache.UserTokenCache;
 import com.kt.upms.security.login.UserLoginAuthenticationFilter;
 import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
 import com.kt.upms.security.token.extractor.DefaultTokenExtractor;
-import com.kt.upms.security.token.manager.RedisTokenManager;
-import com.kt.upms.security.token.manager.UserTokenManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,7 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationProvider userTokenAuthenticationProvider;
 
     @Autowired
-    private UserTokenManager userTokenManager;
+    private UserTokenCache userTokenManager;
+
+    @Autowired
+    private ApiAccessChecker apiAccessChecker;
+
     
     /**
      * 配置客户端认证的参数
@@ -93,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/demo/admin/**").hasAnyAuthority("user")
 //                .antMatchers("/demo/user/**").hasAnyRole("user")
                 // 剩余资源都需要进行认证
-                .anyRequest().access("@permissionChecker.check(request, authentication)")
+                .anyRequest().access("@apiAccessChecker.check(request, authentication)")
 //                .anyRequest().authenticated()
                 .and()
                 // 登出相关
@@ -125,7 +130,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserTokenAuthenticationProcessingFilter userTokenAuthenticationProcessingFilter()
             throws Exception {
         UserTokenAuthenticationProcessingFilter filter =
-                new UserTokenAuthenticationProcessingFilter(new DefaultTokenExtractor(), securityCoreProperties);
+                new UserTokenAuthenticationProcessingFilter(new DefaultTokenExtractor(), securityCoreProperties, apiAccessChecker);
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
@@ -169,8 +174,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public UserTokenManager userTokenManager(RedisService redisService) {
-        return new RedisTokenManager(redisService);
+    public UserTokenCache userTokenManager(RedisService redisService) {
+        return new RedisUserTokenCache(redisService);
     }
 
 

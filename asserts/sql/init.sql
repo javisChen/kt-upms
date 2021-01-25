@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_user_group_user_rel` (
   `gmt_modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `creator` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建人',
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
-  UNIQUE INDEX `uk_user_group_id_user_id` (`user_group_id` ASC, `user_id` ASC) VISIBLE,
+  UNIQUE INDEX `uk_user_group_id_user_id` (`user_group_id` ASC, `user_id` ASC) ,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 COMMENT = '用户组与用户关联表';
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_user_role_rel` (
   `creator` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建人',
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uk_user_id_role_id` (`user_id` ASC, `role_id` ASC) VISIBLE)
+  UNIQUE INDEX `uk_user_id_role_id` (`user_id` ASC, `role_id` ASC) )
 ENGINE = InnoDB
 COMMENT = '用户角色关联表';
 
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_user` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uk_phone` (`phone` ASC) VISIBLE,
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE,
-  UNIQUE INDEX `code_UNIQUE` (`code` ASC) VISIBLE)
+  UNIQUE INDEX `uk_phone` (`phone` ASC) ,
+  INDEX `idx_is_deleted` (`is_deleted` ASC) ,
+  UNIQUE INDEX `code_UNIQUE` (`code` ASC) )
 ENGINE = InnoDB
 COMMENT = '用户表';
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_user_group_role_rel` (
   `gmt_modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `creator` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建人',
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
-  UNIQUE INDEX `uk_user_group_id_role_id` (`user_group_id` ASC, `role_id` ASC) VISIBLE,
+  UNIQUE INDEX `uk_user_group_id_role_id` (`user_group_id` ASC, `role_id` ASC) ,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 COMMENT = '用户组与角色关联表';
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_permission_role_rel` (
   `creator` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建人',
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uk_permission_id_role_id` (`permission_id` ASC, `role_id` ASC) VISIBLE)
+  UNIQUE INDEX `uk_permission_id_role_id` (`permission_id` ASC, `role_id` ASC) )
 ENGINE = InnoDB
 COMMENT = '角色与权限关联表';
 
@@ -134,8 +134,8 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_role` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 1-表示删除；0-表示未删除',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uk_name` (`name` ASC, `is_deleted` ASC) VISIBLE,
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE)
+  UNIQUE INDEX `uk_name` (`name` ASC, `is_deleted` ASC) ,
+  INDEX `idx_is_deleted` (`is_deleted` ASC) )
 ENGINE = InnoDB
 COMMENT = '角色表';
 
@@ -157,9 +157,9 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_user_group` (
   `creator` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建人',
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
-  UNIQUE INDEX `uk_name` (`name` ASC) VISIBLE,
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE,
-  INDEX `idx_pid` (`pid` ASC) VISIBLE,
+  UNIQUE INDEX `uk_name` (`name` ASC) ,
+  INDEX `idx_is_deleted` (`is_deleted` ASC) ,
+  INDEX `idx_pid` (`pid` ASC) ,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 COMMENT = '用户组表';
@@ -182,9 +182,9 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_permission` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uk_type_resource_id` (`type` ASC, `resource_id` ASC, `gmt_create` ASC) VISIBLE,
-  UNIQUE INDEX `uk_code` (`code` ASC) VISIBLE,
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE)
+  UNIQUE INDEX `uk_type_resource_id` (`type` ASC, `resource_id` ASC, `gmt_create` ASC) ,
+  UNIQUE INDEX `uk_code` (`code` ASC) ,
+  INDEX `idx_is_deleted` (`is_deleted` ASC) )
 ENGINE = InnoDB
 COMMENT = '权限表';
 
@@ -206,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_application` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uk_code` (`code` ASC, `is_deleted` ASC) VISIBLE,
-  INDEX `uk_is_deleted` (`is_deleted` ASC) VISIBLE,
-  UNIQUE INDEX `uk_name` (`name` ASC, `is_deleted` ASC) VISIBLE)
+  UNIQUE INDEX `uk_code` (`code` ASC, `is_deleted` ASC) ,
+  INDEX `uk_is_deleted` (`is_deleted` ASC) ,
+  UNIQUE INDEX `uk_name` (`name` ASC, `is_deleted` ASC) )
 COMMENT = '应用表';
 
 
@@ -238,12 +238,12 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_route` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`, `application_id`),
-  UNIQUE INDEX `uk_name` (`name` ASC, `is_deleted` ASC) VISIBLE,
-  UNIQUE INDEX `uk_code` (`code` ASC, `is_deleted` ASC) VISIBLE,
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE,
-  INDEX `idx_pid` (`pid` ASC) VISIBLE,
-  INDEX `fk_idx_system_id` (`application_id` ASC) VISIBLE,
-  INDEX `idx_system_id` (`is_deleted` ASC, `application_id` ASC) VISIBLE)
+  UNIQUE INDEX `uk_name` (`name` ASC, `is_deleted` ASC) ,
+  UNIQUE INDEX `uk_code` (`code` ASC, `is_deleted` ASC) ,
+  INDEX `idx_is_deleted` (`is_deleted` ASC) ,
+  INDEX `idx_pid` (`pid` ASC) ,
+  INDEX `fk_idx_system_id` (`application_id` ASC) ,
+  INDEX `idx_system_id` (`is_deleted` ASC, `application_id` ASC) )
 ENGINE = InnoDB
 COMMENT = '路由表';
 
@@ -264,8 +264,8 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_page_element` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE,
-  INDEX `idx_route_id` (`route_id` ASC) VISIBLE)
+  INDEX `idx_is_deleted` (`is_deleted` ASC) ,
+  INDEX `idx_route_id` (`route_id` ASC) )
 ENGINE = InnoDB
 COMMENT = '页面元素表';
 
@@ -289,9 +289,9 @@ CREATE TABLE IF NOT EXISTS `kt`.`upms_api` (
   `modifier` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新人',
   `is_deleted` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`, `application_id`),
-  UNIQUE INDEX `uk_application_id_url_method` (`url` ASC, `application_id` ASC, `method` ASC) VISIBLE,
-  INDEX `idx_is_deleted` (`is_deleted` ASC) VISIBLE,
-  INDEX `idx_application_id` (`application_id` ASC, `is_deleted` ASC) VISIBLE)
+  UNIQUE INDEX `uk_application_id_url_method` (`url` ASC, `application_id` ASC, `method` ASC) ,
+  INDEX `idx_is_deleted` (`is_deleted` ASC) ,
+  INDEX `idx_application_id` (`application_id` ASC, `is_deleted` ASC) )
 COMMENT = 'api表';
 
 

@@ -6,6 +6,7 @@ import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
 import com.kt.upms.module.api.vo.ApiListVO;
 import com.kt.upms.module.permission.service.IPermissionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,8 @@ public class ApiBeanConverter {
         upmsApi.setMethod(dto.getMethod());
         upmsApi.setAuthType(dto.getAuthType());
         upmsApi.setStatus(dto.getStatus());
+        // 约定规则，如果url包含了*号就代表是包含了路径参数
+        upmsApi.setHasPathVariable(StringUtils.contains(dto.getUrl(), "*"));
         return upmsApi;
     }
 

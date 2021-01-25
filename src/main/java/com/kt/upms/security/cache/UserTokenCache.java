@@ -1,4 +1,4 @@
-package com.kt.upms.security.token.manager;
+package com.kt.upms.security.cache;
 
 import com.kt.upms.security.login.LoginUserDetails;
 
@@ -8,7 +8,7 @@ import com.kt.upms.security.login.LoginUserDetails;
  * @date 2019-10-19
  * @time 17:05
  */
-public interface UserTokenManager {
+public interface UserTokenCache {
 
     /**
      * 保存token

@@ -4,9 +4,8 @@
 package com.kt.upms.security.token;
 
 
-import com.kt.upms.security.common.RedisKeyConst;
+import com.kt.upms.security.cache.UserTokenCache;
 import com.kt.upms.security.login.LoginUserDetails;
-import com.kt.upms.security.token.manager.UserTokenManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,8 +18,7 @@ import org.springframework.stereotype.Component;
 public class UserTokenAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    private UserTokenManager tokenManager;
-
+    private UserTokenCache userTokenCache;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -29,7 +27,7 @@ public class UserTokenAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationServiceException("Authentication failed: token is invalid");
         }
 
-        LoginUserDetails userDetails = tokenManager.get(RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + accessToken);
+        LoginUserDetails userDetails = userTokenCache.get(accessToken);
         if (userDetails == null) {
             throw new AuthenticationServiceException("Authentication failed: token is invalid");
         }

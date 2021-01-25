@@ -5,6 +5,7 @@ import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
+import com.kt.upms.module.api.cache.ApiCacheManager;
 import com.kt.upms.module.api.dto.ApiQueryDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
 import com.kt.upms.module.api.service.IApiService;
@@ -34,6 +35,8 @@ import java.util.Set;
 public class ApiController extends BaseController {
 
     @Autowired
+    private ApiCacheManager apiCacheManager;
+    @Autowired
     private IApiService iApiService;
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
@@ -41,6 +44,11 @@ public class ApiController extends BaseController {
     @PostMapping("/apis")
     public MultiResponse<ApiListVO> list(@RequestBody ApiQueryDTO dto) {
         return MultiResponse.ok(iApiService.listVos(dto));
+    }
+
+    @GetMapping("/api/test")
+    public String test() {
+        return "api";
     }
 
     @PostMapping("/api")
@@ -60,6 +68,12 @@ public class ApiController extends BaseController {
     @DeleteMapping("/api/{id}")
     public ServerResponse deleteApi(@PathVariable Long id) {
         iApiService.removeApi(id);
+        return ServerResponse.ok();
+    }
+
+    @PutMapping("/api/cache")
+    public ServerResponse updateApiCache() {
+        apiCacheManager.update();
         return ServerResponse.ok();
     }
 

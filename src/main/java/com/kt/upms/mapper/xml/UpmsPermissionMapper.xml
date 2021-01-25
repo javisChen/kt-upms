@@ -27,7 +27,8 @@
                up.resource_id
         from upms_permission up
         inner join upms_permission_role_rel uprr on up.id = uprr.permission_id
-        where uprr.role_id in
+        where up.type = #{type}
+        and uprr.role_id in
         <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>

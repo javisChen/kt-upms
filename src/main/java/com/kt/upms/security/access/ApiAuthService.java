@@ -1,4 +1,4 @@
-package com.kt.upms.security.service;
+package com.kt.upms.security.access;
 
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.security.model.AuthenticationRequest;

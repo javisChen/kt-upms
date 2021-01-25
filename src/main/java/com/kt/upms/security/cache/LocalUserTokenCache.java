@@ -1,4 +1,4 @@
-package com.kt.upms.security.token.manager;
+package com.kt.upms.security.cache;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kt.upms.security.login.LoginUserDetails;
@@ -11,27 +11,27 @@ import java.util.concurrent.ConcurrentHashMap;
  * 本地缓存Token管理器
  */
 @Slf4j
-public class LocalCacheTokenManager implements UserTokenManager {
+public class LocalUserTokenCache extends AbstractUserTokenCache {
 
-    public LocalCacheTokenManager() {
-      log.info("UserTokenManager ---------> LocalCacheTokenManager");
+    public LocalUserTokenCache() {
+      log.info("UserTokenCache ---------> LocalUserTokenCache");
     }
 
     private final Map<String, Object> caches = new ConcurrentHashMap<>(16);
 
     @Override
     public void save(String key, Object value, long expires) {
-        caches.put(key, value);
+        caches.put(createKey(key), value);
     }
 
     @Override
     public void remove(String key) {
-        caches.remove(key);
+        caches.remove(createKey(key));
     }
 
     @Override
     public LoginUserDetails get(String key) {
-        return JSONObject.parseObject((String) caches.get(key), LoginUserDetails.class);
+        return JSONObject.parseObject((String) caches.get(createKey(key)), LoginUserDetails.class);
     }
 
 }

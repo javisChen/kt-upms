@@ -27,4 +27,9 @@ public class ApiQueryDTO extends PagingDTO {
      */
     private Integer type;
 
+    /**
+     * 认证授权类型 1-无需认证授权 2-只需认证无需授权 3-需要认证和授权
+     */
+    private Integer authType;
+
 }

@@ -7,13 +7,13 @@ package com.kt.upms.security.token;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
+import com.kt.upms.security.access.ApiAccessChecker;
 import com.kt.upms.security.configuration.SecurityCoreProperties;
 import com.kt.upms.security.token.extractor.TokenExtractor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -23,7 +23,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 
 /*
  * @author JavisChen
@@ -34,19 +33,21 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
 
     private TokenExtractor tokenExtractor;
     private SecurityCoreProperties securityCoreProperties;
+    private ApiAccessChecker apiAccessChecker;
 
     public UserTokenAuthenticationProcessingFilter(TokenExtractor tokenExtractor,
-                                                   SecurityCoreProperties securityCoreProperties) {
-        super(new UserTokenFilterRequestMatcher(securityCoreProperties.getAllowList()));
+                                                   SecurityCoreProperties securityCoreProperties,
+                                                   ApiAccessChecker apiAccessChecker) {
+        super(new UserTokenFilterRequestMatcher(securityCoreProperties.getAllowList(), apiAccessChecker));
         this.tokenExtractor = tokenExtractor;
         this.securityCoreProperties = securityCoreProperties;
+        this.apiAccessChecker = apiAccessChecker;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String token = tokenExtractor.extract(request, securityCoreProperties.getAuthentication());
-        UserTokenAuthenticationToken authentication = new UserTokenAuthenticationToken(token,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_123")));
+        UserTokenAuthenticationToken authentication = new UserTokenAuthenticationToken(token, null);
         return getAuthenticationManager().authenticate(authentication);
     }
 
