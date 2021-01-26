@@ -6,11 +6,6 @@ import com.kt.upms.security.model.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * @title:
- * @desc:
- * @author: Javis
- */
 @Service
 public class ApiAuthService implements IApiAuthService {
 

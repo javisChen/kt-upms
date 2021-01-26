@@ -63,17 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private ApiAccessChecker apiAccessChecker;
 
-    
+
     /**
      * 配置客户端认证的参数
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("admin").roles("admin").password("123")
-//                .and()
-//                .withUser("javis").roles("user").password("123");
     }
 
     /**
@@ -88,18 +83,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 放行资源
                 .antMatchers(securityCoreProperties.getAllowList().toArray(new String[0])).permitAll()
+                .and()
                 // 配置强制禁用的资源，是登录后之后投票器处理才会触发到这个
-                .antMatchers("/deny").denyAll()
-//                .and()
-//                .authorizeRequests()
-                // 配置接口与对应角色权限关系，可用注解配置@PreAuthorize配置
-                // 注意，如果接口使用了@PreAuthorize进行了权限配置，当权限不匹配的时候，会先ControllerExceptionAdvice捕获
-                // 如果antMatchers和@PreAuthorize都进行了权限配置，则都需要匹配才能访问
-//                .antMatchers("/demo/admin/**").hasAnyAuthority("user")
-//                .antMatchers("/demo/user/**").hasAnyRole("user")
+                .authorizeRequests()
                 // 剩余资源都需要进行认证
                 .anyRequest().access("@apiAccessChecker.check(request, authentication)")
-//                .anyRequest().authenticated()
                 .and()
                 // 登出相关
                 .logout()
@@ -163,6 +151,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+    // ingore是完全绕过了spring security的所有filter，相当于不走spring security
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/swagger-ui/**");

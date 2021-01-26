@@ -81,6 +81,7 @@ public class ApiServiceImpl extends ServiceImpl<UpmsApiMapper, UpmsApi> implemen
     public List<ApiListVO> listVos(ApiQueryDTO dto) {
         LambdaQueryWrapper<UpmsApi> qw = new LambdaQueryWrapper<>();
         qw.eq(UpmsApi::getApplicationId, dto.getApplicationId());
+        qw.eq(UpmsApi::getCategoryId, dto.getCategoryId());
         qw.in(dto.getAuthType() != null, UpmsApi::getAuthType, dto.getAuthType());
         qw.eq(UpmsApi::getIsDeleted, DeletedEnums.NOT.getCode());
         return this.list(qw).stream().map(beanConverter::convertToApiListVO).collect(Collectors.toList());

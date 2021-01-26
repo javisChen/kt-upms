@@ -1,9 +1,12 @@
 package com.kt.upms.module.api.converter;
 
 import com.kt.upms.entity.UpmsApi;
+import com.kt.upms.entity.UpmsApiCategory;
 import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
+import com.kt.upms.module.api.dto.ApiCategoryUpdateDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
+import com.kt.upms.module.api.vo.ApiCategoryBaseVO;
 import com.kt.upms.module.api.vo.ApiListVO;
 import com.kt.upms.module.permission.service.IPermissionService;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +33,7 @@ public class ApiBeanConverter {
         upmsApi.setMethod(dto.getMethod());
         upmsApi.setAuthType(dto.getAuthType());
         upmsApi.setStatus(dto.getStatus());
+        upmsApi.setCategoryId(dto.getCategoryId());
         // 约定规则，如果url包含了*号就代表是包含了路径参数
         upmsApi.setHasPathVariable(StringUtils.contains(dto.getUrl(), "*"));
         return upmsApi;
@@ -50,5 +54,21 @@ public class ApiBeanConverter {
         apiListVO.setCreateTime(upmsApi.getGmtCreate());
         apiListVO.setUpdateTime(upmsApi.getGmtModified());
         return apiListVO;
+    }
+
+    public ApiCategoryBaseVO convertToApiCategoryVO(UpmsApiCategory category) {
+        ApiCategoryBaseVO apiCategoryBaseVO = new ApiCategoryBaseVO();
+        apiCategoryBaseVO.setId(category.getId());
+        apiCategoryBaseVO.setName(category.getName());
+        apiCategoryBaseVO.setApplicationId(category.getApplicationId());
+        return apiCategoryBaseVO;
+    }
+
+    public UpmsApiCategory convertToDO(ApiCategoryUpdateDTO dto) {
+        UpmsApiCategory upmsApiCategory = new UpmsApiCategory();
+        upmsApiCategory.setId(dto.getId());
+        upmsApiCategory.setName(dto.getName());
+        upmsApiCategory.setApplicationId(dto.getApplicationId());
+        return upmsApiCategory;
     }
 }

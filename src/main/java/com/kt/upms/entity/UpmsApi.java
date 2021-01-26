@@ -32,6 +32,12 @@ public class UpmsApi extends BaseEntity {
     private Long applicationId;
 
     /**
+     * 接口分类id
+     */
+    @TableField("category_id")
+    private Long categoryId;
+
+    /**
      * 接口地址
      */
     @TableField("url")

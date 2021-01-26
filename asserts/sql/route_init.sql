@@ -232,3 +232,11 @@ INSERT INTO kt.upms_role (id, name, status, gmt_create, gmt_modified, creator, m
 
 truncate table upms_user_role_rel;
 INSERT INTO kt.upms_user_role_rel (id, user_id, role_id, gmt_create, gmt_modified, creator, modifier) VALUES (1, 1, 1, '2021-01-21 10:40:47', '2021-01-21 10:40:47', 0, 0);
+
+truncate table upms_api;
+
+truncate table upms_application;
+INSERT INTO kt.upms_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (1, '权限中心', 'permission', 1, 1, '2021-01-25 15:29:20', '2021-01-25 15:29:20', 0, 0, 0);
+
+select *
+from upms_api;

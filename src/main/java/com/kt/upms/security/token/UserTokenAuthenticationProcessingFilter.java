@@ -33,19 +33,18 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
 
     private TokenExtractor tokenExtractor;
     private SecurityCoreProperties securityCoreProperties;
-    private ApiAccessChecker apiAccessChecker;
 
     public UserTokenAuthenticationProcessingFilter(TokenExtractor tokenExtractor,
                                                    SecurityCoreProperties securityCoreProperties,
                                                    ApiAccessChecker apiAccessChecker) {
-        super(new UserTokenFilterRequestMatcher(securityCoreProperties.getAllowList(), apiAccessChecker));
+        super(new UserTokenFilterRequestMatcher(apiAccessChecker));
         this.tokenExtractor = tokenExtractor;
         this.securityCoreProperties = securityCoreProperties;
-        this.apiAccessChecker = apiAccessChecker;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
         String token = tokenExtractor.extract(request, securityCoreProperties.getAuthentication());
         UserTokenAuthenticationToken authentication = new UserTokenAuthenticationToken(token, null);
         return getAuthenticationManager().authenticate(authentication);

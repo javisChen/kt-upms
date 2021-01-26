@@ -1,6 +1,7 @@
 package com.kt.upms.security.access;
 
 import com.kt.upms.module.api.cache.ApiCacheManager;
+import com.kt.upms.security.configuration.SecurityCoreProperties;
 import com.kt.upms.security.model.AuthenticationRequest;
 import com.kt.upms.security.model.AuthenticationResponse;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,6 +23,8 @@ public class ApiAccessChecker implements InitializingBean {
     private IApiAuthService iApiAuthService;
     @Autowired
     private ApiCacheManager apiCacheManager;
+    @Autowired
+    private SecurityCoreProperties securityCoreProperties;
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -35,13 +38,24 @@ public class ApiAccessChecker implements InitializingBean {
         requestUri = attemptReplaceHasPathVariableUrl(requestUri);
 
         // 尝试是否匹配不需要授权的api
+        if (attemptMatchDefaultAllowUrl(requestUri)) {
+            return true;
+        }
+
+        // 尝试是否匹配不需要授权的api
         if (attemptMatchNoNeedAuthorizationUrl(requestUri, method, applicationId)) {
             return true;
         }
 
         authReq = createAuthenticationRequest(request, requestUri, (String) authentication.getPrincipal());
         AuthenticationResponse authResp = iApiAuthService.auth(authReq);
-        return authResp.getHasPermission();
+        final Boolean hasPermission = authResp.getHasPermission();
+        return hasPermission;
+    }
+
+    public boolean attemptMatchDefaultAllowUrl(String requestUri) {
+        return securityCoreProperties.getAllowList().stream()
+                .anyMatch(item -> pathMatcher.match(item, requestUri));
     }
 
     public String attemptReplaceHasPathVariableUrl(String requestUri) {

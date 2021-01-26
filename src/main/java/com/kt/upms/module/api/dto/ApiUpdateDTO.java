@@ -16,6 +16,9 @@ public class ApiUpdateDTO implements Serializable {
     @NotNull(message = "applicationId不能为空", groups = {ValidateGroup.Add.class})
     private Long applicationId;
 
+    @NotNull(message = "categoryId不能为空", groups = {ValidateGroup.Add.class})
+    private Long categoryId;
+
     @NotBlank(message = "name不能为空", groups = {ValidateGroup.Add.class})
     private String name;
 

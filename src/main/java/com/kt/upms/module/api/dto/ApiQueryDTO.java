@@ -15,6 +15,8 @@ public class ApiQueryDTO extends PagingDTO {
 
     private Long applicationId;
 
+    private Long categoryId;
+
     private String name;
 
     /**
