@@ -78,6 +78,4 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
     private ServerResponse response(String code, String msg) {
         return ServerResponse.error(code, msg);
     }
-
-
 }

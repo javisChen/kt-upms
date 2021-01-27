@@ -315,9 +315,18 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     public void deleteRouteById(Long id) {
         UpmsRoute route = getRouteById(id);
         List<Long> ids = getChildRoutes(route).stream().map(UpmsRoute::getId).collect(Collectors.toList());
-        this.removeByIds(ids);
-
+        removeRouteByIds(ids);
         iPermissionService.removeByResourceIds(ids);
+    }
+
+    private void removeRouteByIds(List<Long> ids) {
+        for (Long item : ids) {
+            LambdaUpdateWrapper<UpmsRoute> qw = new LambdaUpdateWrapper<>();
+            qw.eq(UpmsRoute::getIsDeleted, DeletedEnums.NOT.getCode());
+            qw.eq(UpmsRoute::getId, item);
+            qw.set(UpmsRoute::getIsDeleted, item);
+            this.update(qw);
+        }
     }
 
     private List<UpmsRoute> getChildRoutes(UpmsRoute route) {

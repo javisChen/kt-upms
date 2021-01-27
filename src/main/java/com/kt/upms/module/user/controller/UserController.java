@@ -59,7 +59,7 @@ public class UserController extends BaseController {
      * 添加用户
      */
     @PostMapping("/user")
-    public ServerResponse add(@RequestBody @Validated UserUpdateDTO dto) {
+    public ServerResponse add(@RequestBody @Validated({ValidateGroup.Add.class}) UserUpdateDTO dto) {
         iUserService.saveUser(dto);
         return SingleResponse.ok();
     }

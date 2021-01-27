@@ -1,6 +1,7 @@
 package com.kt.upms.module.user.dto;
 
 
+import com.kt.component.validator.ValidateGroup;
 import com.kt.upms.validgroup.UpmsValidateGroup;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
@@ -22,7 +23,7 @@ public class UserUpdateDTO implements Serializable {
     @NotBlank(message = "name 不能为空")
     private String name;
 
-    @NotBlank(message = "phone 不能为空")
+    @NotBlank(message = "phone 不能为空", groups = ValidateGroup.Add.class)
     @Size(min = 11, max = 11, message = "手机号不合法")
     private String phone;
 
