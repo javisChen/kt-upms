@@ -4,15 +4,14 @@ import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
+import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
-import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
-import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
+import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.service.IUserGroupService;
-import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
-import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
-import com.kt.upms.validgroup.UpmsValidateGroup;
+import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
+import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,21 +48,16 @@ public class UserGroupController extends BaseController {
     }
 
     @PostMapping("/usergroup")
-    public ServerResponse add(@RequestBody @Validated UserGroupAddDTO userGroupAddDTO) {
-        iUserGroupService.saveUserGroup(userGroupAddDTO);
+    public ServerResponse add(@RequestBody
+                              @Validated({ValidateGroup.Add.class, Default.class}) UserGroupUpdateDTO userGroupUpdateDTO) {
+        iUserGroupService.saveUserGroup(userGroupUpdateDTO);
         return ServerResponse.ok();
     }
 
     @PutMapping("/usergroup")
-    public ServerResponse update(@RequestBody @Validated UserGroupUpdateDTO userGroupUpdateDTO) {
-        iUserGroupService.updateUserGroupById(userGroupUpdateDTO);
-        return ServerResponse.ok();
-    }
-
-    @PutMapping("/usergroup/status")
-    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
-                                       @RequestBody UserGroupUpdateDTO dto) {
-        iUserGroupService.updateStatus(dto);
+    public ServerResponse update(@RequestBody
+                                 @Validated({ValidateGroup.Update.class, Default.class}) UserGroupUpdateDTO dto) {
+        iUserGroupService.updateUserGroupById(dto);
         return ServerResponse.ok();
     }
 

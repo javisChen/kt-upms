@@ -5,21 +5,17 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsUserGroup;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.DeletedEnums;
-import com.kt.upms.enums.UserGroupStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupMapper;
-import com.kt.upms.mapper.UpmsUserGroupRoleRelMapper;
 import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
 import com.kt.upms.module.usergroup.converter.UserGroupBeanConverter;
-import com.kt.upms.module.usergroup.dto.UserGroupAddDTO;
-import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
+import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
 import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
@@ -50,8 +46,6 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
 
     @Autowired
     private UserGroupBeanConverter beanConverter;
-    @Autowired
-    private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
     @Autowired
     private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
 
@@ -96,7 +90,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
     }
 
     @Override
-    public void saveUserGroup(UserGroupAddDTO dto) {
+    public void saveUserGroup(UserGroupUpdateDTO dto) {
         int count = countUserGroupByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.USER_GROUP_ALREADY_EXISTS);
 
@@ -158,12 +152,6 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
         this.updateById(update);
     }
 
-
-    @Override
-    public void updateStatus(UserGroupUpdateDTO dto) {
-        updateStatus(dto, UserGroupStatusEnums.DISABLED);
-    }
-
     @Override
     public List<Long> getUserGroupIdsByUserId(Long userId) {
         LambdaQueryWrapper<UpmsUserGroupUserRel> qw = new LambdaQueryWrapper<>();
@@ -205,13 +193,6 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
             userGroupTreeVO.setKey(String.valueOf(item.getId()));
             return userGroupTreeVO;
         };
-    }
-
-    private void updateStatus(UserGroupUpdateDTO dto, UserGroupStatusEnums statusEnum) {
-        this.update(new LambdaUpdateWrapper<UpmsUserGroup>()
-                .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
-                .eq(UpmsUserGroup::getStatus, dto.getId())
-                .set(UpmsUserGroup::getStatus, statusEnum.getValue()));
     }
 
     private UserGroupBaseVO assembleUserGroupVO(UpmsUserGroup item) {
