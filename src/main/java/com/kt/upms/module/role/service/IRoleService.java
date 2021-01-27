@@ -47,6 +47,8 @@ public interface IRoleService extends IService<UpmsRole> {
 
     List<PermissionVO> getRoleElementPermissionById(Long roleId, Long applicationId);
 
+    void removeUserRoleRelByUserId(Long userId);
+
     List<RoleListVO> listAllVos();
 
     List<String> getRoleNamesByUserId(Long userId);
@@ -56,4 +58,6 @@ public interface IRoleService extends IService<UpmsRole> {
     List<PermissionVO> getRoleApiPermissionById(Long roleId, Long applicationId);
 
     void updateRoleApiPermissions(RoleApiPermissionUpdateDTO dto);
+
+    void removeRoleById(Long id);
 }

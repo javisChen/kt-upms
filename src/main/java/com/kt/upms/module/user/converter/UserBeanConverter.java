@@ -6,7 +6,7 @@ import com.kt.upms.entity.UpmsPermission;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.service.IRoleService;
-import com.kt.upms.module.user.dto.UserAddDTO;
+import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
@@ -67,13 +67,13 @@ public class UserBeanConverter {
         return permissionVO;
     }
 
-    public UpmsUser convertToUserDO(UserAddDTO dto) {
+    public UpmsUser convertToUserDO(UserUpdateDTO dto) {
         UpmsUser upmsUser = new UpmsUser();
+        upmsUser.setId(dto.getId());
         upmsUser.setName(dto.getName());
         upmsUser.setPhone(dto.getPhone());
         upmsUser.setPassword(dto.getPassword());
         upmsUser.setStatus(dto.getStatus());
-        upmsUser.setId(dto.getId());
         String code = generateUserCode();
         upmsUser.setCode(code);
         upmsUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(upmsUser.getPassword())));

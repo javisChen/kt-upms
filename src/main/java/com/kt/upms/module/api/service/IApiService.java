@@ -29,16 +29,7 @@ public interface IApiService extends IService<UpmsApi> {
 
     void removeApi(Long dto);
 
-    /**
-     * 获取无需授权的api
-     */
-    List<UpmsApi> getNoNeedAuthorizationApis();
-
-    /**
-     * 获取无需认证的api
-     */
-    List<UpmsApi> getNoNeedAuthenticationApis();
-
     List<UpmsApi> listAll();
 
+    void removeByCategoryId(Long id);
 }

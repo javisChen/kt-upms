@@ -2,7 +2,6 @@ package com.kt.upms.module.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -15,6 +14,7 @@ import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.entity.UpmsUserGroupUserRel;
 import com.kt.upms.entity.UpmsUserRoleRel;
 import com.kt.upms.enums.BizEnums;
+import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.UserStatusEnums;
 import com.kt.upms.mapper.UpmsUserGroupUserRelMapper;
@@ -22,12 +22,13 @@ import com.kt.upms.mapper.UpmsUserMapper;
 import com.kt.upms.mapper.UpmsUserRoleRelMapper;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.permission.vo.PermissionVO;
+import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.user.converter.UserBeanConverter;
-import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
+import com.kt.upms.module.usergroup.service.IUserGroupService;
 import com.kt.upms.security.login.LoginUserDetails;
 import com.kt.upms.util.Assert;
 import lombok.extern.slf4j.Slf4j;
@@ -64,10 +65,14 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
     @Autowired
     private UserBeanConverter beanConverter;
+    @Autowired
+    private IRoleService iRoleService;
+    @Autowired
+    private IUserGroupService iUserGroupService;
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void saveUser(UserAddDTO dto) {
+    public void saveUser(UserUpdateDTO dto) {
         UpmsUser upmsUser = beanConverter.convertToUserDO(dto);
 
         doCheckBeforeSave(upmsUser);
@@ -107,8 +112,9 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateUserById(UserUpdateDTO dto) {
-        UpmsUser upmsUser = CglibUtil.copy(dto, UpmsUser.class);
+        UpmsUser upmsUser = beanConverter.convertToUserDO(dto);
         Long userId = upmsUser.getId();
 
         // 先把原本角色和用户组清空
@@ -206,6 +212,21 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
         qw.eq(UpmsUser::getCode, userCode);
         qw.eq(UpmsUser::getStatus, UserStatusEnums.ENABLED.getValue());
         return Optional.ofNullable(this.getOne(qw)).orElseGet(UpmsUser::new);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removeUserById(Long id) {
+        LambdaUpdateWrapper<UpmsUser> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsUser::getId, id);
+        qw.eq(UpmsUser::getIsDeleted, DeletedEnums.NOT.getCode());
+        qw.set(UpmsUser::getIsDeleted, id);
+        this.update(qw);
+
+        // 移除角色关系
+        iRoleService.removeUserRoleRelByUserId(id);
+        // 移除用户组关系
+        iUserGroupService.removeUserUserGroupRelByUserId(id);
     }
 
     private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnums statusEnum) {

@@ -45,4 +45,6 @@ public interface IPermissionService extends IService<UpmsPermission> {
     boolean hasApiPermission(String application, Long userId, String url, String method);
 
     boolean hasApiPermission(String application, String userCode, String url, String method);
+
+    void removeByResourceIds(List<Long> ids);
 }

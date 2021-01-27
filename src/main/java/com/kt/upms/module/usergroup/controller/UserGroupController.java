@@ -60,16 +60,6 @@ public class UserGroupController extends BaseController {
         return ServerResponse.ok();
     }
 
-//    @GetMapping("/usergroup/{id}")
-//    public ServerResponse get(@PathVariable("id") String userGroupId) {
-//        UpmsUserGroup upmsUserGroup = iUpmsUserGroupService.getById(userGroupId);
-//        if (upmsUserGroup == null) {
-//            return ServerResponse.ok();
-//        }
-//        UserGroupQueryDTO copy = CglibUtil.copy(upmsUserGroup, UserGroupQueryDTO.class);
-//        return ServerResponse.ok(copy);
-//    }
-
     @PutMapping("/usergroup/status")
     public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
                                        @RequestBody UserGroupUpdateDTO dto) {

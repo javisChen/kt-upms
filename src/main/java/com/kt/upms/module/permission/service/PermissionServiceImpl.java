@@ -161,6 +161,13 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
         return hasApiPermission(application, user, url, method);
     }
 
+    @Override
+    public void removeByResourceIds(List<Long> ids) {
+        LambdaQueryWrapper<UpmsPermission> qw = new LambdaQueryWrapper<>();
+        qw.in(UpmsPermission::getResourceId, ids);
+        this.remove(qw);
+    }
+
     private boolean hasApiPermission(String application, UpmsUser user, String url, String method) {
         if (iUserPermissionService.isSuperAdmin(user.getCode())) {
             return true;

@@ -311,11 +311,19 @@ public class RouteServiceImpl extends ServiceImpl<UpmsRouteMapper, UpmsRoute> im
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteRouteById(Long id) {
         UpmsRoute route = getRouteById(id);
+        List<Long> ids = getChildRoutes(route).stream().map(UpmsRoute::getId).collect(Collectors.toList());
+        this.removeByIds(ids);
+
+        iPermissionService.removeByResourceIds(ids);
+    }
+
+    private List<UpmsRoute> getChildRoutes(UpmsRoute route) {
         LambdaQueryWrapper<UpmsRoute> wrapper = new LambdaQueryWrapper<UpmsRoute>()
                 .likeRight(UpmsRoute::getLevelPath, route.getLevelPath());
-        this.remove(wrapper);
+        return this.list(wrapper);
     }
 
     @Override

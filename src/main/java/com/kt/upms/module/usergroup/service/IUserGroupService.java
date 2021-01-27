@@ -37,4 +37,6 @@ public interface IUserGroupService extends IService<UpmsUserGroup> {
     List<UserGroupBaseVO> listAllVos();
 
     List<String> getUserGroupNamesByUserId(Long userId);
+
+    void removeUserUserGroupRelByUserId(Long userId);
 }

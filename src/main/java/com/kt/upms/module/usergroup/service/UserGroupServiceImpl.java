@@ -191,6 +191,13 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
         return this.baseMapper.selectUserGroupNamesByUserId(userId);
     }
 
+    @Override
+    public void removeUserUserGroupRelByUserId(Long userId) {
+        LambdaQueryWrapper<UpmsUserGroupUserRel> qw = new LambdaQueryWrapper<>();
+        qw.eq(UpmsUserGroupUserRel::getUserId, userId);
+        upmsUserGroupUserRelMapper.delete(qw);
+    }
+
     private Function<UpmsUserGroup, UserGroupTreeVO> assembleUserGroupUserGroupTreeVO() {
         return item -> {
             UserGroupTreeVO userGroupTreeVO = new UserGroupTreeVO();

@@ -46,11 +46,6 @@ public class ApiController extends BaseController {
         return MultiResponse.ok(iApiService.listVos(dto));
     }
 
-    @GetMapping("/api/test")
-    public String test() {
-        return "api";
-    }
-
     @PostMapping("/api")
     public ServerResponse saveApi(@Validated({ValidateGroup.Add.class, Default.class})
                                   @RequestBody ApiUpdateDTO dto) {
@@ -82,7 +77,6 @@ public class ApiController extends BaseController {
     public ServerResponse init() {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : requestMappingHandlerMapping.getHandlerMethods().entrySet()) {
             RequestMappingInfo requestMappingInfo = entry.getKey();
-            HandlerMethod handlerMethod = entry.getValue();
             ApiUpdateDTO dto = new ApiUpdateDTO();
             dto.setId(1L);
             dto.setApplicationId(1L);

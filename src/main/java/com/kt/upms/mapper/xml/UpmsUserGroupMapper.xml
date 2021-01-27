@@ -29,6 +29,8 @@
         from upms_user_group_user_rel uugur
         inner join upms_user_group uug on uug.id = uugur.user_group_id
         where user_id = #{userId}
+        and uug.status = 1
+        and uug.is_deleted = 0
     </select>
 
 </mapper>

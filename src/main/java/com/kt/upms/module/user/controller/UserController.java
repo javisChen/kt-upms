@@ -9,7 +9,6 @@ import com.kt.component.logger.CatchAndLog;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.service.IUserPermissionService;
@@ -58,12 +57,10 @@ public class UserController extends BaseController {
 
     /**
      * 添加用户
-     *
-     * @return
      */
     @PostMapping("/user")
-    public ServerResponse add(@RequestBody @Validated UserAddDTO userAddDTO) {
-        iUserService.saveUser(userAddDTO);
+    public ServerResponse add(@RequestBody @Validated UserUpdateDTO dto) {
+        iUserService.saveUser(dto);
         return SingleResponse.ok();
     }
 
@@ -83,6 +80,15 @@ public class UserController extends BaseController {
     @GetMapping("/user")
     public SingleResponse<UserDetailVO> get(Long id) {
         return SingleResponse.ok(iUserService.getUserDetailVOById(id));
+    }
+
+    /**
+     * 查看用户详情
+     */
+    @DeleteMapping("/user")
+    public ServerResponse delete(Long id) {
+        iUserService.removeUserById(id);
+        return SingleResponse.ok();
     }
 
     /**

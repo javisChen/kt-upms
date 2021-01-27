@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.upms.entity.UpmsUser;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.user.dto.UserAddDTO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
 import com.kt.upms.module.user.vo.UserDetailVO;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 public interface IUserService extends IService<UpmsUser> {
 
-    void saveUser(UserAddDTO entity);
+    void saveUser(UserUpdateDTO entity);
 
     int countUserByCode(String code);
 
@@ -44,4 +43,6 @@ public interface IUserService extends IService<UpmsUser> {
     User getUserInfoByPhone(String phone);
 
     UpmsUser getUserByCode(String userCode);
+
+    void removeUserById(Long id);
 }

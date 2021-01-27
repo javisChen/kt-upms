@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.entity.UpmsApi;
-import com.kt.upms.enums.ApiAuthTypeEnums;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
@@ -97,28 +96,18 @@ public class ApiServiceImpl extends ServiceImpl<UpmsApiMapper, UpmsApi> implemen
     }
 
     @Override
-    public List<UpmsApi> getNoNeedAuthorizationApis() {
-        LambdaQueryWrapper<UpmsApi> qw = new LambdaQueryWrapper<>();
-        qw.eq(UpmsApi::getIsDeleted, DeletedEnums.NOT.getCode());
-        qw.and(wrapper -> wrapper.eq(UpmsApi::getAuthType, ApiAuthTypeEnums.NEED_AUTHENTICATION.getValue())
-                .or()
-                .eq(UpmsApi::getAuthType, ApiAuthTypeEnums.NO_AUTHENTICATION_AND_AUTHORIZATION.getValue())
-        );
-        return this.list(qw);
-    }
-
-    @Override
-    public List<UpmsApi> getNoNeedAuthenticationApis() {
-        LambdaQueryWrapper<UpmsApi> qw = new LambdaQueryWrapper<>();
-        qw.eq(UpmsApi::getIsDeleted, DeletedEnums.NOT.getCode());
-        qw.eq(UpmsApi::getAuthType, ApiAuthTypeEnums.NO_AUTHENTICATION_AND_AUTHORIZATION.getValue());
-        return this.list(qw);
-    }
-
-    @Override
     public List<UpmsApi> listAll() {
         LambdaQueryWrapper<UpmsApi> qw = new LambdaQueryWrapper<>();
         qw.eq(UpmsApi::getIsDeleted, DeletedEnums.NOT.getCode());
         return this.list(qw);
+    }
+
+    @Override
+    public void removeByCategoryId(Long categoryId) {
+        LambdaUpdateWrapper<UpmsApi> uw = new LambdaUpdateWrapper<>();
+        uw.eq(UpmsApi::getCategoryId, categoryId);
+        uw.eq(UpmsApi::getIsDeleted, DeletedEnums.NOT.getCode());
+        uw.set(UpmsApi::getIsDeleted, DeletedEnums.YET.getCode());
+        this.update(uw);
     }
 }

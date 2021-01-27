@@ -13,6 +13,7 @@ import com.kt.upms.module.api.vo.ApiCategoryBaseVO;
 import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,9 @@ public class ApiCategoryServiceImpl extends ServiceImpl<UpmsApiCategoryMapper, U
 
     @Autowired
     private ApiBeanConverter beanConverter;
+    @Autowired
+    private IApiService iApiService;
+
     @Override
     public List<ApiCategoryBaseVO> listVos(Long applicationId) {
         LambdaQueryWrapper<UpmsApiCategory> qw = new LambdaQueryWrapper<>();
@@ -61,11 +65,15 @@ public class ApiCategoryServiceImpl extends ServiceImpl<UpmsApiCategoryMapper, U
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void removeApiCategory(Long id) {
         LambdaUpdateWrapper<UpmsApiCategory> qw = new LambdaUpdateWrapper<>();
         qw.eq(UpmsApiCategory::getId, id);
         qw.eq(UpmsApiCategory::getIsDeleted, DeletedEnums.NOT.getCode());
         qw.set(UpmsApiCategory::getIsDeleted, id);
         this.update(qw);
+
+        // 把分类下的api都删除掉
+        iApiService.removeByCategoryId(id);
     }
 }

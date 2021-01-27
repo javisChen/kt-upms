@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.upms.entity.UpmsPermissionRoleRel;
 import com.kt.upms.entity.UpmsRole;
+import com.kt.upms.entity.UpmsUserGroupRoleRel;
 import com.kt.upms.entity.UpmsUserRoleRel;
 import com.kt.upms.enums.BizEnums;
+import com.kt.upms.enums.DeletedEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.enums.RoleStatusEnums;
 import com.kt.upms.mapper.UpmsPermissionRoleRelMapper;
@@ -63,7 +66,8 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
                 .like(StrUtil.isNotBlank(params.getName()), UpmsRole::getName, params.getName());
         Page<UpmsRole> page = this.page(new Page<>(params.getCurrent(), params.getSize()), queryWrapper);
 
-        List<RoleListVO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO).collect(Collectors.toList());
+        List<RoleListVO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO)
+                .collect(Collectors.toList());
         Page<RoleListVO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         pageVo.setRecords(vos);
         return pageVo;
@@ -74,7 +78,7 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
         int count = countRoleByName(dto);
         Assert.isTrue(count > 0, BizEnums.ROLE_ALREADY_EXISTS);
 
-        UpmsRole role = CglibUtil.copy(dto, UpmsRole.class);
+        UpmsRole role = beanConverter.convertToDO(dto);
         this.save(role);
     }
 
@@ -92,7 +96,7 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
         int count = this.count(queryWrapper);
         Assert.isTrue(count > 0, BizEnums.ROLE_ALREADY_EXISTS);
 
-        UpmsRole role = CglibUtil.copy(dto, UpmsRole.class);
+        UpmsRole role = beanConverter.convertToDO(dto);
         this.updateById(role);
     }
 
@@ -150,6 +154,48 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
         Long roleId = dto.getRoleId();
         iPermissionService.removeRolePermission(roleId, dto.getToRemoveApiPermissionIds());
         iPermissionService.batchSaveRolePermissionRel(roleId, dto.getToAddApiPermissionIds());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removeRoleById(Long id) {
+        LambdaUpdateWrapper<UpmsRole> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsRole::getId, id);
+        qw.eq(UpmsRole::getIsDeleted, DeletedEnums.NOT.getCode());
+        qw.set(UpmsRole::getIsDeleted, id);
+        this.update(qw);
+
+        // 移除用户与角色关联关系
+        removeUserRoleRelByRoleId(id);
+        // 移除用户组与角色关联关系
+        removeUserGroupRoleRelByRoleId(id);
+        // 角色与权限的关系
+        removePermissionRoleRelByRoleId(id);
+    }
+
+    private void removePermissionRoleRelByRoleId(Long roleId) {
+        LambdaUpdateWrapper<UpmsPermissionRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsPermissionRoleRel::getRoleId, roleId);
+        upmsPermissionRoleRelMapper.delete(qw);
+    }
+
+    private void removeUserGroupRoleRelByRoleId(Long roleId) {
+        LambdaUpdateWrapper<UpmsUserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsUserGroupRoleRel::getRoleId, roleId);
+        upmsUserGroupRoleRelMapper.delete(qw);
+    }
+
+    private void removeUserRoleRelByRoleId(Long roleId) {
+        LambdaUpdateWrapper<UpmsUserRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsUserRoleRel::getRoleId, roleId);
+        upmsUserRoleRelMapper.delete(qw);
+    }
+
+    @Override
+    public void removeUserRoleRelByUserId(Long userId) {
+        LambdaUpdateWrapper<UpmsUserRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsUserRoleRel::getUserId, userId);
+        upmsUserRoleRelMapper.delete(qw);
     }
 
     @Override
