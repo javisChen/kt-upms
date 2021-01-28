@@ -1,7 +1,7 @@
 package com.kt.upms.security.cache;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kt.upms.security.login.LoginUserDetails;
+import com.kt.upms.security.model.LoginUserContext;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -30,8 +30,8 @@ public class LocalUserTokenCache extends AbstractUserTokenCache {
     }
 
     @Override
-    public LoginUserDetails get(String key) {
-        return JSONObject.parseObject((String) caches.get(createKey(key)), LoginUserDetails.class);
+    public LoginUserContext get(String key) {
+        return JSONObject.parseObject((String) caches.get(createKey(key)), LoginUserContext.class);
     }
 
 }

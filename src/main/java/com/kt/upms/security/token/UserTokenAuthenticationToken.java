@@ -5,7 +5,7 @@
 
 package com.kt.upms.security.token;
 
-import com.kt.upms.security.login.LoginUserDetails;
+import com.kt.upms.security.model.LoginUserContext;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -15,11 +15,11 @@ public class UserTokenAuthenticationToken extends AbstractAuthenticationToken {
 
         private String principal;
         private String credentials;
-        private LoginUserDetails details;
+        private LoginUserContext details;
 
         public UserTokenAuthenticationToken(String principal, String credentials,
                                             Collection<? extends GrantedAuthority> authorities,
-                                            LoginUserDetails details) {
+                                            LoginUserContext details) {
             super(authorities);
             this.credentials = credentials;
             this.principal = principal;
@@ -31,18 +31,19 @@ public class UserTokenAuthenticationToken extends AbstractAuthenticationToken {
             this.credentials = credentials;
         }
 
-        public void setCredentials(String credentials) {
+    @Override
+    public LoginUserContext getDetails() {
+        return details;
+    }
+
+    public void setDetails(LoginUserContext details) {
+        this.details = details;
+    }
+
+    public void setCredentials(String credentials) {
             this.credentials = credentials;
         }
 
-        @Override
-        public LoginUserDetails getDetails() {
-            return details;
-        }
-
-        public void setDetails(LoginUserDetails details) {
-            this.details = details;
-        }
 
         @Override
         public String getCredentials() {

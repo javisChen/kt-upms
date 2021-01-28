@@ -2,7 +2,7 @@ package com.kt.upms.module.route.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsPageElement;
+import com.kt.upms.module.route.persistence.UpmsPageElement;
 import com.kt.upms.module.route.dto.PageElementUpdateDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
 import com.kt.upms.module.route.vo.PageElementVO;

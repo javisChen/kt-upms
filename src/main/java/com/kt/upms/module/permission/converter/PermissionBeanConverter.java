@@ -1,6 +1,6 @@
 package com.kt.upms.module.permission.converter;
 
-import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import org.springframework.stereotype.Component;
 

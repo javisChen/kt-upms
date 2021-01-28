@@ -9,6 +9,8 @@ import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.upms.security.access.ApiAccessChecker;
 import com.kt.upms.security.configuration.SecurityCoreProperties;
+import com.kt.upms.security.context.LoginUserContextHolder;
+import com.kt.upms.security.model.LoginUserContext;
 import com.kt.upms.security.token.extractor.TokenExtractor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,7 +60,15 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
         userTokenAuthenticationToken.setAuthenticated(true);
         context.setAuthentication(userTokenAuthenticationToken);
         SecurityContextHolder.setContext(context);
+
+        LoginUserContext details = userTokenAuthenticationToken.getDetails();
+        setLoginUserContext(details);
+
         chain.doFilter(request, response);
+    }
+
+    private void setLoginUserContext(LoginUserContext details) {
+        LoginUserContextHolder.setContext(details);
     }
 
     @Override

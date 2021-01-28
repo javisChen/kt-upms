@@ -1,7 +1,7 @@
 package com.kt.upms.module.permission.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.route.dto.PermissionUpdateDTO;

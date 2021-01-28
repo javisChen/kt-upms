@@ -2,7 +2,7 @@ package com.kt.upms.security.cache;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.redis.RedisService;
-import com.kt.upms.security.login.LoginUserDetails;
+import com.kt.upms.security.model.LoginUserContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,11 +28,11 @@ public class RedisUserTokenCache extends AbstractUserTokenCache {
     }
 
     @Override
-    public LoginUserDetails get(String key) {
+    public LoginUserContext get(String key) {
         Object redisValue = redisService.get(createKey(key));
         if (redisValue == null) {
             return null;
         }
-        return JSONObject.parseObject((String) redisValue, LoginUserDetails.class);
+        return JSONObject.parseObject((String) redisValue, LoginUserContext.class);
     }
 }

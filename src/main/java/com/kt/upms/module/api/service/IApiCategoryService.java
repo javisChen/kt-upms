@@ -2,7 +2,7 @@ package com.kt.upms.module.api.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsApiCategory;
+import com.kt.upms.module.api.persistence.UpmsApiCategory;
 import com.kt.upms.module.api.dto.ApiCategoryUpdateDTO;
 import com.kt.upms.module.api.vo.ApiCategoryBaseVO;
 

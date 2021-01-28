@@ -1,7 +1,7 @@
 package com.kt.upms.module.application.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsApplication;
+import com.kt.upms.module.application.persistence.UpmsApplication;
 import com.kt.upms.module.application.dto.ApplicationQueryDTO;
 import com.kt.upms.module.application.dto.ApplicationUpdateDTO;
 import com.kt.upms.module.application.vo.ApplicationBaseVO;

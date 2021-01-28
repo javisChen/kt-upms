@@ -1,8 +1,8 @@
 package com.kt.upms.module.api.converter;
 
-import com.kt.upms.entity.UpmsApi;
-import com.kt.upms.entity.UpmsApiCategory;
-import com.kt.upms.entity.UpmsPermission;
+import com.kt.upms.module.api.persistence.UpmsApi;
+import com.kt.upms.module.api.persistence.UpmsApiCategory;
+import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.api.dto.ApiCategoryUpdateDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;

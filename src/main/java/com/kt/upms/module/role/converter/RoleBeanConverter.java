@@ -1,6 +1,6 @@
 package com.kt.upms.module.role.converter;
 
-import com.kt.upms.entity.UpmsRole;
+import com.kt.upms.module.role.persistence.UpmsRole;
 import com.kt.upms.module.role.dto.RoleUpdateDTO;
 import com.kt.upms.module.role.vo.RoleListVO;
 import org.springframework.stereotype.Component;

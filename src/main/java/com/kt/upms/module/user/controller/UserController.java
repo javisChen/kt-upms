@@ -16,11 +16,9 @@ import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
-import com.kt.upms.security.login.LoginUserDetails;
-import com.kt.upms.security.token.UserTokenAuthenticationToken;
+import com.kt.upms.security.context.LoginUserContextHolder;
+import com.kt.upms.security.model.LoginUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -95,9 +93,8 @@ public class UserController extends BaseController {
      * 查看用户基本信息
      */
     @GetMapping("/user/info")
-    public SingleResponse<LoginUserDetails> getLoginUserInfo() {
-        UserTokenAuthenticationToken token = (UserTokenAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        return SingleResponse.ok(token.getDetails());
+    public SingleResponse<LoginUserContext> getLoginUserInfo() {
+        return SingleResponse.ok(LoginUserContextHolder.getContext());
     }
 
     /**
@@ -105,9 +102,8 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/permission/routes")
     public MultiResponse<UserPermissionRouteNavVO> getUserRoutePermission() {
-        Authentication context = SecurityContextHolder.getContext().getAuthentication();
-        LoginUserDetails details = (LoginUserDetails) context.getDetails();
-        List<UserPermissionRouteNavVO> userRoutes = iUserPermissionService.getUserRoutes(details.getUserCode());
+        String userCode = LoginUserContextHolder.getContext().getUserCode();
+        List<UserPermissionRouteNavVO> userRoutes = iUserPermissionService.getUserRoutes(userCode);
         return MultiResponse.ok(userRoutes);
     }
 
@@ -116,9 +112,8 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/permission/elements")
     public MultiResponse<PermissionVO> getUserElementPermission() {
-        Authentication context = SecurityContextHolder.getContext().getAuthentication();
-        LoginUserDetails details = (LoginUserDetails) context.getDetails();
-        List<PermissionVO> userRoutes = iUserPermissionService.getUserPermissionPageElements(details.getUserCode());
+        String userCode = LoginUserContextHolder.getContext().getUserCode();
+        List<PermissionVO> userRoutes = iUserPermissionService.getUserPermissionPageElements(userCode);
         return MultiResponse.ok(userRoutes);
     }
 

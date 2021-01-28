@@ -7,6 +7,7 @@ import com.kt.component.redis.RedisService;
 import com.kt.upms.security.access.ApiAccessChecker;
 import com.kt.upms.security.cache.RedisUserTokenCache;
 import com.kt.upms.security.cache.UserTokenCache;
+import com.kt.upms.security.context.LoginUserContextPersistenceFilter;
 import com.kt.upms.security.login.UserLoginAuthenticationFilter;
 import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
 import com.kt.upms.security.token.extractor.DefaultTokenExtractor;
@@ -34,6 +35,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
@@ -111,8 +113,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void setupAuthFilter(HttpSecurity http) throws Exception {
         http
+                .addFilterBefore(loginUserContextPersistenceFilter(), SecurityContextPersistenceFilter.class)
                 .addFilterBefore(userTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(userLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private LoginUserContextPersistenceFilter loginUserContextPersistenceFilter() {
+        return new LoginUserContextPersistenceFilter();
     }
 
     protected UserTokenAuthenticationProcessingFilter userTokenAuthenticationProcessingFilter()

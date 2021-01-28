@@ -19,6 +19,14 @@ public class LoginUserDetails extends User {
     private Long expires;
     private Boolean isSuperAdmin;
 
+    public Boolean getSuperAdmin() {
+        return isSuperAdmin;
+    }
+
+    public void setSuperAdmin(Boolean superAdmin) {
+        isSuperAdmin = superAdmin;
+    }
+
     public String getUserCode() {
         return userCode;
     }
@@ -67,4 +75,24 @@ public class LoginUserDetails extends User {
         this.isSuperAdmin = isSuperAdmin;
     }
 
+    public LoginUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities,
+                            Long userId, String userCode, String accessToken, Long expires, Boolean isSuperAdmin) {
+        super(username, password, authorities);
+        this.userId = userId;
+        this.userCode = userCode;
+        this.accessToken = accessToken;
+        this.expires = expires;
+        this.isSuperAdmin = isSuperAdmin;
+    }
+
+    public LoginUserDetails(String username, String password, boolean enabled, boolean accountNonExpired,
+                            boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
+                            Long userId, String userCode, String accessToken, Long expires, Boolean isSuperAdmin) {
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        this.userId = userId;
+        this.userCode = userCode;
+        this.accessToken = accessToken;
+        this.expires = expires;
+        this.isSuperAdmin = isSuperAdmin;
+    }
 }

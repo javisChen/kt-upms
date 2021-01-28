@@ -1,6 +1,6 @@
 package com.kt.upms.module.api.cache;
 
-import com.kt.upms.entity.UpmsApi;
+import com.kt.upms.module.api.persistence.UpmsApi;
 import com.kt.upms.enums.ApiAuthTypeEnums;
 import com.kt.upms.module.api.service.IApiService;
 import org.springframework.beans.factory.InitializingBean;

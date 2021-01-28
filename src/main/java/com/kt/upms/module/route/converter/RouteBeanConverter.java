@@ -1,8 +1,8 @@
 package com.kt.upms.module.route.converter;
 
-import com.kt.upms.entity.UpmsPageElement;
-import com.kt.upms.entity.UpmsPermission;
-import com.kt.upms.entity.UpmsRoute;
+import com.kt.upms.module.route.persistence.UpmsPageElement;
+import com.kt.upms.module.permission.persistence.UpmsPermission;
+import com.kt.upms.module.route.persistence.UpmsRoute;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.application.service.IApplicationService;
 import com.kt.upms.module.permission.service.IPermissionService;

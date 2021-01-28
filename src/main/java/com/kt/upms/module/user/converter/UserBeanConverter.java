@@ -2,8 +2,8 @@ package com.kt.upms.module.user.converter;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.kt.upms.entity.UpmsPermission;
-import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.module.permission.persistence.UpmsPermission;
+import com.kt.upms.module.user.persistence.UpmsUser;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.user.dto.UserUpdateDTO;

@@ -2,7 +2,6 @@ package com.kt.upms.module.user.dto;
 
 
 import com.kt.component.validator.ValidateGroup;
-import com.kt.upms.validgroup.UpmsValidateGroup;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
@@ -17,7 +16,7 @@ public class UserUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(groups = UpmsValidateGroup.UpdateStatus.class, message = "id 不能为空")
+    @NotNull(groups = ValidateGroup.Update.class, message = "id 不能为空")
     private Long id;
 
     @NotBlank(message = "name 不能为空")

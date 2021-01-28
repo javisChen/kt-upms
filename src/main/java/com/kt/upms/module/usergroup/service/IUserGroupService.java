@@ -2,7 +2,7 @@ package com.kt.upms.module.usergroup.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsUserGroup;
+import com.kt.upms.module.usergroup.persistence.UpmsUserGroup;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;

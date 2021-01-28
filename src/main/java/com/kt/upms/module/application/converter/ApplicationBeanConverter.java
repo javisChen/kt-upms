@@ -1,6 +1,6 @@
 package com.kt.upms.module.application.converter;
 
-import com.kt.upms.entity.UpmsApplication;
+import com.kt.upms.module.application.persistence.UpmsApplication;
 import com.kt.upms.module.api.service.IApiService;
 import com.kt.upms.module.application.dto.ApplicationUpdateDTO;
 import com.kt.upms.module.application.vo.ApplicationBaseVO;

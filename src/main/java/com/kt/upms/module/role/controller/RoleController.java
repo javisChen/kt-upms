@@ -5,13 +5,13 @@ import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
+import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.role.dto.RoleQueryDTO;
 import com.kt.upms.module.role.dto.RoleUpdateDTO;
 import com.kt.upms.module.role.service.IRoleService;
 import com.kt.upms.module.role.vo.RoleBaseVO;
 import com.kt.upms.module.role.vo.RoleListVO;
-import com.kt.upms.validgroup.UpmsValidateGroup;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,50 +29,50 @@ import javax.validation.groups.Default;
 @RequestMapping
 public class RoleController extends BaseController {
 
-    private final IRoleService iUpmsRoleService;
+    private final IRoleService iRoleService;
 
-    public RoleController(IRoleService iUpmsRoleService) {
-        this.iUpmsRoleService = iUpmsRoleService;
+    public RoleController(IRoleService iRoleService) {
+        this.iRoleService = iRoleService;
     }
 
     @PostMapping("/roles")
     public SingleResponse<PageResponse<RoleListVO>> list(@RequestBody RoleQueryDTO dto) {
-        return SingleResponse.ok(PageResponse.build(iUpmsRoleService.pageList(dto)));
+        return SingleResponse.ok(PageResponse.build(iRoleService.pageList(dto)));
     }
 
     @GetMapping("/roles/all")
     public MultiResponse<RoleListVO> listAll() {
-        return MultiResponse.ok(iUpmsRoleService.listAllVos());
+        return MultiResponse.ok(iRoleService.listAllVos());
     }
 
     @PostMapping("/role")
     public ServerResponse add(@RequestBody @Validated RoleUpdateDTO dto) {
-        iUpmsRoleService.saveRole(dto);
+        iRoleService.saveRole(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/role")
     public ServerResponse update(@RequestBody @Validated RoleUpdateDTO dto) {
-        iUpmsRoleService.updateRoleById(dto);
+        iRoleService.updateRoleById(dto);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/role/")
+    @GetMapping("/role")
     public SingleResponse<RoleBaseVO> get(String id) {
-        RoleBaseVO vo = iUpmsRoleService.getRoleVoById(id);
+        RoleBaseVO vo = iRoleService.getRoleVoById(id);
         return SingleResponse.ok(vo);
     }
 
     @DeleteMapping("/role")
     public ServerResponse removeRole(Long id) {
-        iUpmsRoleService.removeRoleById(id);
+        iRoleService.removeRoleById(id);
         return ServerResponse.ok();
     }
 
     @PutMapping("/role/status")
-    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
+    public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
                                        @RequestBody RoleUpdateDTO dto) {
-        iUpmsRoleService.updateStatus(dto);
+        iRoleService.updateStatus(dto);
         return ServerResponse.ok();
     }
 }

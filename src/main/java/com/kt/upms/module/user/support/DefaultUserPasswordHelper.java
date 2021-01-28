@@ -1,7 +1,7 @@
 package com.kt.upms.module.user.support;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.kt.upms.constants.UpmsConsts;
+import com.kt.upms.common.constants.UpmsConsts;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -6,6 +6,8 @@ import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.upms.security.cache.UserTokenCache;
 import com.kt.upms.security.configuration.SecurityCoreProperties;
+import com.kt.upms.security.context.LoginUserContextHolder;
+import com.kt.upms.security.model.LoginUserContext;
 import com.kt.upms.security.model.SecurityLoginRequest;
 import com.kt.upms.security.model.SecurityLoginResult;
 import org.springframework.http.HttpMethod;
@@ -94,7 +96,18 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
     }
 
     private void cacheAuthentication(LoginUserDetails user) {
-        user.setExpires(securityCoreProperties.getAuthentication().getExpire());
-        userTokenCache.save(user.getAccessToken(), JSONObject.toJSONString(user), user.getExpires());
+        LoginUserContext loginUserContext = buildLoginUserContext(user);
+        userTokenCache.save(loginUserContext.getAccessToken(), JSONObject.toJSONString(loginUserContext), loginUserContext.getExpires());
+    }
+
+    private LoginUserContext buildLoginUserContext(LoginUserDetails details) {
+        LoginUserContext loginUserContext = LoginUserContextHolder.getContext();
+        loginUserContext.setUserId(details.getUserId());
+        loginUserContext.setUserCode(details.getUserCode());
+        loginUserContext.setUsername(details.getUsername());
+        loginUserContext.setAccessToken(details.getAccessToken());
+        loginUserContext.setIsSuperAdmin(details.getIsSuperAdmin());
+        loginUserContext.setExpires(securityCoreProperties.getAuthentication().getExpire());
+        return loginUserContext;
     }
 }

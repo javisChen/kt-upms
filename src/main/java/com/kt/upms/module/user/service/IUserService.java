@@ -2,7 +2,7 @@ package com.kt.upms.module.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsUser;
+import com.kt.upms.module.user.persistence.UpmsUser;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;

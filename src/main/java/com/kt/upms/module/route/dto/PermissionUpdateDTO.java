@@ -1,7 +1,7 @@
 package com.kt.upms.module.route.dto;
 
 
-import com.kt.upms.validgroup.UpmsValidateGroup;
+import com.kt.component.validator.ValidateGroup;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
@@ -26,7 +26,7 @@ public class PermissionUpdateDTO implements Serializable {
      */
     private String type;
 
-    @NotNull(groups = UpmsValidateGroup.UpdateStatus.class, message = "status 不能为空")
+    @NotNull(groups = ValidateGroup.Update.class, message = "status 不能为空")
     @Range(min = 0, max = 1)
     private Integer status;
 

@@ -2,15 +2,15 @@ package com.kt.upms.module.application.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.upms.entity.UpmsApplication;
+import com.kt.upms.common.util.Assert;
 import com.kt.upms.enums.BizEnums;
 import com.kt.upms.enums.DeletedEnums;
-import com.kt.upms.mapper.UpmsApplicationMapper;
 import com.kt.upms.module.application.converter.ApplicationBeanConverter;
 import com.kt.upms.module.application.dto.ApplicationQueryDTO;
 import com.kt.upms.module.application.dto.ApplicationUpdateDTO;
+import com.kt.upms.module.application.persistence.UpmsApplication;
+import com.kt.upms.module.application.persistence.dao.UpmsApplicationMapper;
 import com.kt.upms.module.application.vo.ApplicationBaseVO;
-import com.kt.upms.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

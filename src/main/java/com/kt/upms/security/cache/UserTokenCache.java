@@ -1,6 +1,6 @@
 package com.kt.upms.security.cache;
 
-import com.kt.upms.security.login.LoginUserDetails;
+import com.kt.upms.security.model.LoginUserContext;
 
 /**
  * @author JarvisChen
@@ -27,7 +27,7 @@ public interface UserTokenCache {
      * @param key token key
      * @return TokenStorageDTO
      */
-    LoginUserDetails get(String key);
+    LoginUserContext get(String key);
 
     /**
      * 检查token有效期

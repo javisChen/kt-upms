@@ -6,7 +6,7 @@
 package com.kt.upms.security.login;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.kt.upms.constants.UpmsConsts;
+import com.kt.upms.common.constants.UpmsConsts;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;

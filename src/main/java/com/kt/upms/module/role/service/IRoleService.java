@@ -2,7 +2,7 @@ package com.kt.upms.module.role.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.entity.UpmsRole;
+import com.kt.upms.module.role.persistence.UpmsRole;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
 import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;

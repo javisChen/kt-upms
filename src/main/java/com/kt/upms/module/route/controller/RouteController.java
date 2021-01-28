@@ -7,16 +7,16 @@ import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.logger.CatchAndLog;
+import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.route.dto.RouteModifyParentDTO;
 import com.kt.upms.module.route.dto.RouteQueryDTO;
 import com.kt.upms.module.route.dto.RouteUpdateDTO;
-import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.upms.module.route.service.IRouteService;
 import com.kt.upms.module.route.vo.RouteDetailVO;
 import com.kt.upms.module.route.vo.RouteElementVO;
 import com.kt.upms.module.route.vo.RouteListTreeVO;
-import com.kt.upms.validgroup.UpmsValidateGroup;
+import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +77,7 @@ public class RouteController extends BaseController {
     }
 
     @PutMapping("/route/status")
-    public ServerResponse updateStatus(@Validated({UpmsValidateGroup.UpdateStatus.class, Default.class})
+    public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
                                        @RequestBody RouteUpdateDTO dto) {
         iRouteService.updateRouteStatus(dto);
         return ServerResponse.ok();
