@@ -1,6 +1,3 @@
-/*
- * 版权所有.(c)2008-2019.广州市森锐科技股份有限公司
- */
 package com.kt.upms.security.token;
 
 
