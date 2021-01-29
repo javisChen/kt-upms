@@ -8,7 +8,7 @@ import com.kt.upms.module.role.persistence.UpmsRole;
  * 角色表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsRoleMapper extends BaseMapper<UpmsRole> {

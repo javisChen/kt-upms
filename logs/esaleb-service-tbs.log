@@ -1,0 +1,151 @@
+2021-01-29 17:12:53.156 [background-preinit] [INFO ] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+2021-01-29 17:12:53.183 [main] [INFO ] com.kt.upms.UpmsApplication - Starting UpmsApplication on javischen.local with PID 18045 (/Users/javischen/code/javis/kt/kt-cloud/kt-upms/kt-upms-web/target/classes started by javischen in /Users/javischen/code/javis/kt/kt-cloud/kt-upms)
+2021-01-29 17:12:53.183 [main] [DEBUG] com.kt.upms.UpmsApplication - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2021-01-29 17:12:53.184 [main] [INFO ] com.kt.upms.UpmsApplication - No active profile set, falling back to default profiles: default
+2021-01-29 17:12:54.102 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-01-29 17:12:54.104 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-01-29 17:12:54.152 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34ms. Found 0 Redis repository interfaces.
+2021-01-29 17:12:54.616 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3afae281' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 17:12:54.627 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 17:12:54.954 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-01-29 17:12:54.963 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-01-29 17:12:54.964 [main] [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-01-29 17:12:54.964 [main] [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.39]
+2021-01-29 17:12:55.086 [main] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring embedded WebApplicationContext
+2021-01-29 17:12:55.087 [main] [INFO ] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1825 ms
+2021-01-29 17:12:55.296 [main] [INFO ] c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2021-01-29 17:12:55.601 [main] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1,defaultDataSource} inited
+2021-01-29 17:12:56.494 [main] [ERROR] o.s.boot.web.embedded.tomcat.TomcatStarter - Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'userTokenAuthenticationProvider'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'userTokenAuthenticationProvider': Unsatisfied dependency expressed through field 'userTokenCache'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.kt.upms.auth.core.cache.UserTokenCache' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2021-01-29 17:12:56.518 [main] [INFO ] org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2021-01-29 17:12:56.522 [main] [WARN ] org.apache.catalina.loader.WebappClassLoaderBase - The web application [upms] appears to have started a thread named [Druid-ConnectionPool-Create-2013613908] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+ com.alibaba.druid.pool.DruidDataSource$CreateConnectionThread.run(DruidDataSource.java:2760)
+2021-01-29 17:12:56.523 [main] [WARN ] org.apache.catalina.loader.WebappClassLoaderBase - The web application [upms] appears to have started a thread named [Druid-ConnectionPool-Destroy-2013613908] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Thread.sleep(Native Method)
+ com.alibaba.druid.pool.DruidDataSource$DestroyConnectionThread.run(DruidDataSource.java:2860)
+2021-01-29 17:12:56.525 [main] [WARN ] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+2021-01-29 17:12:56.525 [main] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2021-01-29 17:12:56.530 [main] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2021-01-29 17:12:56.539 [main] [INFO ] o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-01-29 17:12:56.653 [main] [ERROR] o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field userTokenCache in com.kt.upms.security.token.UserTokenAuthenticationProvider required a bean of type 'com.kt.upms.auth.core.cache.UserTokenCache' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+	- @org.springframework.beans.factory.annotation.Qualifier(value=userTokenAuthenticationProvider)
+
+
+Action:
+
+Consider defining a bean of type 'com.kt.upms.auth.core.cache.UserTokenCache' in your configuration.
+
+2021-01-29 17:17:49.172 [background-preinit] [INFO ] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+2021-01-29 17:17:49.261 [main] [INFO ] com.kt.upms.UpmsApplication - Starting UpmsApplication on javischen.local with PID 18121 (/Users/javischen/code/javis/kt/kt-cloud/kt-upms/kt-upms-web/target/classes started by javischen in /Users/javischen/code/javis/kt/kt-cloud/kt-upms)
+2021-01-29 17:17:49.263 [main] [DEBUG] com.kt.upms.UpmsApplication - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2021-01-29 17:17:49.266 [main] [INFO ] com.kt.upms.UpmsApplication - No active profile set, falling back to default profiles: default
+2021-01-29 17:17:50.959 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-01-29 17:17:50.963 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-01-29 17:17:51.053 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65ms. Found 0 Redis repository interfaces.
+2021-01-29 17:17:51.863 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@5f13be1' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 17:17:51.878 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 17:17:52.347 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-01-29 17:17:52.364 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-01-29 17:17:52.365 [main] [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-01-29 17:17:52.366 [main] [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.39]
+2021-01-29 17:17:52.597 [main] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring embedded WebApplicationContext
+2021-01-29 17:17:52.597 [main] [INFO ] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3166 ms
+2021-01-29 17:17:52.977 [main] [INFO ] c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2021-01-29 17:17:53.701 [main] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1,defaultDataSource} inited
+2021-01-29 17:17:55.587 [main] [INFO ] c.k.c.redis.autoconfigure.RedisAutoConfiguration - 启用Redis配置......
+2021-01-29 17:17:56.588 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - ==>  Preparing: SELECT id,name,application_id,category_id,url,method,auth_type,has_path_variable,status,is_deleted,gmt_create,gmt_modified,creator,modifier FROM upms_api WHERE (is_deleted = ?)
+2021-01-29 17:17:56.634 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - ==> Parameters: 0(Long)
+2021-01-29 17:17:56.743 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - <==      Total: 49
+2021-01-29 17:17:57.268 [main] [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-29 17:17:58.151 [main] [INFO ] o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/swagger-ui/**'], []
+2021-01-29 17:17:58.218 [main] [INFO ] o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@633ddc0c, com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter@4bcdd11, org.springframework.security.web.context.SecurityContextPersistenceFilter@7ac48f05, org.springframework.security.web.header.HeaderWriterFilter@514377fc, org.springframework.security.web.authentication.logout.LogoutFilter@4f5c30b1, com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter@1471b98d, com.kt.upms.security.login.UserLoginAuthenticationFilter@5514579e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3ace6346, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6c5ca0b6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@58c42c8c, org.springframework.security.web.session.SessionManagementFilter@21d9cd04, org.springframework.security.web.access.ExceptionTranslationFilter@9263c54, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6793f752]
+2021-01-29 17:17:58.358 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-01-29 17:17:58.419 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path '/upms'
+2021-01-29 17:17:58.438 [main] [INFO ] com.kt.upms.UpmsApplication - Started UpmsApplication in 10.635 seconds (JVM running for 12.217)
+2021-01-29 18:01:43.923 [http-nio-8080-exec-1] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-29 18:01:43.923 [http-nio-8080-exec-1] [INFO ] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-01-29 18:01:43.934 [http-nio-8080-exec-1] [INFO ] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 11 ms
+2021-01-29 18:01:43.952 [http-nio-8080-exec-1] [DEBUG] c.k.u.s.t.UserTokenAuthenticationProcessingFilter - Request is to process authentication
+2021-01-29 18:01:43.975 [http-nio-8080-exec-1] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:01:44.025 [http-nio-8080-exec-2] [DEBUG] c.k.u.s.t.UserTokenAuthenticationProcessingFilter - Request is to process authentication
+2021-01-29 18:01:44.026 [http-nio-8080-exec-2] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:02:11.635 [http-nio-8080-exec-3] [DEBUG] c.k.u.s.t.UserTokenAuthenticationProcessingFilter - Request is to process authentication
+2021-01-29 18:02:11.637 [http-nio-8080-exec-3] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:02:16.352 [http-nio-8080-exec-4] [DEBUG] c.k.u.s.t.UserTokenAuthenticationProcessingFilter - Request is to process authentication
+2021-01-29 18:02:16.353 [http-nio-8080-exec-4] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:03:43.473 [SpringContextShutdownHook] [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2021-01-29 18:03:43.491 [SpringContextShutdownHook] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2021-01-29 18:03:43.498 [SpringContextShutdownHook] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2021-01-29 18:03:50.865 [background-preinit] [INFO ] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+2021-01-29 18:03:50.896 [main] [INFO ] com.kt.upms.UpmsApplication - Starting UpmsApplication on javischen.local with PID 18814 (/Users/javischen/code/javis/kt/kt-cloud/kt-upms/kt-upms-web/target/classes started by javischen in /Users/javischen/code/javis/kt/kt-cloud/kt-upms)
+2021-01-29 18:03:50.896 [main] [DEBUG] com.kt.upms.UpmsApplication - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2021-01-29 18:03:50.897 [main] [INFO ] com.kt.upms.UpmsApplication - No active profile set, falling back to default profiles: default
+2021-01-29 18:03:51.788 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-01-29 18:03:51.791 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-01-29 18:03:51.846 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 39ms. Found 0 Redis repository interfaces.
+2021-01-29 18:03:52.357 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3c8a7e38' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 18:03:52.367 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 18:03:52.673 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-01-29 18:03:52.732 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-01-29 18:03:52.733 [main] [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-01-29 18:03:52.733 [main] [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.39]
+2021-01-29 18:03:52.820 [main] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring embedded WebApplicationContext
+2021-01-29 18:03:52.820 [main] [INFO ] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1872 ms
+2021-01-29 18:03:53.032 [main] [INFO ] c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2021-01-29 18:03:53.361 [main] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1,defaultDataSource} inited
+2021-01-29 18:03:54.347 [main] [INFO ] c.k.c.redis.autoconfigure.RedisAutoConfiguration - 启用Redis配置......
+2021-01-29 18:03:54.878 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - ==>  Preparing: SELECT id,name,application_id,category_id,url,method,auth_type,has_path_variable,status,is_deleted,gmt_create,gmt_modified,creator,modifier FROM upms_api WHERE (is_deleted = ?)
+2021-01-29 18:03:54.904 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - ==> Parameters: 0(Long)
+2021-01-29 18:03:54.947 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - <==      Total: 49
+2021-01-29 18:03:55.315 [main] [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-29 18:03:55.878 [main] [INFO ] o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/swagger-ui/**'], []
+2021-01-29 18:03:55.920 [main] [INFO ] o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5d8e4fa8, com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter@649009d6, org.springframework.security.web.context.SecurityContextPersistenceFilter@5bc14211, org.springframework.security.web.header.HeaderWriterFilter@58b03029, org.springframework.security.web.authentication.logout.LogoutFilter@6a116354, com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter@652f26da, com.kt.upms.security.login.UserLoginAuthenticationFilter@484a5ddd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@74450c9b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@142918a0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6796a873, org.springframework.security.web.session.SessionManagementFilter@b529d7e, org.springframework.security.web.access.ExceptionTranslationFilter@7c88d04f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4ede8888]
+2021-01-29 18:03:56.004 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-01-29 18:03:56.043 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path '/upms'
+2021-01-29 18:03:56.054 [main] [INFO ] com.kt.upms.UpmsApplication - Started UpmsApplication in 5.647 seconds (JVM running for 7.187)
+2021-01-29 18:04:14.442 [http-nio-8080-exec-1] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-29 18:04:14.445 [http-nio-8080-exec-1] [INFO ] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-01-29 18:04:14.458 [http-nio-8080-exec-1] [INFO ] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 12 ms
+2021-01-29 18:04:18.707 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 071eaead-6160-4dcd-8a10-271cb32a4f9f =========================
+2021-01-29 18:04:18.708 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:04:18.708 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:04:18.708 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:04:18.708 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:04:18.709 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:04:18.713 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:04:18.733 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:04:18.734 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:04:18.736 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:04:18.986 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:04:18.987 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 47ms
+2021-01-29 18:04:18.987 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 071eaead-6160-4dcd-8a10-271cb32a4f9f =========================
+2021-01-29 18:04:19.069 [http-nio-8080-exec-1] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:04:22.739 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 136c3e4b-256a-462a-aee4-4034c53cbbed =========================
+2021-01-29 18:04:22.739 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:04:22.739 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:04:22.739 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:04:22.740 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:04:22.740 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:04:22.740 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:04:22.744 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:04:22.745 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:04:22.746 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:04:22.747 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:04:22.747 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 8ms
+2021-01-29 18:04:22.747 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 136c3e4b-256a-462a-aee4-4034c53cbbed =========================
+2021-01-29 18:04:22.749 [http-nio-8080-exec-2] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed

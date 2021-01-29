@@ -11,7 +11,7 @@ import java.util.List;
  * 用户角色关联表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsUserRoleRelMapper extends BaseMapper<UpmsUserRoleRel> {

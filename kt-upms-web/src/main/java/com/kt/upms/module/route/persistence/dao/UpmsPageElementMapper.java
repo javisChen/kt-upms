@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 页面元素表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsPageElementMapper extends BaseMapper<UpmsPageElement> {

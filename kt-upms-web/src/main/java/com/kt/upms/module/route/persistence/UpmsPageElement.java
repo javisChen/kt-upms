@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * 页面元素表
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @Data

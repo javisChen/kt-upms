@@ -4,13 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.redis.RedisService;
+import com.kt.upms.auth.core.cache.RedisUserTokenCache;
+import com.kt.upms.auth.core.cache.UserTokenCache;
+import com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter;
+import com.kt.upms.auth.core.extractor.DefaultTokenExtractor;
 import com.kt.upms.security.access.ApiAccessChecker;
-import com.kt.upms.security.cache.RedisUserTokenCache;
-import com.kt.upms.security.cache.UserTokenCache;
-import com.kt.upms.security.context.LoginUserContextPersistenceFilter;
 import com.kt.upms.security.login.UserLoginAuthenticationFilter;
 import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
-import com.kt.upms.security.token.extractor.DefaultTokenExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationProvider userTokenAuthenticationProvider;
 
     @Autowired
-    private UserTokenCache userTokenManager;
+    private UserTokenCache userTokenCache;
 
     @Autowired
     private ApiAccessChecker apiAccessChecker;
@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
     }
 
     /**
@@ -131,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public UserLoginAuthenticationFilter userLoginAuthenticationFilter() throws Exception {
-        return new UserLoginAuthenticationFilter(authenticationManagerBean(), securityCoreProperties, userTokenManager);
+        return new UserLoginAuthenticationFilter(authenticationManagerBean(), securityCoreProperties, userTokenCache);
     }
 
     private LogoutSuccessHandler logoutSuccessHandler() {

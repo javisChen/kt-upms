@@ -25,22 +25,22 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-       name,
-       code,
-       component,
-       pid,
-       level_path,
-       level,
-       path,
-       icon,
-       type,
-       sequence,
-       status,
-       hide_children,
-       gmt_create,
-       gmt_modified,
-       creator,
-       modifier
+        name,
+        code,
+        component,
+        pid,
+        level_path,
+        level,
+        path,
+        icon,
+        type,
+        sequence,
+        status,
+        hide_children,
+        gmt_create,
+        gmt_modified,
+        creator,
+        modifier
     </sql>
 
 </mapper>

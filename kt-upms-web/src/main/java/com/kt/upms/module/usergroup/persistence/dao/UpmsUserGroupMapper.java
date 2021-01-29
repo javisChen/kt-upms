@@ -11,7 +11,7 @@ import java.util.List;
  * 用户组表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsUserGroupMapper extends BaseMapper<UpmsUserGroup> {

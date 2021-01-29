@@ -4,11 +4,11 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.kt.upms.module.usergroup.persistence.UpmsUserGroupRoleRel">
-    <result column="id" property="id" />
-    <result column="gmt_create" property="gmtCreate" />
-    <result column="gmt_modified" property="gmtModified" />
-        <result column="user_group_id" property="userGroupId" />
-        <result column="role_id" property="roleId" />
+        <result column="id" property="id"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="user_group_id" property="userGroupId"/>
+        <result column="role_id" property="roleId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -27,11 +27,11 @@
         </foreach>
     </insert>
 
-    <delete id="deleteByRoleIdsAndUserGroupId" >
+    <delete id="deleteByRoleIdsAndUserGroupId">
         delete from upms_user_group_role_rel
         where user_group_id = #{userGroupId}
         and role_id in
-        <foreach open="("  close=")" collection="roleIds" item="item" separator=",">
+        <foreach open="(" close=")" collection="roleIds" item="item" separator=",">
             #{item}
         </foreach>
     </delete>

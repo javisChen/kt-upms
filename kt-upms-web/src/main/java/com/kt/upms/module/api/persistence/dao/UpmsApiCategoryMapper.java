@@ -9,7 +9,7 @@ import com.kt.upms.module.api.persistence.UpmsApiCategory;
  * api表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsApiCategoryMapper extends BaseMapper<UpmsApiCategory> {

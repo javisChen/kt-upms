@@ -36,14 +36,14 @@ public class ApiCategoryController extends BaseController {
 
     @PostMapping("/api/category")
     public ServerResponse save(@Validated({ValidateGroup.Add.class, Default.class})
-                                  @RequestBody ApiCategoryUpdateDTO dto) {
+                               @RequestBody ApiCategoryUpdateDTO dto) {
         iApiCategoryService.saveApiCategory(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/api/category")
     public ServerResponse update(@Validated({ValidateGroup.Update.class, Default.class})
-                                    @RequestBody ApiCategoryUpdateDTO dto) {
+                                 @RequestBody ApiCategoryUpdateDTO dto) {
         iApiCategoryService.updateApiCategory(dto);
         return ServerResponse.ok();
     }

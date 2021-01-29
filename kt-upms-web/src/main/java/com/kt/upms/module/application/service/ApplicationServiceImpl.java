@@ -64,14 +64,14 @@ public class ApplicationServiceImpl extends ServiceImpl<UpmsApplicationMapper, U
     }
 
     private void checkBeforeSave(ApplicationUpdateDTO dto) {
-        UpmsApplication  application = getApplicationByName(dto.getName());
+        UpmsApplication application = getApplicationByName(dto.getName());
         Assert.isTrue(application != null, BizEnums.APPLICATION_NAME_ALREADY_EXISTS);
         application = getApplicationByCode(dto.getCode());
         Assert.isTrue(application != null, BizEnums.APPLICATION_CODE_ALREADY_EXISTS);
     }
 
     private void checkBeforeUpdate(ApplicationUpdateDTO dto) {
-        UpmsApplication  application = getApplicationByName(dto.getName());
+        UpmsApplication application = getApplicationByName(dto.getName());
         boolean condition = application != null && !application.getId().equals(dto.getId());
         Assert.isTrue(condition, BizEnums.APPLICATION_NAME_ALREADY_EXISTS);
 

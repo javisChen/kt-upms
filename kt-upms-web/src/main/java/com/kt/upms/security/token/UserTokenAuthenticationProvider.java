@@ -1,8 +1,8 @@
 package com.kt.upms.security.token;
 
 
-import com.kt.upms.security.cache.UserTokenCache;
-import com.kt.upms.security.model.LoginUserContext;
+import com.kt.upms.auth.core.cache.UserTokenCache;
+import com.kt.upms.auth.core.model.LoginUserContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

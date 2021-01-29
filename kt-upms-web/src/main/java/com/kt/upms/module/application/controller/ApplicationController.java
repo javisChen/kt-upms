@@ -44,7 +44,7 @@ public class ApplicationController extends BaseController {
 
     @PutMapping("/application")
     public ServerResponse updateApplication(@Validated({ValidateGroup.Update.class, Default.class})
-                                          @RequestBody ApplicationUpdateDTO dto) {
+                                            @RequestBody ApplicationUpdateDTO dto) {
         iUpmsApplicationService.updateApplication(dto);
         return ServerResponse.ok();
     }

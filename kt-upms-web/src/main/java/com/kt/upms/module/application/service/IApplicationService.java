@@ -13,7 +13,7 @@ import java.util.List;
  * 角色表 服务类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface IApplicationService extends IService<UpmsApplication> {

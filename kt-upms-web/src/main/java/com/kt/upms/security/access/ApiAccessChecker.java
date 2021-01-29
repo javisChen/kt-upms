@@ -1,9 +1,8 @@
 package com.kt.upms.security.access;
 
+import com.kt.upms.auth.core.model.AuthRequest;
 import com.kt.upms.module.api.cache.ApiCacheManager;
 import com.kt.upms.security.configuration.SecurityCoreProperties;
-import com.kt.upms.security.model.AuthenticationRequest;
-import com.kt.upms.security.model.AuthenticationResponse;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,7 +19,7 @@ import java.util.List;
 public class ApiAccessChecker implements InitializingBean {
 
     @Autowired
-    private IApiAuthService iApiAuthService;
+    private LocalAuthCheck localAuthCheck;
     @Autowired
     private ApiCacheManager apiCacheManager;
     @Autowired
@@ -29,7 +28,7 @@ public class ApiAccessChecker implements InitializingBean {
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
     public boolean check(HttpServletRequest request, Authentication authentication) {
-        AuthenticationRequest authReq;
+        AuthRequest authReq;
         String requestUri = request.getRequestURI();
         String method = request.getMethod();
         Long applicationId = 1L;
@@ -37,7 +36,7 @@ public class ApiAccessChecker implements InitializingBean {
         // 先尝试uri是否匹配系统中存在的包含路径参数的api，如果存在的话就替换成统一的格式
         requestUri = attemptReplaceHasPathVariableUrl(requestUri);
 
-        // 尝试是否匹配不需要授权的api
+        // 尝试是否匹配默认设置不需要授权的api
         if (attemptMatchDefaultAllowUrl(requestUri)) {
             return true;
         }
@@ -48,9 +47,7 @@ public class ApiAccessChecker implements InitializingBean {
         }
 
         authReq = createAuthenticationRequest(request, requestUri, (String) authentication.getPrincipal());
-        AuthenticationResponse authResp = iApiAuthService.auth(authReq);
-        final Boolean hasPermission = authResp.getHasPermission();
-        return hasPermission;
+        return localAuthCheck.checkPermission(authReq).getHasPermission();
     }
 
     public boolean attemptMatchDefaultAllowUrl(String requestUri) {
@@ -66,13 +63,13 @@ public class ApiAccessChecker implements InitializingBean {
                 .orElse(requestUri);
     }
 
-    private AuthenticationRequest createAuthenticationRequest(HttpServletRequest request, String requestUri, String userCode) {
+    private AuthRequest createAuthenticationRequest(HttpServletRequest request, String requestUri, String userCode) {
         // 检查是否有权限
-        AuthenticationRequest authReq = new AuthenticationRequest();
+        AuthRequest authReq = new AuthRequest();
         authReq.setUserCode(userCode);
         authReq.setUrl(requestUri);
         authReq.setMethod(request.getMethod());
-        authReq.setApplication("permission");
+        authReq.setApplicationCode("permission");
         return authReq;
     }
 

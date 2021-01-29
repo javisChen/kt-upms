@@ -17,7 +17,7 @@ import java.util.List;
  * 用户表 服务类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface IUserService extends IService<UpmsUser> {

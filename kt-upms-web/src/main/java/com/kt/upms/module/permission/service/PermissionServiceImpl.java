@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.upms.auth.core.model.AuthRequest;
+import com.kt.upms.auth.core.model.AuthResponse;
 import com.kt.upms.enums.PermissionStatusEnums;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.permission.bo.ApiPermissionBO;
@@ -155,6 +157,7 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
                 });
     }
 
+
     @Override
     public boolean hasApiPermission(String application, String userCode, String url, String method) {
         UpmsUser user = iUserService.getUserByCode(userCode);
@@ -166,6 +169,13 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
         LambdaQueryWrapper<UpmsPermission> qw = new LambdaQueryWrapper<>();
         qw.in(UpmsPermission::getResourceId, ids);
         this.remove(qw);
+    }
+
+    @Override
+    public AuthResponse checkPermission(AuthRequest request) {
+        boolean hasApiPermission = this.hasApiPermission(request.getApplicationCode(), request.getUserCode(),
+                request.getUrl(), request.getMethod());
+        return AuthResponse.create(hasApiPermission);
     }
 
     private boolean hasApiPermission(String application, UpmsUser user, String url, String method) {

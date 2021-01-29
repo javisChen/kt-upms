@@ -1,8 +1,10 @@
 package com.kt.upms.module.application.dto;
 
 import java.io.Serializable;
+
 import com.kt.component.validator.ValidateGroup;
 import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

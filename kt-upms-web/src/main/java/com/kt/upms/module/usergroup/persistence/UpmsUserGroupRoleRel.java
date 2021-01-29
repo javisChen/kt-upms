@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * 用户组与角色关联表
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 @Data

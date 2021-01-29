@@ -1,5 +1,7 @@
 package com.kt.upms.security.configuration;
 
+import com.kt.upms.config.AuthenticationProperties;
+import com.kt.upms.config.LoginProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -10,6 +12,7 @@ import java.util.List;
 
 /**
  * 安全配置
+ *
  * @author Javis
  */
 @ConfigurationProperties(prefix = "kt.security")

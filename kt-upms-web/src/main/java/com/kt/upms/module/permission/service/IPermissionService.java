@@ -1,6 +1,8 @@
 package com.kt.upms.module.permission.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kt.upms.auth.core.model.AuthRequest;
+import com.kt.upms.auth.core.model.AuthResponse;
 import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.permission.vo.PermissionVO;
@@ -14,7 +16,7 @@ import java.util.Set;
  * 权限表 服务类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface IPermissionService extends IService<UpmsPermission> {
@@ -25,7 +27,8 @@ public interface IPermissionService extends IService<UpmsPermission> {
 
     /**
      * 根据角色id和权限类型删除指定应用下的指定权限
-     * @param roleId 角色id
+     *
+     * @param roleId        角色id
      * @param permissionIds 权限id
      */
     void removeRolePermission(Long roleId, List<Long> permissionIds);
@@ -47,4 +50,6 @@ public interface IPermissionService extends IService<UpmsPermission> {
     boolean hasApiPermission(String application, String userCode, String url, String method);
 
     void removeByResourceIds(List<Long> ids);
+
+    AuthResponse checkPermission(AuthRequest request);
 }

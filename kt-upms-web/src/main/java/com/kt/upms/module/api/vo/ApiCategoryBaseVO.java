@@ -8,7 +8,7 @@ import lombok.Data;
  * @author: Javis
  */
 @Data
-public class ApiCategoryBaseVO  {
+public class ApiCategoryBaseVO {
 
     private Long id;
 

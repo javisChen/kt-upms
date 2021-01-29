@@ -8,7 +8,7 @@ import com.kt.upms.module.user.persistence.UpmsUser;
  * 用户表 Mapper 接口
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-11-09
  */
 public interface UpmsUserMapper extends BaseMapper<UpmsUser> {

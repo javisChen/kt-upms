@@ -37,7 +37,7 @@
         delete from upms_user_group_user_rel
         where user_group_id = #{userGroupId}
         and user_id in
-        <foreach open="("  close=")" collection="userIds" item="item" separator=",">
+        <foreach open="(" close=")" collection="userIds" item="item" separator=",">
             #{item}
         </foreach>
     </delete>

@@ -10,5 +10,6 @@ import java.util.List;
 public class UserDetailVO extends UserBaseVO {
 
     private List<Long> roleIds;
-    private List<Long> userGroupIds;;
+    private List<Long> userGroupIds;
+    ;
 }
