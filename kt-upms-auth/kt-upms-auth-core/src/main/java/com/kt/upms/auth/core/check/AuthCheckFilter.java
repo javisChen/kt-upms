@@ -63,14 +63,14 @@ public class AuthCheckFilter extends GenericFilterBean {
                 return;
             }
 
-            AuthResponse authResponse = requestCheckPermission(loginUserContext, request, response);
+            AuthResponse authResponse = requestCheckPermission(loginUserContext, request);
             if (authResponse.getHasPermission()) {
                 LoginUserContextHolder.setContext(loginUserContext);
                 chain.doFilter(request, response);
                 return;
             }
 
-            responseFail(response, HttpStatus.FORBIDDEN, authResponse.getCode(), authResponse.getMsg());
+            responseFail(response, HttpStatus.FORBIDDEN, ResponseEnums.USER_ACCESS_DENIED.getCode(), authResponse.getMsg());
         } finally {
 
         }
@@ -85,20 +85,31 @@ public class AuthCheckFilter extends GenericFilterBean {
         JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(code, msg));
     }
 
-    private AuthResponse requestCheckPermission(LoginUserContext loginUserContext, HttpServletRequest request, HttpServletResponse response) {
+    private AuthResponse requestCheckPermission(LoginUserContext loginUserContext, HttpServletRequest request) {
         String serverUrl = authProperties.getServerUrl();
+        AuthRequest authRequest = createAuthRequest(loginUserContext, request);
+        String body = JSONObject.toJSONString(authRequest);
+        String authResponseBody = null;
+        try {
+            authResponseBody = HttpUtil.post(serverUrl, body, authProperties.getTimeout());
+        } catch (Exception e) {
+            log.error("统一认证服务请求失败", e);
+            return AuthResponse.create(false, "Auth Server Error：" + e.getMessage());
+        }
+        if (StringUtils.isBlank(authResponseBody)) {
+            return AuthResponse.create(false, "Auth Server Error：Unknown Error");
+        }
+        return JSONObject.parseObject(authResponseBody, AuthResponse.class);
+    }
+
+    private AuthRequest createAuthRequest(LoginUserContext loginUserContext, HttpServletRequest request) {
         AuthRequest authRequest = new AuthRequest();
         authRequest.setUserId(loginUserContext.getUserId());
         authRequest.setUserCode(loginUserContext.getUserCode());
         authRequest.setUrl(request.getRequestURI());
         authRequest.setMethod(request.getMethod());
         authRequest.setApplicationCode(authRequest.getApplicationCode());
-        String body = JSONObject.toJSONString(authRequest);
-        String authResponseBody = HttpUtil.post(serverUrl, body);
-        if (StringUtils.isBlank(authResponseBody)) {
-            return AuthResponse.create(false, "Auth server error");
-        }
-        return JSONObject.parseObject(authResponseBody, AuthResponse.class);
+        return authRequest;
     }
 
 }

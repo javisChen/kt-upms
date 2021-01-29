@@ -1,7 +1,6 @@
 package com.kt.upms.module.permission.controller;
 
 
-import com.kt.component.dto.SingleResponse;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.auth.core.model.AuthRequest;
 import com.kt.upms.auth.core.model.AuthResponse;
@@ -28,9 +27,8 @@ public class PermissionController extends BaseController {
     private IPermissionService iPermissionService;
 
     @PostMapping("/permission/check")
-    public SingleResponse<AuthResponse> checkPermission(@RequestBody AuthRequest request) {
-        AuthResponse response = iPermissionService.checkPermission(request);
-        return SingleResponse.ok(response);
+    public AuthResponse checkPermission(@RequestBody AuthRequest request) {
+        return iPermissionService.checkPermission(request);
     }
 
 }

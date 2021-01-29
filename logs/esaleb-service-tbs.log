@@ -149,3 +149,398 @@ Consider defining a bean of type 'com.kt.upms.auth.core.cache.UserTokenCache' in
 2021-01-29 18:04:22.747 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 8ms
 2021-01-29 18:04:22.747 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 136c3e4b-256a-462a-aee4-4034c53cbbed =========================
 2021-01-29 18:04:22.749 [http-nio-8080-exec-2] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:06:42.568 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 08f2412d-13bb-4e26-b682-183203d3b0c5 =========================
+2021-01-29 18:06:42.570 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:06:42.570 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:06:42.570 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:06:42.570 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:06:42.570 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:06:42.570 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:06:42.588 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 139829
+2021-01-29 18:06:42.589 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169237
+2021-01-29 18:06:42.589 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169240
+2021-01-29 18:06:42.590 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169244
+2021-01-29 18:06:42.590 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169246
+2021-01-29 18:06:42.591 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169250
+2021-01-29 18:06:42.592 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169253
+2021-01-29 18:06:42.592 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169256
+2021-01-29 18:06:42.592 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 169260
+2021-01-29 18:06:42.593 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:06:42.593 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:06:42.595 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:06:42.596 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:06:42.596 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 27ms
+2021-01-29 18:06:42.596 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 08f2412d-13bb-4e26-b682-183203d3b0c5 =========================
+2021-01-29 18:06:42.598 [http-nio-8080-exec-4] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 7e42f997-4e82-4ec9-8898-8ce4d0f285aa =========================
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:06:48.518 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:06:48.520 [http-nio-8080-exec-5] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:06:48.521 [http-nio-8080-exec-5] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:06:48.522 [http-nio-8080-exec-5] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:06:48.523 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:06:48.523 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:06:48.523 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 7e42f997-4e82-4ec9-8898-8ce4d0f285aa =========================
+2021-01-29 18:06:48.525 [http-nio-8080-exec-5] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:07:38.300 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING e9b43fd7-3cb2-4184-b7d9-cff7b5a421a4 =========================
+2021-01-29 18:07:38.300 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:07:38.300 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:07:38.300 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:07:38.300 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:07:38.300 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:07:38.301 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:07:38.303 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:07:38.303 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:07:38.305 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:07:38.305 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:07:38.305 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:07:38.305 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED e9b43fd7-3cb2-4184-b7d9-cff7b5a421a4 =========================
+2021-01-29 18:07:49.646 [http-nio-8080-exec-6] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:08:13.702 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING d0f75bb7-5e51-4b30-91b4-1f9035f407d9 =========================
+2021-01-29 18:08:13.702 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:08:13.702 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:08:13.702 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:08:13.703 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:08:13.703 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:08:13.703 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:08:13.705 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:08:13.705 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:08:13.707 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:08:13.707 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:08:13.707 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 6ms
+2021-01-29 18:08:13.707 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED d0f75bb7-5e51-4b30-91b4-1f9035f407d9 =========================
+2021-01-29 18:08:14.054 [http-nio-8080-exec-7] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:08:19.921 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 79e0b957-1a3b-4f88-87af-6d51e52deb72 =========================
+2021-01-29 18:08:19.921 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:08:19.921 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:08:19.921 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:08:19.922 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:08:19.922 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:08:19.922 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:08:19.924 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:08:19.924 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:08:19.926 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:08:19.927 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:08:19.928 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 6ms
+2021-01-29 18:08:19.928 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 79e0b957-1a3b-4f88-87af-6d51e52deb72 =========================
+2021-01-29 18:08:26.386 [http-nio-8080-exec-8] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:08:39.314 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING a8837823-bdd3-4139-815d-d8fe606d5e8d =========================
+2021-01-29 18:08:39.314 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:08:39.314 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:08:39.314 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:08:39.314 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:08:39.315 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:08:39.315 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:08:39.318 [http-nio-8080-exec-9] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:08:39.318 [http-nio-8080-exec-9] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:08:39.320 [http-nio-8080-exec-9] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:08:39.320 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:08:39.321 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 7ms
+2021-01-29 18:08:39.321 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED a8837823-bdd3-4139-815d-d8fe606d5e8d =========================
+2021-01-29 18:08:39.322 [http-nio-8080-exec-9] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:08:50.989 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 912d66d3-7343-4f06-8be0-a5484dc203f3 =========================
+2021-01-29 18:08:50.989 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:08:50.990 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:08:50.990 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:08:50.990 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:08:50.990 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:08:50.990 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:08:50.992 [http-nio-8080-exec-10] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:08:50.992 [http-nio-8080-exec-10] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:08:50.993 [http-nio-8080-exec-10] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:08:50.994 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:08:50.994 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:08:50.994 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 912d66d3-7343-4f06-8be0-a5484dc203f3 =========================
+2021-01-29 18:08:50.996 [http-nio-8080-exec-10] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:09:57.570 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING f3725217-9955-447e-828d-4b352b9f7474 =========================
+2021-01-29 18:09:57.570 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:09:57.570 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:09:57.571 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:09:57.571 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:09:57.571 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:09:57.571 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:09:57.573 [http-nio-8080-exec-2] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 66580
+2021-01-29 18:09:57.573 [http-nio-8080-exec-2] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 364247
+2021-01-29 18:09:57.577 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:09:57.578 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:09:57.580 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:09:57.580 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:09:57.580 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 10ms
+2021-01-29 18:09:57.580 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED f3725217-9955-447e-828d-4b352b9f7474 =========================
+2021-01-29 18:09:57.582 [http-nio-8080-exec-2] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:10:19.524 [SpringContextShutdownHook] [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2021-01-29 18:10:19.545 [SpringContextShutdownHook] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2021-01-29 18:10:19.546 [SpringContextShutdownHook] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2021-01-29 18:10:26.055 [background-preinit] [INFO ] org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.6.Final
+2021-01-29 18:10:26.095 [main] [INFO ] com.kt.upms.UpmsApplication - Starting UpmsApplication on javischen.local with PID 19070 (/Users/javischen/code/javis/kt/kt-cloud/kt-upms/kt-upms-web/target/classes started by javischen in /Users/javischen/code/javis/kt/kt-cloud/kt-upms)
+2021-01-29 18:10:26.096 [main] [DEBUG] com.kt.upms.UpmsApplication - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2021-01-29 18:10:26.096 [main] [INFO ] com.kt.upms.UpmsApplication - No active profile set, falling back to default profiles: default
+2021-01-29 18:10:27.027 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-01-29 18:10:27.030 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-01-29 18:10:27.084 [main] [INFO ] o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 39ms. Found 0 Redis repository interfaces.
+2021-01-29 18:10:27.596 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3468ee6e' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 18:10:27.608 [main] [INFO ] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-29 18:10:27.924 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-01-29 18:10:27.991 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-01-29 18:10:27.992 [main] [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-01-29 18:10:27.993 [main] [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.39]
+2021-01-29 18:10:28.077 [main] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring embedded WebApplicationContext
+2021-01-29 18:10:28.078 [main] [INFO ] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1917 ms
+2021-01-29 18:10:28.298 [main] [INFO ] c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2021-01-29 18:10:28.626 [main] [INFO ] com.alibaba.druid.pool.DruidDataSource - {dataSource-1,defaultDataSource} inited
+2021-01-29 18:10:29.569 [main] [INFO ] c.k.c.redis.autoconfigure.RedisAutoConfiguration - 启用Redis配置......
+2021-01-29 18:10:30.069 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - ==>  Preparing: SELECT id,name,application_id,category_id,url,method,auth_type,has_path_variable,status,is_deleted,gmt_create,gmt_modified,creator,modifier FROM upms_api WHERE (is_deleted = ?)
+2021-01-29 18:10:30.116 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - ==> Parameters: 0(Long)
+2021-01-29 18:10:30.150 [main] [DEBUG] c.k.u.m.a.persistence.dao.UpmsApiMapper.selectList - <==      Total: 49
+2021-01-29 18:10:30.476 [main] [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-29 18:10:31.014 [main] [INFO ] o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: Ant [pattern='/swagger-ui/**'], []
+2021-01-29 18:10:31.052 [main] [INFO ] o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@56a9a7b5, com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter@1dd247b, org.springframework.security.web.context.SecurityContextPersistenceFilter@48b09105, org.springframework.security.web.header.HeaderWriterFilter@7b80af04, org.springframework.security.web.authentication.logout.LogoutFilter@4f7ef948, com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter@338270ea, com.kt.upms.security.login.UserLoginAuthenticationFilter@7f64bd7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@41492479, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@13a9cdae, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1c79d093, org.springframework.security.web.session.SessionManagementFilter@e67d3b7, org.springframework.security.web.access.ExceptionTranslationFilter@1818d00b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7d6019d5]
+2021-01-29 18:10:31.132 [main] [INFO ] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-01-29 18:10:31.169 [main] [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path '/upms'
+2021-01-29 18:10:31.181 [main] [INFO ] com.kt.upms.UpmsApplication - Started UpmsApplication in 5.806 seconds (JVM running for 6.621)
+2021-01-29 18:10:35.081 [http-nio-8080-exec-1] [INFO ] o.a.c.c.ContainerBase.[Tomcat].[localhost].[/upms] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-29 18:10:35.082 [http-nio-8080-exec-1] [INFO ] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-01-29 18:10:35.094 [http-nio-8080-exec-1] [INFO ] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 12 ms
+2021-01-29 18:10:36.445 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING e3fb44fd-f007-41f0-9c3f-8f79ffd891d8 =========================
+2021-01-29 18:10:36.446 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:10:36.446 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:10:36.447 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:10:36.447 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:10:36.448 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:10:36.451 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:10:36.470 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:10:36.472 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:10:36.474 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:10:36.735 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:10:36.735 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 47ms
+2021-01-29 18:10:36.735 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED e3fb44fd-f007-41f0-9c3f-8f79ffd891d8 =========================
+2021-01-29 18:10:36.825 [http-nio-8080-exec-1] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:10:50.340 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING d910e083-7ef7-4131-abe1-127f799c0372 =========================
+2021-01-29 18:10:50.342 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:10:50.343 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:10:50.345 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:10:50.346 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:10:50.347 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:10:50.349 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:10:50.386 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:10:50.389 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:10:50.395 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:10:50.397 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:10:50.398 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 58ms
+2021-01-29 18:10:50.399 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED d910e083-7ef7-4131-abe1-127f799c0372 =========================
+2021-01-29 18:10:50.905 [http-nio-8080-exec-2] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:12:44.324 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 0a90cda1-bbb3-4556-963a-fe69f9382401 =========================
+2021-01-29 18:12:44.326 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:12:44.327 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:12:44.329 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:12:44.330 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:12:44.331 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:12:44.332 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:12:44.541 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 113989
+2021-01-29 18:12:44.544 [http-nio-8080-exec-4] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 135927
+2021-01-29 18:12:44.546 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:12:44.549 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:12:44.556 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:12:44.559 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:12:44.560 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 235ms
+2021-01-29 18:12:44.561 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 0a90cda1-bbb3-4556-963a-fe69f9382401 =========================
+2021-01-29 18:12:45.185 [http-nio-8080-exec-4] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:13:39.333 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING b98b8eba-f66d-4d25-9b75-79c2c9fe800c =========================
+2021-01-29 18:13:39.334 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:13:39.334 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:13:39.334 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:13:39.334 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:13:39.334 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:13:39.334 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:13:39.337 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:13:39.338 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:13:39.341 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:13:39.341 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:13:39.341 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 8ms
+2021-01-29 18:13:39.341 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED b98b8eba-f66d-4d25-9b75-79c2c9fe800c =========================
+2021-01-29 18:13:39.343 [http-nio-8080-exec-6] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:13:46.894 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 93f51992-5db5-4a97-b5cd-175d35ab6ff7 =========================
+2021-01-29 18:13:46.894 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:13:46.894 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:13:46.894 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:13:46.894 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:13:46.895 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:13:46.895 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:13:46.897 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:13:46.897 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:13:46.898 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:13:46.899 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:13:46.899 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:13:46.899 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 93f51992-5db5-4a97-b5cd-175d35ab6ff7 =========================
+2021-01-29 18:13:46.901 [http-nio-8080-exec-7] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:14:08.469 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING fc7206b5-a1f3-41de-8afb-2efac56025e4 =========================
+2021-01-29 18:14:08.470 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:14:08.470 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:14:08.470 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:14:08.470 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:14:08.470 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:14:08.470 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:14:08.472 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:14:08.472 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:14:08.474 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:14:08.474 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:14:08.474 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:14:08.474 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED fc7206b5-a1f3-41de-8afb-2efac56025e4 =========================
+2021-01-29 18:14:08.475 [http-nio-8080-exec-8] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:16:54.424 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING ae242fa0-db85-4e04-a5cd-1be8c23317e4 =========================
+2021-01-29 18:16:54.425 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:16:54.425 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:16:54.425 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:16:54.425 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:16:54.426 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:16:54.426 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:16:54.429 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 165956
+2021-01-29 18:16:54.429 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385816
+2021-01-29 18:16:54.430 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385819
+2021-01-29 18:16:54.431 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385823
+2021-01-29 18:16:54.432 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING ae4ee03f-e255-4065-a7cf-66b98c336ca3 =========================
+2021-01-29 18:16:54.433 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:16:54.433 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:16:54.433 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:16:54.433 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:16:54.434 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:16:54.434 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:16:54.434 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385828
+2021-01-29 18:16:54.435 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385831
+2021-01-29 18:16:54.436 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385835
+2021-01-29 18:16:54.437 [http-nio-8080-exec-10] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385839
+2021-01-29 18:16:54.437 [http-nio-8080-exec-9] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 385846
+2021-01-29 18:16:54.439 [http-nio-8080-exec-10] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:16:54.440 [http-nio-8080-exec-10] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:16:54.443 [http-nio-8080-exec-9] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:16:54.444 [http-nio-8080-exec-9] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:16:54.445 [http-nio-8080-exec-9] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:16:54.446 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:16:54.446 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 22ms
+2021-01-29 18:16:54.446 [http-nio-8080-exec-9] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED ae242fa0-db85-4e04-a5cd-1be8c23317e4 =========================
+2021-01-29 18:16:54.449 [http-nio-8080-exec-9] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:16:54.457 [http-nio-8080-exec-10] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:16:54.458 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:16:54.458 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 27ms
+2021-01-29 18:16:54.458 [http-nio-8080-exec-10] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED ae4ee03f-e255-4065-a7cf-66b98c336ca3 =========================
+2021-01-29 18:16:54.459 [http-nio-8080-exec-10] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING ded2899e-b639-48bf-b33f-52c37e35936e =========================
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:16:58.999 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:16:59.001 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:16:59.002 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:16:59.003 [http-nio-8080-exec-1] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:16:59.004 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:16:59.004 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:16:59.004 [http-nio-8080-exec-1] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED ded2899e-b639-48bf-b33f-52c37e35936e =========================
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 7d8657f4-8861-4330-8fe7-500ec979b342 =========================
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:16:59.004 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:16:59.005 [http-nio-8080-exec-1] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:16:59.007 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:16:59.007 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:16:59.008 [http-nio-8080-exec-2] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:16:59.008 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:16:59.008 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 4ms
+2021-01-29 18:16:59.008 [http-nio-8080-exec-2] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 7d8657f4-8861-4330-8fe7-500ec979b342 =========================
+2021-01-29 18:16:59.010 [http-nio-8080-exec-2] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 63e6151d-459e-4140-8e68-163df0bc29af =========================
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:17:14.487 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:17:14.489 [http-nio-8080-exec-3] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:17:14.490 [http-nio-8080-exec-3] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:17:14.491 [http-nio-8080-exec-3] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:17:14.492 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:17:14.492 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:17:14.492 [http-nio-8080-exec-3] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 63e6151d-459e-4140-8e68-163df0bc29af =========================
+2021-01-29 18:17:14.494 [http-nio-8080-exec-3] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:17:15.117 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 5691813f-fcb9-497f-865b-965cdac766cc =========================
+2021-01-29 18:17:15.118 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:17:15.118 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:17:15.118 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:17:15.118 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:17:15.118 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:17:15.118 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:17:15.120 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:17:15.120 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:17:15.122 [http-nio-8080-exec-4] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:17:15.122 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:17:15.123 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 5ms
+2021-01-29 18:17:15.124 [http-nio-8080-exec-4] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 5691813f-fcb9-497f-865b-965cdac766cc =========================
+2021-01-29 18:17:15.127 [http-nio-8080-exec-4] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:20:29.508 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 0bac25dc-caf0-4cb4-bf92-063774bcb37a =========================
+2021-01-29 18:20:29.509 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:20:29.509 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:20:29.509 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:20:29.510 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:20:29.510 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:20:29.510 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:20:29.513 [http-nio-8080-exec-5] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 194392
+2021-01-29 18:20:29.514 [http-nio-8080-exec-5] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 215069
+2021-01-29 18:20:29.519 [http-nio-8080-exec-5] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:20:29.519 [http-nio-8080-exec-5] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:20:29.521 [http-nio-8080-exec-5] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:20:29.521 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:20:29.521 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 13ms
+2021-01-29 18:20:29.521 [http-nio-8080-exec-5] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 0bac25dc-caf0-4cb4-bf92-063774bcb37a =========================
+2021-01-29 18:20:29.523 [http-nio-8080-exec-5] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:22:28.735 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING d08ff14c-be97-488d-a82d-ecbdfe3fff5d =========================
+2021-01-29 18:22:28.736 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:22:28.736 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:22:28.736 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:22:28.736 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:22:28.736 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:22:28.737 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:22:28.739 [http-nio-8080-exec-6] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 119218
+2021-01-29 18:22:28.742 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:22:28.743 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:22:28.744 [http-nio-8080-exec-6] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:22:28.745 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:22:28.745 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 10ms
+2021-01-29 18:22:28.745 [http-nio-8080-exec-6] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED d08ff14c-be97-488d-a82d-ecbdfe3fff5d =========================
+2021-01-29 18:22:28.746 [http-nio-8080-exec-6] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:22:41.476 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING 3ec4024c-aeda-462f-97c2-5151ae7746f4 =========================
+2021-01-29 18:22:41.476 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:22:41.476 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:22:41.476 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:22:41.476 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:22:41.477 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:22:41.477 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:22:41.484 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:22:41.487 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:22:41.492 [http-nio-8080-exec-7] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:22:41.495 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:22:41.495 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 19ms
+2021-01-29 18:22:41.495 [http-nio-8080-exec-7] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED 3ec4024c-aeda-462f-97c2-5151ae7746f4 =========================
+2021-01-29 18:22:41.497 [http-nio-8080-exec-7] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST PROCESSING f337a236-fb56-4fc8-8349-bdc305ce5db1 =========================
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] url : http://localhost:8080/upms/permission/check
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] remote_host : 127.0.0.1
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] http_method: POST
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] content_type: application/json;charset=UTF-8
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] json args: "SuperAdmin"
+2021-01-29 18:23:57.365 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [req] native_method: UpmsUser com.kt.upms.module.user.service.UserServiceImpl.getUserByCode(String)
+2021-01-29 18:23:57.368 [http-nio-8080-exec-8] [WARN ] com.alibaba.druid.pool.DruidAbstractDataSource - discard long time none received connection. , jdbcUrl : jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True, version : 1.2.3, lastPacketReceivedIdleMillis : 75879
+2021-01-29 18:23:57.374 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==>  Preparing: SELECT code,name,id FROM upms_user WHERE is_deleted=0 AND (code = ? AND status = ?)
+2021-01-29 18:23:57.375 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - ==> Parameters: SuperAdmin(String), 1(Integer)
+2021-01-29 18:23:57.380 [http-nio-8080-exec-8] [DEBUG] c.k.u.m.u.persistence.dao.UpmsUserMapper.selectOne - <==      Total: 1
+2021-01-29 18:23:57.381 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] response : {"code":"SuperAdmin","id":1,"name":"Admin"}
+2021-01-29 18:23:57.381 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - [resp] cost : 17ms
+2021-01-29 18:23:57.381 [http-nio-8080-exec-8] [DEBUG] com.kt.component.logger.CatchLogAspect - ========================= REQUEST FINISHED f337a236-fb56-4fc8-8349-bdc305ce5db1 =========================
+2021-01-29 18:23:57.382 [http-nio-8080-exec-8] [DEBUG] c.k.u.a.c.c.LoginUserContextPersistenceFilter - LoginUserContextHolder now cleared, as request processing completed
