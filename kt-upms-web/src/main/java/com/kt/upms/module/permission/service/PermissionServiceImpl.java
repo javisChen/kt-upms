@@ -175,7 +175,10 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     public AuthResponse checkPermission(AuthRequest request) {
         boolean hasApiPermission = this.hasApiPermission(request.getApplicationCode(), request.getUserCode(),
                 request.getUrl(), request.getMethod());
-        return AuthResponse.create(hasApiPermission);
+        if (hasApiPermission) {
+            return AuthResponse.success();
+        }
+        return AuthResponse.fail("No Permission");
     }
 
     private boolean hasApiPermission(String application, UpmsUser user, String url, String method) {

@@ -1,6 +1,6 @@
 package com.kt.upms.auth.core.extractor;
 
-import com.kt.upms.config.AuthenticationProperties;
+import com.kt.upms.config.AccessTokenProperties;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 public class DefaultTokenExtractor implements TokenExtractor {
 
     @Override
-    public String extract(HttpServletRequest request, AuthenticationProperties properties) {
+    public String extract(HttpServletRequest request, AccessTokenProperties properties) {
 
         String token = null;
         // parameter query token

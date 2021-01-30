@@ -1,5 +1,6 @@
 package com.kt.upms.auth.core.model;
 
+import com.kt.component.dto.ResponseEnums;
 import lombok.Data;
 
 /**
@@ -34,11 +35,11 @@ public class AuthResponse {
         this.msg = msg;
     }
 
-    public static AuthResponse create(boolean hasPermission) {
-        return new AuthResponse(hasPermission);
+    public static AuthResponse success() {
+        return new AuthResponse(ResponseEnums.OK.getCode(), true);
     }
 
-    public static AuthResponse create(boolean hasPermission, String msg) {
-        return new AuthResponse(hasPermission, msg);
+    public static AuthResponse fail(String msg) {
+        return new AuthResponse(ResponseEnums.USER_ACCESS_DENIED.getCode(), false, msg);
     }
 }

@@ -1,7 +1,7 @@
 package com.kt.upms.auth.core.extractor;
 
 
-import com.kt.upms.config.AuthenticationProperties;
+import com.kt.upms.config.AccessTokenProperties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,5 +20,5 @@ public interface TokenExtractor {
      * @param properties
      * @return token
      */
-    String extract(HttpServletRequest request, AuthenticationProperties properties);
+    String extract(HttpServletRequest request, AccessTokenProperties properties);
 }

@@ -1,6 +1,6 @@
 package com.kt.upms.security.configuration;
 
-import com.kt.upms.config.AuthenticationProperties;
+import com.kt.upms.config.AccessTokenProperties;
 import com.kt.upms.config.LoginProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,7 +30,7 @@ public class SecurityCoreProperties {
      * 认证配置
      */
     @NestedConfigurationProperty
-    private AuthenticationProperties authentication = new AuthenticationProperties();
+    private AccessTokenProperties authentication = new AccessTokenProperties();
 
 
     /**

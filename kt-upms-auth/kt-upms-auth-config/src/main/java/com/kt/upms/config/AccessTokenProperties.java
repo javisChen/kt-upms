@@ -8,7 +8,7 @@ import lombok.Data;
  * @author javis
  */
 @Data
-public class AuthenticationProperties {
+public class AccessTokenProperties {
     /**
      * token的Header
      */
