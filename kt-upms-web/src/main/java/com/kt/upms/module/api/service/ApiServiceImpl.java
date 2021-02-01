@@ -12,6 +12,7 @@ import com.kt.upms.module.api.persistence.dao.UpmsApiMapper;
 import com.kt.upms.module.api.converter.ApiBeanConverter;
 import com.kt.upms.module.api.dto.ApiQueryDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
+import com.kt.upms.module.api.vo.ApiDetailVO;
 import com.kt.upms.module.api.vo.ApiListVO;
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.common.util.Assert;
@@ -109,5 +110,11 @@ public class ApiServiceImpl extends ServiceImpl<UpmsApiMapper, UpmsApi> implemen
         uw.eq(UpmsApi::getIsDeleted, DeletedEnums.NOT.getCode());
         uw.set(UpmsApi::getIsDeleted, DeletedEnums.YET.getCode());
         this.update(uw);
+    }
+
+    @Override
+    public ApiDetailVO getApplicationVO(Long id) {
+        UpmsApi upmsApi = getById(id);
+        return beanConverter.convertToApiDetailVO(upmsApi);
     }
 }

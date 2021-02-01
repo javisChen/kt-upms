@@ -18,8 +18,6 @@ public class ApiBaseVO implements Serializable {
 
     private String name;
 
-    private Long applicationId;
-
     private String url;
 
     private String method;

@@ -50,7 +50,7 @@ public class AuthCheckFilter extends GenericFilterBean {
         logDebug(debugEnabled, "Auth Filter：Processing Auth Check......");
 
         String token = tokenExtractor.extract(request, accessTokenProperties);
-        logDebug(debugEnabled, "Auth Filter：Current Token -> {}", token);
+        logDebug(debugEnabled, "Auth Filter：Current Token -> [{}]", token);
         if (StringUtils.isBlank(token)) {
             logDebug(debugEnabled, "Auth Filter：Token [{}] is blank", token);
             responseFail(response, HttpStatus.UNAUTHORIZED, ResponseEnums.USER_AUTHENTICATION_FAIL);
@@ -72,8 +72,8 @@ public class AuthCheckFilter extends GenericFilterBean {
             return;
         }
 
-        logDebug(debugEnabled, "Auth Filter：Token [{}] Check Result： Fail, Reason：{}", authResponse.getMsg());
-        responseFail(response, HttpStatus.FORBIDDEN, ResponseEnums.USER_ACCESS_DENIED.getCode(), authResponse.getMsg());
+        logDebug(debugEnabled, "Auth Filter：Token [{}] Check Result： Fail, Reason：{}", token, authResponse.getMsg());
+        responseFail(response, HttpStatus.FORBIDDEN, ResponseEnums.USER_ACCESS_DENIED);
     }
 
     private void responseFail(HttpServletResponse response, HttpStatus httpStatus, ResponseEnums responseEnums) throws IOException {

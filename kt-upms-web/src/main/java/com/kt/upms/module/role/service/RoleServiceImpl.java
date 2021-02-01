@@ -173,6 +173,16 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
         removePermissionRoleRelByRoleId(id);
     }
 
+    @Override
+    public List<String> getRoleNamesByUserGroupId(Long userGroupId) {
+        return upmsPermissionRoleRelMapper.selectRoleNamesByUserGroupId(userGroupId);
+    }
+
+    @Override
+    public List<Long> getRoleIdsByUserGroupId(Long userGroupId) {
+        return upmsPermissionRoleRelMapper.selectRoleIdsByUserGroupId(userGroupId);
+    }
+
     private void removePermissionRoleRelByRoleId(Long roleId) {
         LambdaUpdateWrapper<UpmsPermissionRoleRel> qw = new LambdaUpdateWrapper<>();
         qw.eq(UpmsPermissionRoleRel::getRoleId, roleId);

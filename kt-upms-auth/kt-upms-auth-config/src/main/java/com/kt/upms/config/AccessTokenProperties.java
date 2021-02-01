@@ -3,12 +3,12 @@ package com.kt.upms.config;
 import lombok.Data;
 
 /**
- * jwt配置文件
- *
+ * token配置文件
  * @author javis
  */
 @Data
 public class AccessTokenProperties {
+
     /**
      * token的Header
      */

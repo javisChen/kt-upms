@@ -152,7 +152,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AccessDeniedHandler accessDeniedHandler() {
         return (httpServletRequest, resp, e) -> {
-            log.error("Authorization failed: Access is denied：{}", e.getMessage());
+            log.error("Authorization failed: {}", e.getMessage());
             resp.setStatus(HttpStatus.FORBIDDEN.value());
             resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
             JSONObject.writeJSONString(resp.getOutputStream(), ServerResponse.error(ResponseEnums.USER_ACCESS_DENIED));

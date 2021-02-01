@@ -84,10 +84,10 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
 
     /**
      * 生成权限编码
-     * 规则：类型首字母+资源id（五位，不足左补0） EXAMPLE：P00001
+     * 规则：类型首字母+资源id（十位，不足左补0） EXAMPLE：P0000000001
      */
     private String generatePermissionCode(String tag, long id) {
-        return tag + StringUtils.leftPad(String.valueOf(id), 5, "0");
+        return tag + StringUtils.leftPad(String.valueOf(id), 9, "0");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
 
     @Override
     public boolean hasApiPermission(String application, Long userId, String url, String method) {
-        List<ApiPermissionBO> apiPermissions = getUserCanAccessApi(application, userId);
+        List<ApiPermissionBO> apiPermissions = getUserApiPermissions(application, userId);
         return apiPermissions
                 .stream()
                 .anyMatch(item -> {
@@ -191,7 +191,7 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     /**
      * 获取用户可访问的api并且需要授权认证的API
      */
-    private List<ApiPermissionBO> getUserCanAccessApi(String application, Long userId) {
+    private List<ApiPermissionBO> getUserApiPermissions(String applicationCode, Long userId) {
         // 先查出所有权限
         List<UpmsPermission> permissions = iUserPermissionService.getUserPermissions(userId, PermissionTypeEnums.SER_API);
         // 根据权限id查出所有api

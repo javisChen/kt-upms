@@ -19,7 +19,8 @@ public interface UpmsUserGroupRoleRelMapper extends BaseMapper<UpmsUserGroupRole
     int deleteByRoleIdsAndUserGroupId(@Param("userGroupId") Long userGroupId,
                                       @Param("roleIds") List<Long> roleIds);
 
-    void insertBatch(@Param("list") List<UpmsUserGroupRoleRel> rels);
+    void insertBatch(@Param("userGroupId") Long id, @Param("roleIds") List<Long> roleIds);
 
     List<Long> selectRoleIdsByUserGroupIds(@Param("userGroupIds") List<Long> userGroupIds);
+
 }

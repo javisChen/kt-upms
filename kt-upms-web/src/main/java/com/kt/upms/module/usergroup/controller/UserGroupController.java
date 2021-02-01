@@ -10,6 +10,7 @@ import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.service.IUserGroupService;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
+import com.kt.upms.module.usergroup.vo.UserGroupDetailVO;
 import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 import org.springframework.validation.annotation.Validated;
@@ -40,6 +41,11 @@ public class UserGroupController extends BaseController {
     @GetMapping("/usergroups/all")
     public MultiResponse<UserGroupBaseVO> list() {
         return MultiResponse.ok(iUserGroupService.listAllVos());
+    }
+
+    @GetMapping("/usergroup")
+    public SingleResponse<UserGroupDetailVO> list(Long id) {
+        return SingleResponse.ok(iUserGroupService.getUserGroupVOById(id));
     }
 
     @PostMapping("/usergroups/tree")

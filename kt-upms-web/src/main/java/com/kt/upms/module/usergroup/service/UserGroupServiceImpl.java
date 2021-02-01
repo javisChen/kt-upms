@@ -3,8 +3,8 @@ package com.kt.upms.module.usergroup.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.upms.common.util.Assert;
@@ -14,14 +14,18 @@ import com.kt.upms.module.usergroup.converter.UserGroupBeanConverter;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
 import com.kt.upms.module.usergroup.persistence.UpmsUserGroup;
+import com.kt.upms.module.usergroup.persistence.UpmsUserGroupRoleRel;
 import com.kt.upms.module.usergroup.persistence.UpmsUserGroupUserRel;
 import com.kt.upms.module.usergroup.persistence.dao.UpmsUserGroupMapper;
+import com.kt.upms.module.usergroup.persistence.dao.UpmsUserGroupRoleRelMapper;
 import com.kt.upms.module.usergroup.persistence.dao.UpmsUserGroupUserRelMapper;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
+import com.kt.upms.module.usergroup.vo.UserGroupDetailVO;
 import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,8 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
     private UserGroupBeanConverter beanConverter;
     @Autowired
     private UpmsUserGroupUserRelMapper upmsUserGroupUserRelMapper;
+    @Autowired
+    private UpmsUserGroupRoleRelMapper upmsUserGroupRoleRelMapper;
 
     @Override
     public Page<UserGroupListTreeVO> pageList(UserGroupQueryDTO dto) {
@@ -90,11 +96,12 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
     }
 
     @Override
+    @Transactional
     public void saveUserGroup(UserGroupUpdateDTO dto) {
-        int count = countUserGroupByName(dto.getName());
+        int count = getUserGroupByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.USER_GROUP_ALREADY_EXISTS);
 
-        UpmsUserGroup newUserGroup = CglibUtil.copy(dto, UpmsUserGroup.class);
+        UpmsUserGroup newUserGroup = beanConverter.convertToDO(dto);
 
         UpmsUserGroup parentRoute = null;
         if (this.isFirstLevelUserGroup(newUserGroup)) {
@@ -108,6 +115,14 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
 
         // 新增完路由记录后再更新层级信息
         updateLevelPathAfterSave(newUserGroup, parentRoute);
+
+        updateUserGroupRoleRel(newUserGroup.getId(), dto.getRoleIds());
+    }
+
+    private void updateUserGroupRoleRel(Long userGroupId, List<Long> roleIds) {
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            upmsUserGroupRoleRelMapper.insertBatch(userGroupId, roleIds);
+        }
     }
 
     private void updateLevelPathAfterSave(UpmsUserGroup route, UpmsUserGroup parentRoute) {
@@ -131,7 +146,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
         return DEFAULT_PID.equals(userGroup.getPid()) || FIRST_LEVEL.equals(userGroup.getLevel());
     }
 
-    private int countUserGroupByName(String name) {
+    private int getUserGroupByName(String name) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .eq(UpmsUserGroup::getName, name);
@@ -139,17 +154,33 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
     }
 
     @Override
+    @Transactional
     public void updateUserGroupById(UserGroupUpdateDTO dto) {
+        UpmsUserGroup userGroup = getUserGroupByName(dto);
+
+        Assert.isTrue(userGroup != null && !userGroup.getId().equals(dto.getId()),
+                BizEnums.USER_GROUP_ALREADY_EXISTS);
+
+        UpmsUserGroup update = beanConverter.convertToDO(dto);
+        this.updateById(update);
+
+        Long userGroupId = update.getId();
+        removeUserGroupRoleRelByUserGroupId(userGroupId);
+
+        updateUserGroupRoleRel(userGroupId, dto.getRoleIds());
+    }
+
+    private UpmsUserGroup getUserGroupByName(UserGroupUpdateDTO dto) {
         LambdaQueryWrapper<UpmsUserGroup> queryWrapper = new LambdaQueryWrapper<UpmsUserGroup>()
                 .eq(UpmsUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
-                .eq(UpmsUserGroup::getName, dto.getName())
-                .ne(UpmsUserGroup::getId, dto.getId());
-        int count = this.count(queryWrapper);
+                .eq(UpmsUserGroup::getName, dto.getName());
+        return this.getOne(queryWrapper);
+    }
 
-        Assert.isTrue(count > 0, BizEnums.USER_GROUP_ALREADY_EXISTS);
-
-        UpmsUserGroup update = CglibUtil.copy(dto, UpmsUserGroup.class);
-        this.updateById(update);
+    private void removeUserGroupRoleRelByUserGroupId(Long id) {
+        LambdaUpdateWrapper<UpmsUserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UpmsUserGroupRoleRel::getUserGroupId, id);
+        upmsUserGroupRoleRelMapper.delete(qw);
     }
 
     @Override
@@ -180,10 +211,16 @@ public class UserGroupServiceImpl extends ServiceImpl<UpmsUserGroupMapper, UpmsU
     }
 
     @Override
-    public void removeUserUserGroupRelByUserId(Long userId) {
+    public void removeUserGroupUserRelByUserId(Long userId) {
         LambdaQueryWrapper<UpmsUserGroupUserRel> qw = new LambdaQueryWrapper<>();
         qw.eq(UpmsUserGroupUserRel::getUserId, userId);
         upmsUserGroupUserRelMapper.delete(qw);
+    }
+
+    @Override
+    public UserGroupDetailVO getUserGroupVOById(Long id) {
+        UpmsUserGroup userGroup = getUserGroupById(id);
+        return beanConverter.convertToUserGroupDetailVO(userGroup);
     }
 
     private Function<UpmsUserGroup, UserGroupTreeVO> assembleUserGroupUserGroupTreeVO() {

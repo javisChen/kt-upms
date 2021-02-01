@@ -3,12 +3,14 @@ package com.kt.upms.module.api.controller;
 
 import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.ServerResponse;
+import com.kt.component.dto.SingleResponse;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.api.cache.ApiCacheManager;
 import com.kt.upms.module.api.dto.ApiQueryDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
 import com.kt.upms.module.api.service.IApiService;
+import com.kt.upms.module.api.vo.ApiDetailVO;
 import com.kt.upms.module.api.vo.ApiListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,13 @@ public class ApiController extends BaseController {
                                   @RequestBody ApiUpdateDTO dto) {
         iApiService.saveApplication(dto);
         return ServerResponse.ok();
+    }
+
+
+    @GetMapping("/api")
+    public SingleResponse<ApiDetailVO> getApi(Long id) {
+        ApiDetailVO vo = iApiService.getApplicationVO(id);
+        return SingleResponse.ok(vo);
     }
 
     @PutMapping("/api")

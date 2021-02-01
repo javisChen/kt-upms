@@ -26,14 +26,31 @@
         </foreach>
     </insert>
 
-
     <select id="selectRoleNamesByUserId" resultType="java.lang.String">
         select ur.name
         from upms_user_role_rel uurr
-        inner join upms_role ur on uurr.role_id = ur.id
+                 inner join upms_role ur on uurr.role_id = ur.id
         where uurr.user_id = #{userId}
-        and ur.status = 1
-        and ur.is_deleted = 0
+          and ur.status = 1
+          and ur.is_deleted = 0
+    </select>
+
+    <select id="selectRoleIdsByUserGroupId" resultType="java.lang.Long">
+        select ur.id
+        from upms_user_group_role_rel uurr
+                 inner join upms_role ur on uurr.role_id = ur.id
+        where uurr.user_group_id = #{userGroupId}
+          and ur.status = 1
+          and ur.is_deleted = 0
+    </select>
+
+    <select id="selectRoleNamesByUserGroupId" resultType="java.lang.String">
+        select ur.name
+        from upms_user_group_role_rel uurr
+                 inner join upms_role ur on uurr.role_id = ur.id
+        where uurr.user_group_id = #{userGroupId}
+          and ur.status = 1
+          and ur.is_deleted = 0
     </select>
 
 </mapper>

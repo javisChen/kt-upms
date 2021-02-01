@@ -70,9 +70,9 @@ public class RouteController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("/route/{id}")
-    public SingleResponse<RouteDetailVO> get(@PathVariable("id") String id) {
-        RouteDetailVO vo = iRouteService.getRoute(Long.valueOf(id));
+    @GetMapping("/route")
+    public SingleResponse<RouteDetailVO> get(Long id) {
+        RouteDetailVO vo = iRouteService.getRoute(id);
         return SingleResponse.ok(vo);
     }
 

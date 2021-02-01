@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public class RemoteAuthCheck implements AuthCheck {
 
-    private AuthProperties authProperties;
+    private final AuthProperties authProperties;
 
     public RemoteAuthCheck(AuthProperties authProperties) {
         this.authProperties = authProperties;

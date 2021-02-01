@@ -226,7 +226,7 @@ public class UserServiceImpl extends ServiceImpl<UpmsUserMapper, UpmsUser> imple
         // 移除角色关系
         iRoleService.removeUserRoleRelByUserId(id);
         // 移除用户组关系
-        iUserGroupService.removeUserUserGroupRelByUserId(id);
+        iUserGroupService.removeUserGroupUserRelByUserId(id);
     }
 
     private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnums statusEnum) {

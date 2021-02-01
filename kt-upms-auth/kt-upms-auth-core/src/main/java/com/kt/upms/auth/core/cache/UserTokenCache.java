@@ -3,10 +3,7 @@ package com.kt.upms.auth.core.cache;
 import com.kt.upms.auth.core.model.LoginUserContext;
 
 /**
- * @author JarvisChen
- * @desc
- * @date 2019-10-19
- * @time 17:05
+ * 用户Token缓存
  */
 public interface UserTokenCache {
 
@@ -30,18 +27,4 @@ public interface UserTokenCache {
      */
     LoginUserContext get(String key);
 
-    /**
-     * 检查token有效期
-     * @param tokenStorageDTO
-     */
-//    default boolean isVaild(TokenStorageDTO tokenStorageDTO) {
-//        return tokenStorageDTO != null;
-//        if (tokenStorageDTO == null) {
-//            throw new ExpiredTokenException("令牌无效");
-//        }
-//        Long expire = tokenStorageDTO.getExpire();
-//        if (LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8")) > expire) {
-//            throw new ExpiredTokenException("令牌已过期");
-//        }
-//    }
 }

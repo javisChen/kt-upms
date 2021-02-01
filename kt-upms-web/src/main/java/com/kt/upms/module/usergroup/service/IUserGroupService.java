@@ -6,6 +6,7 @@ import com.kt.upms.module.usergroup.persistence.UpmsUserGroup;
 import com.kt.upms.module.usergroup.dto.UserGroupUpdateDTO;
 import com.kt.upms.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.upms.module.usergroup.vo.UserGroupBaseVO;
+import com.kt.upms.module.usergroup.vo.UserGroupDetailVO;
 import com.kt.upms.module.usergroup.vo.UserGroupListTreeVO;
 import com.kt.upms.module.usergroup.vo.UserGroupTreeVO;
 
@@ -35,5 +36,7 @@ public interface IUserGroupService extends IService<UpmsUserGroup> {
 
     List<String> getUserGroupNamesByUserId(Long userId);
 
-    void removeUserUserGroupRelByUserId(Long userId);
+    void removeUserGroupUserRelByUserId(Long userId);
+
+    UserGroupDetailVO getUserGroupVOById(Long id);
 }

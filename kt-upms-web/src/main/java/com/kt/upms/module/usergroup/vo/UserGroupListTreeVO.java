@@ -18,5 +18,6 @@ public class UserGroupListTreeVO extends UserGroupBaseVO implements Serializable
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private List<UserGroupListTreeVO> children;
+    private List<String> roles;
 
 }

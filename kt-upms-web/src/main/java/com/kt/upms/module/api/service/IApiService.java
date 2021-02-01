@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.upms.module.api.persistence.UpmsApi;
 import com.kt.upms.module.api.dto.ApiQueryDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
+import com.kt.upms.module.api.vo.ApiDetailVO;
 import com.kt.upms.module.api.vo.ApiListVO;
 
 import java.util.List;
@@ -32,4 +33,6 @@ public interface IApiService extends IService<UpmsApi> {
     List<UpmsApi> listAll();
 
     void removeByCategoryId(Long id);
+
+    ApiDetailVO getApplicationVO(Long id);
 }

@@ -60,4 +60,8 @@ public interface IRoleService extends IService<UpmsRole> {
     void updateRoleApiPermissions(RoleApiPermissionUpdateDTO dto);
 
     void removeRoleById(Long id);
+
+    List<String> getRoleNamesByUserGroupId(Long id);
+
+    List<Long> getRoleIdsByUserGroupId(Long id);
 }

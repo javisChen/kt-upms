@@ -2,6 +2,7 @@ package com.kt.upms.module.api.converter;
 
 import com.kt.upms.module.api.persistence.UpmsApi;
 import com.kt.upms.module.api.persistence.UpmsApiCategory;
+import com.kt.upms.module.api.vo.ApiDetailVO;
 import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
 import com.kt.upms.module.api.dto.ApiCategoryUpdateDTO;
@@ -44,7 +45,6 @@ public class ApiBeanConverter {
         ApiListVO apiListVO = new ApiListVO();
         apiListVO.setId(upmsApi.getId());
         apiListVO.setName(upmsApi.getName());
-        apiListVO.setApplicationId(upmsApi.getApplicationId());
         apiListVO.setUrl(upmsApi.getUrl());
         apiListVO.setMethod(upmsApi.getMethod());
         apiListVO.setAuthType(upmsApi.getAuthType());
@@ -70,5 +70,18 @@ public class ApiBeanConverter {
         upmsApiCategory.setName(dto.getName());
         upmsApiCategory.setApplicationId(dto.getApplicationId());
         return upmsApiCategory;
+    }
+
+    public ApiDetailVO convertToApiDetailVO(UpmsApi upmsApi) {
+        ApiDetailVO vo = new ApiDetailVO();
+        vo.setApplicationId(upmsApi.getApplicationId());
+        vo.setCategoryId(upmsApi.getCategoryId());
+        vo.setId(upmsApi.getId());
+        vo.setName(upmsApi.getName());
+        vo.setUrl(upmsApi.getUrl());
+        vo.setMethod(upmsApi.getMethod());
+        vo.setAuthType(upmsApi.getAuthType());
+        vo.setStatus(upmsApi.getStatus());
+        return vo;
     }
 }
