@@ -1,6 +1,5 @@
 package com.kt.upms.module.application.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.kt.component.dto.PagingDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

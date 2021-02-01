@@ -86,9 +86,11 @@ public class ApplicationServiceImpl extends ServiceImpl<UpmsApplicationMapper, U
         return this.getOne(qw);
     }
 
-    private UpmsApplication getApplicationByCode(String code) {
+    @Override
+    public UpmsApplication getApplicationByCode(String code) {
         LambdaQueryWrapper<UpmsApplication> qw = new LambdaQueryWrapper<>();
         qw.eq(UpmsApplication::getCode, code);
+        qw.eq(UpmsApplication::getIsDeleted, DeletedEnums.NOT.getCode());
         return this.getOne(qw);
     }
 

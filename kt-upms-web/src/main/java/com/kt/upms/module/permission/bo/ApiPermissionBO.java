@@ -2,11 +2,6 @@ package com.kt.upms.module.permission.bo;
 
 import lombok.Data;
 
-/**
- * @title:
- * @desc:
- * @author: Javis
- */
 @Data
 public class ApiPermissionBO {
 

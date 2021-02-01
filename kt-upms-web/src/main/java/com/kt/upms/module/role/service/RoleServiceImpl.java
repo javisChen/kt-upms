@@ -17,10 +17,7 @@ import com.kt.upms.module.permission.persistence.dao.UpmsPermissionRoleRelMapper
 import com.kt.upms.module.permission.service.IPermissionService;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.converter.RoleBeanConverter;
-import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
-import com.kt.upms.module.role.dto.RoleQueryDTO;
-import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;
-import com.kt.upms.module.role.dto.RoleUpdateDTO;
+import com.kt.upms.module.role.dto.*;
 import com.kt.upms.module.role.persistence.UpmsRole;
 import com.kt.upms.module.user.persistence.UpmsUserRoleRel;
 import com.kt.upms.module.role.persistence.dao.UpmsRoleMapper;
@@ -181,6 +178,11 @@ public class RoleServiceImpl extends ServiceImpl<UpmsRoleMapper, UpmsRole> imple
     @Override
     public List<Long> getRoleIdsByUserGroupId(Long userGroupId) {
         return upmsPermissionRoleRelMapper.selectRoleIdsByUserGroupId(userGroupId);
+    }
+
+    @Override
+    public void updateRoleApiPermissions(RoleApplicationApiPermissionUpdateDTO dto) {
+
     }
 
     private void removePermissionRoleRelByRoleId(Long roleId) {

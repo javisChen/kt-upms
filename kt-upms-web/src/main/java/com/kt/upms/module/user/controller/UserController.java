@@ -8,6 +8,10 @@ import com.kt.component.dto.SingleResponse;
 import com.kt.component.logger.CatchAndLog;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
+import com.kt.upms.auth.core.context.LoginUserContextHolder;
+import com.kt.upms.auth.core.model.AuthRequest;
+import com.kt.upms.auth.core.model.AuthResponse;
+import com.kt.upms.auth.core.model.LoginUserContext;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.user.dto.UserPageListSearchDTO;
 import com.kt.upms.module.user.dto.UserUpdateDTO;
@@ -16,8 +20,6 @@ import com.kt.upms.module.user.service.IUserService;
 import com.kt.upms.module.user.vo.UserDetailVO;
 import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
-import com.kt.upms.auth.core.context.LoginUserContextHolder;
-import com.kt.upms.auth.core.model.LoginUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +117,14 @@ public class UserController extends BaseController {
         String userCode = LoginUserContextHolder.getContext().getUserCode();
         List<PermissionVO> userRoutes = iUserPermissionService.getUserPermissionPageElements(userCode);
         return MultiResponse.ok(userRoutes);
+    }
+
+    /**
+     * 用户权限校验
+     */
+    @PostMapping("/user/permission/check")
+    public AuthResponse checkPermission(@RequestBody AuthRequest request) {
+        return iUserPermissionService.checkPermission(request);
     }
 
 }

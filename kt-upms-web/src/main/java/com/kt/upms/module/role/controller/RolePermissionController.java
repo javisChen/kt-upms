@@ -6,6 +6,7 @@ import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
 import com.kt.upms.module.permission.vo.PermissionVO;
 import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
+import com.kt.upms.module.role.dto.RoleApplicationApiPermissionUpdateDTO;
 import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;
 import com.kt.upms.module.role.service.IRoleService;
 import org.springframework.web.bind.annotation.*;
@@ -40,15 +41,6 @@ public class RolePermissionController extends BaseController {
     }
 
     /**
-     * 角色api权限授权
-     */
-    @PostMapping("/role/permission/api")
-    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionUpdateDTO dto) {
-        iRoleService.updateRoleApiPermissions(dto);
-        return ServerResponse.ok();
-    }
-
-    /**
      * 获取角色拥有的路由权限
      */
     @GetMapping("/role/permission/routes")
@@ -58,12 +50,21 @@ public class RolePermissionController extends BaseController {
     }
 
     /**
-     * 获取角色拥有的页面元素权限
+     * 角色api权限授权
      */
-    @GetMapping("/role/permission/elements")
-    public MultiResponse<PermissionVO> getRoleElementPermission(Long roleId, Long applicationId) {
-        List<PermissionVO> vos = iRoleService.getRoleElementPermissionById(roleId, applicationId);
-        return MultiResponse.ok(vos);
+    @PostMapping("/role/permission/api")
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionUpdateDTO dto) {
+        iRoleService.updateRoleApiPermissions(dto);
+        return ServerResponse.ok();
+    }
+
+    /**
+     * 角色api权限授权（直接授予应用下的所有api）
+     */
+    @PostMapping("/role/permission/application/api")
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApplicationApiPermissionUpdateDTO dto) {
+        iRoleService.updateRoleApiPermissions(dto);
+        return ServerResponse.ok();
     }
 
     /**
@@ -72,6 +73,15 @@ public class RolePermissionController extends BaseController {
     @GetMapping("/role/permission/apis")
     public MultiResponse<PermissionVO> getRoleApiPermission(Long roleId, Long applicationId) {
         List<PermissionVO> vos = iRoleService.getRoleApiPermissionById(roleId, applicationId);
+        return MultiResponse.ok(vos);
+    }
+
+    /**
+     * 获取角色拥有的页面元素权限
+     */
+    @GetMapping("/role/permission/elements")
+    public MultiResponse<PermissionVO> getRoleElementPermission(Long roleId, Long applicationId) {
+        List<PermissionVO> vos = iRoleService.getRoleElementPermissionById(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 }

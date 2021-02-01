@@ -1,7 +1,6 @@
 package com.kt.upms.module.application.persistence;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.kt.component.db.base.BaseEntity;

@@ -5,8 +5,6 @@ import com.kt.component.dto.PagingDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
 /**
  * 查询用户列表搜索入参
  */

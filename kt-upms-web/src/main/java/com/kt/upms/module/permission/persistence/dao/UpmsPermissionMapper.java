@@ -26,4 +26,10 @@ public interface UpmsPermissionMapper extends BaseMapper<UpmsPermission> {
                                                @Param("type") String type);
 
     List<ApiPermissionBO> selectApiPermissionByIds(@Param("permissionIds") List<Long> permissionIds);
+
+    /**
+     * 根据角色id和应用id查询api权限
+     */
+    List<ApiPermissionBO> selectApiPermissionsByRoleIdsAndApplicationId(@Param("applicationId") Long applicationId,
+                                                                       @Param("roleIds") Set<Long> roleIdSet);
 }

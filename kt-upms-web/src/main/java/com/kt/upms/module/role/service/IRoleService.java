@@ -2,12 +2,9 @@ package com.kt.upms.module.role.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kt.upms.module.role.dto.*;
 import com.kt.upms.module.role.persistence.UpmsRole;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.role.dto.RoleApiPermissionUpdateDTO;
-import com.kt.upms.module.role.dto.RoleRoutePermissionUpdateDTO;
-import com.kt.upms.module.role.dto.RoleQueryDTO;
-import com.kt.upms.module.role.dto.RoleUpdateDTO;
 import com.kt.upms.module.role.vo.RoleBaseVO;
 import com.kt.upms.module.role.vo.RoleListVO;
 
@@ -64,4 +61,6 @@ public interface IRoleService extends IService<UpmsRole> {
     List<String> getRoleNamesByUserGroupId(Long id);
 
     List<Long> getRoleIdsByUserGroupId(Long id);
+
+    void updateRoleApiPermissions(RoleApplicationApiPermissionUpdateDTO dto);
 }

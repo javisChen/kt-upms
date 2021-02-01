@@ -25,4 +25,6 @@ public interface IApplicationService extends IService<UpmsApplication> {
     List<ApplicationBaseVO> listVos(ApplicationQueryDTO dto);
 
     String getNameById(Long applicationId);
+
+    UpmsApplication getApplicationByCode(String code);
 }

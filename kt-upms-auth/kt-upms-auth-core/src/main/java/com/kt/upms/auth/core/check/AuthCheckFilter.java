@@ -33,10 +33,12 @@ public class AuthCheckFilter extends GenericFilterBean {
     private AccessTokenProperties accessTokenProperties = new AccessTokenProperties();
     private UserTokenCache userTokenCache;
     private AuthCheck authCheck;
+    private AuthProperties authProperties;
 
     public AuthCheckFilter(UserTokenCache userTokenCache, AuthProperties authProperties) {
         this.userTokenCache = userTokenCache;
         this.authCheck = new RemoteAuthCheck(authProperties);
+        this.authProperties = authProperties;
     }
 
     @Override
@@ -96,7 +98,7 @@ public class AuthCheckFilter extends GenericFilterBean {
         authRequest.setUserCode(loginUserContext.getUserCode());
         authRequest.setUrl(request.getRequestURI());
         authRequest.setMethod(request.getMethod());
-        authRequest.setApplicationCode(authRequest.getApplicationCode());
+        authRequest.setApplicationCode(authProperties.getApplicationCode());
         return authRequest;
     }
 

@@ -1,12 +1,10 @@
 package com.kt.upms.module.permission.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kt.upms.auth.core.model.AuthRequest;
-import com.kt.upms.auth.core.model.AuthResponse;
-import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.enums.PermissionTypeEnums;
+import com.kt.upms.module.permission.bo.ApiPermissionBO;
+import com.kt.upms.module.permission.persistence.UpmsPermission;
 import com.kt.upms.module.permission.vo.PermissionVO;
-import com.kt.upms.module.route.dto.PermissionUpdateDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -33,8 +31,6 @@ public interface IPermissionService extends IService<UpmsPermission> {
      */
     void removeRolePermission(Long roleId, List<Long> permissionIds);
 
-    void updateStatus(PermissionUpdateDTO dto);
-
     List<UpmsPermission> getPermissionByRoleIds(Set<Long> roleIds, PermissionTypeEnums permissionTypeEnums);
 
     List<UpmsPermission> getAllPermissionsByType(PermissionTypeEnums type);
@@ -45,11 +41,9 @@ public interface IPermissionService extends IService<UpmsPermission> {
 
     UpmsPermission getPermission(Long resourceId, PermissionTypeEnums pageElement);
 
-    boolean hasApiPermission(String application, Long userId, String url, String method);
-
-    boolean hasApiPermission(String application, String userCode, String url, String method);
-
     void removeByResourceIds(List<Long> ids);
 
-    AuthResponse checkPermission(AuthRequest request);
+    List<ApiPermissionBO> getApiPermissionByIds(List<Long> permissionIds);
+
+    List<ApiPermissionBO> getApiPermissionByRoleIdsAndApplicationCode(String applicationCode, Set<Long> roleIdSet);
 }

@@ -20,6 +20,7 @@
         gmt_modified,
         type, code, status, resource_id
     </sql>
+
     <select id="selectByRoleIdsAndType" resultType="com.kt.upms.module.permission.persistence.UpmsPermission">
         select up.id,
         up.type,
@@ -36,12 +37,13 @@
 
     <select id="selectByRoleIdAndType" resultType="com.kt.upms.module.permission.persistence.UpmsPermission">
         select up.id,
-        code
+               code
         from upms_permission up
-        inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
+                 inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
         where role_id = #{roleId}
-        and up.type = #{type}
-        and up.is_deleted = 0
+          and up.type = #{type}
+          and up.status = 1
+          and up.is_deleted = 0
     </select>
 
     <select id="selectApiPermissionByIds" resultType="com.kt.upms.module.permission.bo.ApiPermissionBO">
@@ -60,6 +62,30 @@
         and up.status = 1
         and up.id in
         <foreach open="(" close=")" collection="permissionIds" item="item" separator=",">
+            #{item}
+        </foreach>
+
+    </select>
+    <select id="selectApiPermissionsByRoleIdsAndApplicationId" resultType="com.kt.upms.module.permission.bo.ApiPermissionBO">
+        select
+            up.id permissionId,
+            up.code permissionCode,
+            up.type permissionType,
+            ua.id apiId,
+            ua.name apiName,
+            ua.url apiUrl,
+            ua.method apiMethod,
+            ua.auth_type apiAuthType
+        from upms_permission up
+        inner join upms_permission_role_rel uprr on uprr.permission_id = up.id
+        inner join upms_api ua on up.resource_id = ua.id
+        where up.type = 'SER_API'
+        and up.is_deleted = 0
+        and ua.status = 1
+        and up.status = 1
+        and ua.application_id = #{applicationId}
+        and uprr.role_id in
+        <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
 
