@@ -30,6 +30,6 @@ public interface UpmsPermissionMapper extends BaseMapper<UpmsPermission> {
     /**
      * 根据角色id和应用id查询api权限
      */
-    List<ApiPermissionBO> selectApiPermissionsByRoleIdsAndApplicationId(@Param("applicationId") Long applicationId,
+    Set<ApiPermissionBO> selectApiPermissionsByRoleIdsAndApplicationId(@Param("applicationId") Long applicationId,
                                                                        @Param("roleIds") Set<Long> roleIdSet);
 }

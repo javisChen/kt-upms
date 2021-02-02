@@ -1,5 +1,6 @@
 package com.kt.upms.auth.core.check;
 
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
@@ -9,7 +10,6 @@ import com.kt.upms.auth.core.extractor.DefaultTokenExtractor;
 import com.kt.upms.auth.core.extractor.TokenExtractor;
 import com.kt.upms.auth.core.model.AuthRequest;
 import com.kt.upms.auth.core.model.AuthResponse;
-import com.kt.upms.auth.core.model.LoginUserContext;
 import com.kt.upms.config.AccessTokenProperties;
 import com.kt.upms.config.AuthProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,10 @@ public class AuthCheckFilter extends GenericFilterBean {
     private TokenExtractor tokenExtractor = new DefaultTokenExtractor();
     private AccessTokenProperties accessTokenProperties = new AccessTokenProperties();
     private UserTokenCache userTokenCache;
-    private AuthCheck authCheck;
     private AuthProperties authProperties;
 
     public AuthCheckFilter(UserTokenCache userTokenCache, AuthProperties authProperties) {
         this.userTokenCache = userTokenCache;
-        this.authCheck = new RemoteAuthCheck(authProperties);
         this.authProperties = authProperties;
     }
 
@@ -51,30 +49,16 @@ public class AuthCheckFilter extends GenericFilterBean {
         boolean debugEnabled = log.isDebugEnabled();
         logDebug(debugEnabled, "Auth Filter：Processing Auth Check......");
 
-        String token = tokenExtractor.extract(request, accessTokenProperties);
-        logDebug(debugEnabled, "Auth Filter：Current Token -> [{}]", token);
-        if (StringUtils.isBlank(token)) {
-            logDebug(debugEnabled, "Auth Filter：Token [{}] is blank", token);
-            responseFail(response, HttpStatus.UNAUTHORIZED, ResponseEnums.USER_AUTHENTICATION_FAIL);
-            return;
-        }
-
-        LoginUserContext loginUserContext = userTokenCache.get(token);
-        if (loginUserContext == null) {
-            logDebug(debugEnabled, "Auth Filter：Token [{}] is invalid", token);
-            responseFail(response, HttpStatus.UNAUTHORIZED, ResponseEnums.USER_AUTHENTICATION_FAIL);
-            return;
-        }
-
-        AuthResponse authResponse = requestCheckPermission(loginUserContext, request);
+        final String requestURI = request.getRequestURI();
+        AuthResponse authResponse = requestCheckPermission(request);
         if (authResponse.getHasPermission()) {
-            logDebug(debugEnabled, "Auth Filter：Token [{}] Check Result： Pass", token);
-            LoginUserContextHolder.setContext(loginUserContext);
+            logDebug(debugEnabled, "Auth Filter：Check Result： Pass");
+            LoginUserContextHolder.setContext(authResponse.getLoginUserContext());
             chain.doFilter(request, response);
             return;
         }
 
-        logDebug(debugEnabled, "Auth Filter：Token [{}] Check Result： Fail, Reason：{}", token, authResponse.getMsg());
+        logDebug(debugEnabled, "Auth Filter：Check Result： Fail, Reason：{}", authResponse.getMsg());
         responseFail(response, HttpStatus.FORBIDDEN, ResponseEnums.USER_ACCESS_DENIED);
     }
 
@@ -87,20 +71,43 @@ public class AuthCheckFilter extends GenericFilterBean {
         JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(code, msg));
     }
 
-    private AuthResponse requestCheckPermission(LoginUserContext loginUserContext, HttpServletRequest request) {
-        AuthRequest authRequest = createAuthRequest(loginUserContext, request);
-        return authCheck.checkPermission(authRequest);
+    private AuthResponse requestCheckPermission(HttpServletRequest request) {
+        AuthRequest authRequest = createAuthRequest(request);
+
+        String body = JSONObject.toJSONString(authRequest);
+        String authResponseBody = null;
+        try {
+            authResponseBody = HttpUtil.post(authProperties.getServerUrl(), body, authProperties.getTimeout());
+        } catch (Exception e) {
+            log.error("统一认证服务请求失败", e);
+            return AuthResponse.fail("Auth Server Error：" + e.getMessage());
+        }
+        if (StringUtils.isBlank(authResponseBody)) {
+            return AuthResponse.fail("Auth Server Error：Unknown Error");
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("Receive Auth Result -----> {}", authResponseBody);
+        }
+
+        return JSONObject.parseObject(authResponseBody, AuthResponse.class);
     }
 
-    private AuthRequest createAuthRequest(LoginUserContext loginUserContext, HttpServletRequest request) {
+    public static void main(String[] args) {
+        final String s = "{\"code\":\"000000\",\"hasPermission\":true,\"loginUserContext\":{\"accessToken\":\"44708494-e199-4700-828d-c1348945356b\",\"expires\":43200,\"isSuperAdmin\":false,\"userCode\":\"b6fc6b30b1564ab88c45b16fca44433f\",\"userId\":2,\"username\":\"JCKT\"}}";
+        AuthResponse authResponse = JSONObject.parseObject(s, AuthResponse.class);
+        System.out.println(authResponse);
+    }
+
+    private AuthRequest createAuthRequest(HttpServletRequest request) {
+        String token = tokenExtractor.extract(request, accessTokenProperties);
         AuthRequest authRequest = new AuthRequest();
-        authRequest.setUserId(loginUserContext.getUserId());
-        authRequest.setUserCode(loginUserContext.getUserCode());
-        authRequest.setUrl(request.getRequestURI());
+        authRequest.setRequestUri(request.getRequestURI());
         authRequest.setMethod(request.getMethod());
+        authRequest.setAccessToken(token);
         authRequest.setApplicationCode(authProperties.getApplicationCode());
         return authRequest;
     }
+
 
     private void logDebug(boolean debugEnabled, String s, Object... o) {
         if (debugEnabled) {

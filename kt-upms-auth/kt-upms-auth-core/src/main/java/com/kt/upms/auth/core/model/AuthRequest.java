@@ -5,10 +5,12 @@ import lombok.Data;
 @Data
 public class AuthRequest {
 
+    private String accessToken;
     private Long userId;
     private String userCode;
-    private String url;
+    private String requestUri;
     private String method;
     private String applicationCode;
+
 
 }

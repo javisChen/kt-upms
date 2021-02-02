@@ -58,4 +58,6 @@ public interface IUserPermissionService {
     boolean hasApiPermission(String applicationCode, String userCode, String url, String method);
 
     AuthResponse checkPermission(AuthRequest request);
+
+    AuthResponse accessCheck(AuthRequest request);
 }

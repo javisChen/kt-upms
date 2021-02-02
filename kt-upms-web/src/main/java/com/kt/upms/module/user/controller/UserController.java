@@ -124,7 +124,7 @@ public class UserController extends BaseController {
      */
     @PostMapping("/user/permission/check")
     public AuthResponse checkPermission(@RequestBody AuthRequest request) {
-        return iUserPermissionService.checkPermission(request);
+        return iUserPermissionService.accessCheck(request);
     }
 
 }

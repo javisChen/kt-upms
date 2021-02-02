@@ -45,5 +45,5 @@ public interface IPermissionService extends IService<UpmsPermission> {
 
     List<ApiPermissionBO> getApiPermissionByIds(List<Long> permissionIds);
 
-    List<ApiPermissionBO> getApiPermissionByRoleIdsAndApplicationCode(String applicationCode, Set<Long> roleIdSet);
+    Set<ApiPermissionBO> getApiPermissionByRoleIdsAndApplicationCode(String applicationCode, Set<Long> roleIdSet);
 }

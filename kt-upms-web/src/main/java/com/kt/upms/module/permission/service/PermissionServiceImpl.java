@@ -128,13 +128,13 @@ public class PermissionServiceImpl extends ServiceImpl<UpmsPermissionMapper, Upm
     }
 
     @Override
-    public List<ApiPermissionBO> getApiPermissionByRoleIdsAndApplicationCode(String applicationCode, Set<Long> roleIdSet) {
+    public Set<ApiPermissionBO> getApiPermissionByRoleIdsAndApplicationCode(String applicationCode, Set<Long> roleIdSet) {
         if (CollectionUtil.isEmpty(roleIdSet)) {
-            return CollectionUtil.newArrayList();
+            return CollectionUtil.newHashSet();
         }
         UpmsApplication application = iApplicationService.getApplicationByCode(applicationCode);
         if (application == null) {
-            return CollectionUtil.newArrayList();
+            return CollectionUtil.newHashSet();
         }
         return this.baseMapper.selectApiPermissionsByRoleIdsAndApplicationId(application.getId(), roleIdSet);
     }

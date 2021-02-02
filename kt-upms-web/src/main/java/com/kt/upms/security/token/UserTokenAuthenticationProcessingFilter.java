@@ -7,7 +7,7 @@ import com.kt.component.dto.ServerResponse;
 import com.kt.upms.auth.core.context.LoginUserContextHolder;
 import com.kt.upms.auth.core.extractor.TokenExtractor;
 import com.kt.upms.auth.core.model.LoginUserContext;
-import com.kt.upms.security.access.ApiAccessChecker;
+import com.kt.upms.security.access.LocalAuthCheck;
 import com.kt.upms.security.configuration.SecurityCoreProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,8 +35,8 @@ public class UserTokenAuthenticationProcessingFilter extends AbstractAuthenticat
 
     public UserTokenAuthenticationProcessingFilter(TokenExtractor tokenExtractor,
                                                    SecurityCoreProperties securityCoreProperties,
-                                                   ApiAccessChecker apiAccessChecker) {
-        super(new UserTokenFilterRequestMatcher(apiAccessChecker));
+                                                   LocalAuthCheck localAuthCheck) {
+        super(new UserTokenFilterRequestMatcher(localAuthCheck));
         this.tokenExtractor = tokenExtractor;
         this.securityCoreProperties = securityCoreProperties;
     }

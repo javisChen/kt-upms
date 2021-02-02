@@ -1,6 +1,7 @@
 package com.kt.upms.module.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.kt.upms.auth.core.check.AuthCheck;
 import com.kt.upms.auth.core.model.AuthRequest;
 import com.kt.upms.auth.core.model.AuthResponse;
 import com.kt.upms.enums.PermissionTypeEnums;
@@ -15,8 +16,8 @@ import com.kt.upms.module.user.converter.UserBeanConverter;
 import com.kt.upms.module.user.persistence.UpmsUser;
 import com.kt.upms.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.upms.module.usergroup.service.IUserGroupService;
+import com.kt.upms.security.access.ApiAccessChecker;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
@@ -45,6 +46,10 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
     private UserBeanConverter beanConverter;
     @Autowired
     private IRouteService iRouteService;
+    @Autowired
+    private ApiAccessChecker apiAccessChecker;
+    @Autowired
+    private AuthCheck remoteAuthCheck;
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -133,7 +138,7 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
     }
 
     private boolean hasApiPermission(String applicationCode, Long userId, String url, String method) {
-        List<ApiPermissionBO> apiPermissions = getUserApiPermissions(applicationCode, userId);
+        Set<ApiPermissionBO> apiPermissions = getUserApiPermissions(applicationCode, userId);
         return apiPermissions
                 .stream()
                 .anyMatch(item -> {
@@ -152,29 +157,17 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
 
     @Override
     public AuthResponse checkPermission(AuthRequest request) {
-        boolean checkResult = doCheck(request);
-        if (!checkResult) {
-            return AuthResponse.fail("No Permission");
-        }
-
         boolean hasApiPermission = hasApiPermission(request.getApplicationCode(), request.getUserCode(),
-                request.getUrl(), request.getMethod());
+                request.getRequestUri(), request.getMethod());
         if (hasApiPermission) {
             return AuthResponse.success();
         }
         return AuthResponse.fail("No Permission");
     }
 
-    private boolean doCheck(AuthRequest request) {
-        boolean result = false;
-        boolean userInfo = StringUtils.isNotBlank(request.getUserCode()) || request.getUserId() != null;
-        boolean url = StringUtils.isNotBlank(request.getUrl());
-        boolean method = StringUtils.isNotBlank(request.getMethod());
-        boolean applicationCode = StringUtils.isNotBlank(request.getApplicationCode());
-        if (userInfo && url && method && applicationCode) {
-            result = true;
-        }
-        return result;
+    @Override
+    public AuthResponse accessCheck(AuthRequest request) {
+        return remoteAuthCheck.checkPermission(request);
     }
 
     private boolean hasApiPermission(String applicationCode, UpmsUser user, String url, String method) {
@@ -187,7 +180,7 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
     /**
      * 获取用户可访问的api并且需要授权认证的API
      */
-    private List<ApiPermissionBO> getUserApiPermissions(String applicationCode, Long userId) {
+    private Set<ApiPermissionBO> getUserApiPermissions(String applicationCode, Long userId) {
         Set<Long> roleIdSet = getUserAllRoles(userId);
         return iPermissionService.getApiPermissionByRoleIdsAndApplicationCode(applicationCode, roleIdSet);
     }

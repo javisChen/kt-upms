@@ -1,8 +1,10 @@
 package com.kt.upms.module.permission.bo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class ApiPermissionBO {
 
     private String permissionType;

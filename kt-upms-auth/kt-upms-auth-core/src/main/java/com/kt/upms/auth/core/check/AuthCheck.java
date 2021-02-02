@@ -8,8 +8,5 @@ import com.kt.upms.auth.core.model.AuthResponse;
  */
 public interface AuthCheck {
 
-    /**
-     * 权限检查
-     */
-    AuthResponse checkPermission(AuthRequest request);
+    AuthResponse checkPermission(AuthRequest authRequest);
 }

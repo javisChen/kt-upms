@@ -6,7 +6,7 @@ import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
-import com.kt.upms.module.api.cache.ApiCacheManager;
+import com.kt.upms.module.api.cache.ApiCacheHolder;
 import com.kt.upms.module.api.dto.ApiQueryDTO;
 import com.kt.upms.module.api.dto.ApiUpdateDTO;
 import com.kt.upms.module.api.service.IApiService;
@@ -37,7 +37,7 @@ import java.util.Set;
 public class ApiController extends BaseController {
 
     @Autowired
-    private ApiCacheManager apiCacheManager;
+    private ApiCacheHolder apiCacheManager;
     @Autowired
     private IApiService iApiService;
     @Autowired

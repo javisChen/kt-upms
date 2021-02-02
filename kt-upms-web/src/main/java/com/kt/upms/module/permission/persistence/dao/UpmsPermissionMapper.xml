@@ -88,6 +88,7 @@
         <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
+        group by up.id
 
     </select>
 
