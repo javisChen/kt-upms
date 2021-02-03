@@ -32,7 +32,7 @@ public class AuthSecurityAutoConfiguration {
     }
 
     @Bean
-    public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter(UserTokenCache tokenCache) {
-        return new AuthSecurityConfig(tokenCache, authProperties);
+    public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter() {
+        return new AuthSecurityConfig(authProperties);
     }
 }

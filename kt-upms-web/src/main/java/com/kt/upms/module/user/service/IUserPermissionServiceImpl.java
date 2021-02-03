@@ -137,27 +137,26 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
         return iRouteService.getRouteVOSByIds(routeIds);
     }
 
-    private boolean hasApiPermission(String applicationCode, Long userId, String url, String method) {
-        Set<ApiPermissionBO> apiPermissions = getUserApiPermissions(applicationCode, userId);
-        return apiPermissions
-                .stream()
-                .anyMatch(item -> {
-                    boolean methodEquals = item.getApiMethod().equalsIgnoreCase(method);
-                    boolean urlEquals = antPathMatcher.match(item.getApiUrl(), url);
-                    return methodEquals && urlEquals;
-                });
-    }
-
-
     @Override
-    public boolean hasApiPermission(String applicationCode, String userCode, String url, String method) {
+    public boolean checkHasApiPermission(String applicationCode, String userCode, String url, String method) {
         UpmsUser user = iUserService.getUserByCode(userCode);
-        return hasApiPermission(applicationCode, user, url, method);
+        if (isSuperAdmin(user.getCode())) {
+            return true;
+        }
+        Long userId = user.getId();
+        Set<ApiPermissionBO> apiPermissions = getUserApiPermissions(applicationCode, userId);
+        return apiPermissions.stream().anyMatch(item -> matchApi(url, method, item));
+    }
+
+    private boolean matchApi(String url, String method, ApiPermissionBO item) {
+        boolean methodEquals = item.getApiMethod().equalsIgnoreCase(method);
+        boolean urlEquals = antPathMatcher.match(item.getApiUrl(), url);
+        return methodEquals && urlEquals;
     }
 
     @Override
-    public AuthResponse checkPermission(AuthRequest request) {
-        boolean hasApiPermission = hasApiPermission(request.getApplicationCode(), request.getUserCode(),
+    public AuthResponse checkApiPermission(AuthRequest request) {
+        boolean hasApiPermission = checkHasApiPermission(request.getApplicationCode(), request.getUserCode(),
                 request.getRequestUri(), request.getMethod());
         if (hasApiPermission) {
             return AuthResponse.success();
@@ -168,13 +167,6 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
     @Override
     public AuthResponse accessCheck(AuthRequest request) {
         return remoteAuthCheck.checkPermission(request);
-    }
-
-    private boolean hasApiPermission(String applicationCode, UpmsUser user, String url, String method) {
-        if (isSuperAdmin(user.getCode())) {
-            return true;
-        }
-        return hasApiPermission(applicationCode, user.getId(), url, method);
     }
 
     /**

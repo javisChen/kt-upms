@@ -74,7 +74,7 @@ public class RemoteAuthCheck extends AbstractAuthCheck {
         }
 
         AuthRequest authReq = createAuthenticationRequest(method, requestUri, userContext.getUserCode(), applicationCode);
-        AuthResponse authResponse = iUserPermissionService.checkPermission(authReq);
+        AuthResponse authResponse = iUserPermissionService.checkApiPermission(authReq);
         authResponse.setLoginUserContext(userContext);
         return authResponse;
     }

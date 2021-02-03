@@ -1,12 +1,14 @@
 package com.kt.upms.auth.core.model;
 
 import com.kt.component.dto.ResponseEnums;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * 权限校验响应体
  */
 @Data
+@AllArgsConstructor
 public class AuthResponse {
 
     private String code;

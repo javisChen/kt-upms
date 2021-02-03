@@ -1,30 +1,37 @@
 package com.kt.auth.security;
 
-import com.kt.upms.auth.core.cache.UserTokenCache;
 import com.kt.upms.auth.core.check.AuthCheckFilter;
 import com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter;
 import com.kt.upms.config.AuthProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 安全控制配置
  */
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true) // 启用@PreAuthorize注解
 @Slf4j
-public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
+public class AuthSecurityConfig extends WebSecurityConfigurerAdapter implements InitializingBean {
 
-    private UserTokenCache userTokenCache;
+    @Autowired
+    private RequestMappingHandlerMapping handlerMapping;
+
     private AuthProperties authProperties;
+    private List<String> allowList;
 
-    public AuthSecurityConfig(UserTokenCache userTokenCache, AuthProperties authProperties) {
-        this.userTokenCache = userTokenCache;
+    public AuthSecurityConfig(AuthProperties authProperties) {
         this.authProperties = authProperties;
     }
 
@@ -46,7 +53,7 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void setupAuthFilter(HttpSecurity http) throws Exception {
         http.addFilterBefore(new LoginUserContextPersistenceFilter(), SecurityContextPersistenceFilter.class)
-                .addFilterBefore(new AuthCheckFilter(userTokenCache, authProperties), LoginUserContextPersistenceFilter.class);
+                .addFilterBefore(new AuthCheckFilter(authProperties, allowList), LoginUserContextPersistenceFilter.class);
     }
 
     @Bean
@@ -55,4 +62,8 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        final Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
+    }
 }

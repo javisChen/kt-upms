@@ -4,7 +4,6 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
-import com.kt.upms.auth.core.cache.UserTokenCache;
 import com.kt.upms.auth.core.context.LoginUserContextHolder;
 import com.kt.upms.auth.core.extractor.DefaultTokenExtractor;
 import com.kt.upms.auth.core.extractor.TokenExtractor;
@@ -16,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -25,18 +25,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 public class AuthCheckFilter extends GenericFilterBean {
 
     private TokenExtractor tokenExtractor = new DefaultTokenExtractor();
     private AccessTokenProperties accessTokenProperties = new AccessTokenProperties();
-    private UserTokenCache userTokenCache;
     private AuthProperties authProperties;
+    private List<String> allowList;
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
 
-    public AuthCheckFilter(UserTokenCache userTokenCache, AuthProperties authProperties) {
-        this.userTokenCache = userTokenCache;
+    public AuthCheckFilter(AuthProperties authProperties, List<String> allowList) {
         this.authProperties = authProperties;
+        this.allowList = allowList;
     }
 
     @Override
@@ -49,7 +51,13 @@ public class AuthCheckFilter extends GenericFilterBean {
         boolean debugEnabled = log.isDebugEnabled();
         logDebug(debugEnabled, "Auth Filter：Processing Auth Check......");
 
-        final String requestURI = request.getRequestURI();
+        // 检查下当前接口是否不走权限中心
+        if (matchNoPermission(request)) {
+            LoginUserContextHolder.setContext(null);
+            chain.doFilter(request, response);
+            return;
+        }
+
         AuthResponse authResponse = requestCheckPermission(request);
         if (authResponse.getHasPermission()) {
             logDebug(debugEnabled, "Auth Filter：Check Result： Pass");
@@ -59,7 +67,13 @@ public class AuthCheckFilter extends GenericFilterBean {
         }
 
         logDebug(debugEnabled, "Auth Filter：Check Result： Fail, Reason：{}", authResponse.getMsg());
-        responseFail(response, HttpStatus.FORBIDDEN, ResponseEnums.USER_ACCESS_DENIED);
+        responseFail(response, HttpStatus.FORBIDDEN, authResponse.getCode(), authResponse.getMsg());
+    }
+
+    private boolean matchNoPermission(HttpServletRequest request) {
+        String servletPath = request.getServletPath();
+        final boolean b = allowList.stream().anyMatch(item -> pathMatcher.match(item, servletPath));
+        return b;
     }
 
     private void responseFail(HttpServletResponse response, HttpStatus httpStatus, ResponseEnums responseEnums) throws IOException {
@@ -71,6 +85,9 @@ public class AuthCheckFilter extends GenericFilterBean {
         JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(code, msg));
     }
 
+    /**
+     * 请求权限中心
+     */
     private AuthResponse requestCheckPermission(HttpServletRequest request) {
         AuthRequest authRequest = createAuthRequest(request);
 
@@ -85,17 +102,10 @@ public class AuthCheckFilter extends GenericFilterBean {
         if (StringUtils.isBlank(authResponseBody)) {
             return AuthResponse.fail("Auth Server Error：Unknown Error");
         }
-        if (log.isDebugEnabled()) {
-            log.debug("Receive Auth Result -----> {}", authResponseBody);
-        }
 
-        return JSONObject.parseObject(authResponseBody, AuthResponse.class);
-    }
-
-    public static void main(String[] args) {
-        final String s = "{\"code\":\"000000\",\"hasPermission\":true,\"loginUserContext\":{\"accessToken\":\"44708494-e199-4700-828d-c1348945356b\",\"expires\":43200,\"isSuperAdmin\":false,\"userCode\":\"b6fc6b30b1564ab88c45b16fca44433f\",\"userId\":2,\"username\":\"JCKT\"}}";
-        AuthResponse authResponse = JSONObject.parseObject(s, AuthResponse.class);
-        System.out.println(authResponse);
+        AuthResponse authResponse = JSONObject.parseObject(authResponseBody, AuthResponse.class);
+        logDebug(log.isDebugEnabled(), "Receive Auth Result -----> {}", authResponse);
+        return authResponse;
     }
 
     private AuthRequest createAuthRequest(HttpServletRequest request) {

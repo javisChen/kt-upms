@@ -55,9 +55,9 @@ public interface IUserPermissionService {
      */
     boolean isSuperAdmin(String userCode);
 
-    boolean hasApiPermission(String applicationCode, String userCode, String url, String method);
+    boolean checkHasApiPermission(String applicationCode, String userCode, String url, String method);
 
-    AuthResponse checkPermission(AuthRequest request);
+    AuthResponse checkApiPermission(AuthRequest request);
 
     AuthResponse accessCheck(AuthRequest request);
 }

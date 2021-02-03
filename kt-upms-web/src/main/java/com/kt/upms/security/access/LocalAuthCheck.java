@@ -8,9 +8,9 @@ import com.kt.upms.module.application.service.IApplicationService;
 import com.kt.upms.module.user.service.IUserPermissionService;
 import com.kt.upms.security.configuration.SecurityCoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class LocalAuthCheck extends AbstractAuthCheck {
 
     @Autowired
@@ -42,6 +42,6 @@ public class LocalAuthCheck extends AbstractAuthCheck {
             return AuthResponse.success();
         }
 
-        return iUserPermissionService.checkPermission(authRequest);
+        return iUserPermissionService.checkApiPermission(authRequest);
     }
 }
