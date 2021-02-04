@@ -15,14 +15,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +31,6 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter implements 
 
     @Autowired
     private RequestMappingHandlerMapping handlerMapping;
-
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -78,57 +74,46 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter implements 
     }
 
     private void initAllowList() {
+        allowList = new ArrayList<>(handlerMapping.getHandlerMethods().size());
         Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(RestController.class);
         for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
             Object value = entry.getValue();
-            Annotation annotation = value.getClass().getAnnotation(SkipPermissionCheck.class);
-            if (annotation != null) {
-                for (Method method : value.getClass().getDeclaredMethods()) {
-                    add(method);
-                }
-            }
-        }
-        System.out.println(beansWithAnnotation);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
-        allowList = new ArrayList<>(handlerMethods.size());
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-            RequestMappingInfo key = entry.getKey();
-            HandlerMethod value = entry.getValue();
-            SkipPermissionCheck annotation = value.getMethodAnnotation(SkipPermissionCheck.class);
-            if (annotation != null) {
-                Iterator<String> stringIterator = key.getPatternsCondition().getPatterns().iterator();
-                Iterator<RequestMethod> requestMethodIterator = key.getMethodsCondition().getMethods().iterator();
-                if (requestMethodIterator.hasNext() && stringIterator.hasNext()) {
-                    allowList.add(requestMethodIterator.next().name() + ":" + stringIterator.next());
+            // 如果Controller上有SkipPermissionCheck注解的话，里面的所有接口都跳过权限校验
+            // 如果没有的话，则根据接口上的注解决定是否跳过
+            Annotation classAnnotation = value.getClass().getAnnotation(SkipPermissionCheck.class);
+            for (Method method : value.getClass().getDeclaredMethods()) {
+                if (classAnnotation != null || method.getAnnotation(SkipPermissionCheck.class) != null) {
+                    addToAllowList(method);
                 }
             }
         }
     }
 
-    private void add(Method method) {
+    private void addToAllowList(Method method) {
         PostMapping postMapping = method.getAnnotation(PostMapping.class);
         if (postMapping != null) {
-            allowList.add("POST" + ":" + postMapping.path()[0]);
+            allowList.add("POST" + ":" + postMapping.value()[0]);
             return;
         }
         GetMapping getMapping = method.getAnnotation(GetMapping.class);
         if (getMapping != null) {
-            allowList.add("GET" + ":" + getMapping.path()[0]);
+            String s = getMapping.value()[0];
+            allowList.add("GET" + ":" + s);
             return;
         }
         DeleteMapping deleteMapping = method.getAnnotation(DeleteMapping.class);
         if (deleteMapping != null) {
-            allowList.add("DELETE" + ":" + deleteMapping.path()[0]);
+            allowList.add("DELETE" + ":" + deleteMapping.value()[0]);
             return;
         }
         PutMapping putMapping = method.getAnnotation(PutMapping.class);
         if (putMapping != null) {
-            allowList.add("POST" + ":" + putMapping.path()[0]);
+            allowList.add("POST" + ":" + putMapping.value()[0]);
             return;
         }
         PatchMapping patchMapping = method.getAnnotation(PatchMapping.class);
         if (patchMapping != null) {
-            allowList.add("PATCH" + ":" + patchMapping.path()[0]);
+            allowList.add("PATCH" + ":" + patchMapping.value()[0]);
         }
     }
 }
