@@ -71,9 +71,11 @@ public class AuthCheckFilter extends GenericFilterBean {
     }
 
     private boolean matchNoPermission(HttpServletRequest request) {
-        String servletPath = request.getServletPath();
-        final boolean b = allowList.stream().anyMatch(item -> pathMatcher.match(item, servletPath));
-        return b;
+        return allowList.stream().anyMatch(item -> pathMatcher.match(item, createKey(request)));
+    }
+
+    private String createKey(HttpServletRequest request) {
+        return request.getMethod() + ":" + request.getServletPath();
     }
 
     private void responseFail(HttpServletResponse response, HttpStatus httpStatus, ResponseEnums responseEnums) throws IOException {
