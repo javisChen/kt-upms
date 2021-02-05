@@ -65,7 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LocalAuthCheck localAuthCheck;
 
-
     /**
      * 配置客户端认证的参数
      */
