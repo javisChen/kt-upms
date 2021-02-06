@@ -18,21 +18,22 @@ public class RedisUserTokenCache extends AbstractUserTokenCache {
     }
 
     @Override
-    public void save(String key, Object value, long expires) {
-        redisService.set(createKey(key), value, expires);
+    void saveCache(String key, Object value, long expires) {
+        redisService.set(key, value, expires);
     }
 
     @Override
-    public void remove(String key) {
-        redisService.remove(createKey(key));
-    }
-
-    @Override
-    public LoginUserContext get(String key) {
-        Object redisValue = redisService.get(createKey(key));
+    LoginUserContext getCache(String key) {
+        Object redisValue = redisService.get(key);
         if (redisValue == null) {
             return null;
         }
         return JSONObject.parseObject((String) redisValue, LoginUserContext.class);
     }
+
+    @Override
+    void removeCache(String key) {
+        redisService.remove(key);
+    }
+
 }

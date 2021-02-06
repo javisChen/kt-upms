@@ -30,7 +30,7 @@ import com.kt.upms.module.user.vo.UserPageListVO;
 import com.kt.upms.module.usergroup.persistence.UpmsUserGroupUserRel;
 import com.kt.upms.module.usergroup.persistence.dao.UpmsUserGroupUserRelMapper;
 import com.kt.upms.module.usergroup.service.IUserGroupService;
-import com.kt.upms.security.login.LoginUserDetails;
+import com.kt.upms.auth.core.model.LoginUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -8,23 +8,23 @@ import com.kt.upms.auth.core.model.LoginUserContext;
 public interface UserTokenCache {
 
     /**
-     * 保存token
+     * 保存用户信息缓存
+     * @return 保存成功后换回Token
      */
-    void save(String key, Object value, long expires);
+    UserCacheInfo save(Object value);
 
     /**
      * 移除token
-     *
-     * @param key token key
+     * @param accessToken token key
      */
-    void remove(String key);
+    void remove(String accessToken);
 
     /**
      * 获取token
      *
-     * @param key token key
+     * @param accessToken token key
      * @return TokenStorageDTO
      */
-    LoginUserContext get(String key);
+    LoginUserContext get(String accessToken);
 
 }

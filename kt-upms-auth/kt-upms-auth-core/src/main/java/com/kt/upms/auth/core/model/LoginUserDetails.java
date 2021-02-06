@@ -1,4 +1,4 @@
-package com.kt.upms.security.login;
+package com.kt.upms.auth.core.model;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -6,11 +6,6 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-/**
- * @title:
- * @desc:
- * @author: Javis
- */
 public class LoginUserDetails extends User {
 
     private Long userId;

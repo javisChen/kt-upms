@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
+import com.kt.upms.auth.core.cache.UserCacheInfo;
 import com.kt.upms.auth.core.cache.UserTokenCache;
-import com.kt.upms.security.configuration.SecurityCoreProperties;
 import com.kt.upms.auth.core.context.LoginUserContextHolder;
 import com.kt.upms.auth.core.model.LoginUserContext;
+import com.kt.upms.auth.core.model.LoginUserDetails;
+import com.kt.upms.security.configuration.SecurityCoreProperties;
 import com.kt.upms.security.model.SecurityLoginRequest;
 import com.kt.upms.security.model.SecurityLoginResult;
 import org.springframework.http.HttpMethod;
@@ -86,18 +88,21 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
 
     private AuthenticationSuccessHandler authenticationSuccessHandler() {
         return (HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) -> {
+            setupContentType(response);
             // 认证成功后执行缓存
             LoginUserDetails user = (LoginUserDetails) authentication.getPrincipal();
-            cacheAuthentication(user);
-            setupContentType(response);
-            SecurityLoginResult vo = new SecurityLoginResult(user.getAccessToken(), user.getExpires());
-            JSONObject.writeJSONString(response.getOutputStream(), SingleResponse.ok(vo));
+            UserCacheInfo userCacheInfo = cacheAuthentication(user);
+            JSONObject.writeJSONString(response.getOutputStream(), SingleResponse.ok(createLoginResultVo(userCacheInfo)));
         };
     }
 
-    private void cacheAuthentication(LoginUserDetails user) {
+    private SecurityLoginResult createLoginResultVo(UserCacheInfo userCacheInfo) {
+        return new SecurityLoginResult(userCacheInfo.getAccessToken(), userCacheInfo.getExpires());
+    }
+
+    private UserCacheInfo cacheAuthentication(LoginUserDetails user) {
         LoginUserContext loginUserContext = buildLoginUserContext(user);
-        userTokenCache.save(loginUserContext.getAccessToken(), JSONObject.toJSONString(loginUserContext), loginUserContext.getExpires());
+        return userTokenCache.save(JSONObject.toJSONString(loginUserContext));
     }
 
     private LoginUserContext buildLoginUserContext(LoginUserDetails details) {
@@ -105,9 +110,7 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
         loginUserContext.setUserId(details.getUserId());
         loginUserContext.setUserCode(details.getUserCode());
         loginUserContext.setUsername(details.getUsername());
-        loginUserContext.setAccessToken(details.getAccessToken());
         loginUserContext.setIsSuperAdmin(details.getIsSuperAdmin());
-        loginUserContext.setExpires(securityCoreProperties.getAuthentication().getExpire());
         return loginUserContext;
     }
 }

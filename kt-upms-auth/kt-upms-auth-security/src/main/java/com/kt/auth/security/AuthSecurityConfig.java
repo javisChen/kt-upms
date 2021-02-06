@@ -1,6 +1,6 @@
 package com.kt.auth.security;
 
-import com.kt.upms.auth.core.SkipPermissionCheck;
+import com.kt.upms.auth.core.SkipCheck;
 import com.kt.upms.auth.core.check.AuthCheckFilter;
 import com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter;
 import com.kt.upms.config.AuthProperties;
@@ -33,13 +33,10 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter implements 
     private RequestMappingHandlerMapping handlerMapping;
     @Autowired
     private ApplicationContext applicationContext;
-
+    @Autowired
     private AuthProperties authProperties;
-    private List<String> allowList;
 
-    public AuthSecurityConfig(AuthProperties authProperties) {
-        this.authProperties = authProperties;
-    }
+    private List<String> allowList;
 
     /**
      * 配置请求认证的参数
@@ -80,9 +77,9 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter implements 
             Object value = entry.getValue();
             // 如果Controller上有SkipPermissionCheck注解的话，里面的所有接口都跳过权限校验
             // 如果没有的话，则根据接口上的注解决定是否跳过
-            Annotation classAnnotation = value.getClass().getAnnotation(SkipPermissionCheck.class);
+            Annotation classAnnotation = value.getClass().getAnnotation(SkipCheck.class);
             for (Method method : value.getClass().getDeclaredMethods()) {
-                if (classAnnotation != null || method.getAnnotation(SkipPermissionCheck.class) != null) {
+                if (classAnnotation != null || method.getAnnotation(SkipCheck.class) != null) {
                     addToAllowList(method);
                 }
             }

@@ -23,16 +23,4 @@ public class AccessTokenProperties {
      * 认证token查询参数的key
      */
     private String tokenQueryParam = "accessToken";
-
-    /**
-     * token中是否包含用户的所有信息，默认为包含
-     */
-    private boolean userDetails = true;
-
-    /**
-     * 12小时
-     */
-    private Long expire = 3600 * 12L;
-
-    private Long refreshTokenExpireTime = expire * 2;
 }

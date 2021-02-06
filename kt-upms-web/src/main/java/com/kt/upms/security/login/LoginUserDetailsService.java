@@ -5,7 +5,6 @@
 
 package com.kt.upms.security.login;
 
-import cn.hutool.core.util.StrUtil;
 import com.kt.upms.module.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -26,9 +25,7 @@ public class LoginUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         } else {
-            LoginUserDetails loginUserDetails = (LoginUserDetails) user;
-            loginUserDetails.setAccessToken(StrUtil.uuid());
-            return loginUserDetails;
+            return user;
         }
     }
 

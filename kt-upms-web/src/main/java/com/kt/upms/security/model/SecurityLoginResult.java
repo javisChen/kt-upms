@@ -6,10 +6,10 @@ import lombok.Data;
 public class SecurityLoginResult {
 
     private String accessToken;
-    private Long expire;
+    private Integer expires;
 
-    public SecurityLoginResult(String accessToken, Long expire) {
+    public SecurityLoginResult(String accessToken, Integer expires) {
         this.accessToken = accessToken;
-        this.expire = expire;
+        this.expires = expires;
     }
 }
