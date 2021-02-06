@@ -3,12 +3,11 @@ package com.kt.upms.module.auth.controller;
 
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.upms.auth.core.cache.UserTokenCache;
-import com.kt.upms.auth.core.extractor.TokenExtractor;
-import com.kt.upms.security.configuration.SecurityCoreProperties;
-import org.apache.commons.lang3.StringUtils;
+import com.kt.upms.module.auth.dto.AuthKickDTO;
+import com.kt.upms.module.auth.service.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,18 +24,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController extends BaseController {
 
     @Autowired
-    private UserTokenCache userTokenCache;
-    @Autowired
-    private TokenExtractor tokenExtractor;
-    @Autowired
-    private SecurityCoreProperties coreProperties;
+    private IAuthService iAuthService;
 
+    /**
+     * 登出
+     */
     @PostMapping("/auth/logout")
     public ServerResponse logout() {
-        String accessToken = tokenExtractor.extract(getRequest(), coreProperties.getAuthentication());
-        if (StringUtils.isNoneBlank(accessToken)) {
-            userTokenCache.remove(accessToken);
-        }
+        iAuthService.logout(getRequest());
+        return ServerResponse.ok();
+    }
+
+    /**
+     * 踢出（强制用户下线）
+     */
+    @PostMapping("/auth/kick")
+    public ServerResponse kick(@RequestBody AuthKickDTO dto) {
+        iAuthService.kick(dto);
         return ServerResponse.ok();
     }
 }

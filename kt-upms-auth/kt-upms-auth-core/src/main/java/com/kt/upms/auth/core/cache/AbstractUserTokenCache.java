@@ -1,10 +1,12 @@
 package com.kt.upms.auth.core.cache;
 
+import com.alibaba.fastjson.JSONObject;
 import com.kt.upms.auth.core.common.RedisKeyConst;
 import com.kt.upms.auth.core.model.LoginUserContext;
 import com.kt.upms.auth.core.token.UUIDUserTokenGenerator;
 import com.kt.upms.auth.core.token.UserTokenGenerator;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public abstract class AbstractUserTokenCache implements UserTokenCache {
@@ -20,29 +22,52 @@ public abstract class AbstractUserTokenCache implements UserTokenCache {
         this.expires = expires;
     }
 
-    private String createKey(String accessToken) {
-        return RedisKeyConst.USER_ACCESS_TOKEN_KEY_PREFIX + accessToken;
+    private String createAccessTokenKey(String accessToken) {
+        return RedisKeyConst.LOGIN_USER_ACCESS_TOKEN_KEY_PREFIX + accessToken;
+    }
+
+    private String createUserIdKey(Long userId) {
+        return RedisKeyConst.LOGIN_USER_ID_KEY_PREFIX + userId;
     }
 
     @Override
     public final void remove(String accessToken) {
-        removeCache(createKey(accessToken));
+        LoginUserContext loginUserContext = get(accessToken);
+        if (loginUserContext != null) {
+            removeCache(createAccessTokenKey(accessToken));
+            removeCache(createUserIdKey(loginUserContext.getUserId()));
+        }
     }
 
     @Override
     public final LoginUserContext get(String accessToken) {
-        return getCache(createKey(accessToken));
+        Object cache = getCache(createAccessTokenKey(accessToken));
+        if (cache == null) {
+            return null;
+        }
+        return JSONObject.parseObject((String) cache, LoginUserContext.class);
     }
 
     @Override
-    public final UserCacheInfo save(Object value) {
+    public void remove(Long userId) {
+        String token = (String) getCache(createUserIdKey(userId));
+        if (StringUtils.isNotBlank(token)) {
+            removeCache(createAccessTokenKey(token));
+            removeCache(createUserIdKey(userId));
+        }
+    }
+
+    @Override
+    public final UserCacheInfo save(LoginUserContext userContext) {
         String accessToken = genAccessToken();
-        saveCache(createKey(accessToken), value, expires);
+        saveCache(createAccessTokenKey(accessToken), JSONObject.toJSONString(userContext), expires);
+        saveCache(createUserIdKey(userContext.getUserId()), accessToken, expires);
         return new UserCacheInfo(accessToken, expires);
     }
 
     private String genAccessToken() {
         String accessToken;
+        // 防止重复
         do {
             accessToken = userTokenGenerator.generate();
         } while (!checkAccessTokenIsNotExists(accessToken));
@@ -57,7 +82,7 @@ public abstract class AbstractUserTokenCache implements UserTokenCache {
 
     abstract void saveCache(String key, Object value, long expires);
 
-    abstract LoginUserContext getCache(String key);
+    abstract Object getCache(String key);
 
     abstract void removeCache(String key);
 

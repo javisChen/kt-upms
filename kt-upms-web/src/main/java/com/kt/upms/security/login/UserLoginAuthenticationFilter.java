@@ -102,7 +102,7 @@ public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticatio
 
     private UserCacheInfo cacheAuthentication(LoginUserDetails user) {
         LoginUserContext loginUserContext = buildLoginUserContext(user);
-        return userTokenCache.save(JSONObject.toJSONString(loginUserContext));
+        return userTokenCache.save(loginUserContext);
     }
 
     private LoginUserContext buildLoginUserContext(LoginUserDetails details) {
