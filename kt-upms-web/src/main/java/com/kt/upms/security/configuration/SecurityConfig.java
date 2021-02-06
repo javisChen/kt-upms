@@ -7,7 +7,7 @@ import com.kt.component.redis.RedisService;
 import com.kt.upms.auth.core.cache.RedisUserTokenCache;
 import com.kt.upms.auth.core.cache.UserTokenCache;
 import com.kt.upms.auth.core.context.LoginUserContextPersistenceFilter;
-import com.kt.upms.auth.core.extractor.DefaultTokenExtractor;
+import com.kt.upms.auth.core.extractor.TokenExtractor;
 import com.kt.upms.security.access.LocalAuthCheck;
 import com.kt.upms.security.login.UserLoginAuthenticationFilter;
 import com.kt.upms.security.token.UserTokenAuthenticationProcessingFilter;
@@ -64,6 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LocalAuthCheck localAuthCheck;
+
+    @Autowired
+    private TokenExtractor tokenExtractor;
 
     /**
      * 配置客户端认证的参数
@@ -125,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserTokenAuthenticationProcessingFilter userTokenAuthenticationProcessingFilter()
             throws Exception {
         UserTokenAuthenticationProcessingFilter filter =
-                new UserTokenAuthenticationProcessingFilter(new DefaultTokenExtractor(), securityCoreProperties, localAuthCheck);
+                new UserTokenAuthenticationProcessingFilter(tokenExtractor, securityCoreProperties, localAuthCheck);
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }

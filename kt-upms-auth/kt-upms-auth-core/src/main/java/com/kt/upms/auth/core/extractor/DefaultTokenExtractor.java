@@ -2,12 +2,14 @@ package com.kt.upms.auth.core.extractor;
 
 import com.kt.upms.config.AccessTokenProperties;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Token提取器默认实现
  */
+@Component
 public class DefaultTokenExtractor implements TokenExtractor {
 
     @Override
