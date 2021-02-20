@@ -2,7 +2,6 @@ package com.kt.iam.auth.core.check;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.kt.component.dto.ResponseEnums;
 import com.kt.component.dto.ServerResponse;
 import com.kt.iam.auth.core.context.LoginUserContextHolder;
 import com.kt.iam.auth.core.extractor.DefaultTokenExtractor;
@@ -78,10 +77,6 @@ public class AuthCheckFilter extends GenericFilterBean {
         return request.getMethod() + ":" + request.getServletPath();
     }
 
-    private void responseFail(HttpServletResponse response, HttpStatus httpStatus, ResponseEnums responseEnums) throws IOException {
-        responseFail(response, httpStatus, responseEnums.getCode(), responseEnums.getMsg());
-    }
-
     private void responseFail(HttpServletResponse response, HttpStatus httpStatus, String code, String msg) throws IOException {
         response.setStatus(httpStatus.value());
         JSONObject.writeJSONString(response.getOutputStream(), ServerResponse.error(code, msg));
@@ -119,7 +114,6 @@ public class AuthCheckFilter extends GenericFilterBean {
         authRequest.setApplicationCode(authProperties.getApplicationCode());
         return authRequest;
     }
-
 
     private void logDebug(boolean debugEnabled, String s, Object... o) {
         if (debugEnabled) {
