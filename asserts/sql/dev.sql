@@ -16,16 +16,16 @@
 /*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
 
 --
--- Table structure for table `upms_api`
+-- Table structure for table `iam_api`
 --
 
-DROP TABLE IF EXISTS `upms_api`;
+DROP TABLE IF EXISTS `iam_api`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_api`
+CREATE TABLE `iam_api`
 (
     `id`             bigint unsigned  NOT NULL AUTO_INCREMENT,
-    `application_id` bigint unsigned  NOT NULL DEFAULT '0' COMMENT '应用id，关联upms_application.id',
+    `application_id` bigint unsigned  NOT NULL DEFAULT '0' COMMENT '应用id，关联iam_application.id',
     `name`           varchar(50)      NOT NULL DEFAULT '' COMMENT 'API名称',
     `url`            varchar(128)     NOT NULL DEFAULT '' COMMENT '接口地址',
     `method`         tinyint(1)                DEFAULT '1' COMMENT 'Http Method 1-GET 2-POST 3-PUT 4-DELETE  5-PATCH',
@@ -46,24 +46,24 @@ CREATE TABLE `upms_api`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_api`
+-- Dumping data for table `iam_api`
 --
 
-LOCK TABLES `upms_api` WRITE;
-/*!40000 ALTER TABLE `upms_api`
+LOCK TABLES `iam_api` WRITE;
+/*!40000 ALTER TABLE `iam_api`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_api`
+/*!40000 ALTER TABLE `iam_api`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_application`
+-- Table structure for table `iam_application`
 --
 
-DROP TABLE IF EXISTS `upms_application`;
+DROP TABLE IF EXISTS `iam_application`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_application`
+CREATE TABLE `iam_application`
 (
     `id`           bigint unsigned  NOT NULL AUTO_INCREMENT,
     `name`         varchar(50)      NOT NULL DEFAULT '' COMMENT '应用名称',
@@ -85,27 +85,27 @@ CREATE TABLE `upms_application`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_application`
+-- Dumping data for table `iam_application`
 --
 
-LOCK TABLES `upms_application` WRITE;
-/*!40000 ALTER TABLE `upms_application`
+LOCK TABLES `iam_application` WRITE;
+/*!40000 ALTER TABLE `iam_application`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_application`
+/*!40000 ALTER TABLE `iam_application`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_page_element`
+-- Table structure for table `iam_page_element`
 --
 
-DROP TABLE IF EXISTS `upms_page_element`;
+DROP TABLE IF EXISTS `iam_page_element`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_page_element`
+CREATE TABLE `iam_page_element`
 (
     `id`           bigint unsigned  NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `route_id`     bigint unsigned  NOT NULL COMMENT '所属菜单id，关联upms_menu.id',
+    `route_id`     bigint unsigned  NOT NULL COMMENT '所属菜单id，关联iam_menu.id',
     `name`         varchar(45)      NOT NULL COMMENT '元素名称',
     `type`         tinyint unsigned NOT NULL DEFAULT '0' COMMENT '元素类型 1-按钮；2-层；',
     `gmt_create`   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -122,24 +122,24 @@ CREATE TABLE `upms_page_element`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_page_element`
+-- Dumping data for table `iam_page_element`
 --
 
-LOCK TABLES `upms_page_element` WRITE;
-/*!40000 ALTER TABLE `upms_page_element`
+LOCK TABLES `iam_page_element` WRITE;
+/*!40000 ALTER TABLE `iam_page_element`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_page_element`
+/*!40000 ALTER TABLE `iam_page_element`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_permission`
+-- Table structure for table `iam_permission`
 --
 
-DROP TABLE IF EXISTS `upms_permission`;
+DROP TABLE IF EXISTS `iam_permission`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_permission`
+CREATE TABLE `iam_permission`
 (
     `id`           bigint unsigned  NOT NULL AUTO_INCREMENT COMMENT 'id',
     `code`         varchar(45)      NOT NULL COMMENT '权限编码',
@@ -161,28 +161,28 @@ CREATE TABLE `upms_permission`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_permission`
+-- Dumping data for table `iam_permission`
 --
 
-LOCK TABLES `upms_permission` WRITE;
-/*!40000 ALTER TABLE `upms_permission`
+LOCK TABLES `iam_permission` WRITE;
+/*!40000 ALTER TABLE `iam_permission`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_permission`
+/*!40000 ALTER TABLE `iam_permission`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_permission_role_rel`
+-- Table structure for table `iam_permission_role_rel`
 --
 
-DROP TABLE IF EXISTS `upms_permission_role_rel`;
+DROP TABLE IF EXISTS `iam_permission_role_rel`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_permission_role_rel`
+CREATE TABLE `iam_permission_role_rel`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `permission_id` bigint unsigned NOT NULL COMMENT '权限id，关联upms_permission.id',
-    `role_id`       bigint unsigned NOT NULL COMMENT '角色id，关联upms_role.id',
+    `permission_id` bigint unsigned NOT NULL COMMENT '权限id，关联iam_permission.id',
+    `role_id`       bigint unsigned NOT NULL COMMENT '角色id，关联iam_role.id',
     `type`          varchar(25)     NOT NULL DEFAULT '' COMMENT '权限类型 FRONT_ROUTE-前端路由；PAGE_ELEMENT-页面元素；PAGE-页面；FILE-文件；SER_API-内部服务API；OPEN_API-开放API',
     `gmt_create`    datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_modified`  datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -196,24 +196,24 @@ CREATE TABLE `upms_permission_role_rel`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_permission_role_rel`
+-- Dumping data for table `iam_permission_role_rel`
 --
 
-LOCK TABLES `upms_permission_role_rel` WRITE;
-/*!40000 ALTER TABLE `upms_permission_role_rel`
+LOCK TABLES `iam_permission_role_rel` WRITE;
+/*!40000 ALTER TABLE `iam_permission_role_rel`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_permission_role_rel`
+/*!40000 ALTER TABLE `iam_permission_role_rel`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_role`
+-- Table structure for table `iam_role`
 --
 
-DROP TABLE IF EXISTS `upms_role`;
+DROP TABLE IF EXISTS `iam_role`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_role`
+CREATE TABLE `iam_role`
 (
     `id`           bigint unsigned  NOT NULL AUTO_INCREMENT COMMENT 'Id',
     `name`         varchar(45)      NOT NULL COMMENT '用户名称',
@@ -232,27 +232,27 @@ CREATE TABLE `upms_role`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_role`
+-- Dumping data for table `iam_role`
 --
 
-LOCK TABLES `upms_role` WRITE;
-/*!40000 ALTER TABLE `upms_role`
+LOCK TABLES `iam_role` WRITE;
+/*!40000 ALTER TABLE `iam_role`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_role`
+/*!40000 ALTER TABLE `iam_role`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_route`
+-- Table structure for table `iam_route`
 --
 
-DROP TABLE IF EXISTS `upms_route`;
+DROP TABLE IF EXISTS `iam_route`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_route`
+CREATE TABLE `iam_route`
 (
     `id`             bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `application_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '应用id，关联upms_application.id',
+    `application_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '应用id，关联iam_application.id',
     `name`           varchar(45)     NOT NULL COMMENT '路由标题',
     `code`           varchar(64)     NOT NULL DEFAULT '' COMMENT '路由编码',
     `component`      varchar(64)     NOT NULL DEFAULT '' COMMENT '组件名',
@@ -283,24 +283,24 @@ CREATE TABLE `upms_route`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_route`
+-- Dumping data for table `iam_route`
 --
 
-LOCK TABLES `upms_route` WRITE;
-/*!40000 ALTER TABLE `upms_route`
+LOCK TABLES `iam_route` WRITE;
+/*!40000 ALTER TABLE `iam_route`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_route`
+/*!40000 ALTER TABLE `iam_route`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_user`
+-- Table structure for table `iam_user`
 --
 
-DROP TABLE IF EXISTS `upms_user`;
+DROP TABLE IF EXISTS `iam_user`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_user`
+CREATE TABLE `iam_user`
 (
     `id`           bigint unsigned  NOT NULL AUTO_INCREMENT,
     `name`         varchar(45)               DEFAULT NULL COMMENT '用户名称',
@@ -321,24 +321,24 @@ CREATE TABLE `upms_user`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_user`
+-- Dumping data for table `iam_user`
 --
 
-LOCK TABLES `upms_user` WRITE;
-/*!40000 ALTER TABLE `upms_user`
+LOCK TABLES `iam_user` WRITE;
+/*!40000 ALTER TABLE `iam_user`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_user`
+/*!40000 ALTER TABLE `iam_user`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_user_group`
+-- Table structure for table `iam_user_group`
 --
 
-DROP TABLE IF EXISTS `upms_user_group`;
+DROP TABLE IF EXISTS `iam_user_group`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_user_group`
+CREATE TABLE `iam_user_group`
 (
     `id`           bigint unsigned  NOT NULL AUTO_INCREMENT COMMENT 'Id',
     `pid`          bigint unsigned  NOT NULL DEFAULT '0' COMMENT '父用户组id，关联id',
@@ -361,28 +361,28 @@ CREATE TABLE `upms_user_group`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_user_group`
+-- Dumping data for table `iam_user_group`
 --
 
-LOCK TABLES `upms_user_group` WRITE;
-/*!40000 ALTER TABLE `upms_user_group`
+LOCK TABLES `iam_user_group` WRITE;
+/*!40000 ALTER TABLE `iam_user_group`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_user_group`
+/*!40000 ALTER TABLE `iam_user_group`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_user_group_role_rel`
+-- Table structure for table `iam_user_group_role_rel`
 --
 
-DROP TABLE IF EXISTS `upms_user_group_role_rel`;
+DROP TABLE IF EXISTS `iam_user_group_role_rel`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_user_group_role_rel`
+CREATE TABLE `iam_user_group_role_rel`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-    `user_group_id` bigint unsigned NOT NULL COMMENT '用户组id，关联upms_user_group.id',
-    `role_id`       bigint unsigned NOT NULL DEFAULT '1' COMMENT '角色id，关联upms_role.id',
+    `user_group_id` bigint unsigned NOT NULL COMMENT '用户组id，关联iam_user_group.id',
+    `role_id`       bigint unsigned NOT NULL DEFAULT '1' COMMENT '角色id，关联iam_role.id',
     `gmt_create`    datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_modified`  datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     `creator`       bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
@@ -395,28 +395,28 @@ CREATE TABLE `upms_user_group_role_rel`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_user_group_role_rel`
+-- Dumping data for table `iam_user_group_role_rel`
 --
 
-LOCK TABLES `upms_user_group_role_rel` WRITE;
-/*!40000 ALTER TABLE `upms_user_group_role_rel`
+LOCK TABLES `iam_user_group_role_rel` WRITE;
+/*!40000 ALTER TABLE `iam_user_group_role_rel`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_user_group_role_rel`
+/*!40000 ALTER TABLE `iam_user_group_role_rel`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_user_group_user_rel`
+-- Table structure for table `iam_user_group_user_rel`
 --
 
-DROP TABLE IF EXISTS `upms_user_group_user_rel`;
+DROP TABLE IF EXISTS `iam_user_group_user_rel`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_user_group_user_rel`
+CREATE TABLE `iam_user_group_user_rel`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-    `user_group_id` bigint unsigned NOT NULL COMMENT '用户组名称，关联upms_user_group.id',
-    `user_id`       bigint unsigned NOT NULL DEFAULT '1' COMMENT '用户id，关联upms_user_id',
+    `user_group_id` bigint unsigned NOT NULL COMMENT '用户组名称，关联iam_user_group.id',
+    `user_id`       bigint unsigned NOT NULL DEFAULT '1' COMMENT '用户id，关联iam_user_id',
     `gmt_create`    datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_modified`  datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     `creator`       bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
@@ -429,28 +429,28 @@ CREATE TABLE `upms_user_group_user_rel`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_user_group_user_rel`
+-- Dumping data for table `iam_user_group_user_rel`
 --
 
-LOCK TABLES `upms_user_group_user_rel` WRITE;
-/*!40000 ALTER TABLE `upms_user_group_user_rel`
+LOCK TABLES `iam_user_group_user_rel` WRITE;
+/*!40000 ALTER TABLE `iam_user_group_user_rel`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_user_group_user_rel`
+/*!40000 ALTER TABLE `iam_user_group_user_rel`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `upms_user_role_rel`
+-- Table structure for table `iam_user_role_rel`
 --
 
-DROP TABLE IF EXISTS `upms_user_role_rel`;
+DROP TABLE IF EXISTS `iam_user_role_rel`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `upms_user_role_rel`
+CREATE TABLE `iam_user_role_rel`
 (
     `id`           bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-    `user_id`      bigint unsigned NOT NULL COMMENT '用户id，关联upms_role.id',
-    `role_id`      bigint unsigned NOT NULL COMMENT '角色id，关联upms_role.id',
+    `user_id`      bigint unsigned NOT NULL COMMENT '用户id，关联iam_role.id',
+    `role_id`      bigint unsigned NOT NULL COMMENT '角色id，关联iam_role.id',
     `gmt_create`   datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `gmt_modified` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     `creator`      bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
@@ -463,13 +463,13 @@ CREATE TABLE `upms_user_role_rel`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upms_user_role_rel`
+-- Dumping data for table `iam_user_role_rel`
 --
 
-LOCK TABLES `upms_user_role_rel` WRITE;
-/*!40000 ALTER TABLE `upms_user_role_rel`
+LOCK TABLES `iam_user_role_rel` WRITE;
+/*!40000 ALTER TABLE `iam_user_role_rel`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `upms_user_role_rel`
+/*!40000 ALTER TABLE `iam_user_role_rel`
     ENABLE KEYS */;
 UNLOCK TABLES;
 

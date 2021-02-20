@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kt.iam.module.permission.persistence.dao.IamPermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kt.iam.module.permission.persistence.IamPermission">
+        <result column="id" property="id"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        gmt_create,
+        gmt_modified,
+        type, code, status, resource_id
+    </sql>
+
+    <select id="selectByRoleIdsAndType" resultType="com.kt.iam.module.permission.persistence.IamPermission">
+        select up.id,
+        up.type,
+        up.code,
+        up.resource_id
+        from iam_permission up
+        inner join iam_permission_role_rel uprr on up.id = uprr.permission_id
+        where up.type = #{type}
+        and uprr.role_id in
+        <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectByRoleIdAndType" resultType="com.kt.iam.module.permission.persistence.IamPermission">
+        select up.id,
+               code
+        from iam_permission up
+                 inner join iam_permission_role_rel uprr on uprr.permission_id = up.id
+        where role_id = #{roleId}
+          and up.type = #{type}
+          and up.status = 1
+          and up.is_deleted = 0
+    </select>
+
+    <select id="selectApiPermissionByIds" resultType="com.kt.iam.module.permission.bo.ApiPermissionBO">
+
+        select up.id permissionId,
+        up.code permissionCode,
+        up.type permissionType,
+        ua.id apiId,
+        ua.name apiName,
+        ua.url apiUrl,
+        ua.method apiMethod,
+        ua.auth_type apiAuthType
+        from iam_permission up
+        inner join iam_api ua on ua.id = up.resource_id
+        where ua.is_deleted = 0
+        and up.status = 1
+        and up.id in
+        <foreach open="(" close=")" collection="permissionIds" item="item" separator=",">
+            #{item}
+        </foreach>
+
+    </select>
+    <select id="selectApiPermissionsByRoleIdsAndApplicationId" resultType="com.kt.iam.module.permission.bo.ApiPermissionBO">
+        select
+            up.id permissionId,
+            up.code permissionCode,
+            up.type permissionType,
+            ua.id apiId,
+            ua.name apiName,
+            ua.url apiUrl,
+            ua.method apiMethod,
+            ua.auth_type apiAuthType
+        from iam_permission up
+        inner join iam_permission_role_rel uprr on uprr.permission_id = up.id
+        inner join iam_api ua on up.resource_id = ua.id
+        where up.type = 'SER_API'
+        and up.is_deleted = 0
+        and ua.status = 1
+        and up.status = 1
+        and ua.application_id = #{applicationId}
+        and uprr.role_id in
+        <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        group by up.id
+
+    </select>
+
+</mapper>

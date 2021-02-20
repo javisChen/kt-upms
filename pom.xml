@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kt</groupId>
-    <artifactId>kt-upms</artifactId>
+    <artifactId>kt-iam</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>kt-upms-web</module>
-        <module>kt-upms-auth</module>
+        <module>kt-iam-web</module>
+        <module>kt-iam-auth</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -25,7 +25,7 @@
 
             <dependency>
                 <groupId>com.kt</groupId>
-                <artifactId>kt-upms-auth-core</artifactId>
+                <artifactId>kt-iam-auth-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

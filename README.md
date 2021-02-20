@@ -13,8 +13,8 @@
 
 ```
 ├── asserts         -- 项目资源（sql等）
-├── kt-upms-auth    -- 认证模块
-├── kt-upms-web     -- 权限系统运行模块
+├── kt-iam-auth    -- 认证模块
+├── kt-iam-web     -- 权限系统运行模块
 └── pom.xml
 
 ```
@@ -25,24 +25,24 @@
 
 ## ER图
 
-![](asserts/kt-upms-er.png)
+![](asserts/kt-iam-er.png)
 
 ## 表说明
 
 | 表名  | 说明 |
 | ----- | ---- |
-| upms_user_group | 用户组表 |
-| upms_user_group_user_rel | 用户组与用户关联表 |
-| upms_user_group_role_rel | 用户组与角色关联表 |
-| upms_user | 用户表 |
-| upms_role | 角色表 |
-| upms_user_role_rel | 用户角色关联表 |
-| upms_permission | 权限表 |
-| upms_permission_role_rel | 角色与权限联表 |
-| upms_route | 前端路由表 |
-| upms_page_element | 页面元素表 |
-| upms_api | api表 |
-| upms_application | 应用表 |
+| iam_user_group | 用户组表 |
+| iam_user_group_user_rel | 用户组与用户关联表 |
+| iam_user_group_role_rel | 用户组与角色关联表 |
+| iam_user | 用户表 |
+| iam_role | 角色表 |
+| iam_user_role_rel | 用户角色关联表 |
+| iam_permission | 权限表 |
+| iam_permission_role_rel | 角色与权限联表 |
+| iam_route | 前端路由表 |
+| iam_page_element | 页面元素表 |
+| iam_api | api表 |
+| iam_application | 应用表 |
 
 # 主要技术选型
 
