@@ -80,6 +80,17 @@ public class UserBeanConverter {
         return iamUser;
     }
 
+    public IamUser convertToUpdateUserDO(UserUpdateDTO dto) {
+        IamUser iamUser = new IamUser();
+        iamUser.setId(dto.getId());
+        iamUser.setName(dto.getName());
+        iamUser.setPhone(dto.getPhone());
+        iamUser.setPassword(dto.getPassword());
+        iamUser.setStatus(dto.getStatus());
+        iamUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(iamUser.getPassword())));
+        return iamUser;
+    }
+
     private String generateUserCode() {
         // 生成后先查询一遍，防止生成了重复的code，其实几率微乎其微
         String code;
