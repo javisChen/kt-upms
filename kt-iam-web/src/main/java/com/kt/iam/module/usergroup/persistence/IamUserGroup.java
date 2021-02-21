@@ -48,6 +48,12 @@ public class IamUserGroup extends BaseEntity {
     @TableField("level_path")
     private String levelPath;
 
+    /**
+     * 继承类型 0-不继承 1-继承上级用户组 2-继承所有用户组
+     */
+    @TableField("inherit_type")
+    private Integer inheritType;
+
     @TableField(value = "is_deleted")
     @TableLogic
     private Long isDeleted;

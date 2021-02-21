@@ -56,13 +56,13 @@
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE_ALL"/>
+<!--        <appender-ref ref="FILE_ALL"/>-->
     </root>
 
     <!-- logback为java中的包 -->
     <logger level="debug" name="com.kt" additivity="false">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE_ALL"/>
+<!--        <appender-ref ref="FILE_ALL"/>-->
     </logger>
 
 </configuration>
