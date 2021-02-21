@@ -7,6 +7,8 @@
         <result column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="level" property="level"/>
+        <result column="inherit_type" property="inheritType"/>
+        <result column="type" property="type"/>
         <result column="gmt_create" property="gmtCreate"/>
         <result column="gmt_modified" property="gmtModified"/>
         <result column="name" property="name"/>

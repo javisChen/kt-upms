@@ -25,6 +25,7 @@ public class UserGroupUpdateDTO implements Serializable {
     public List<Long> roleIds;
 
     private Integer inheritType;
+    private Integer type;
 
 
 }

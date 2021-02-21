@@ -54,6 +54,12 @@ public class IamUserGroup extends BaseEntity {
     @TableField("inherit_type")
     private Integer inheritType;
 
+    /**
+     * 用户组类型 1-公司 2-部门
+     */
+    @TableField("type")
+    private Integer type;
+
     @TableField(value = "is_deleted")
     @TableLogic
     private Long isDeleted;

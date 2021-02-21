@@ -25,6 +25,7 @@ public class UserGroupBeanConverter {
         vo.setCreateTime(item.getGmtCreate());
         vo.setUpdateTime(item.getGmtModified());
         vo.setInheritType(item.getInheritType());
+        vo.setType(item.getType());
         vo.setChildren(new ArrayList<>());
         vo.setRoles(iRoleService.getRoleNamesByUserGroupId(item.getId()));
         return vo;
@@ -36,6 +37,7 @@ public class UserGroupBeanConverter {
         iamUserGroup.setName(dto.getName());
         iamUserGroup.setPid(dto.getPid());
         iamUserGroup.setInheritType(dto.getInheritType());
+        iamUserGroup.setType(dto.getType());
         return iamUserGroup;
     }
 
