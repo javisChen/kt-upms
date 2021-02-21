@@ -1,7 +1,5 @@
 package com.kt.iam.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-
 public enum UserStatusEnums {
 
     ENABLED(1, "已启用"),
@@ -12,7 +10,6 @@ public enum UserStatusEnums {
         this.desc = desc;
     }
 
-    @EnumValue
     private int value;
     private String desc;
 

@@ -12,7 +12,7 @@ public enum UserGroupStatusEnums {
         this.desc = desc;
     }
 
-    @EnumValue
+
     private int value;
     private String desc;
 

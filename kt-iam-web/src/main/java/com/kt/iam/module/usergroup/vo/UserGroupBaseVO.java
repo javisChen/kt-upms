@@ -16,5 +16,6 @@ public class UserGroupBaseVO implements Serializable {
     private String name;
     private Integer status;
     private Integer level;
+    private Integer inheritType;
 
 }

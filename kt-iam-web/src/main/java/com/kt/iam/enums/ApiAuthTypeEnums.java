@@ -13,7 +13,7 @@ public enum ApiAuthTypeEnums {
         this.desc = desc;
     }
 
-    @EnumValue
+
     private int value;
     private String desc;
 

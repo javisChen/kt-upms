@@ -12,7 +12,7 @@ public enum ApiStatusEnums {
         this.desc = desc;
     }
 
-    @EnumValue
+
     private int value;
     private String desc;
 

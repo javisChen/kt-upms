@@ -114,7 +114,8 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
         if (CollectionUtils.isEmpty(userGroupIds)) {
             return CollectionUtil.newArrayList();
         }
-        return iamUserGroupRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
+        List<Long> longs = iamUserGroupRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
+        return longs;
     }
 
     @Override

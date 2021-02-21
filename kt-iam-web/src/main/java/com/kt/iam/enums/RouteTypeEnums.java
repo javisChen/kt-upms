@@ -1,7 +1,5 @@
 package com.kt.iam.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-
 public enum RouteTypeEnums {
 
     MENU(1, "菜单路由"),
@@ -12,7 +10,7 @@ public enum RouteTypeEnums {
         this.desc = desc;
     }
 
-    @EnumValue
+
     private int value;
     private String desc;
 

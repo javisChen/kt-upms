@@ -16,7 +16,6 @@ import com.kt.iam.module.user.converter.UserBeanConverter;
 import com.kt.iam.module.user.persistence.IamUser;
 import com.kt.iam.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.iam.module.usergroup.service.IUserGroupService;
-import com.kt.iam.security.access.ApiAccessChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class IUserPermissionServiceImpl implements IUserPermissionService {
+public class UserPermissionServiceImpl implements IUserPermissionService {
 
     @Autowired
     private IPermissionService iPermissionService;
@@ -46,8 +45,6 @@ public class IUserPermissionServiceImpl implements IUserPermissionService {
     private UserBeanConverter beanConverter;
     @Autowired
     private IRouteService iRouteService;
-    @Autowired
-    private ApiAccessChecker apiAccessChecker;
     @Autowired
     private AuthCheck remoteAuthCheck;
 
